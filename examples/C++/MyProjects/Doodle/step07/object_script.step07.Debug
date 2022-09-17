@@ -1,0 +1,11 @@
+debug/common_funcs.o
+debug/chocolaf.o
+debug/Doodle.o
+debug/DrawWindow.o
+debug/Line.o
+debug/step07.o
+debug/qrc_chocolaf.o
+debug/qrc_resources.o
+debug/moc_Doodle.o
+debug/moc_DrawWindow.o
+debug/moc_Line.o

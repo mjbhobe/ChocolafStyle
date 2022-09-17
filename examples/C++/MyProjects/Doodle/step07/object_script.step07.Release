@@ -1,0 +1,11 @@
+release/common_funcs.o
+release/chocolaf.o
+release/Doodle.o
+release/DrawWindow.o
+release/Line.o
+release/step07.o
+release/qrc_chocolaf.o
+release/qrc_resources.o
+release/moc_Doodle.o
+release/moc_DrawWindow.o
+release/moc_Line.o

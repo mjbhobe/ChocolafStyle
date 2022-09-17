@@ -1,0 +1,81 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+	<!-- icons for common toolbar actions & some app icons -->
+	<file alias="align_left.png">images/align_left.png</file>
+	<file alias="align_right.png">images/align_right.png</file>
+	<file alias="align_center.png">images/align_center.png</file>
+	<file alias="align_justified.png">images/align_justified.png</file>
+	<file alias="word_wrap.png">images/word_wrap.png</file>
+	<file alias="zoomin.png">images/zoomin.png</file>
+    <file alias="zoomout.png">images/zoomout.png</file>
+	<file alias="indent_decrease.png">images/indent_decrease.png</file>
+	<file alias="indent_increase.png">images/indent_increase.png</file>
+	<file alias="list_bullets.png">images/list_bullets.png</file>
+	<file alias="list_numbered.png">images/list_numbered.png</file>
+	<file alias="paragraph.png">images/paragraph.png</file>
+
+    <file alias="file_new.png">images/file_new.png</file>
+    <file alias="file_open.png">images/file_open.png</file>
+    <file alias="file_save.png">images/file_save.png</file>
+    <file alias="file_save-d.png">images/file_save-d.png</file>
+    <file alias="file_saveall.png">images/file_saveall.png</file>
+    <file alias="file_saveall-d.png">images/file_saveall-d.png</file>
+    <file alias="file_print.png">images/file_print.png</file>
+
+	<file alias="font_bold.png">images/font_bold.png</file>
+	<file alias="font_italic.png">images/font_italic.png</file>
+	<file alias="font_underline.png">images/font_underline.png</file>
+	<file alias="font_strikethrough.png">images/font_strikethrough.png</file>
+	<file alias="font_size.png">images/font_size.png</file>
+
+    <file alias="edit_undo.png">images/edit_undo.png</file>
+	<file alias="edit_undo-d.png">images/edit_undo-d.png</file>
+    <file alias="edit_redo.png">images/edit_redo.png</file>
+	<file alias="edit_redo-d.png">images/edit_redo-d.png</file>
+    <file alias="edit_cut.png">images/edit_cut.png</file>
+    <file alias="edit_cut-d.png">images/edit_cut-d.png</file>
+    <file alias="edit_copy.png">images/edit_copy.png</file>
+    <file alias="edit_copy-d.png">images/edit_copy-d.png</file>
+    <file alias="edit_paste.png">images/edit_paste.png</file>
+    <file alias="edit_paste-d.png">images/edit_paste-d.png</file>
+    <file alias="edit_delete.png">images/edit_delete.png</file>
+
+    <file alias="db_connect.png">images/connect.png</file>
+    <file alias="db_disconnect.png">images/disconnect.png</file>
+	<file alias="go_first.png">images/go_first.png</file>
+	<file alias="go_last.png">images/go_last.png</file>
+	<file alias="go_next.png">images/go_next.png</file>
+	<file alias="go_prev.png">images/go_prev.png</file>
+	<file alias="go_up.png">images/go_up.png</file>
+	<file alias="go_down.png">images/go_down.png</file>
+
+    <file alias="playback_fast_fwd.png">images/playback_fast_fwd.png</file>
+    <file alias="playback_next_track.png">images/playback_next_track.png</file>
+    <file alias="playback_pause.png">images/playback_pause.png</file>
+    <file alias="playback_play.png">images/playback_play.png</file>
+    <file alias="playback_prev_track.png">images/playback_prev_track.png</file>
+    <file alias="playback_record.png">images/playback_record.png</file>
+    <file alias="playback_reload.png">images/playback_reload.png</file>
+    <file alias="playback_rewind.png">images/playback_rewind.png</file>
+    <file alias="playback_stop.png">images/playback_stop.png</file>
+
+	<file alias="attach.png">images/attach.png</file>
+    <file alias="find.png">images/find.png</file>
+    <file alias="replace.png">images/replace.png</file>
+	<file alias="ok.png">images/ok.png</file>
+	<file alias="cancel.png">images/cancel.png</file>
+	<file alias="plus.png">images/plus.png</file>
+	<file alias="minus.png">images/minus.png</file>
+	<file alias="reload.png">images/reload.png</file>
+	<file alias="refresh.png">images/refresh.png</file>
+	<file alias="settings.png">images/cancel.png</file>
+	<file alias="on-off.png">images/on-off.png</file>
+	<file alias="zoom_to_fill.png">images/zoom_to_fill.png</file>
+
+    <file alias="text_editor_icon.png">images/text_editor_icon.png</file>
+	<file alias="image_viewer_icon.png">images/image_viewer_icon.png</file>
+	<file alias="sql_manager.png">images/sql_icon.png</file>
+	<file alias="qt_logo.png">images/qt_logo.png</file>
+  </qresource>
+</RCC>

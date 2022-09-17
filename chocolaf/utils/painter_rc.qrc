@@ -1,0 +1,11 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+	  <file alias="brush.png">images/brush.png</file>
+	  <file alias="pencil.png">images/pencil.png</file>
+	  <file alias="pen.png">images/pen.png</file>
+	  <file alias="palette.png">images/palette.png</file>
+
+	  <file alias="painter_icon.png">images/painter_icon.png</file>
+  </qresource>
+</RCC>

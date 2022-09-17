@@ -1,0 +1,28 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+      <file alias="open_light.png">images/light/open24.png</file>
+      <file alias="open_dark.png">images/dark/open24.png</file>
+      <file alias="save_light.png">images/light/save24.png</file>
+      <file alias="save_dark.png">images/dark/save24.png</file>
+      <file alias="print_light.png">images/light/print24.png</file>
+      <file alias="print_dark.png">images/dark/print24.png</file>
+      <file alias="prev_light.png">images/light/prev24.png</file>
+      <file alias="prev_dark.png">images/dark/prev24.png</file>
+      <file alias="next_light.png">images/light/next24.png</file>
+      <file alias="next_dark.png">images/dark/next24.png</file>
+      <file alias="zoomin_light.png">images/light/zoomin24.png</file>
+      <file alias="zoomin_dark.png">images/dark/zoomin24.png</file>
+      <file alias="zoomout_light.png">images/light/zoomout24.png</file>
+      <file alias="zoomout_dark.png">images/dark/zoomout24.png</file>
+      <file alias="fit_to_size_light.png">images/light/fit2window24.png</file>
+      <file alias="fit_to_size_dark.png">images/dark/fit2window24.png</file>
+      <file alias="blur_light.png">images/light/blur24.png</file>
+      <file alias="blur_dark.png">images/dark/blur24.png</file>
+      <file alias="sharpen_light.png">images/light/sharpen24.png</file>
+      <file alias="sharpen_dark.png">images/dark/sharpen24.png</file>
+      <file alias="erode_light.png">images/light/erode24.png</file>
+      <file alias="erode_dark.png">images/dark/erode24.png</file>
+      <file alias="ImageViewer-icon.png">images/ImageViewer-icon.png</file>
+  </qresource>
+</RCC>

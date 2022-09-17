@@ -1,0 +1,2 @@
+Qt Creator - A Cross-platform IDE for Application Development
+Qt Creator is a cross-platform integrated development environment (IDE) built for the maximum developer experience. Qt Creator runs on Windows, Linux, and macOS desktop operating systems, and allows developers to create applications across desktop, mobile, and embedded platforms.

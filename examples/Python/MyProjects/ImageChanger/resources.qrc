@@ -1,0 +1,24 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+<file alias="file_new.png">images/filenew.png</file>
+<file alias="file_open.png">images/fileopen.png</file>
+<file alias="file+save.png">images/filesave.png</file>
+<file alias="filede_saveas.png">images/filesaveas.png</file>
+<file alias="file_print.png">images/fileprint.png</file>
+<file alias="file_quit.png">images/filequit.png</file>
+<file alias="edit_invert.png">images/editinvert.png</file>
+<file alias="edit_swap.png">images/editswap.png</file>
+<file alias="edit_zoom.png">images/editzoom.png</file>
+<file alias="edit_mirror.png">images/editmirror.png</file>
+<file alias="edit_unmirror.png">images/editunmirror.png</file>
+<file alias="edit_mirrorhoriz.png">images/editmirrorhoriz.png</file>
+<file alias="edit_mirrorvert.png">images/editmirrorvert.png</file>
+<file alias="back.png">images/back.png</file>
+<file alias="home.png">images/home.png</file>
+<file alias="icon.png">images/icon.png</file>
+
+<file>help/editmenu.html</file>
+<file>help/filemenu.html</file>
+<file>help/index.html</file>
+</qresource>
+</RCC>

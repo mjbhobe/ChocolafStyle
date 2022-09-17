@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../../../py4finance/ml_for_trading"
+		},
+		{
+			"path": "../../../.."
+		},
+		{
+			"path": "../../../../../../../dl-pytorch"
+		},
+		{
+			"path": "../../../../../../../dl-keras"
+		},
+		{
+			"path": "../../../../../../../Image_Resources"
+		}
+	],
+	"settings": {}
+}
