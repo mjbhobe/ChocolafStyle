@@ -23,13 +23,28 @@ public:
 
   Line *newLine();
   int numLines() const;
-  int penWidth() const { return _penWidth; }
-  QColor penColor() const { return _penColor; }
+  int penWidth() const
+  {
+    return _penWidth;
+  }
+  QColor penColor() const
+  {
+    return _penColor;
+  }
   void draw(QPainter &painter);
-  bool modified() const { return _isModified; }
+  bool modified() const
+  {
+    return _isModified;
+  }
   void clear();
-  bool isNew() const { return _isNew; }
-  const QString &filePath() const { return _filePath; }
+  bool isNew() const
+  {
+    return _isNew;
+  }
+  const QString &filePath() const
+  {
+    return _filePath;
+  }
   bool load(const QString &path);
   bool save(const QString &path);
   void newDoodle();

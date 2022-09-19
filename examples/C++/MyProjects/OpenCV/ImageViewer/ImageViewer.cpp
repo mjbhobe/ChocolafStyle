@@ -206,6 +206,8 @@ void ImageViewer::updateActions()
   zoomNormalAction->setEnabled(!fitToWindowAction->isChecked());
   prevImageAction->setEnabled(imageLoaded);
   nextImageAction->setEnabled(imageLoaded);
+  rotateLeftAction->setEnabled(imageLoaded);
+  rotateRightAction->setEnabled(imageLoaded);
 }
 
 void ImageViewer::setupStatusBar()

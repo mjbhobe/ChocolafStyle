@@ -80,7 +80,7 @@ def loadStyleSheet() -> str:
 
 def main():
     app = ChocolafApp(sys.argv)
-    # app.setStyle("Chocolaf")
+    app.setStyle("Chocolaf")
 
     form = Form()
     form.move(100, 100)

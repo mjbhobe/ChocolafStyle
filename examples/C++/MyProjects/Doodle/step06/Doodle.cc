@@ -3,14 +3,14 @@
 //   doodle manages a collection of Line objects, each with it's
 //   own thickness & color
 // ================================================================
-#include <QtGui>
-#include <QList>
-#include "Line.h"
 #include "Doodle.h"
+#include "Line.h"
+#include <QList>
+#include <QtGui>
 
-Doodle::Doodle(int penWidth, const QColor& penColor)
+Doodle::Doodle(int penWidth, const QColor &penColor)
 {
-  _lines = new QList<Line*>();
+  _lines = new QList<Line *>();
   _penWidth = (penWidth <= 0) ? 2 : penWidth;
   _penColor = penColor;
   _isModified = false;
@@ -19,13 +19,13 @@ Doodle::Doodle(int penWidth, const QColor& penColor)
 Doodle::~Doodle()
 {
   if (_lines) {
-    foreach(Line *line, *_lines)
+    foreach (Line *line, *_lines)
       delete line;
   }
   delete _lines;
 }
 
-Line* Doodle::newLine()
+Line *Doodle::newLine()
 {
   Line *line = new Line(_penWidth, _penColor);
   _lines->append(line);
@@ -43,21 +43,21 @@ void Doodle::setPenWidth(int newWidth)
     return;
 
   newWidth = qMax(2, newWidth);
-  newWidth = qMin(newWidth,12);
+  newWidth = qMin(newWidth, 12);
   _penWidth = newWidth;
 }
 
-void Doodle::setPenColor(const QColor& color)
+void Doodle::setPenColor(const QColor &color)
 {
   if (_penColor == color)
     return;
   _penColor = color;
 }
 
-void Doodle::draw(QPainter& painter)
+void Doodle::draw(QPainter &painter)
 {
   if (_lines) {
-    QList<Line*>::iterator iter;
+    QList<Line *>::iterator iter;
     for (iter = _lines->begin(); iter != _lines->end(); ++iter)
       (*iter)->draw(painter);
   }
@@ -71,15 +71,10 @@ void Doodle::setModified(bool modified)
 void Doodle::clear()
 {
   if (_lines) {
-    foreach(Line *line, *_lines)
+    foreach (Line *line, *_lines)
       delete line;
   }
   delete _lines;
-  _lines = new QList<Line*>();
+  _lines = new QList<Line *>();
   _isModified = false;
 }
-
-
-
-
-

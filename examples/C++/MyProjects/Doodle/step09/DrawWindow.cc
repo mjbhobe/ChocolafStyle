@@ -22,7 +22,8 @@ DrawWindow::DrawWindow()
   _doodle = new Doodle();
   _currLine = nullptr;
 
-  QObject::connect(_doodle, SIGNAL(doodleModified(bool)), this, SLOT(doodleModified(bool)));
+  QObject::connect(_doodle, SIGNAL(doodleModified(bool)), this,
+                   SLOT(doodleModified(bool)));
   doodleModified(false);
 }
 
@@ -39,21 +40,20 @@ DrawWindow::~DrawWindow()
 bool DrawWindow::canClose()
 {
   if (_doodle->modified()) {
-    switch (
-      QMessageBox::question(this, tr("Qt Scribble Tutorial"),
-                            tr("The doodle has changed. Save changes to doodle now?"),
-                            QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
-                            QMessageBox::No)) {
-    case QMessageBox::Yes:
-      // save doodle & quit
-      fileSave();
-      return true;
-    case QMessageBox::No:
-      // quit without saving
-      return true;
-    default:
-      // don't quit yet!
-      return false;
+    switch (QMessageBox::question(
+        this, tr("Qt Scribble Tutorial"),
+        tr("The doodle has changed. Save changes to doodle now?"),
+        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::No)) {
+      case QMessageBox::Yes:
+        // save doodle & quit
+        fileSave();
+        return true;
+      case QMessageBox::No:
+        // quit without saving
+        return true;
+      default:
+        // don't quit yet!
+        return false;
     }
   }
   return true; // if not modified, I canClose()
@@ -112,8 +112,7 @@ void DrawWindow::mousePressEvent(QMouseEvent *event)
       _dragging = true;
       _doodle->setModified(true);
     }
-  }
-  else if (event->button() == Qt::RightButton) {
+  } else if (event->button() == Qt::RightButton) {
     if (ctrlKeyIsDown)
       changePenColor();
     else {
@@ -178,13 +177,13 @@ void DrawWindow::resizeEvent(QResizeEvent *event)
 
 void DrawWindow::paintEvent(QPaintEvent *event)
 {
-   QPainter painter(this);
-   painter.setRenderHint(QPainter::Antialiasing);
+  QPainter painter(this);
+  painter.setRenderHint(QPainter::Antialiasing);
 
-   // we just blit the from image to device
-   QRect dirtyRect = event->rect();
-   qDebug() << "DrawWindow::paintEvent() - dirtyRect = " << dirtyRect;
-   painter.drawImage(dirtyRect, _image, dirtyRect);
+  // we just blit the from image to device
+  QRect dirtyRect = event->rect();
+  qDebug() << "DrawWindow::paintEvent() - dirtyRect = " << dirtyRect;
+  painter.drawImage(dirtyRect, _image, dirtyRect);
 }
 
 void DrawWindow::resizeImage(const QSize &newSize, bool force /*=false*/)
@@ -192,14 +191,14 @@ void DrawWindow::resizeImage(const QSize &newSize, bool force /*=false*/)
   if (force || (_image.size() != newSize)) {
     qDebug() << "Resizing & repaining image as " << (force ? "forced" : "resized");
     QImage newImage(newSize, QImage::Format_RGB32);
-    //newImage.fill(qRgb(255,255,255));
+    // newImage.fill(qRgb(255,255,255));
     newImage.fill(Chocolaf::ChocolafPalette::Window_Color);
     // draw existing image over new image
     QPainter painter(&newImage);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.drawImage(QPoint(0, 0), _image);
     _image = newImage;
-    //update();
+    // update();
   }
 }
 
@@ -210,7 +209,7 @@ void DrawWindow::fileNew()
 {
   if (canClose()) {
     _doodle->newDoodle();
-    //clearImage(false);
+    // clearImage(false);
     //_image.fill(qRgb(255, 255, 255));
     _image.fill(Chocolaf::ChocolafPalette::Window_Color);
     update();
@@ -223,8 +222,8 @@ void DrawWindow::fileOpen()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Qt Scribble File"),
                                                     QDir::currentPath(), ScribbleFiles);
     if (!fileName.isEmpty() && _doodle->load(fileName)) {
-      //clearImage(false);
-      //update();
+      // clearImage(false);
+      // update();
       //_image.fill(qRgb(255,255,255));
       _image.fill(Chocolaf::ChocolafPalette::Window_Color);
       // clearImage(false);

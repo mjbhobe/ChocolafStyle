@@ -43,6 +43,19 @@ MatOp::erode(cv::Point anchor /*= cv::Point(-1, -1)*/, int iterations /*= 1*/,
   return QPixmap::fromImage(erodeImage);
 }
 
+QPixmap MatOp::rotate(double angle)
+{
+  double scale = 1.0;
+  cv::Point2f center = cv::Point((m_srcMat.cols - 1 / 2), (m_srcMat.rows - 1 / 2));
+  cv::Mat rotateMatrix = cv::getRotationMatrix2D(center, angle, scale);
+  cv::Mat result;
+  cv::warpAffine(m_srcMat, result, rotateMatrix, m_srcMat.size()); /*, cv::INTER_LINEAR,
+                 cv::BORDER_CONSTANT); */
+  QImage rotatedImage(result.data, result.cols, result.rows, result.step,
+                      QImage::Format_RGB888);
+  return QPixmap::fromImage(rotatedImage);
+}
+
 QPixmap MatOp::cartoonify(int ds_factor /*= 4*/, bool sketch_mode /*=false*/)
 {
   // following code is taken from OpenCV with Python by Example by Prateek Joshi

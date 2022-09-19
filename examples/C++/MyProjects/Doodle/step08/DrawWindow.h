@@ -15,42 +15,43 @@ class Doodle;
 extern const QString AppTitle;
 extern const QString WindowTitle;
 
-class DrawWindow  : public QMainWindow {
-    Q_OBJECT
-  public:
-    DrawWindow();
-    ~DrawWindow();
-    void resizeImage(const QSize& size, bool force=false);
-  protected:
-    // operating system events
-    void closeEvent(QCloseEvent *event);
-    void paintEvent(QPaintEvent *event);
-    void resizeEvent(QResizeEvent *event);
+class DrawWindow : public QMainWindow
+{
+  Q_OBJECT
+public:
+  DrawWindow();
+  ~DrawWindow();
+  void resizeImage(const QSize &size, bool force = false);
 
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-  private slots:
-    // action response slots
-    void fileNew();
-    void fileOpen();
-    void fileSave();
-    void fileSaveAs();
-    void changePenWidth();
-    void changePenColor();
+protected:
+  // operating system events
+  void closeEvent(QCloseEvent *event);
+  void paintEvent(QPaintEvent *event);
+  void resizeEvent(QResizeEvent *event);
 
-	private:
-		void drawLineTo(const QPoint& pt);	
-    void clearImage();
-    bool canClose();
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
+  void mouseReleaseEvent(QMouseEvent *event);
+private slots:
+  // action response slots
+  void fileNew();
+  void fileOpen();
+  void fileSave();
+  void fileSaveAs();
+  void changePenWidth();
+  void changePenColor();
 
-    // members
-    QImage _image;
-    QPoint _lastPt;
-    bool _dragging;
-    Doodle *_doodle;
-    Line *_currLine;
+private:
+  void drawLineTo(const QPoint &pt);
+  void clearImage();
+  bool canClose();
+
+  // members
+  QImage _image;
+  QPoint _lastPt;
+  bool _dragging;
+  Doodle *_doodle;
+  Line *_currLine;
 };
 
-
-#endif  // __DrawWindow_h__
+#endif // __DrawWindow_h__

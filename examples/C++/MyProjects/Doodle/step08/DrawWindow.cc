@@ -1,15 +1,14 @@
 // DrawWindow.cc: implements DrawWindow class
-#include <QtGui>
-#include <QApplication>
-#include <QMessageBox>
-#include <QInputDialog>
-#include <QColorDialog>
-#include <QFileDialog>
-#include <QMessageBox>
 #include "DrawWindow.h"
 #include "Doodle.h"
 #include "Line.h"
 #include "chocolaf.h"
+#include <QApplication>
+#include <QColorDialog>
+#include <QFileDialog>
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QtGui>
 
 const QString ScribbleFiles("Qt Scribble Files (*.qscb)");
 
@@ -27,17 +26,16 @@ DrawWindow::~DrawWindow()
   delete _doodle;
 }
 
-
 bool DrawWindow::canClose()
 {
   if (_doodle->modified()) {
-    switch(QMessageBox::question(this, tr("Qt Scribble Tutorial"), 
+    switch (QMessageBox::question(
+        this, tr("Qt Scribble Tutorial"),
         tr("The doodle has changed. Save changes to doodle now?"),
-        QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel, QMessageBox::No))
-    {
+        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::No)) {
       case QMessageBox::Yes:
         // save doodle & quit
-        fileSave(); 
+        fileSave();
         return true;
       case QMessageBox::No:
         // quit without saving
@@ -47,7 +45,7 @@ bool DrawWindow::canClose()
         return false;
     }
   }
-  return true;  // if not modified, I canClose()
+  return true; // if not modified, I canClose()
 }
 
 void DrawWindow::closeEvent(QCloseEvent *event)
@@ -58,7 +56,7 @@ void DrawWindow::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
-void DrawWindow::drawLineTo(const QPoint& pt)
+void DrawWindow::drawLineTo(const QPoint &pt)
 {
   Q_ASSERT(_currLine != 0);
   // draw line from _lastPt to pt
@@ -69,7 +67,7 @@ void DrawWindow::drawLineTo(const QPoint& pt)
   painter.drawLine(_lastPt, pt);
   _lastPt = pt;
   update();
-}	
+}
 
 void DrawWindow::clearImage()
 {
@@ -85,16 +83,15 @@ void DrawWindow::mousePressEvent(QMouseEvent *event)
   Q_ASSERT(_doodle != 0);
 
   // check if Ctrl key is held down as left/right mouse is clicked
-  Qt::KeyboardModifiers modifiers  = QApplication::queryKeyboardModifiers();
+  Qt::KeyboardModifiers modifiers = QApplication::queryKeyboardModifiers();
   bool ctrlKeyIsDown = modifiers.testFlag(Qt::ControlModifier);
 
-  qDebug() << "mousePressEvent() - CTRL key "
-    << (ctrlKeyIsDown ? "IS" : "IS **NOT**")
-    << " held down!";
+  qDebug() << "mousePressEvent() - CTRL key " << (ctrlKeyIsDown ? "IS" : "IS **NOT**")
+           << " held down!";
 
   if (event->button() == Qt::LeftButton) {
     // left mouse button pressed
-    if (ctrlKeyIsDown) 
+    if (ctrlKeyIsDown)
       changePenWidth();
     else {
       _currLine = _doodle->newLine();
@@ -103,9 +100,8 @@ void DrawWindow::mousePressEvent(QMouseEvent *event)
       _dragging = true;
       _doodle->setModified(true);
     }
-  }
-  else if (event->button() == Qt::RightButton) {
-    if (ctrlKeyIsDown) 
+  } else if (event->button() == Qt::RightButton) {
+    if (ctrlKeyIsDown)
       changePenColor();
     else {
       clearImage();
@@ -114,7 +110,7 @@ void DrawWindow::mousePressEvent(QMouseEvent *event)
   }
 }
 
-void  DrawWindow::mouseMoveEvent(QMouseEvent *event)
+void DrawWindow::mouseMoveEvent(QMouseEvent *event)
 {
   if ((event->buttons() & Qt::LeftButton) && _dragging) {
     drawLineTo(event->pos());
@@ -136,8 +132,8 @@ void DrawWindow::changePenWidth()
   Q_ASSERT(_doodle != 0);
   // display message box & get width of pen
   bool ok;
-  int newPenWidth = QInputDialog::getInt(this, AppTitle,
-      QString("Enter new pen width:"), _doodle->penWidth(), 2, 10, 1, &ok);
+  int newPenWidth = QInputDialog::getInt(this, AppTitle, QString("Enter new pen width:"),
+                                         _doodle->penWidth(), 2, 10, 1, &ok);
   if (ok) {
     qDebug() << "New pen width selected: " << newPenWidth;
     _doodle->setPenWidth(newPenWidth);
@@ -160,9 +156,8 @@ void DrawWindow::resizeEvent(QResizeEvent *event)
     int newHeight = qMax(height(), _image.height());
     resizeImage(QSize(newWidth, newHeight));
     update();
-  }
-  else
-     QWidget::resizeEvent(event);
+  } else
+    QWidget::resizeEvent(event);
 }
 
 void DrawWindow::paintEvent(QPaintEvent *event)
@@ -171,21 +166,21 @@ void DrawWindow::paintEvent(QPaintEvent *event)
   painter.setRenderHint(QPainter::Antialiasing);
   // we just blit the from image to device
   QRect dirtyRect = event->rect();
-  //qDebug() << "DrawWindow::paintEvent() - dirtyRect = " << dirtyRect;
+  // qDebug() << "DrawWindow::paintEvent() - dirtyRect = " << dirtyRect;
   painter.drawImage(dirtyRect, _image, dirtyRect);
 }
 
-void DrawWindow::resizeImage(const QSize& newSize, bool force/*=false*/)
+void DrawWindow::resizeImage(const QSize &newSize, bool force /*=false*/)
 {
   if (force || (_image.size() != newSize)) {
     qDebug() << "Resizing & repaining image as " << (force ? "forced" : "resized");
     QImage newImage(newSize, QImage::Format_RGB32);
-    //newImage.fill(qRgb(255,255,255));
+    // newImage.fill(qRgb(255,255,255));
     newImage.fill(Chocolaf::ChocolafPalette::Window_Color);
     // draw existing image over new image
     QPainter painter(&newImage);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.drawImage(QPoint(0,0), _image);
+    painter.drawImage(QPoint(0, 0), _image);
     _image = newImage;
   }
 }
@@ -206,16 +201,17 @@ void DrawWindow::fileNew()
 void DrawWindow::fileOpen()
 {
   if (canClose()) {
-     QString fileName = QFileDialog::getOpenFileName(
-        this, tr("Open Qt Scribble File"), QCoreApplication::applicationDirPath(), ScribbleFiles);
-     if (!fileName.isEmpty() && _doodle->load(fileName)) {
-        //clearImage();
-        //_image.fill(qRgb(255,255,255));
-        _image.fill(Chocolaf::ChocolafPalette::Window_Color);
-        QPainter painter(&_image);
-        painter.setRenderHint(QPainter::Antialiasing);
-        _doodle->draw(painter);
-        update();
+    QString fileName = QFileDialog::getOpenFileName(
+        this, tr("Open Qt Scribble File"), QCoreApplication::applicationDirPath(),
+        ScribbleFiles);
+    if (!fileName.isEmpty() && _doodle->load(fileName)) {
+      // clearImage();
+      //_image.fill(qRgb(255,255,255));
+      _image.fill(Chocolaf::ChocolafPalette::Window_Color);
+      QPainter painter(&_image);
+      painter.setRenderHint(QPainter::Antialiasing);
+      _doodle->draw(painter);
+      update();
     }
   }
 }
@@ -232,14 +228,9 @@ void DrawWindow::fileSave()
 
 void DrawWindow::fileSaveAs()
 {
-  QString fileName = QFileDialog::getSaveFileName(this, 
-    tr("Save Qt Scribble File As"), _doodle->filePath(), ScribbleFiles);
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save Qt Scribble File As"),
+                                                  _doodle->filePath(), ScribbleFiles);
   if (!fileName.isEmpty()) {
     _doodle->save(fileName);
   }
 }
-
-
-
-
-

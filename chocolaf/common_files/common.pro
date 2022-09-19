@@ -15,7 +15,7 @@ win32 {
     LIBS += -lUser32 -lGdi32 -lKernel32 -lDwmapi
 }
 unix {
-    COMMON_FILES_HOME = /home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf
+    COMMON_FILES_HOME = /home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf
 }
 INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
 
@@ -72,6 +72,9 @@ CONFIG(release, debug|release): DEFINES += QT_NO_DEBUG_OUTPUT
 
 # SOURCES += $${COMMON_FILES_HOME}/common_funcs.cpp $${COMMON_FILES_HOME}/winDark.cpp
 # HEADERS += $${COMMON_FILES_HOME}/common_funcs.h $${COMMON_FILES_HOME}/winDark.h
-SOURCES += $${COMMON_FILES_HOME}/common_files/common_funcs.cpp $${COMMON_FILES_HOME}/common_files/chocolaf.cpp
-HEADERS += $${COMMON_FILES_HOME}/common_files/common_funcs.h $${COMMON_FILES_HOME}/common_files/chocolaf.h
+SOURCES += $${COMMON_FILES_HOME}/common_files/common_funcs.cpp 
+SOURCES += $${COMMON_FILES_HOME}/common_files/chocolaf.cpp
+HEADERS += $${COMMON_FILES_HOME}/common_files/common_funcs.h 
+HEADERS += $${COMMON_FILES_HOME}/common_files/chocolaf.h
+HEADERS += $${COMMON_FILES_HOME}/common_files/argparse/argparse.hpp
 RESOURCES += $${COMMON_FILES_HOME}/styles/chocolaf/chocolaf.qrc

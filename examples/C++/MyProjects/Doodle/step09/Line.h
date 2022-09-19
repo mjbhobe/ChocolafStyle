@@ -13,8 +13,14 @@ public:
   Line(int penWidth = 2, const QColor &penColor = qRgb(0, 0, 255));
   ~Line();
 
-  int penWidth() const { return _penWidth; }
-  QColor penColor() const { return _penColor; }
+  int penWidth() const
+  {
+    return _penWidth;
+  }
+  QColor penColor() const
+  {
+    return _penColor;
+  }
   // helper functions
   int numPoints() const;
   void addPoint(const QPoint &pt);

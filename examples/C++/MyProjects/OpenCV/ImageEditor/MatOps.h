@@ -23,6 +23,7 @@ public:
   QPixmap erode(cv::Point anchor = cv::Point(-1, -1), int iterations = 1,
                 int borderType = 0,
                 const cv::Scalar &borderValue = cv::morphologyDefaultBorderValue());
+  QPixmap rotate(double angle);
   QPixmap cartoonify(int ds_factor = 4, bool sketch_mode = false);
 
 private:

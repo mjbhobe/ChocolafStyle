@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = factorial
 INCLUDEPATH += .
 
-include(/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files/common_console.pro)
+include(/home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf/common_files/common_console.pro)
 
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.

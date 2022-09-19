@@ -15,7 +15,7 @@ win32 {
     LIBS += -lUser32 -lGdi32 -lKernel32 -lDwmapi
 }
 unix {
-    COMMON_FILES_HOME = /home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf
+    COMMON_FILES_HOME = /home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf
 }
 INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
 

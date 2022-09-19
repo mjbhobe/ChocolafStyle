@@ -1,14 +1,14 @@
 // hello.cc - Hello Qt
-#include <cstdlib>
 #include <QtCore>
+#include <cstdlib>
 
 static QTextStream cout(stdout, QIODevice::WriteOnly);
 
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
-    QCoreApplication app(argc, argv);
+  QCoreApplication app(argc, argv);
 
-    cout << "Hello World! Welcome to Qt " << QT_VERSION_STR << Qt::endl;
+  cout << "Hello World! Welcome to Qt " << QT_VERSION_STR << Qt::endl;
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

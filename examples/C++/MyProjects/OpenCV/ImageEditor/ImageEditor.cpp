@@ -124,6 +124,20 @@ void ImageEditor::createActions()
   QObject::connect(zoomOutAction, SIGNAL(triggered()), this, SLOT(zoomOut()));
   zoomOutAction->setEnabled(false);
 
+  rotateLeftAction = new QAction("Rotate &left", this);
+  rotateLeftAction->setShortcut(QKeySequence("Ctrl+<"));
+  rotateLeftAction->setIcon(QIcon(":/rotate_left.png"));
+  rotateLeftAction->setStatusTip("Rotate image counter-clockwise by 90 degrees");
+  QObject::connect(rotateLeftAction, SIGNAL(triggered()), this, SLOT(rotateLeft()));
+  rotateLeftAction->setEnabled(false);
+
+  rotateRightAction = new QAction("Rotate &right", this);
+  rotateRightAction->setShortcut(QKeySequence("Ctrl+>"));
+  rotateRightAction->setIcon(QIcon(":/rotate_right.png"));
+  rotateRightAction->setStatusTip("Rotate image clockwise by 90 degrees");
+  QObject::connect(rotateRightAction, SIGNAL(triggered()), this, SLOT(rotateRight()));
+  rotateRightAction->setEnabled(false);
+
   fitToWindowAction = new QAction("Fit to &window", this);
   fitToWindowAction->setShortcut(QKeySequence("Ctrl+1"));
   // fitToWindowAction->setIcon(QIcon(":/fit_to_size.png"));
@@ -178,6 +192,9 @@ void ImageEditor::createMenus()
   viewMenu->addSeparator();
   viewMenu->addAction(fitToWindowAction);
   viewMenu->addSeparator();
+  viewMenu->addAction(rotateLeftAction);
+  viewMenu->addAction(rotateRightAction);
+  viewMenu->addSeparator();
   viewMenu->addAction(prevImageAction);
   viewMenu->addAction(nextImageAction);
 
@@ -202,6 +219,8 @@ void ImageEditor::createToolbar()
   toolBar->addAction(zoomInAction);
   toolBar->addAction(zoomOutAction);
   toolBar->addAction(fitToWindowAction);
+  toolBar->addAction(rotateLeftAction);
+  toolBar->addAction(rotateRightAction);
   toolBar->addAction(prevImageAction);
   toolBar->addAction(nextImageAction);
 }
@@ -220,6 +239,8 @@ void ImageEditor::updateActions()
   zoomOutAction->setEnabled(!fitToWindowAction->isChecked());
   prevImageAction->setEnabled(imageLoaded);
   nextImageAction->setEnabled(imageLoaded);
+  rotateLeftAction->setEnabled(imageLoaded);
+  rotateRightAction->setEnabled(imageLoaded);
 }
 
 void ImageEditor::setupStatusBar()
@@ -437,6 +458,38 @@ void ImageEditor::cartoonifyImage()
     scaleImage();
   } else
     qDebug() << "cartoonifyImage() should not be called if image is not loaded!";
+}
+
+void ImageEditor::rotateLeft()
+{
+  if (imageLoaded) {
+#if QT_VERSION > 0x060000
+    // signature is const QPixmap* pixmap const
+    MatOp matOp((imageLabel->pixmap()));
+#else
+    MatOp matOp(*(imageLabel->pixmap()));
+#endif
+    imageLabel->setPixmap(matOp.rotate(90));
+    imageLabel->adjustSize();
+    scaleImage();
+  } else
+    qDebug() << "rotateLeft() should not be called if image is not loaded!";
+}
+
+void ImageEditor::rotateRight()
+{
+  if (imageLoaded) {
+#if QT_VERSION > 0x060000
+    // signature is const QPixmap* pixmap const
+    MatOp matOp((imageLabel->pixmap()));
+#else
+    MatOp matOp(*(imageLabel->pixmap()));
+#endif
+    imageLabel->setPixmap(matOp.rotate(-90));
+    imageLabel->adjustSize();
+    scaleImage();
+  } else
+    qDebug() << "rotateLeft() should not be called if image is not loaded!";
 }
 
 void ImageEditor::zoomIn()
