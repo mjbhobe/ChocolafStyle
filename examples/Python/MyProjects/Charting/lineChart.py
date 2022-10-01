@@ -27,7 +27,7 @@ from datetime import datetime, timedelta, date
 
 # some global constants
 START_DATE = '2000-01-01'
-END_DATE = '2022-07-31'
+END_DATE = '2022-09-30'
 STOCKS = ['BAJAJ-AUTO.NS', 'BAJFINANCE.NS', 'DIVISLAB.NS', 'DIXON.NS', 'HDFCBANK.NS', 'HEROMOTOCO.NS',
           'INFY.NS', 'LT.NS', 'PIDILITIND.NS', 'RELIANCE.NS', 'SUNPHARMA.NS', 'TCS.NS', 'TITAN.NS', 'ULTRACEMCO.NS']
 
@@ -179,7 +179,9 @@ if __name__ == "__main__":
     stock_df = pd.read_csv(f'{os.path.dirname(__file__)}/data/RELIANCE.NS.csv')
     print(stock_df.head())
 
-    app = QApplication(sys.argv)
+    ChocolafApp.setupAppForHighDpiScreens()
+    app = ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
     win = LineChartWidget()
     win.show()
     sys.exit(app.exec())

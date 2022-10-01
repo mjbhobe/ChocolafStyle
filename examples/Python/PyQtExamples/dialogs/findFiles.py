@@ -129,6 +129,7 @@ class Window(QDialog):
         self.currentDir = QDir(path)
         if not fileName:
             fileName = "*"
+        fileName = f"**/{fileName}"
         # files = self.currentDir.entryList([fileName],
         #                                   QDir.Files | QDir.NoSymLinks | QDir.NoDot | QDir.NoDotDot | QDir.Dirs)
         files = glob.glob(f"{path}/{fileName}", recursive=True)
@@ -141,14 +142,14 @@ class Window(QDialog):
         progressDialog = QProgressDialog(self)
 
         progressDialog.setCancelButtonText("&Cancel")
-        progressDialog.setRange(0, files.count())
+        progressDialog.setRange(0, len(files)) # files.count())
         progressDialog.setWindowTitle("Find Files")
 
         foundFiles = []
 
-        for i in range(files.count()):
+        for i in range(len(files)): # files.count()):
             progressDialog.setValue(i)
-            progressDialog.setLabelText("Searching file number %d of %d..." % (i, files.count()))
+            progressDialog.setLabelText(f"Searching file number {i} of {len(files)}...")
             QApplication.processEvents()
 
             if progressDialog.wasCanceled():

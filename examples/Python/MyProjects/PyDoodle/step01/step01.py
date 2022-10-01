@@ -21,6 +21,7 @@ __version__ = "1.0"
 
 
 def main():
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     print(f"PyQt Doodle - running with Python {platform.python_version()}, " +

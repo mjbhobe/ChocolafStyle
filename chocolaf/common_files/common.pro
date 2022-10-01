@@ -24,10 +24,11 @@ INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++20 console
+CONFIG += c++20 # console
 QT += core gui xml sql network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-QMAKE_CXXFLAGS += -Wno-c11-extensions -Wno-deprecated-anon-enum-enum-conversion -Wno-unused-variable -Wno-unused-parameter
+QMAKE_CXXFLAGS += -Wno-c11-extensions -Wno-deprecated-anon-enum-enum-conversion
+QMAKE_CXXFLAGS += -Wno-deprecated-enum-enum-conversion -Wno-unused-variable -Wno-unused-parameter
 QMAKE_CXXFLAGS_DEBUG += -O0 -g2 -Wall -pedantic
 QMAKE_CXXFLAGS_RELEASE += -O2 -g0 -Wall
 
@@ -54,7 +55,7 @@ win32 {
 unix {
    message("Settings for Linux build")
 # include for gmp.h & gmpxx.h
-    INCLUDEPATH += /usr/local/include
+   INCLUDEPATH += /usr/local/include
 # for opencv includes
    INCLUDEPATH += /usr/include/opencv4
    OPENCV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video \

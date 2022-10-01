@@ -57,7 +57,8 @@ class SQLManager(QMainWindow):
 
     def setupWindow(self):
         self.queryField = QTextEdit()
-        self.queryField.setFont(QFont("Consolas, SF Mono, Monospace", 10))
+        points = ChocolafApp.pixelsToPoints(15)
+        self.queryField.setFont(QFont("Consolas, SF Mono, Monospace", points))
         self.queryField.setPlaceholderText("Enter your SQL query here and press Ctrl+R to run...")
 
         self.results = QTableView()
@@ -133,6 +134,7 @@ class SQLManager(QMainWindow):
 
 
 if __name__ == "__main__":
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     # app.setStyle("Chocolaf")
     #app = QApplication(sys.argv)

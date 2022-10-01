@@ -381,6 +381,7 @@ def main():
                     help="Full path to image")
     args = vars(ap.parse_args())
 
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

@@ -116,3 +116,30 @@ class ChocolafApp(QApplication):
             availableStyles = self.availableStyles('all')
             msg = f"\"{style}\" is not recognized as a valid style!\nValid options are: [{availableStyles}]"
             raise ValueError(msg)
+
+        default_pix_per_inch = 96 if sys.platform == "win32" else 72
+        default_font_dpi = os.getenv("QT_FONT_DPI", default_pix_per_inch)
+        os.putenv("QT_FONT_DPI", f"{default_font_dpi}")
+
+    @staticmethod
+    def pointsToPixels(points):
+        default_pix_per_inch = 96 if sys.platform == "win32" else 72
+        default_font_dpi = os.getenv("QT_FONT_DPI", default_pix_per_inch)
+        screenDpi = QGuiApplication.primaryScreen().physicalDotsPerInch()
+        return int((points / default_font_dpi) * screenDpi)
+
+    @staticmethod
+    def pixelsToPoints(pixels):
+        default_pix_per_inch = 96 if sys.platform == "win32" else 72
+        default_font_dpi = os.getenv("QT_FONT_DPI", default_pix_per_inch)
+        screenDpi = QGuiApplication.primaryScreen().physicalDotsPerInch()
+        return int((pixels * default_font_dpi) / screenDpi)
+
+    @staticmethod
+    def setupAppForHighDpiScreens():
+        from PyQt5 import QtCore
+        if hasattr(QtCore.Qt, "AA_EnableHighDpiScaling"):
+            QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+
+        if hasattr(QtCore.Qt, "AA_UseHighDpiPixmaps"):
+            QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)

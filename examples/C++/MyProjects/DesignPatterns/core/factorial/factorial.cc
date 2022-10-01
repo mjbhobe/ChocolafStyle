@@ -12,7 +12,6 @@ static QTextStream cin(stdin, QIODevice::ReadOnly);
 int main(int argc, char **argv)
 {
   QCoreApplication app(argc, argv);
-  // int num{0};
   QString ans{""};
   bool contd{true};
 

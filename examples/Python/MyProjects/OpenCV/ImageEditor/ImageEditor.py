@@ -400,7 +400,10 @@ def main():
     ap.add_argument("-i", "--image", required=False,
                     help="Full path to image")
     args = vars(ap.parse_args())
+
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
 
     w = ImageEditor()
     w.setWindowTitle(f"PyQt {PYQT_VERSION_STR} Image Editor")

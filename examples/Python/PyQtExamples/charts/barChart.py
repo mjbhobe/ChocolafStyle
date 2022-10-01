@@ -13,15 +13,16 @@ import pathlib
 import sys
 import unicodedata
 
-from PyQt6.QtCore import *
-from PyQt6.QtGui import *
-from PyQt6.QtWidgets import *
-from PyQt6.QtCharts import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtChart import *
 
 # sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
 # from pyqt5_utils import ChocolafApp
 from chocolaf.palettes import ChocolafPalette
 from chocolaf.utils.chocolafapp import ChocolafApp
+
 
 class TestChart(QMainWindow):
     def __init__(self):
@@ -48,9 +49,8 @@ class TestChart(QMainWindow):
 
         self.chart = QChart()
         self.chart.addSeries(self.series)
-        self.chart.setTitle("Simple barchart example")
+        self.chart.setTitle("Simple Barchart Example")
         self.chart.setAnimationOptions(QChart.SeriesAnimations)
-
 
         self.categories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
         self.axis_x = QBarCategoryAxis()

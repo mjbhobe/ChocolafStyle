@@ -29,6 +29,7 @@ public:
   ~ImageEditor();
 
   bool loadImage(const QString &imagePath);
+  void updateActions();
   void initializeFileDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
   // save & restore state
@@ -59,7 +60,6 @@ private:
   void createActions();
   void createMenus();
   void createToolbar();
-  void updateActions();
   void scaleImage(double factor = -1);
   void adjustScrollBar(QScrollBar *scrollBar, double factor);
   void setupStatusBar();

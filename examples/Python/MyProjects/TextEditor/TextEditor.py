@@ -60,13 +60,14 @@ class TextEditorWindow(QMainWindow):
         fileMenu.addAction(self.exitAction)
 
     def setupEditor(self):
+        editorFontPointSize = ChocolafApp.pixelsToPoints(15)
         self._editorFont = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
-        self._editorFont.setPointSize(10)
+        self._editorFont.setPointSize(editorFontPointSize)
         self._editorFontBold = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
-        self._editorFontBold.setPointSize(10)
+        self._editorFontBold.setPointSize(editorFontPointSize)
         self._editorFontBold.setBold(True)
         self._editorFontItalic = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
-        self._editorFontItalic.setPointSize(10)
+        self._editorFontItalic.setPointSize(editorFontPointSize)
         self._editorFontItalic.setItalic(True)
         # screenDpi = QApplication.desktop().logicalDpiX()
         # self._editorFont.setPointSize(int(12 / 72 * screenDpi))

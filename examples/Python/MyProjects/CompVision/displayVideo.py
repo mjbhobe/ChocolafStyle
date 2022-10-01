@@ -194,6 +194,7 @@ class DisplayVideoWindow(QMainWindow):
 
 
 if __name__ == "__main__":
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     # # add custom styling

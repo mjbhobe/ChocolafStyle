@@ -46,13 +46,30 @@ MatOp::erode(cv::Point anchor /*= cv::Point(-1, -1)*/, int iterations /*= 1*/,
 QPixmap MatOp::rotate(double angle)
 {
   double scale = 1.0;
-  cv::Point2f center = cv::Point((m_srcMat.cols - 1 / 2), (m_srcMat.rows - 1 / 2));
+  auto h = m_srcMat.size().height;
+  auto w = m_srcMat.size().width;
+  cv::Point2f center = cv::Point((m_srcMat.cols / 2.0), (m_srcMat.rows / 2.0));
   cv::Mat rotateMatrix = cv::getRotationMatrix2D(center, angle, scale);
+
+  auto cos_t = qAbs(rotateMatrix.at<int>(0, 0));
+  auto sin_t = qAbs(rotateMatrix.at<int>(0, 1));
+  auto newWidth = int((h * sin_t) + (w * cos_t));
+  auto newHeight = int((h * cos_t) + (w * sin_t));
+  rotateMatrix.at<int>(0, 2) += (newWidth / 2) - m_srcMat.cols / 2;
+  rotateMatrix.at<int>(1, 2) += (newHeight / 2) - m_srcMat.rows / 2;
+
   cv::Mat result;
-  cv::warpAffine(m_srcMat, result, rotateMatrix, m_srcMat.size()); /*, cv::INTER_LINEAR,
-                 cv::BORDER_CONSTANT); */
+  /* cv::warpAffine(m_srcMat, result, rotateMatrix, m_srcMat.size()); */ /*,
+                 cv::INTER_LINEAR, cv::BORDER_CONSTANT); */
+
+  cv::warpAffine(m_srcMat, result, rotateMatrix, cv::Size(newWidth, newHeight));
   QImage rotatedImage(result.data, result.cols, result.rows, result.step,
                       QImage::Format_RGB888);
+  qDebug() << "src.rows: " << m_srcMat.rows << " ~ src.cols: " << m_srcMat.cols
+           << " ~ src.size: " << m_srcMat.size().width << " x " << m_srcMat.size().height
+           << " ~ dest.rows: " << result.rows << " ~ dest.cols: " << result.cols
+           << " ~ dest.size: " << result.size().width << " x " << result.size().height;
+
   return QPixmap::fromImage(rotatedImage);
 }
 

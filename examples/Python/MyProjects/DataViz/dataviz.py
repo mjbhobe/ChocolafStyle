@@ -44,7 +44,7 @@ def read_data(data_file_path):
         times = df["time"].apply(lambda x: transform_date(x, timezone))
         return times, magnitudes
     else:
-        
+
         raise ValueError(f"Invalid path! {data_file_path} - does not exist.")
 
 
@@ -163,6 +163,7 @@ def main():
     data_file_path = args.file
     data = read_data(data_file_path)
 
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

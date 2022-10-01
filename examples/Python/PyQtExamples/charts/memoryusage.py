@@ -112,7 +112,7 @@ if __name__ == '__main__':
     app.setStyle("Chocolaf")
     main_win = MainWindow()
     available_geometry = main_win.screen().availableGeometry()
-    size = available_geometry.height() * 3 / 4
+    size = int(available_geometry.height() * 3 / 4)
     main_win.resize(size, size)
     main_win.show()
     sys.exit(app.exec())
