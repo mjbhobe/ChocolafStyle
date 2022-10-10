@@ -71,6 +71,7 @@ class Window(QWidget):
         dateTimeEditsGroup = self.createDateTimeEdits()
         doubleSpinBoxesGroup = self.createDoubleSpinBoxes()
         closeBtn = QPushButton("Close")
+        closeBtn.setDown(True)
         closeBtn.clicked.connect(qApp.exit)
 
         btnLayout = QHBoxLayout()
@@ -88,7 +89,7 @@ class Window(QWidget):
         mainLayout.addLayout(btnLayout)
 
         self.setLayout(mainLayout)
-        self.setWindowTitle("SpinBoxes Demo")
+        self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} SpinBoxes Demo")
 
     def createSpinBoxes(self):
         spinBoxesGroup = QGroupBox("Spinboxes")
@@ -284,8 +285,10 @@ def loadStyleSheet() -> str:
 
 
 def main():
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
 
     win = Window()

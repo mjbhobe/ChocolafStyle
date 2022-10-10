@@ -11,6 +11,7 @@
 // =============================================================================
 #include "DrawWindow.h"
 //#include "chocolaf.h"
+#include "chocolaf.h"
 #include <QApplication>
 #include <QMainWindow>
 #include <QMessageBox>
@@ -47,6 +48,11 @@ void DrawMainWindow::closeEvent(QCloseEvent *event)
 
 int main(int argc, char **argv)
 {
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  app.setStyle("Chocolaf");
+
+  /*
    QApplication app(argc, argv);
 
    QFile f(":chocolaf/chocolaf.css");
@@ -58,15 +64,17 @@ int main(int argc, char **argv)
       QTextStream ts(&f);
       app.setStyleSheet(ts.readAll());
    }
-   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
+  */
+  app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
-   // create the GUI
-   DrawWindow *drawWidget = new DrawWindow;
-   DrawMainWindow mainWindow(drawWidget);
-   mainWindow.setWindowTitle(WinTitle);
-   mainWindow.setCentralWidget(drawWidget);
-   mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
-   mainWindow.show();
+  // create the GUI
+  DrawWindow *drawWidget = new DrawWindow;
+  DrawMainWindow mainWindow(drawWidget);
+  mainWindow.setWindowTitle(WinTitle);
+  mainWindow.setCentralWidget(drawWidget);
+  // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+  Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
+  mainWindow.show();
 
-   return app.exec();
+  return app.exec();
 }

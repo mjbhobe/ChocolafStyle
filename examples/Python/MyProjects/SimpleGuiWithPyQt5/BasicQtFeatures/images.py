@@ -68,6 +68,7 @@ class Window(QWidget):
             f"PyQt {PYQT_VERSION_STR} image labels: {image_path}")
 
 
+ChocolafApp.setupAppForHighDpiScreens()
 app = ChocolafApp(sys.argv)
 # app.setStyle("QDarkStyle-dark")
 app.setStyle("Chocolaf")

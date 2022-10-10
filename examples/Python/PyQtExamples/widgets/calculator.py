@@ -148,8 +148,8 @@ class Calculator(QWidget):
         mainLayout.addWidget(self.addToMemoryButton, 5, 0)
 
         for i in range(1, Calculator.NumDigitButtons):
-            row = ((9 - i) / 3) + 2
-            column = ((i - 1) % 3) + 1
+            row = int(((9 - i) / 3) + 2)
+            column = int(((i - 1) % 3) + 1)
             mainLayout.addWidget(self.digitButtons[i], row, column)
 
         mainLayout.addWidget(self.digitButtons[0], 5, 1)
@@ -167,7 +167,7 @@ class Calculator(QWidget):
         mainLayout.addWidget(self.equalButton, 5, 5)
         self.setLayout(mainLayout)
 
-        self.setWindowTitle("Calculator")
+        self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} Calculator")
 
     def digitClicked(self):
         clickedButton = self.sender()
@@ -361,8 +361,10 @@ class Calculator(QWidget):
 
 
 if __name__ == '__main__':
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
+    # app.setStyle("QDarkStyle-dark")
 
     calc = Calculator()
     calc.show()

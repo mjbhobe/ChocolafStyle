@@ -1,3 +1,4 @@
+debug/format.o
 debug/common_funcs.o
 debug/chocolaf.o
 debug/main.o
@@ -6,5 +7,4 @@ debug/MatOps.o
 debug/ImageEditor.o
 debug/qrc_chocolaf.o
 debug/qrc_ImageEditor.o
-debug/moc_common_funcs.o
 debug/moc_ImageEditor.o

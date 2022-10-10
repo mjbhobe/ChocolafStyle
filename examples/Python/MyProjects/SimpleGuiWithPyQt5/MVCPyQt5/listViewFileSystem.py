@@ -24,8 +24,9 @@ Window_Title = f"PyQt {PYQT_VERSION_STR} MVC - 2 views of same file system"
 HOME_DIR = str(pathlib.Path.home())
 
 if __name__ == "__main__":
+    # ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    # app.setStyle("Chocolaf")
+    app.setStyle("Chocolaf")
 
     splitter = QSplitter()
     splitter.setMinimumSize(800, 400)
@@ -41,7 +42,7 @@ if __name__ == "__main__":
     list.setModel(model)
     list.setRootIndex(model.index(HOME_DIR))
 
-    splitter.setWindowTitle("Two views onto the same file system model")
+    splitter.setWindowTitle(Window_Title)
     w = splitter.size().width()
     # splitter.setSizes([0.6 * splitter.width(), 0.4 * splitter.width()])
     splitter.setSizes([int(0.7 * w), int(0.3 * w)])

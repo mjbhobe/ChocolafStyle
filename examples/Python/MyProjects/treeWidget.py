@@ -23,6 +23,7 @@ class TreeWidgetWindow(QWidget):
         super(TreeWidgetWindow, self).__init__(parent)
         self.treeWidget = QTreeWidget()
         self.setupUi()
+        self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} Tree Widget")
 
     def setupUi(self):
         self.treeWidget.setColumnCount(2)
@@ -47,8 +48,10 @@ class TreeWidgetWindow(QWidget):
         parent.addChild(treeItem)
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    app.setStyle("Fusion")
+    ChocolafApp.setupAppForHighDpiScreens()
+    app = ChocolafApp(sys.argv)
+    # app.setStyle("Fusion")
+    app.setStyle("Chocolaf")
 
     win = TreeWidgetWindow()
     win.show()

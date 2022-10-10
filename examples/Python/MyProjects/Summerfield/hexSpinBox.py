@@ -43,7 +43,9 @@ class HexSpinBox(QSpinBox):
 def main():
     # app = ChocolafApp(sys.argv)
     # app.setStyle("Chocolaf")
-    app = QApplication(sys.argv)
+    ChocolafApp.setupAppForHighDpiScreens()
+    app = ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
 
     # create & show GUI
     win = QWidget()
@@ -55,6 +57,7 @@ def main():
     layout.addWidget(hexSpinBox)
     win.setLayout(layout)
     win.setWindowTitle("Custom SpinBox")
+    win.setMinimumWidth(220)
     win.show()
 
     return app.exec()

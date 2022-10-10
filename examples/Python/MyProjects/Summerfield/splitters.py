@@ -44,9 +44,9 @@ def createGui():
 
 
 def main():
-    # app = ChocolafApp(sys.argv)
+    ChocolafApp.setupAppForHighDpiScreens()
+    app = ChocolafApp(sys.argv)
     # app.setStyle("Chocolaf")
-    app = QApplication(sys.argv)
 
     # create & show GUI
     splitter = createGui()

@@ -107,19 +107,27 @@ def loadStyleSheet() -> str:
 
 
 def main():
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
 
     form = Form()
-    form.setStyleSheet(loadStyleSheet())
+    #form.setStyleSheet(loadStyleSheet())
     form.show()
     app.exec()
 
+"""
+NOTE: this example requires that you get a free API key from Exchange Rates
+(https://www.exchangerate-api.com/docs/overview). Please see the instructions at the
+following URL to get a 2-week free access to API endpoint
+https://www.exchangerate-api.com/docs/authentication
+"""
 
 if __name__ == '__main__':
     import requests
 
     # Where USD is the base currency you want to use
-    url = 'https://v6.exchangerate-api.com/v6/336ccxxxxxxxxx8e74eac/latest/USD'
+    url = 'https://v6.exchangerate-api.com/v6/aa604cd77971987229134fb7/latest/USD'
 
     # Making our request
     response = requests.get(url)

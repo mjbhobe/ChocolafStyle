@@ -1,3 +1,4 @@
+release/format.o
 release/common_funcs.o
 release/chocolaf.o
 release/main.o
@@ -6,5 +7,4 @@ release/MatOps.o
 release/ImageEditor.o
 release/qrc_chocolaf.o
 release/qrc_ImageEditor.o
-release/moc_common_funcs.o
 release/moc_ImageEditor.o

@@ -68,8 +68,10 @@ class TabDemoWindow(QWidget):
 
 
 def main():
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    # app.setStyle("Chocolaf")
+    app.setStyle("Chocolaf")
+
     ex = TabDemoWindow()
     ex.show()
     sys.exit(app.exec_())

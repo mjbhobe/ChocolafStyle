@@ -237,8 +237,9 @@ if __name__ == "__main__":
                     help="Enter name of city to display weather")
     args = vars(ap.parse_args())
 
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    # app.setStyle("Chocolaf")
+    app.setStyle("Chocolaf")
     # app = QApplication(sys.argv)
 
     # get weather location of Mumbai as dict

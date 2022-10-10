@@ -614,6 +614,7 @@ class LifeCycle(object):
 
 
 if __name__ == '__main__':
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
@@ -652,7 +653,7 @@ if __name__ == '__main__':
 
     # Make enough room in the scene for stickman to jump and die.
     sceneRect = scene.sceneRect()
-    view.resize(sceneRect.width() + 100, sceneRect.height() + 100)
+    view.resize(int(sceneRect.width() + 100), int(sceneRect.height() + 100))
     view.setSceneRect(sceneRect)
 
     cycle = LifeCycle(stickMan, view)

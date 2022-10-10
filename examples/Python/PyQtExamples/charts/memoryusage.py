@@ -108,6 +108,7 @@ class MainWindow(QMainWindow):
 
 if __name__ == '__main__':
     # app = QApplication(sys.argv)
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     main_win = MainWindow()

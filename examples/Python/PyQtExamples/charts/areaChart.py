@@ -63,10 +63,18 @@ class AreaChartWidget(QWidget):
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    # app = QApplication(sys.argv)
+    ChocolafApp.setupAppForHighDpiScreens()
+    app = ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
 
     chart = AreaChartWidget()
-    chart.resize(640, 480)
+    # chart.resize(640, 480)
+    screen = app.primaryScreen()
+    screenSize = screen.size()
+    width, height = int(screenSize.width() * 3 / 4), int(screenSize.height() * 3 / 4)
+    chart.resize(width, height)
+    chart.move(100, 100)
     chart.show()
 
     sys.exit(app.exec())

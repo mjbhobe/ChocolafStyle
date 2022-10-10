@@ -248,20 +248,22 @@ class Window(QWidget):
 
 
 def main():
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
 
     win = Window()
     win.setStyleSheet(app.getStyleSheet("Chocolaf"))
-    win.setWindowTitle('PyQt LineEdits - Chocolaf Theme')
+    win.setWindowTitle(f'PyQt {PYQT_VERSION_STR} LineEdits - Chocolaf Theme')
     win.move(100, 100)
     win.show()
 
     rect = win.geometry()
     win1 = Window()
     win1.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
-    win1.setWindowTitle('PyQt LineEdits - QDarkStyle(dark) Theme')
+    win1.setWindowTitle(f'PyQt {PYQT_VERSION_STR} LineEdits - QDarkStyle(dark) Theme')
     win1.move(rect.left() + rect.width() + 100, rect.top() + 50)
     win1.show()
 

@@ -60,6 +60,7 @@ class Form(QWidget):
 
 
 def main():
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
 
     w = Form()

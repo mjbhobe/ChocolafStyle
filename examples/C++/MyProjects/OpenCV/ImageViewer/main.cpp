@@ -6,6 +6,7 @@
 #include <fmt/core.h>
 
 #include "ImageViewer.h"
+#include "chocolaf.h"
 #include "common_funcs.h"
 namespace fs = std::filesystem;
 
@@ -22,6 +23,11 @@ struct MyArgs : public argparse::Args {
 
 int main(int argc, char **argv)
 {
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  app.setStyle("Chocolaf");
+
+  /*
   QApplication app(argc, argv);
 
   QFile f(":chocolaf/chocolaf.css");
@@ -33,6 +39,7 @@ int main(int argc, char **argv)
     QTextStream ts(&f);
     app.setStyleSheet(ts.readAll());
   }
+  */
   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
   // parse the command line params

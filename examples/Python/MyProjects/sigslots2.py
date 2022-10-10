@@ -39,8 +39,8 @@ class Form(QWidget):
 
 
 def main():
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    app.setStyle("Fusion")
 
     w = Form()
     w.setStyleSheet(app.getStyleSheet("Chocolaf"))
@@ -63,6 +63,7 @@ def main():
     w2.show()
 
     rect = w2.geometry()
+    app.setStyle("Fusion")
     w3 = Form()
     w3.move(rect.left() + 20, rect.top() + rect.height() + 50)
     w3.setWindowTitle(f"{w3.windowTitle()} - using Fusion")

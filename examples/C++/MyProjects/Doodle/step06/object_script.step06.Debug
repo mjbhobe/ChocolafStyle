@@ -1,3 +1,4 @@
+debug/format.o
 debug/common_funcs.o
 debug/chocolaf.o
 debug/DrawWindow.o

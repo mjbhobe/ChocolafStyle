@@ -15,6 +15,11 @@
 
 int main(int argc, char **argv)
 {
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  app.setStyle("Chocolaf");
+
+  /*
   QApplication app(argc, argv);
   // use Chocolaf style
   QFile f(":chocolaf/chocolaf.css");
@@ -25,13 +30,15 @@ int main(int argc, char **argv)
     QTextStream ts(&f);
     app.setStyleSheet(ts.readAll());
   }
+  */
 
   // create the GUI
   QMainWindow mainWindow;
   QString title =
       QString("Qt %1 Doodle with Chocolaf - Step01: Basic Window").arg(QT_VERSION_STR);
   mainWindow.setWindowTitle(title);
-  mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+  // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+  Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
   mainWindow.show();
 
   return app.exec();

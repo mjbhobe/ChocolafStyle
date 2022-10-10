@@ -27,6 +27,7 @@
 **
 ****************************************************************************/
 
+#include "chocolaf.h"
 #include <QtCharts/QBarCategoryAxis>
 #include <QtCharts/QBarSeries>
 #include <QtCharts/QBarSet>
@@ -37,10 +38,15 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 
-QT_CHARTS_USE_NAMESPACE
+// QT_CHARTS_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  app.setStyle("Chocolaf");
+
+  /*
   QApplication app(argc, argv);
 
   // apply Chocolaf styling
@@ -52,7 +58,7 @@ int main(int argc, char *argv[])
     f.open(QFile::ReadOnly | QFile::Text);
     QTextStream ts(&f);
     app.setStyleSheet(ts.readAll());
-  }
+  }*/
 
   //![1]
   QBarSet *set0 = new QBarSet("Jane");
@@ -117,7 +123,9 @@ int main(int argc, char *argv[])
   //![7]
   QMainWindow window;
   window.setCentralWidget(chartView);
-  window.resize(420, 300);
+  // window.resize(1024, 768);
+  Chocolaf::centerOnScreenWithSize(window, 0.75, 0.5);
+  window.setWindowTitle(QString("Qt %1 barchart demo").arg(QT_VERSION_STR));
   window.show();
   //![7]
 

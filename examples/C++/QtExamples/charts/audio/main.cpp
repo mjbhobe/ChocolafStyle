@@ -29,6 +29,7 @@
 
 #include "widget.h"
 
+#include "chocolaf.h"
 #include <QtCore>
 #include <QtMultimedia/QAudioDeviceInfo>
 #include <QtWidgets/QApplication>
@@ -36,6 +37,11 @@
 
 int main(int argc, char *argv[])
 {
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  app.setStyle("Chocolaf");
+
+  /*
   QApplication app(argc, argv);
 
   // apply Chocolaf styling
@@ -48,6 +54,7 @@ int main(int argc, char *argv[])
     QTextStream ts(&f);
     app.setStyleSheet(ts.readAll());
   }
+  */
 
   const QAudioDeviceInfo inputDevice = QAudioDeviceInfo::defaultInputDevice();
   if (inputDevice.isNull()) {

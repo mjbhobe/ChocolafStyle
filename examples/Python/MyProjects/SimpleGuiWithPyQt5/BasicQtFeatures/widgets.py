@@ -62,8 +62,9 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} core widgets")
 
 
+ChocolafApp.setupAppForHighDpiScreens()
 app = ChocolafApp(sys.argv)
-# app.setStyle("QDarkStyle-dark")
+app.setStyle("Chocolaf")
 
 win = MainWindow()
 win.show()

@@ -91,8 +91,9 @@ class MainWindow(QMainWindow):
         self.label.setText(txt)
 
 
+ChocolafApp.setupAppForHighDpiScreens()
 app = ChocolafApp(sys.argv)
-# app.setStyle("Fusion")
+app.setStyle("Chocolaf")
 
 win = MainWindow()
 win.show()

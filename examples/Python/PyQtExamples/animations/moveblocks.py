@@ -134,6 +134,7 @@ def createGeometryState(w1, rect1, w2, rect2, w3, rect3, w4, rect4, parent):
 
 
 if __name__ == '__main__':
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

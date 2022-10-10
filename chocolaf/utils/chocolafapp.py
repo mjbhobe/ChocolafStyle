@@ -117,29 +117,51 @@ class ChocolafApp(QApplication):
             msg = f"\"{style}\" is not recognized as a valid style!\nValid options are: [{availableStyles}]"
             raise ValueError(msg)
 
-        default_pix_per_inch = 96 if sys.platform == "win32" else 72
-        default_font_dpi = os.getenv("QT_FONT_DPI", default_pix_per_inch)
-        os.putenv("QT_FONT_DPI", f"{default_font_dpi}")
+        # default_pix_per_inch = 96 if sys.platform == "win32" else 72
+        # default_font_dpi = os.getenv("QT_FONT_DPI", default_pix_per_inch)
+        # os.putenv("QT_FONT_DPI", f"{default_font_dpi}")
 
     @staticmethod
     def pointsToPixels(points):
-        default_pix_per_inch = 96 if sys.platform == "win32" else 72
-        default_font_dpi = os.getenv("QT_FONT_DPI", default_pix_per_inch)
-        screenDpi = QGuiApplication.primaryScreen().physicalDotsPerInch()
-        return int((points / default_font_dpi) * screenDpi)
+        """
+        NOTE: We know that 1 inch = 96 pixels and 1 inch = 72 points
+        Hence, 96 pixels = 72 points
+        So, x points = x * 96 / 72 pixels
+        """
+        # default_pix_per_inch = 96 if sys.platform == "win32" else 72
+        # default_font_dpi = os.getenv("QT_FONT_DPI", default_pix_per_inch)
+        # screenDpi = QGuiApplication.primaryScreen().physicalDotsPerInch()
+        # return int((points * default_font_dpi) / screenDpi)
+        return int(points * 96 / 72)
 
     @staticmethod
     def pixelsToPoints(pixels):
-        default_pix_per_inch = 96 if sys.platform == "win32" else 72
-        default_font_dpi = os.getenv("QT_FONT_DPI", default_pix_per_inch)
-        screenDpi = QGuiApplication.primaryScreen().physicalDotsPerInch()
-        return int((pixels * default_font_dpi) / screenDpi)
+        """
+        NOTE: We know that 1 inch = 96 pixels and 1 inch = 72 points
+        Hence, 96 pixels = 72 points
+        So, x pixels = x * 72 / 96 points
+        """
+        # default_pix_per_inch = 96 if sys.platform == "win32" else 72
+        # default_font_dpi = os.getenv("QT_FONT_DPI", default_pix_per_inch)
+        # screenDpi = QGuiApplication.primaryScreen().physicalDotsPerInch()
+        # return int((pixels / default_font_dpi) * screenDpi)
+        return int(pixels * 72 / 96)
 
     @staticmethod
     def setupAppForHighDpiScreens():
         from PyQt5 import QtCore
-        if hasattr(QtCore.Qt, "AA_EnableHighDpiScaling"):
-            QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+        if sys.platform == "win32":
+            # Windows only
+            # @see: https://vicrucann.github.io/tutorials/osg-qt-high-dpi/
+            # @see: https://stackoverflow.com/questions/44398075/can-dpi-scaling-be-enabled-disabled-programmatically-on-a-per-session-basis
+            import ctypes
+            # 0 - unaware, 1 - system dpi aware, 2 - per monitor DPI aware
+            ctypes.windll.shcore.SetProcessDpiAwareness(2)
+        else:
+            if hasattr(QtCore.Qt, "AA_EnableHighDpiScaling"):
+                QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 
-        if hasattr(QtCore.Qt, "AA_UseHighDpiPixmaps"):
-            QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+            if hasattr(QtCore.Qt, "AA_UseHighDpiPixmaps"):
+                QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+
+

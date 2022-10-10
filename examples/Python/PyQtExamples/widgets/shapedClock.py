@@ -147,7 +147,7 @@ class ShapedClock(QWidget):
     def resizeEvent(self, event):
         side = min(self.width(), self.height())
 
-        maskedRegion = QRegion(self.width() / 2 - side / 2, self.height() / 2 - side / 2, side, side, QRegion.Ellipse)
+        maskedRegion = QRegion(self.width() // 2 - side // 2, self.height() // 2 - side // 2, side, side, QRegion.Ellipse)
         self.setMask(maskedRegion)
 
     def sizeHint(self):
@@ -155,9 +155,11 @@ class ShapedClock(QWidget):
 
 
 def main():
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    # os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

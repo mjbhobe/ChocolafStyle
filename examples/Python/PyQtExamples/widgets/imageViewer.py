@@ -88,7 +88,9 @@ class ImageViewer(QMainWindow):
 
         self.statusBar()
 
-        self.setWindowTitle("Image Viewer")
+        self.baseWindowTitle = f"PyQt {PYQT_VERSION_STR} Image Viewer"
+
+        self.setWindowTitle(self.baseWindowTitle)
         self.setWindowIcon(QIcon(":/image_viewer_icon.png"))
         self.readSettings()
 
@@ -111,6 +113,8 @@ class ImageViewer(QMainWindow):
 
             if not self.fitToWindowAct.isChecked():
                 self.imageLabel.adjustSize()
+
+            self.setWindowTitle(f"{self.baseWindowTitle}: {fileName}")
 
     def print_(self):
         dialog = QPrintDialog(self.printer, self)
@@ -264,9 +268,11 @@ class ImageViewer(QMainWindow):
 
 
 def main():
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    # os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

@@ -140,6 +140,7 @@ def loadStyleSheet() -> str:
 
 
 def main():
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
 
     w = Form("Using my stylesheet")

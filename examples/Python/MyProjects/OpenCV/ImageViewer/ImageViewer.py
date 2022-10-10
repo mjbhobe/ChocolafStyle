@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 """
 * ImageViewer.py: Image viewer application with PyQt and OpenCV
 * @author (Chocolaf): Manish Bhobe
@@ -24,6 +25,7 @@ import ImageViewer_rc
 
 class ImageViewer(QMainWindow):
     """ main display window """
+
     def __init__(self, parent: QWidget = None):
         super().__init__(parent)
         self.imageLoaded = False

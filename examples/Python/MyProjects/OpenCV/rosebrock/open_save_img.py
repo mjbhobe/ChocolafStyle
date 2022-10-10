@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def cv2_imshow(img, title=None, fig_size=None, show_grid=False):
+def cv2_imshow(img, title=None, fig_size=None, show_axis=False):
     """ show cv2 image in a matplotlib plot output window """
     # convert from default BGR to RGB schema
     rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -24,7 +24,7 @@ def cv2_imshow(img, title=None, fig_size=None, show_grid=False):
         plt.figure(figsize=fig_size)
     if title is not None:
         plt.title(title)
-    if not show_grid:
+    if not show_axis:
         plt.axis('off')
     plt.imshow(rgb_img)
     plt.show()
@@ -46,17 +46,18 @@ def main():
 
         # cv2.imshow(f"Image : {args['image']}", image)
         # cv2.waitKey()
-        cv2_imshow(image, title=f"Image: {args['image']}")
+        image_name = os.path.basename(args['image'])
+        cv2_imshow(image, title=f"Image: {image_name}")
 
         # now let's set top left rectangle to blue
         h, w, c = image.shape
-        # note OpenCV sets colors as BRG not RGB, so blue is RGB(255,0,0)
+        # note OpenCV sets colors as BRG not RGB, so blue is (255,0,0) & not (0,0,255)
         image[:h // 4, :w // 4, :] = (255, 0, 0)
-        cv2_imshow(image, title=f"Blue Image: {args['image']}")
+        cv2_imshow(image, title=f"Blue Image: {image_name}")
 
         # np.random.sample()
     else:
-        print(f"{args['image']} - path does not exist!")
+        print(f"FATAL: Path does not exist ({args['image']})")
 
 
 if __name__ == "__main__":

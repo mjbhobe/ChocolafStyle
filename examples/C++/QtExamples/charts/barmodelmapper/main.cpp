@@ -27,13 +27,19 @@
 **
 ****************************************************************************/
 
-#include <QtWidgets/QApplication>
+#include "chocolaf.h"
 #include "tablewidget.h"
+#include <QtWidgets/QApplication>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    TableWidget w;
-    w.show();
-    return a.exec();
+  // QApplication a(argc, argv);
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  app.setStyle("Chocolaf");
+
+  TableWidget w;
+  Chocolaf::centerOnScreenWithSize(w, 0.75, 0.75);
+  w.show();
+  return app.exec();
 }

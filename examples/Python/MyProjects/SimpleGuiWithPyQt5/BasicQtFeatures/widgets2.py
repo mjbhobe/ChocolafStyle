@@ -44,7 +44,9 @@ class Window(QWidget):
         self.checkbox.setText(checkbox_text)
 
 
+ChocolafApp.setupAppForHighDpiScreens()
 app = ChocolafApp(sys.argv)
+app.setStyle("Chocolaf")
 # app.setStyle("QDarkStyle-dark")
 
 win = Window()

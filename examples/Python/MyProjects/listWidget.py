@@ -18,8 +18,9 @@ from PyQt5.QtWidgets import *
 import chocolaf
 from chocolaf.utils.chocolafapp import ChocolafApp
 
+
 class ListWidgetWindow(QWidget):
-    def __init__(self, parent: QWidget=None):
+    def __init__(self, parent: QWidget = None):
         super(ListWidgetWindow, self).__init__(parent)
         self.listWidget = QListWidget()
         self.button = QPushButton("Change Selected Item")
@@ -33,18 +34,21 @@ class ListWidgetWindow(QWidget):
         layout.addWidget(self.listWidget)
         layout.addWidget(self.button)
         self.setLayout(layout)
-    
+        self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} ListWidget Example")
+
     def changeListWidgetItem(self):
-        item : QListWidgetItem = self.listWidget.currentItem()
+        item: QListWidgetItem = self.listWidget.currentItem()
         if item:
             item.setForeground(Qt.magenta)
             item.setBackground(Qt.blue)
 
+
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    ChocolafApp.setupAppForHighDpiScreens()
+    app = ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
 
     win = ListWidgetWindow()
     win.show()
 
     sys.exit(app.exec())
-        

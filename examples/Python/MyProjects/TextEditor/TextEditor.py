@@ -60,7 +60,8 @@ class TextEditorWindow(QMainWindow):
         fileMenu.addAction(self.exitAction)
 
     def setupEditor(self):
-        editorFontPointSize = ChocolafApp.pixelsToPoints(15)
+        editorFontPointSize = ChocolafApp.pixelsToPoints(14)
+        print(f"Using {editorFontPointSize} point font for editor", flush=True)
         self._editorFont = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
         self._editorFont.setPointSize(editorFontPointSize)
         self._editorFontBold = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
@@ -214,6 +215,7 @@ def main():
                     help="Full path of text file to edit")
     args = vars(ap.parse_args())
 
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

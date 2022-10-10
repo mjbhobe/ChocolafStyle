@@ -94,7 +94,7 @@ class WigglyWidget(QWidget):
             index = (self.step + i) % 16
             color.setHsv((15 - index) * 16, 255, 191)
             painter.setPen(color)
-            painter.drawText(x, y - ((sineTable[index] * metrics.height()) / 400), ch)
+            painter.drawText(QPointF(x, y - ((sineTable[index] * metrics.height())) / 400), ch)
             x += metrics.width(ch)
 
     def setText(self, newText):
@@ -136,9 +136,10 @@ class Dialog(QDialog):
 
 
 def main():
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    # os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+    # ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

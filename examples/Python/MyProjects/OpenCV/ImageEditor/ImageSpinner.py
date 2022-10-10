@@ -1,6 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# ImageSpinner.py: cycle through images in a folder
+
+"""
+* ImageSpinner.py: utility class that help list & cycle through images in a
+*   certain folder/directory
+*
+* @author: Manish Bhobe
+* My experiments with Python, C++, OpenCV, Data Science & ML
+* Code is provided for learning purposes only! Use at your own risk!!
+"""
+
 import sys
 import os
 import pathlib

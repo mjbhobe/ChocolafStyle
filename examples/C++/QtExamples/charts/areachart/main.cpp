@@ -27,6 +27,7 @@
 **
 ****************************************************************************/
 
+#include "chocolaf.h"
 #include <QtCharts/QAreaSeries>
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>
@@ -34,13 +35,15 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 
-QT_CHARTS_USE_NAMESPACE
+// QT_CHARTS_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
-  QApplication app(argc, argv);
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  app.setStyle("Chocolaf");
 
-  // apply Chocolaf styling
+  /*// apply Chocolaf styling
   QFile f(":chocolaf/chocolaf.css");
   if (!f.exists()) {
     printf("Unable to open Chocolaf stylesheet! Using default LAF.");
@@ -49,6 +52,7 @@ int main(int argc, char *argv[])
     QTextStream ts(&f);
     app.setStyleSheet(ts.readAll());
   }
+  */
 
   //![1]
   QLineSeries *series0 = new QLineSeries();
@@ -92,9 +96,9 @@ int main(int argc, char *argv[])
 
   //![6]
   QMainWindow window;
-  window.setWindowTitle(QString("Qt %1 charts example").arg(QT_VERSION_STR));
+  window.setWindowTitle(QString("Qt %1 areachart example").arg(QT_VERSION_STR));
   window.setCentralWidget(chartView);
-  window.resize(640, 480);
+  Chocolaf::centerOnScreenWithSize(window, 0.50, 0.5);
   window.show();
   //![6]
 

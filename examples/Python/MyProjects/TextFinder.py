@@ -24,7 +24,11 @@ class TextFinder(QWidget):
         self.loadTextFile()
         # self.ui.textEdit.setEnabled(False)
         self.ui.textEdit.setReadOnly(True)
-        self.ui.textEdit.setFont(QFont("Noto Mono, Source Code Pro, Consolas, SF Mono, Monospace", 10))
+        editorFontPointSize = ChocolafApp.pixelsToPoints(15)
+        editorFont = QFont("Consolas, Monospace", editorFontPointSize)
+        editorFont.setStyleHint(QFont.TypeWriter)
+        # self.ui.textEdit.setFont(QFont("Noto Mono, Source Code Pro, Consolas, SF Mono, Monospace", 10))
+        self.ui.textEdit.setFont(editorFont)
         self.ui.textEdit.setLineWrapMode(QTextEdit.WidgetWidth)
         # self.ui.findButton.setMinimumWidth(100)
         self.ui.findButton.clicked.connect(self.findButtonClicked)
@@ -85,6 +89,7 @@ def loadStyleSheet() -> str:
 
 
 def main():
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     # app.setStyle("Chocolaf")
 

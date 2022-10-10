@@ -11,11 +11,17 @@
 
 #include "DrawWindow.h"
 //#include "chocolaf.h"
+#include "chocolaf.h"
 #include <QApplication>
 #include <QtGui>
 
 int main(int argc, char **argv)
 {
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  app.setStyle("Chocolaf");
+
+  /*
   QApplication app(argc, argv);
 
   // use Chocolaf style
@@ -27,11 +33,12 @@ int main(int argc, char **argv)
     QTextStream ts(&f);
     app.setStyleSheet(ts.readAll());
   }
-
+  */
   app.setApplicationName(app.translate("main", "Qt Scribble"));
 
   // create the GUI
   DrawWindow mainWindow;
+  Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
   mainWindow.show();
 
   return app.exec();

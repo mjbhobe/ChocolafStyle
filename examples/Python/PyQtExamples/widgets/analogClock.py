@@ -128,12 +128,14 @@ class AnalogClock(QWidget):
 
 
 def main():
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    # app = ChocolafApp(sys.argv)
-    # app.setStyle("Chocolaf")
-    app = QApplication(sys.argv)
-    app.setStyleSheet(chocolaf.loadStyleSheet())
+    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    # app = QApplication(sys.argv)
+    # app.setStyleSheet(chocolaf.loadStyleSheet())
+
+    ChocolafApp.setupAppForHighDpiScreens()
+    app = ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
 
     clock = AnalogClock()
     clock.move(100, 100)

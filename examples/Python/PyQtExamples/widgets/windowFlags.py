@@ -289,9 +289,10 @@ class ControllerWindow(QWidget):
 
 
 def main():
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    # os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

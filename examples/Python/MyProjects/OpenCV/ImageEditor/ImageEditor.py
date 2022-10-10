@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# ImageEditor.py: Image editor application with PyQt and OpenCV
+
+"""
+* ImageEditor.py: simple image editor application with PyQt and OpenCV
+*
+* @author: Manish Bhobe
+* My experiments with Python, C++, OpenCV, Data Science & ML
+* Code is provided for learning purposes only! Use at your own risk!!
+"""
+
 import os
 import pathlib
 import sys

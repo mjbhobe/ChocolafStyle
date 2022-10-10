@@ -132,7 +132,7 @@ class SortingBox(QWidget):
         self.trianglePath.lineTo(120, 100)
         self.trianglePath.lineTo(x + 120 / 2, y)
 
-        self.setWindowTitle("Tooltips")
+        self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} Tooltips")
         self.resize(500, 300)
 
         self.createShapeItem(self.circlePath, "Circle",
@@ -258,12 +258,12 @@ class SortingBox(QWidget):
         return button
 
     def initialItemPosition(self, path):
-        y = (self.height() - path.controlPointRect().height()) / 2
+        y = int((self.height() - path.controlPointRect().height()) / 2)
 
         if len(self.shapeItems) == 0:
-            x = ((3 * self.width()) / 2 - path.controlPointRect().width()) / 2
+            x = int(((3 * self.width()) / 2 - path.controlPointRect().width()) / 2)
         else:
-            x = (self.width() / len(self.shapeItems) - path.controlPointRect().width()) / 2
+            x = int((self.width() / len(self.shapeItems) - path.controlPointRect().width()) / 2)
 
         return QPoint(x, y)
 
@@ -282,6 +282,7 @@ class SortingBox(QWidget):
 
 
 if __name__ == "__main__":
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

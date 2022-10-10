@@ -53,6 +53,7 @@ class Window(QWidget):
         self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} rainbow")
 
 
+ChocolafApp.setupAppForHighDpiScreens()
 app = ChocolafApp(sys.argv)
 # app.setStyle("QDarkStyle-dark")
 

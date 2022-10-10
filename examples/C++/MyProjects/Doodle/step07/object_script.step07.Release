@@ -1,3 +1,4 @@
+release/format.o
 release/common_funcs.o
 release/chocolaf.o
 release/Doodle.o

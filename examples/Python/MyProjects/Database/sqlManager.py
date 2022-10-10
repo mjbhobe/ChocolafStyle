@@ -57,7 +57,7 @@ class SQLManager(QMainWindow):
 
     def setupWindow(self):
         self.queryField = QTextEdit()
-        points = ChocolafApp.pixelsToPoints(15)
+        points = ChocolafApp.pixelsToPoints(14)
         self.queryField.setFont(QFont("Consolas, SF Mono, Monospace", points))
         self.queryField.setPlaceholderText("Enter your SQL query here and press Ctrl+R to run...")
 
@@ -136,7 +136,7 @@ class SQLManager(QMainWindow):
 if __name__ == "__main__":
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    # app.setStyle("Chocolaf")
+    app.setStyle("Chocolaf")
     #app = QApplication(sys.argv)
 
     try:

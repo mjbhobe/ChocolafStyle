@@ -110,7 +110,7 @@ class Window(QWidget):
         self.mayFirstCheckBox = QCheckBox("May &1 in red")
 
         self.setupUi()
-        self.setWindowTitle("Calendar Widget Demo")
+        self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} Calendar Widget Demo")
 
     def setupUi(self):
         self.createPreviewGroupBox()
@@ -386,9 +386,13 @@ def loadStyleSheet() -> str:
 
 
 def main():
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    # app = ChocolafApp(sys.argv)
+
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
 
     win = Window()
     win.setStyleSheet(app.getStyleSheet("Chocolaf"))

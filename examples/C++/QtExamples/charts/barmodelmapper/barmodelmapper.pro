@@ -1,5 +1,8 @@
+TEMPLATE = app
+TARGET = barmodelmapper
 QT += charts
 requires(qtConfig(tableview))
+include(../../../../../chocolaf/common_files/common.pro)
 
 HEADERS += \
     customtablemodel.h \

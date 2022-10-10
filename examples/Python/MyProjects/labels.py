@@ -81,8 +81,7 @@ def loadStyleSheet() -> str:
 
 
 def main():
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     print(f"Available styles: {app.availableStyles()}")
 

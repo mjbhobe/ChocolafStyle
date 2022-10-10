@@ -101,12 +101,12 @@ QVariant CustomTableModel::data(const QModelIndex &index, int role) const
 
 bool CustomTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (index.isValid() && role == Qt::EditRole) {
-        m_data[index.row()]->replace(index.column(), value.toDouble());
-        emit dataChanged(index, index);
-        return true;
-    }
-    return false;
+  if (index.isValid() && role == Qt::EditRole) {
+    m_data[index.row()]->replace(index.column(), value.toDouble());
+    emit dataChanged(index, index);
+    return true;
+  }
+  return false;
 }
 
 Qt::ItemFlags CustomTableModel::flags(const QModelIndex &index) const
@@ -116,5 +116,6 @@ Qt::ItemFlags CustomTableModel::flags(const QModelIndex &index) const
 
 void CustomTableModel::addMapping(QString color, QRect area)
 {
-    m_mapping.insertMulti(color, area);
+  // m_mapping.insertMulti(color, area);
+  m_mapping.insert(color, area);
 }

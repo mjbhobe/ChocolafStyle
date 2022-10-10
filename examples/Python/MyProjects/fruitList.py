@@ -79,6 +79,7 @@ def loadStyleSheet() -> str:
 
 
 def main():
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

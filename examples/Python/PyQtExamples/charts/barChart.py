@@ -74,9 +74,16 @@ class TestChart(QMainWindow):
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    ChocolafApp.setupAppForHighDpiScreens()
+    app = ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
 
     window = TestChart()
     window.show()
-    window.resize(420, 300)
+    # window.resize(420, 300)
+    screen = app.primaryScreen()
+    screenSize = screen.size()
+    width, height = int(screenSize.width() * 3 / 4), int(screenSize.height() * 3 / 4)
+    window.resize(width, height)
+    window.move(100, 100)
     sys.exit(app.exec())

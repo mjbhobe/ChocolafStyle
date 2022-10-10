@@ -122,12 +122,15 @@ void MainWindow::exitApp()
 
 void MainWindow::about()
 {
-  QString str;
-  QTextStream ostr(&str);
-  ostr << "<html><b>Qt Scribble</b> - Doodling application<p/>Developed with the Qt "
-       << QT_VERSION_STR << " C++ framework.<p/><p/>Written by - Manish Bhobe.<p/><p/>"
-       << "<small>Program developed for illustration purposes only! Use at your own "
-       << "risk! Author is not responsible for any damages (direct or indirect) that "
-       << "may result from the use of this program.</small></html>";
+  QString str =
+      QString("<html><b>Qt Scribble</b> - Doodling application<p/>Developed with the Qt "
+              "%1 C++ framework.<p/><p/>Written by - %2.<p/>"
+              "Copyright(C) %3<p/>"
+              "<small>Program developed for illustration purposes only! Use at your own  "
+              "risk! Author is not responsible for any damages (direct or indirect) that "
+              "may result from the use of this program.</small></html>")
+          .arg(QT_VERSION_STR)
+          .arg(Chocolaf::__author__)
+          .arg(Chocolaf::__organization__);
   QMessageBox::about(this, AppTitle, str);
 }

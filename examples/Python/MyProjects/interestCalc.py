@@ -96,20 +96,24 @@ def loadStyleSheet() -> str:
 
 
 def main():
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
 
     w = Form()
-    w.setStyleSheet(app.getStyleSheet("Chocolaf"))
     w.move(500, 100)
     w.show()
 
     rect = w.geometry()
     w1 = Form()
-    w1.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
+    w1.setStyleSheet(app.getStyleSheet("Chocolaf"))
     w1.move(rect.left() + rect.width() + 20, rect.top() + rect.height() // 4 + 20)
     w1.show()
+
+    rect = w1.geometry()
+    w2 = Form()
+    w2.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
+    w2.move(rect.left() + rect.width() + 20, rect.top() + rect.height() // 4 + 20)
+    w2.show()
 
     return app.exec()
 

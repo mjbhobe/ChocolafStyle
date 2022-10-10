@@ -4,15 +4,22 @@
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>
+#include <QScreen>
 #include <QStyleFactory>
 #include <QTextStream>
 #include <exception>
+#ifdef Q_OS_WIN
+#include <shellscalingapi.h> // for SetProcessDpiAwareness
+#include <windows.h>
+#endif // Q_OS_WIN
 
 namespace Chocolaf {
 
    // const struct __ChocolafPalette ChocolafPalette;
    const QString __version__ = {"1.0"};
    const QString __author__ = {"Manish Bhobé"};
+   const QString __organization__ = {"Nämostuté Ltd."};
+   const QString __domain__ = {"namostute.qtpyapps.in"};
    static QPalette *__palette = getPalette();
 
    QPalette *getPalette()
@@ -74,53 +81,106 @@ namespace Chocolaf {
       }
    }
 
-   /* ---------------------------
-      ChocolafApp::ChocolafApp(int argc, char *argv[]) : QApplication(argc, argv)
-      {
-         _palette = getPalette();
-         _styleSheet = QString("");
-         // Nämostuté - sanskrit word tranlating to "May our minds meet"
-         QApplication::setOrganizationName("Nämostuté Ltd.");
-         QApplication::setOrganizationDomain("namostute.qtpyapps.in");
-         / *
-         _palette = getPalette();
-         Q_ASSERT(_palette != nullptr);
-         _styleSheet = loadStyleSheet();
-         * /
-         for (auto a = 0; a < argc; ++a)
-            qDebug() << "arg[" << a << "] = " << argv[a];
-      }
+   void centerOnScreenWithSize(QWidget &widget, float widthProp, float heightProp)
+   {
+      // center the widget on screen
+      QRect screenGeom = QGuiApplication::primaryScreen()->geometry();
+      int widgetWidth = int(widthProp * screenGeom.width());
+      int widgetHeight = int(heightProp * screenGeom.height());
+      widget.resize(QSize(widgetWidth, widgetHeight));
 
-      ChocolafApp::~ChocolafApp() { delete _palette; }
+      int x = int((screenGeom.width() - widget.width()) / 2);
+      int y = int((screenGeom.height() - widget.height()) / 2);
+      widget.move(x, y);
+   }
 
-      void ChocolafApp::setStyle(const QString &styleName)
-      {
-         if (styleName == QString("Chocolaf")) {
-            setFont(QApplication::font("QMenu"));
-            QApplication::setPalette(*_palette);
+   ChocolafApp::ChocolafApp(int argc, char *argv[]) : QApplication(argc, argv)
+   {
+      Q_ASSERT(__palette != nullptr);
+      _palette = __palette;
+      _styleSheet = QString("");
+      // Nämostuté - sanskrit word tranlating to "May our minds meet"
+      QApplication::setOrganizationName(__organization__);
+      QApplication::setOrganizationDomain(__domain__);
+      setPalette(*__palette);
+      //_styleSheet = loadStyleSheet();
+      for (auto a = 0; a < argc; ++a)
+         qDebug() << "arg[" << a << "] = " << argv[a];
+   }
 
-            QFile f(":chocolaf/chocolaf.css");
-            if (!f.exists()) {
-               QMessageBox::critical(nullptr, QString("FATAL ERROR"),
-                                     QString("Unable to load chocolaf stylesheet from "
-                                             ":chocolaf/chocolaf.css\r\n"
-                                             "Falling back to Fusion style."));
-               QApplication::setStyle("Fusion");
-            } else {
-               f.open(QFile::ReadOnly | QFile::Text);
-               QTextStream ts(&f);
-               QApplication::setStyleSheet(ts.readAll());
-            }
-         } else if (QStyleFactory::keys().count(styleName) > 0) {
-            QApplication::setStyle(styleName);
+   ChocolafApp::~ChocolafApp()
+   { /* delete _palette;  */
+   }
+
+   void ChocolafApp::setStyle(const QString &styleName)
+   {
+      if (styleName == QString("Chocolaf")) {
+         setFont(QApplication::font("QMenu"));
+
+         QFile f(":chocolaf/chocolaf.css");
+         if (!f.exists()) {
+            printf("Unable to open Chocolaf stylesheet! Falling back on Fusion style.");
+            QApplication::setStyle("Fusion");
          } else {
-            QString err = QString("Error: unrecognized style \'%1\'").arg(styleName);
-            QMessageBox::critical(nullptr, "FATAL ERROR", err);
-            throw std::invalid_argument(err.toStdString().c_str());
+            f.open(QFile::ReadOnly | QFile::Text);
+            QTextStream ts(&f);
+            setStyleSheet(ts.readAll());
+            // also set color palette
+            Q_ASSERT(_palette != nullptr);
+            setPalette(*_palette);
+            // set other attributes as well
+            setOrganizationName("Nämostuté Ltd.");
+            setOrganizationDomain("namostute.qtpyapps.in");
          }
+      } else if (QStyleFactory::keys().count(styleName) > 0) {
+         QApplication::setStyle(styleName);
+      } else {
+         QString err = QString("Error: unrecognized style \'%1\'").arg(styleName);
+         QMessageBox::critical(nullptr, "FATAL ERROR", err);
+         throw std::invalid_argument(err.toStdString().c_str());
       }
+   }
 
-      QString ChocolafApp::loadStyleSheet()
+   // static
+   void ChocolafApp::setupForHighDpiScreens()
+   {
+#ifdef Q_OS_WIN
+      // SetProcessDPIAware(); // call before the main event loop
+      ::SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+      QApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
+      QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
+
+#else
+      // non Windows
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+      QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+      QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
+
+#endif
+   }
+
+   // static
+   int ChocolafApp::pixelsToPoints(int pixels)
+   {
+      // NOTE: 1 inch == 96 pixels and 1 inch == 72 points
+      // hence 96 pixels = 72 points
+      return static_cast<int>(pixels * 72 / 96);
+   }
+
+   // static
+   int ChocolafApp::pointsToPixels(int points)
+   {
+      // NOTE: 1 inch == 96 pixels and 1 inch == 72 points
+      // hence 96 pixels = 72 points
+      return static_cast<int>(points * 96 / 72);
+   }
+
+   /*-------------------------------------------------
+   QString ChocolafApp::loadStyleSheet()
       {
          QFile f(":chocolaf/chocolaf.css");
 
@@ -175,6 +235,6 @@ namespace Chocolaf {
 
          return palette;
       }
-       ----------------------------------- */
+   ----------------------------------- */
 
 } // namespace Chocolaf

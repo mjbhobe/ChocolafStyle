@@ -69,6 +69,7 @@ class Window(QWidget):
         self.layout.setCurrentIndex(rand_index)
 
 
+ChocolafApp.setupAppForHighDpiScreens()
 app = ChocolafApp(sys.argv)
 # app.setStyle("QDarkStyle-dark")
 
