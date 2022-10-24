@@ -4,6 +4,7 @@
 // --------------------------------------------------
 // MatOps.h - cv::Mat image operations
 
+#include <QObject>
 #include <QPixmap>
 #include <opencv2/opencv.hpp>
 

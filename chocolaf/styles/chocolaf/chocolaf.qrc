@@ -46,6 +46,7 @@
       <file alias="window_close_focus.png">images/window_close_focus.png</file>
       <file alias="window_close_pressed.png">images/window_close_pressed.png</file>
       <file alias="window_grip.png">images/window_grip.png</file>
+      <file alias="default_app_icon.png">images/chocolaf.png</file>
   </qresource>
   <qresource prefix="chocolaf">
       <file>chocolaf.css</file>

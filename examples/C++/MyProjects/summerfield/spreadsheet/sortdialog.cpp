@@ -2,35 +2,33 @@
 
 #include "sortdialog.h"
 
-SortDialog::SortDialog(QWidget *parent)
-    : QDialog(parent)
+SortDialog::SortDialog(QWidget *parent) : QDialog(parent)
 {
-    setupUi(this);
+  setupUi(this);
 
-    secondaryGroupBox->hide();
-    tertiaryGroupBox->hide();
-    layout()->setSizeConstraint(QLayout::SetFixedSize);
+  secondaryGroupBox->hide();
+  tertiaryGroupBox->hide();
+  layout()->setSizeConstraint(QLayout::SetFixedSize);
 
-    setColumnRange('A', 'Z');
+  setColumnRange('A', 'Z');
 }
 
 void SortDialog::setColumnRange(QChar first, QChar last)
 {
-    primaryColumnCombo->clear();
-    secondaryColumnCombo->clear();
-    tertiaryColumnCombo->clear();
+  primaryColumnCombo->clear();
+  secondaryColumnCombo->clear();
+  tertiaryColumnCombo->clear();
 
-    secondaryColumnCombo->addItem(tr("None"));
-    tertiaryColumnCombo->addItem(tr("None"));
+  secondaryColumnCombo->addItem(tr("None"));
+  tertiaryColumnCombo->addItem(tr("None"));
 
-    primaryColumnCombo->setMinimumSize(
-            secondaryColumnCombo->sizeHint());
+  primaryColumnCombo->setMinimumSize(secondaryColumnCombo->sizeHint());
 
-    QChar ch = first;
-    while (ch <= last) {
-        primaryColumnCombo->addItem(QString(ch));
-        secondaryColumnCombo->addItem(QString(ch));
-        tertiaryColumnCombo->addItem(QString(ch));
-        ch = ch.unicode() + 1;
-    }
+  QChar ch = first;
+  while (ch <= last) {
+    primaryColumnCombo->addItem(QString(ch));
+    secondaryColumnCombo->addItem(QString(ch));
+    tertiaryColumnCombo->addItem(QString(ch));
+    ch = QChar(ch.unicode() + 1);
+  }
 }

@@ -88,7 +88,7 @@ class Mouse(QGraphicsItem):
         # explicit timer instead.
         self.timer = QTimer()
         self.timer.timeout.connect(self.timerEvent)
-        self.timer.start(1000 / 33)
+        self.timer.start(1000 // 33)
 
     @staticmethod
     def normalizeAngle(angle):

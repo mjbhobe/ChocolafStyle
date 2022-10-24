@@ -157,6 +157,8 @@ class ChocolafApp(QApplication):
             import ctypes
             # 0 - unaware, 1 - system dpi aware, 2 - per monitor DPI aware
             ctypes.windll.shcore.SetProcessDpiAwareness(2)
+            QApplication.setAttribute(QtCore.Qt.AA_DisableHighDpiScaling, True)
+            QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
         else:
             if hasattr(QtCore.Qt, "AA_EnableHighDpiScaling"):
                 QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)

@@ -31,15 +31,17 @@ QDebug operator << (QDebug debug, const mpz_class &c)
 bool windowsDarkThemeAvailable()
 {
 #ifdef Q_OS_WINDOWS
-   // dark mode supported Windows 10 1809 10.0.17763 onward
-   // https://stackoverflow.com/questions/53501268/win10-dark-theme-how-to-use-in-winapi
-   if (QOperatingSystemVersion::current().majorVersion() == 10) {
-      return QOperatingSystemVersion::current().microVersion() >= 17763;
-   } else if (QOperatingSystemVersion::current().majorVersion() > 10) {
-      return true;
-   } else {
-      return false;
-   }
+  // dark mode supported Windows 10 1809 10.0.17763 onward
+  // https://stackoverflow.com/questions/53501268/win10-dark-theme-how-to-use-in-winapi
+  if (QOperatingSystemVersion::current().majorVersion() == 10) {
+    return QOperatingSystemVersion::current().microVersion() >= 17763;
+  }
+  else if (QOperatingSystemVersion::current().majorVersion() > 10) {
+    return true;
+  }
+  else {
+    return false;
+  }
 #else
    return false;
 #endif

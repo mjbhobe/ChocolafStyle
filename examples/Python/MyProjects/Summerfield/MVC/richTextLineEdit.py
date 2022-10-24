@@ -49,7 +49,7 @@ class RichTextLineEdit(QTextEdit):
                            if self.fontWeight() > QFont.Normal else QFont.Bold)
 
     def sizeHint(self):
-        return QSize(self.document().idealWidth() + 5,
+        return QSize(int(self.document().idealWidth() + 5),
                      self.maximumHeight())
 
     def minimumSizeHint(self):
@@ -90,7 +90,7 @@ class RichTextLineEdit(QTextEdit):
         pixmap = QPixmap(22, 22)
         menu = QMenu("Colour")
         for text, color in (
-                ("&Black", Qt.black),
+                ("&Black", Qt.GlobalColor.black),
                 ("B&lue", Qt.blue),
                 ("Dark Bl&ue", Qt.darkBlue),
                 ("&Cyan", Qt.cyan),

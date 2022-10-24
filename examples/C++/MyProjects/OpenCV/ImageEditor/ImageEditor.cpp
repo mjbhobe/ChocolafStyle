@@ -10,7 +10,7 @@
 
 class VLine : public QFrame
 {
-public:
+  public:
   VLine(QWidget *parent = nullptr) : QFrame(parent)
   {
     setFrameShape(QFrame::VLine);

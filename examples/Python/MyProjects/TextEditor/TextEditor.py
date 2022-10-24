@@ -4,6 +4,9 @@
 * TextEditor.py - code editor using QScintilla
 * @author (Chocolaf): Manish Bhobe
 *
+* This application relies on QScintilla text component
+*  >> pip install QScintilla
+*
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
@@ -36,6 +39,10 @@ class TextEditorWindow(QMainWindow):
         self.setupEditor()
         self.setupActions()
         self.setupMenu()
+
+        self._editor.setAcceptDrops(False)
+        self.setAcceptDrops(True)
+
         self.setCentralWidget(self._editor)
 
     def setupActions(self):
@@ -59,8 +66,21 @@ class TextEditorWindow(QMainWindow):
         fileMenu.addSeparator()
         fileMenu.addAction(self.exitAction)
 
+    def dragEnterEvent(self, e):
+        if e.mimeData().hasFormat("text/uri-list"):
+            e.acceptProposedAction()
+
+    def dropEvent(self, e):
+        urls = e.mimeData().urls()  # is a list
+        if len(urls) == 0:
+            return
+
+        fileName = urls[0].toLocalFile()
+        if os.path.exists(fileName):
+            self.loadTextFile(fileName)
+
     def setupEditor(self):
-        editorFontPointSize = ChocolafApp.pixelsToPoints(14)
+        editorFontPointSize = ChocolafApp.pixelsToPoints(15)
         print(f"Using {editorFontPointSize} point font for editor", flush=True)
         self._editorFont = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
         self._editorFont.setPointSize(editorFontPointSize)
@@ -99,9 +119,9 @@ class TextEditorWindow(QMainWindow):
         if file_ext in [".py"]:
             lexer = QsciLexerPython()
             lexer.setFont(self._editorFontItalic, QsciLexerPython.Comment)
-            lexer.setColor(QColor('#57A64A'), QsciLexerPython.Comment)
+            lexer.setColor(QColor('#6A8759'), QsciLexerPython.Comment)
             lexer.setFont(self._editorFontItalic, QsciLexerPython.CommentBlock)
-            lexer.setColor(QColor('#57A64A'), QsciLexerPython.CommentBlock)
+            lexer.setColor(QColor('#6A8759'), QsciLexerPython.CommentBlock)
 
             lexer.setFont(self._editorFont, QsciLexerPython.Keyword)
             lexer.setColor(QColor('#C586C0'), QsciLexerPython.Keyword)
@@ -154,7 +174,6 @@ class TextEditorWindow(QMainWindow):
             lexer.setFont(self._editorFont, QsciLexerCPP.PreProcessor)
             lexer.setColor(QColor('#569CD6'), QsciLexerCPP.PreProcessor)
 
-
             lexer.setFont(self._editorFont, QsciLexerCPP.Identifier)
             lexer.setColor(QColor('#ffffff'), QsciLexerCPP.Identifier)
             lexer.setFont(self._editorFont, QsciLexerCPP.Number)
@@ -182,9 +201,9 @@ class TextEditorWindow(QMainWindow):
         return lexer
 
     def open(self):
-        file_filters = "Python Files (*.py);; C/C++ Files (*.h *.hxx *.c *.C *.cc *.CC *.cpp);;"\
-            "Java Files (*.java);; Text Files (*.txt)"
-        default_filter = "Python Files (*.py)";
+        file_filters = "Python Files (*.py);; C/C++ Files (*.h *.hxx *.c *.C *.cc *.CC *.cpp);;" \
+                       "Java Files (*.java);; Text Files (*.txt)"
+        default_filter = "Python Files (*.py)"
         startupDir = os.path.dirname(__file__)
         response = QFileDialog.getOpenFileName(
             parent=self,
@@ -195,7 +214,6 @@ class TextEditorWindow(QMainWindow):
         )
         if response[0] != "":
             self.loadTextFile(response[0])
-
 
     def loadTextFile(self, filePath):
         if os.path.exists(filePath):
@@ -233,7 +251,8 @@ def main():
     # else:
     #     #w._editor.setText("Hello World! Welcome to QScintilla based text editing!\n\tThis illustrates\n\tindentation")
     #     w.loadTextFile(os.path.join(os.path.dirname(__file__), "TextEditor.py"))
-    w.loadTextFile('/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/summerfield/spreadsheet/mainwindow.cpp')
+    w.loadTextFile(
+        '/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/summerfield/spreadsheet/mainwindow.cpp')
     w.show()
 
     sys.exit(app.exec())

@@ -341,7 +341,7 @@ class GraphWidget(QGraphicsView):
 
     def itemMoved(self):
         if not self.timerId:
-            self.timerId = self.startTimer(1000 / 25)
+            self.timerId = self.startTimer(1000 // 25)
 
     def keyPressEvent(self, event):
         key = event.key()
