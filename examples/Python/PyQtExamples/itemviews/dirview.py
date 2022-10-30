@@ -59,6 +59,7 @@ from PyQt5.QtXml import *
 import chocolaf
 from chocolaf.utils.chocolafapp import ChocolafApp
 
+ChocolafApp.setupAppForHighDpiScreens()
 app = ChocolafApp(sys.argv)
 app.setStyle("Chocolaf")
 
@@ -97,7 +98,7 @@ tree.setSortingEnabled(True)
 
 availableSize = QApplication.desktop().availableGeometry(tree).size()
 tree.resize(availableSize / 2)
-tree.setColumnWidth(0, tree.width() / 3)
+tree.setColumnWidth(0, tree.width() // 3)
 
 tree.setWindowTitle(f"PyQt {PYQT_VERSION_STR} Dir View")
 tree.show()

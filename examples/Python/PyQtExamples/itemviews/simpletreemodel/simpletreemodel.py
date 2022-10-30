@@ -207,6 +207,7 @@ class TreeModel(QAbstractItemModel):
 
 
 if __name__ == '__main__':
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

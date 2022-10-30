@@ -124,6 +124,7 @@ class ChocolafApp(QApplication):
     @staticmethod
     def pointsToPixels(points):
         """
+        Converts font size from points to pixels
         NOTE: We know that 1 inch = 96 pixels and 1 inch = 72 points
         Hence, 96 pixels = 72 points
         So, x points = x * 96 / 72 pixels
@@ -137,6 +138,7 @@ class ChocolafApp(QApplication):
     @staticmethod
     def pixelsToPoints(pixels):
         """
+        Converts font size from pixels to points
         NOTE: We know that 1 inch = 96 pixels and 1 inch = 72 points
         Hence, 96 pixels = 72 points
         So, x pixels = x * 72 / 96 points
@@ -149,6 +151,7 @@ class ChocolafApp(QApplication):
 
     @staticmethod
     def setupAppForHighDpiScreens():
+        """ enables scaling for high DPI screens """
         from PyQt5 import QtCore
         if sys.platform == "win32":
             # Windows only

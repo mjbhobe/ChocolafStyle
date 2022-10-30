@@ -141,7 +141,8 @@ def main(args):
     def split_and_strip(s, splitter):
         return [s.strip() for s in line.split(splitter)]
 
-    app = ChocolafApp(args)
+    ChocolafApp.setupAppForHighDpiScreens()
+    app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     model = QStandardItemModel()
     file = QFile(QFileInfo(__file__).absolutePath() + '/grades.txt')

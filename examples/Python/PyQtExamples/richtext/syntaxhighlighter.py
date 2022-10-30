@@ -111,7 +111,7 @@ class MainWindow(QMainWindow):
         font = QFont()
         font.setFamily('Consolas, SF Mono, Noto Mono, Roboto Mono, Ubuntu Mono')
         font.setFixedPitch(True)
-        font.setPointSize(12)
+        font.setPointSize(10)
 
         self.editor = QTextEdit()
         self.editor.setFont(font)
@@ -226,6 +226,7 @@ class Highlighter(QSyntaxHighlighter):
 
 
 if __name__ == '__main__':
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     window = MainWindow()

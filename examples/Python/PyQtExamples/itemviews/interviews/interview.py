@@ -153,7 +153,8 @@ class Model(QAbstractItemModel):
 
 
 def main(args):
-    app = ChocolafApp(args)
+    ChocolafApp.setupAppForHighDpiScreens()
+    app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     page = QSplitter()
     data = Model(1000, 10, page)

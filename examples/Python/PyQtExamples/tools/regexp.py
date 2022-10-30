@@ -201,6 +201,8 @@ class RegExpDialog(QDialog):
 if __name__ == '__main__':
     LOG_FILE_PATH = f"{__file__}.log"
     logging.basicConfig(filename=LOG_FILE_PATH, level=logging.DEBUG)
+
+    ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

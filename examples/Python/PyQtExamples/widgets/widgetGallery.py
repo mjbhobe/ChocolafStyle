@@ -318,9 +318,10 @@ class WidgetGallery(QWidget):
 def main():
     # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # ChocolafApp.setupAppForHighDpiScreens()
+    # app = ChocolafApp(sys.argv)
+    # app.setStyle("Chocolaf")
+    app = QApplication(sys.argv)
 
     w = WidgetGallery()
     # w.setStyleSheet(app.getStyleSheet("Chocolaf"))
