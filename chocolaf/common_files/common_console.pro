@@ -11,7 +11,7 @@ INCLUDEPATH += .
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 win32 {
-    COMMON_FILES_HOME = c:/Dev/Code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf
+    COMMON_FILES_HOME = c:/Dev/Code/git-projects/ChocolafStyle/chocolaf
     LIBS += -lUser32 -lGdi32 -lKernel32 -lDwmapi
 }
 unix {
@@ -43,6 +43,7 @@ win32 {
        QMAKE_LIB_DIRS = -LC:/Dev/msys64/mingw64/lib
        OPENCV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video \
          -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_videoio -lopencv_imgcodecs -lopencv_flann
+       STD_LIBS = -lm -lstdc++ -lfmt
     } else {
        message("**NOT** using MSYS2 configuration...")
        INCLUDEPATH += C:/Dev/GNULibs/gmp-6.2.1/bin/include
@@ -51,6 +52,7 @@ win32 {
        QMAKE_LIB_DIRS = -LC:/Dev/GNULibs/gmp-6.2.1/bin/lib -LC:/Dev/OpenCV/build/x86/mingw/install/x64/mingw/lib
        OPENCV_LIBS = -lopencv_core451 -lopencv_imgproc451 -lopencv_highgui451 -lopencv_ml451 -lopencv_video451 \
          -lopencv_features2d451 -lopencv_calib3d451 -lopencv_objdetect451 -lopencv_videoio451 -lopencv_imgcodecs451 -lopencv_flann451
+       STD_LIBS = -lm -lstdc++ 
     }
 }
 unix {
@@ -61,9 +63,9 @@ unix {
    INCLUDEPATH += /usr/include/opencv4
    OPENCV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video \
          -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_videoio -lopencv_imgcodecs -lopencv_flann
+   STD_LIBS = -lm -lstdc++ -lfmt
 }
 
-STD_LIBS = -lm -lstdc++ -lfmt
 GMP_LIBS = -lgmp -lgmpxx
 
 # QMAKE_CXXFLAGS += -pedantic -Wall

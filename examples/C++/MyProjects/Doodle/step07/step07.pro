@@ -5,7 +5,7 @@
 TEMPLATE = app
 TARGET = step07
 
-include (../../../../../chocolaf/common_files/common.pro)
+include(../../../../../chocolaf/common_files/common.pro)
 
 # Input
 HEADERS += Doodle.h DrawWindow.h Line.h

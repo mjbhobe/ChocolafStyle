@@ -9,11 +9,11 @@
 #include <QTextStream>
 #include <exception>
 #ifdef Q_OS_WIN
-#  include <windows.h>
-#  include <winuser.h>
-#  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#    include <shellscalingapi.h>   // for SetProcessDpiAwareness
-#  endif
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <shellscalingapi.h> // for SetProcessDpiAwareness
+#endif
+#include <windows.h>
+#include <winuser.h>
 #endif   // Q_OS_WIN
 
 namespace Chocolaf {
@@ -109,7 +109,7 @@ namespace Chocolaf {
     // Nämostuté - sanskrit word tranlating to "May our minds meet"
     QApplication::setOrganizationName(__organization__);
     QApplication::setOrganizationDomain(__domain__);
-    setPalette(*__palette);
+    // setPalette(*__palette);
     //_styleSheet = loadStyleSheet();
     for (auto a = 0; a < argc; ++a)
       qDebug() << "arg[" << a << "] = " << argv[a];
@@ -157,16 +157,15 @@ namespace Chocolaf {
   {
 #ifdef Q_OS_WIN
 
-#  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-     ::SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
-#  else
-     ::SetProcessDPIAware();   // call before the main event loop
-#  endif
-
-#  if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
-     QApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
-     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-#  endif
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    ::SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#else
+    //::SetProcessDPIAware();
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
 
 #else
      // non Windows

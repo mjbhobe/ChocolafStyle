@@ -1,0 +1,20 @@
+// Copyright (C) 2020 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
+
+#include "chocolaf.h"
+#include "widgetgallery.h"
+#include <QApplication>
+
+int main(int argc, char *argv[])
+{
+  // QApplication app(argc, argv);
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  app.setStyle("Chocolaf");
+
+  WidgetGallery gallery;
+  gallery.show();
+
+  // return QCoreApplication::exec();
+  return app.exec();
+}
