@@ -47,8 +47,7 @@ class SQLManager(QMainWindow):
         """ initialize the Ui """
         self.setMinimumSize(800, 550)
         # center on screen
-        self.move(QApplication.desktop().screen().rect().center() -
-                  self.rect().center())
+        self.move(QApplication.desktop().screen().rect().center() - self.rect().center())
         self.setWindowTitle(f"PyQt {PYQT_VERSION_STR}: SQLManager")
         self.model = QSqlQueryModel()
         self.setupWindow()

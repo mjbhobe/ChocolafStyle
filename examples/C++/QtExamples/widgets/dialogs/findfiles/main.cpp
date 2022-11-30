@@ -1,18 +1,17 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
-#include <QApplication>
 #include "chocolaf.h"
 #include "window.h"
+#include <QApplication>
 
-int main(int argc, char *argv[])
-{
-    // QApplication app(argc, argv);
-    Chocolaf::ChocolafApp::setupForHighDpiScreens();
-    Chocolaf::ChocolafApp app(argc, argv);
-    app.setStyle("Chocolaf");
+int main(int argc, char *argv[]) {
+  // QApplication app(argc, argv);
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  app.setStyle("Chocolaf");
 
-    Window window;
-    window.show();
-    return app.exec();
+  Window window;
+  window.show();
+  return app.exec();
 }

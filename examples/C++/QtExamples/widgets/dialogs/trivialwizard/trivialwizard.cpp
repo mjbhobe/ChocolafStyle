@@ -1,10 +1,11 @@
 // Copyright (C) 2016 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
-#include <QtWidgets>
-#include <QTranslator>
-#include <QLocale>
+#include "chocolaf.h"
 #include <QLibraryInfo>
+#include <QLocale>
+#include <QTranslator>
+#include <QtWidgets>
 
 //! [0] //! [1]
 QWizardPage *createIntroPage()
@@ -76,7 +77,10 @@ QWizardPage *createConclusionPage()
 int main(int argc, char *argv[])
 //! [9] //! [11]
 {
-    QApplication app(argc, argv);
+  //QApplication app(argc, argv);
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  //app.setStyle('Fusion");
 
 #ifndef QT_NO_TRANSLATION
     QString translatorFileName = QLatin1String("qtbase_");

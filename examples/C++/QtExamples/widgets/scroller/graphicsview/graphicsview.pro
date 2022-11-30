@@ -1,7 +1,9 @@
-QT += widgets
-
 TEMPLATE = app
-SOURCES = main.cpp
+TARGET = graphicsview
+
+include (../../../../../../chocolaf/common_files/common.pro)
+
+SOURCES += main.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/scroller/graphicsview

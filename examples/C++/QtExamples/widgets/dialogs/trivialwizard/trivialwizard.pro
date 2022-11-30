@@ -1,6 +1,9 @@
-QT += widgets
+TEMPLATE = app
+TARGET = trivialwizard
 
-SOURCES       = trivialwizard.cpp
+include (../../../../../../chocolaf/common_files/common.pro)
+
+SOURCES       += trivialwizard.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/dialogs/trivialwizard

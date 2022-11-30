@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 {
   Chocolaf::ChocolafApp::setupForHighDpiScreens();
   Chocolaf::ChocolafApp app(argc, argv);
-  app.setStyle("Fusion");
+  app.setStyle("Chocolaf");
 
   // create the GUI
   QWidget window;

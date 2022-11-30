@@ -32,27 +32,29 @@ QMAKE_CXXFLAGS_DEBUG += -O0 -g2 -pedantic -Wall
 QMAKE_CXXFLAGS_RELEASE += -O2 -g0 -Wall
 
 win32 {
-    FMT_LIB_HOME=C:/Dev/GNULibs/fmt
-    CONFIG(msys2) {
+    CONFIG(MSYS2) {
        message("Using MSYS2 configuration...")
        INCLUDEPATH += C:/Dev/msys64/mingw64/include
        INCLUDEPATH += C:/Dev/msys64/mingw64/include/opencv4
-       INCLUDEPATH += C:/Dev/GNULibs/fmt/include
-       QMAKE_LIB_DIRS = -LC:/Dev/msys64/mingw64/lib
+       INCLUDEPATH += C:/Dev/GNULibs/fmt/bin/include
+       QMAKE_LIB_DIRS += -LC:/Dev/msys64/mingw64/lib-LC:/Dev/GNULibs/fmt/bin/lib \
+          -LC:/Dev/GNULibs/libpqxx/bin/lib -LC:/Dev/PostgreSQL/14/lib
        OPENCV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video \
          -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_videoio -lopencv_imgcodecs -lopencv_flann
-       STD_LIBS = -lm -lstdc++ -lfmt
+       # STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq -lwsock32 -lws2_32
     } else {
        message("**NOT** using MSYS2 configuration...")
        INCLUDEPATH += C:/Dev/GNULibs/gmp-6.2.1/bin/include
        INCLUDEPATH += C:/Dev/OpenCV/build/x86/mingw/install/include
-       INCLUDEPATH += C:/Dev/GNULibs/fmt/include
-       QMAKE_LIB_DIRS = -LC:/Dev/GNULibs/gmp-6.2.1/bin/lib -LC:/Dev/OpenCV/build/x86/mingw/install/x64/mingw/lib \
-         -L$${FMT_LIB_HOME}
+       INCLUDEPATH += C:/Dev/GNULibs/fmt/bin/include
+       INCLUDEPATH += C:/Dev/GNULibs/libpqxx/bin/include C:/Dev/PostgreSQL/14/include
+       QMAKE_LIB_DIRS += -LC:/Dev/GNULibs/gmp-6.2.1/bin/lib -LC:/Dev/OpenCV/build/x86/mingw/install/x64/mingw/lib \
+         -LC:/Dev/GNULibs/fmt/bin/lib -LC:/Dev/GNULibs/libpqxx/bin/lib -LC:/Dev/PostgreSQL/14/lib -L$${FMT_LIB_HOME}
        OPENCV_LIBS = -lopencv_core451 -lopencv_imgproc451 -lopencv_highgui451 -lopencv_ml451 -lopencv_video451 \
          -lopencv_features2d451 -lopencv_calib3d451 -lopencv_objdetect451 -lopencv_videoio451 -lopencv_imgcodecs451 -lopencv_flann451
-       STD_LIBS = -lm -lstdc++
+      STD_LIBS = -lm -lstdc++ -lpqxx -lpq -lwsock32 -lws2_32
     }
+    STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq -lwsock32 -lws2_32
 }
 unix {
    message("Settings for Linux build")
@@ -62,11 +64,11 @@ unix {
    INCLUDEPATH += /usr/include/opencv4
    OPENCV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video \
          -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_videoio -lopencv_imgcodecs -lopencv_flann
-   STD_LIBS = -lm -lstdc++ -lfmt
+   STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq
 }
 
 GMP_LIBS = -lgmp -lgmpxx
-SOURCES += $${FMT_LIB_HOME}/src/format.cc
+# SOURCES += $${FMT_LIB_HOME}/src/format.cc
 
 QMAKE_LIBS += $${QMAKE_LIB_DIRS} $${STD_LIBS} $${GMP_LIBS} $${OPENCV_LIBS}
 
