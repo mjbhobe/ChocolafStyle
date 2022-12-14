@@ -113,7 +113,7 @@ class SQLManager(QMainWindow):
 
     def executeQueries(self):
         sqlQueryTexts = self.queryField.toPlainText().strip()  # str(self.queryField.textCursor().selectedText())
-        sqlQueryTexts = sqlQueryTexts.split("\n")
+        sqlQueryTexts = sqlQueryTexts.split(";")
 
         if sqlQueryTexts != "":
             # queries cannot have \n characters in them (strange!)
@@ -122,6 +122,7 @@ class SQLManager(QMainWindow):
                     pass
                 else:
                     #sqlQueryText = " ".join(sqlQueryText.split("\n"))
+                    sqlQueryText = " ".join(sqlQueryText.split("\n"))
                     print(f"Exec: {sqlQueryText}")
                     query = QSqlQuery(sqlQueryText, self.conn)
                     self.model.setQuery(query)
