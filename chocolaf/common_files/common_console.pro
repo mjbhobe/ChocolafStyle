@@ -29,7 +29,8 @@ QT += core xml sql network
 QT -= gui
 greaterThan(QT_MAJOR_VERSION, 4): QT -= widgets
 CONFIG -= app_bundle
-QMAKE_CXXFLAGS += -Wno-c11-extensions -Wno-deprecated-anon-enum-enum-conversion -Wno-unused-variable -Wno-unused-parameter
+QMAKE_CXXFLAGS += -Wno-c11-extensions -Wno-deprecated-anon-enum-enum-conversion -Wno-unused-variable \
+    -Wno-unused-parameter -DCONSOLE_MODE
 QMAKE_CXXFLAGS_DEBUG += -O0 -g2 -Wall -pedantic
 QMAKE_CXXFLAGS_RELEASE += -O2 -g0 -Wall
 

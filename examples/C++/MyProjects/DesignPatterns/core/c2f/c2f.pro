@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = c2f
 INCLUDEPATH += .
 
-include(/home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf/common_files/common_console.pro)
+include (../../../../../../chocolaf/common_files/common_console.pro)
 
 
 # The following define makes your compiler warn you if you use any
