@@ -27,50 +27,65 @@ QDebug operator<<(QDebug debug, const mpz_class &c)
 }
 #endif
 
-#ifdef CONSOLE_MODE
-
 // helper functions to read from console
-
-bool readString(QString &ret, const QString &prompt /*= ""*/)
+bool getline(QTextStream &in, std::string &ret, const QString &prompt /*=""*/)
 {
    QTextStream out(stdout, QIODeviceBase::WriteOnly);
-   QTextStream in(stdin, QIODeviceBase::ReadOnly);
 
-   if (prompt != "")
+   if (prompt != "") {
       out << prompt << Qt::flush;
-   ret = in.readLine();
+   }
+   QString str = in.readLine();
+   if (in.atEnd())
+      return false;
+   ret = str.toStdString();
    return true;
 }
 
-bool readInt(int &ret, const QString &prompt /*= ""*/)
+bool getline(QTextStream &in, QString &ret, const QString &prompt /*=""*/)
 {
    QTextStream out(stdout, QIODeviceBase::WriteOnly);
-   QTextStream instr(stdin, QIODeviceBase::ReadOnly);
+
+   if (prompt != "") {
+      out << prompt << Qt::flush;
+   }
+   QString str = in.readLine();
+   if (in.atEnd())
+      return false;
+   ret = str;
+   return true;
+}
+
+bool readString(QTextStream &in, QString &ret, const QString &prompt /*= ""*/)
+{
+   return getline(in, ret, prompt);
+}
+
+bool readInt(QTextStream &in, int &ret, const QString &prompt /*= ""*/)
+{
+   QTextStream out(stdout, QIODeviceBase::WriteOnly);
    bool ok = false;
 
    if (prompt != "") {
       out << prompt << Qt::flush;
    }
-   QString line = instr.readLine();
+   QString line = in.readLine();
    ret = line.toInt(&ok);
    return ok;
 }
 
-bool readDouble(double &ret, const QString &prompt /*= ""*/)
+bool readDouble(QTextStream &in, double &ret, const QString &prompt /*= ""*/)
 {
    QTextStream out(stdout, QIODeviceBase::WriteOnly);
-   QTextStream instr(stdin, QIODeviceBase::ReadOnly);
    bool ok = false;
 
    if (prompt != "") {
       out << prompt << Qt::flush;
    }
-   QString line = instr.readLine();
+   QString line = in.readLine();
    ret = line.toDouble(&ok);
    return ok;
 }
-
-#endif // #ifdef CONSOLE_MODE
 
 bool windowsDarkThemeAvailable()
 {
@@ -94,10 +109,9 @@ bool windowsDarkThemeAvailable()
 bool windowsIsInDarkTheme()
 {
 #if defined Q_OS_WINDOWS
-   QSettings
-      settings("HKEY_CURRENT_"
-               "USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
-               QSettings::NativeFormat);
+   QSettings settings("HKEY_CURRENT_"
+                      "USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+                      QSettings::NativeFormat);
    return settings.value("AppsUseLightTheme", 1).toInt() == 0;
 #else
    return false;

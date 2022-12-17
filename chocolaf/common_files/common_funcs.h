@@ -3,9 +3,9 @@
 
 // #pragma GCC diagnostic ignored "-Wc++17-attribute-extensions"
 
-#include <string>
 #include <QTextStream>
 #include <QtCore>
+#include <string>
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #define USING_QT6
@@ -21,9 +21,11 @@ QDebug operator<<(QDebug debug, const mpz_class &c);
 #endif
 
 #ifdef CONSOLE_MODE
-bool readString(QString &ret, const QString &prompt = "");
-bool readInt(int &ret, const QString &prompt = "");
-bool readDouble(double &ret, const QString &prompt = "");
+bool getline(QTextStream &in, std::string &ret, const QString &prompt = "");
+bool getline(QTextStream &in, QString &ret, const QString &prompt = "");
+bool readString(QTextStream &in, QString &ret, const QString &prompt = "");
+bool readInt(QTextStream &in, int &ret, const QString &prompt = "");
+bool readDouble(QTextStream &in, double &ret, const QString &prompt = "");
 #endif
 
 bool windowsDarkThemeAvailable();

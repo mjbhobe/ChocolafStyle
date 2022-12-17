@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = qtio
 INCLUDEPATH += .
 
-include(/home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf/common_files/common_console.pro)
+include (../../../../../../chocolaf/common_files/common_console.pro)
 
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.

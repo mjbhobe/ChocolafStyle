@@ -80,7 +80,7 @@ class TextEditorWindow(QMainWindow):
             self.loadTextFile(fileName)
 
     def setupEditor(self):
-        editorFontPointSize = ChocolafApp.pixelsToPoints(15)
+        editorFontPointSize = ChocolafApp.pixelsToPoints(14)
         print(f"Using {editorFontPointSize} point font for editor", flush=True)
         self._editorFont = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
         self._editorFont.setPointSize(editorFontPointSize)

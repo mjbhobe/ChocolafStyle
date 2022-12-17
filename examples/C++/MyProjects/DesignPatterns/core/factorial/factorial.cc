@@ -1,9 +1,9 @@
 // factorial.cc - calculate factorial of any +ve number
 #include "common_funcs.h"
+#include <QtCore>
 #include <cstdlib>
 #include <gmp.h>
 #include <gmpxx.h>
-#include <QtCore>
 
 // DO NOT include <iostream>
 static QTextStream cout(stdout, QIODevice::WriteOnly);
