@@ -24,15 +24,21 @@ PFOLIO = ['BAJAJ-AUTO.NS', 'BAJAJFINSV.NS', 'COLPAL.NS', 'DIXON.NS', 'HDFCBANK.N
           'INFY.NS', 'ITC.NS', 'KANSAINER.NS', 'LT.NS', 'M&M.NS', 'NESTLEIND.NS', 'PIDILITIND.NS', 'PGHH.NS',
           'RELIANCE.NS', 'TCS.NS', 'TATASTEEL.NS', 'TITAN.NS', 'ULTRACEMCO.NS']
 
-START_DATE = datetime.datetime(2022, 4, 1)  # 01-Apr-2022
+todays_date = datetime.datetime.now()
+year, month, day = todays_date.year, todays_date.month, todays_date.day
+# adjust for financial year - if today() in Jan, Feb or Mar, decrease year by 1
+year = (year - 1 if month in range(1, 4) else year)
+
+START_DATE = datetime.datetime(year, 4, 1)  # 01-Apr of current financial year
 END_DATE = datetime.datetime.now()
+print(f"START_DATE = {START_DATE.strftime('%d-%b-%Y')} - END_DATE = {END_DATE.strftime('%d-%b-%Y')}")
 
 
-def download_stock_prices(stocks_list=PFOLIO, start_date=START_DATE, end_date=END_DATE):
+def download_stock_prices(stocks_list = PFOLIO, start_date = START_DATE, end_date = END_DATE):
     pfolio_df = pd.DataFrame()
     for symbol in stocks_list:
-        print(f"Downloading {symbol} data from {start_date} to {end_date}...", flush=True)
-        stock_df = yfinance.download(symbol, start=start_date, end=end_date, progress=False)
+        print(f"Downloading {symbol} data from {start_date} to {end_date}...", flush = True)
+        stock_df = yfinance.download(symbol, start = start_date, end = end_date, progress = False)
         if len(stock_df) != 0:
             pfolio_df[symbol] = stock_df['Close']
     return pfolio_df
@@ -60,7 +66,7 @@ if __name__ == "__main__":
     save_path = Path(__file__).absolute().parents[0] / f"pfolio_{today}.csv"
     pfolio_df.to_csv(f"{save_path}")
     print(f"Portfilio saved to {save_path}")
-    pfolio_latest = pfolio_df.iloc[:, -1:]
+    pfolio_latest = pfolio_df.iloc[:, -5:]
     print(pfolio_latest)
 
     # parser = argparse.ArgumentParser()

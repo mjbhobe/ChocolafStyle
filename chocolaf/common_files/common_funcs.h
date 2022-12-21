@@ -20,13 +20,11 @@ QTextStream &operator<<(QTextStream &ost, const mpz_class &c);
 QDebug operator<<(QDebug debug, const mpz_class &c);
 #endif
 
-#ifdef CONSOLE_MODE
 bool getline(QTextStream &in, std::string &ret, const QString &prompt = "");
 bool getline(QTextStream &in, QString &ret, const QString &prompt = "");
 bool readString(QTextStream &in, QString &ret, const QString &prompt = "");
 bool readInt(QTextStream &in, int &ret, const QString &prompt = "");
 bool readDouble(QTextStream &in, double &ret, const QString &prompt = "");
-#endif
 
 bool windowsDarkThemeAvailable();
 bool windowsIsInDarkTheme();
