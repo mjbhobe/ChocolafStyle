@@ -19,9 +19,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
-
+import chocolaf
 import textEditor_rc
 
 Window_Title = "PyQt Image Processing with OpenCV"
@@ -242,8 +240,8 @@ class ImageProcessingWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     win = ImageProcessingWindow()

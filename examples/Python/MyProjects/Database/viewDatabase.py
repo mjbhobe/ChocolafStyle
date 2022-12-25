@@ -15,7 +15,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtSql import *
 
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 # print(f"os.environ['QT_DEBUG_PLUGINS'] = {os.environ['QT_DEBUG_PLUGINS']}")
 THIS_DIR = os.path.dirname(__file__)
@@ -37,12 +37,12 @@ def connectToDatabase() -> QSqlDatabase:
 def parseCommandLine():
     """ use argparse to parse out options from command line """
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--data-model", type=str,
-                        choices=["read-only", "read-write"], default="read-only",
-                        help="Select the type of data model to view SQL data: " +
-                        "read-only = QSqlQueryModel; read-write = QSqlTableModel")
-    parser.add_argument("-q", "--query", type=str, default=["SELECT * FROM products"],
-                        nargs="*", help="Pass a SQL query on the command line")
+    parser.add_argument("-d", "--data-model", type = str,
+                        choices = ["read-only", "read-write"], default = "read-only",
+                        help = "Select the type of data model to view SQL data: " +
+                               "read-only = QSqlQueryModel; read-write = QSqlTableModel")
+    parser.add_argument("-q", "--query", type = str, default = ["SELECT * FROM products"],
+                        nargs = "*", help = "Pass a SQL query on the command line")
     args = vars(parser.parse_args())
     return args
 
@@ -83,8 +83,9 @@ class DisplayDatabase(QMainWindow):
 
 
 if __name__ == "__main__":
-    app = ChocolafApp(sys.argv)
-    # app.setStyle("Chocolaf")
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
 
     args = parseCommandLine()
     try:

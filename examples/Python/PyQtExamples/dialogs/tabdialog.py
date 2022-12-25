@@ -54,16 +54,13 @@
 import sys
 
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class TabDialog(QDialog):
-    def __init__(self, fileName, parent=None):
+    def __init__(self, fileName, parent = None):
         super(TabDialog, self).__init__(parent)
 
         fileInfo = QFileInfo(fileName)
@@ -87,7 +84,7 @@ class TabDialog(QDialog):
 
 
 class GeneralTab(QWidget):
-    def __init__(self, fileInfo, parent=None):
+    def __init__(self, fileInfo, parent = None):
         super(GeneralTab, self).__init__(parent)
 
         fileNameLabel = QLabel("File Name:")
@@ -126,7 +123,7 @@ class GeneralTab(QWidget):
 
 
 class PermissionsTab(QWidget):
-    def __init__(self, fileInfo, parent=None):
+    def __init__(self, fileInfo, parent = None):
         super(PermissionsTab, self).__init__(parent)
 
         permissionsGroup = QGroupBox("Permissions")
@@ -174,7 +171,7 @@ class PermissionsTab(QWidget):
 
 
 class ApplicationsTab(QWidget):
-    def __init__(self, fileInfo, parent=None):
+    def __init__(self, fileInfo, parent = None):
         super(ApplicationsTab, self).__init__(parent)
 
         topLabel = QLabel("Open with:")
@@ -204,7 +201,8 @@ class ApplicationsTab(QWidget):
 
 
 if __name__ == '__main__':
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     if len(sys.argv) >= 2:

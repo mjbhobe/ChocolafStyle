@@ -17,7 +17,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from chocolaf.utils.chocolafapp import ChocolafApp
+# from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 import textEditor_rc
 
 Window_Title = "PyQt Displaying Videos with OpenCV"
@@ -35,7 +36,7 @@ class VideoWorkerThread(QThread):
     frame_data_updated = pyqtSignal(np.ndarray)
     invalid_video_file = pyqtSignal()
 
-    def __init__(self, parent, video_file=None, render_frames_per_sec=60):
+    def __init__(self, parent, video_file = None, render_frames_per_sec = 60):
         super().__init__()
         self.parent = parent
         self.video_file = video_file
@@ -194,8 +195,8 @@ class DisplayVideoWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     # # add custom styling
     # app.setStyleSheet(style_sheet)

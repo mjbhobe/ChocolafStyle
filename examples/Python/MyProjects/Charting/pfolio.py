@@ -19,6 +19,11 @@ import yfinance
 import pandas as pd
 import datetime
 
+# some pandas tweaks
+pd.set_option("display.max_rows", 80)
+pd.set_option("display.max_columns", 50)
+pd.options.display.float_format = '{:,.4f}'.format
+
 # some global constants
 PFOLIO = ['BAJAJ-AUTO.NS', 'BAJAJFINSV.NS', 'COLPAL.NS', 'DIXON.NS', 'HDFCBANK.NS', 'HDFC.NS', 'HEROMOTOCO.NS',
           'INFY.NS', 'ITC.NS', 'KANSAINER.NS', 'LT.NS', 'M&M.NS', 'NESTLEIND.NS', 'PIDILITIND.NS', 'PGHH.NS',
@@ -63,9 +68,10 @@ if __name__ == "__main__":
 
     pfolio_df = download_stock_prices().T
     print(pfolio_df.head())
-    save_path = Path(__file__).absolute().parents[0] / f"pfolio_{today}.csv"
+    save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}.csv"
     pfolio_df.to_csv(f"{save_path}")
-    print(f"Portfilio saved to {save_path}")
+    print(f"Portfolio saved to {save_path}")
+    print("Displaying performance from past 5 business days...")
     pfolio_latest = pfolio_df.iloc[:, -5:]
     print(pfolio_latest)
 

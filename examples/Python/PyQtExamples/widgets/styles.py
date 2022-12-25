@@ -61,11 +61,10 @@ from PyQt5.QtWidgets import *
 from sklearn.manifold import trustworthiness
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class WidgetGallery(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(WidgetGallery, self).__init__(parent)
 
         self.originalPalette = QApplication.palette()
@@ -130,7 +129,7 @@ class WidgetGallery(QDialog):
     def advanceProgressBar(self):
         curVal = self.progressBar.value()
         maxVal = self.progressBar.maximum()
-        self.progressBar.setValue(curVal + (maxVal - curVal) / 100)
+        self.progressBar.setValue(curVal + (maxVal - curVal) // 100)
 
     def createTopLeftGroupBox(self):
         self.topLeftGroupBox = QGroupBox("Group 1")
@@ -248,7 +247,6 @@ class WidgetGallery(QDialog):
 
 
 if __name__ == '__main__':
-
     import sys
 
     app = QApplication(sys.argv)
@@ -258,9 +256,8 @@ if __name__ == '__main__':
 
 
 def main():
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
 
     w = WidgetGallery()
     w.setStyleSheet(app.getStyleSheet("Chocolaf"))

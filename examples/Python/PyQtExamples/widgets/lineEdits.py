@@ -58,7 +58,6 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class Window(QWidget):
@@ -155,9 +154,9 @@ class Window(QWidget):
 
         alignmentLabel = QLabel("Type:")
         alignmentComboBox = QComboBox()
-        alignmentComboBox. addItem("Left")
-        alignmentComboBox. addItem("Centered")
-        alignmentComboBox. addItem("Right")
+        alignmentComboBox.addItem("Left")
+        alignmentComboBox.addItem("Centered")
+        alignmentComboBox.addItem("Right")
 
         self.alignmentLineEdit = QLineEdit()
         self.alignmentLineEdit.setPlaceholderText("Placeholder Text")
@@ -248,11 +247,8 @@ class Window(QWidget):
 
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
 
     win = Window()
     win.setStyleSheet(app.getStyleSheet("Chocolaf"))
@@ -264,8 +260,15 @@ def main():
     win1 = Window()
     win1.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
     win1.setWindowTitle(f'PyQt {PYQT_VERSION_STR} LineEdits - QDarkStyle(dark) Theme')
-    win1.move(rect.left() + rect.width() + 100, rect.top() + 50)
+    win1.move(rect.left() + rect.width() + 50, rect.top() + 50)
     win1.show()
+
+    rect = win1.geometry()
+    win2 = Window()
+    win2.setStyleSheet(app.getStyleSheet("QDarkStyle-light"))
+    win2.setWindowTitle(f'PyQt {PYQT_VERSION_STR} LineEdits - QDarkStyle(light) Theme')
+    win2.move(rect.left() + rect.width() + 50, rect.top() + 50)
+    win2.show()
 
     return app.exec()
 

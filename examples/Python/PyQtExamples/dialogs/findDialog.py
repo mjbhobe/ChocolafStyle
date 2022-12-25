@@ -59,11 +59,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class FindDialog(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(FindDialog, self).__init__(parent)
 
         label = QLabel("Find &what:")
@@ -122,7 +121,8 @@ class FindDialog(QDialog):
 
 
 if __name__ == '__main__':
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     dialog = FindDialog()

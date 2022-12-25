@@ -48,27 +48,21 @@
 ##
 #############################################################################
 
-import sys
 import random
+import sys
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtPrintSupport import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
-
 import puzzle_rc
 
 
 class PuzzleWidget(QWidget):
-
     puzzleCompleted = pyqtSignal()
 
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(PuzzleWidget, self).__init__(parent)
 
         self.piecePixmaps = []
@@ -207,13 +201,13 @@ class PuzzleWidget(QWidget):
 
 
 class PiecesModel(QAbstractListModel):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(PiecesModel, self).__init__(parent)
 
         self.locations = []
         self.pixmaps = []
 
-    def data(self, index, role=Qt.DisplayRole):
+    def data(self, index, role = Qt.DisplayRole):
         if not index.isValid():
             return None
 
@@ -340,7 +334,7 @@ class PiecesModel(QAbstractListModel):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(MainWindow, self).__init__(parent)
 
         self.puzzleImage = QPixmap()
@@ -351,7 +345,7 @@ class MainWindow(QMainWindow):
         self.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
         self.setWindowTitle("Puzzle")
 
-    def openImage(self, path=None):
+    def openImage(self, path = None):
         if not path:
             path, _ = QFileDialog.getOpenFileName(self, "Open Image", '',
                                                   "Image Files (*.png *.jpg *.bmp)")
@@ -377,9 +371,11 @@ class MainWindow(QMainWindow):
 
     def setupPuzzle(self):
         size = min(self.puzzleImage.width(), self.puzzleImage.height())
-        self.puzzleImage = self.puzzleImage.copy((self.puzzleImage.width() - size) / 2,
-                                                 (self.puzzleImage.height() - size) / 2, size, size).scaled(400,
-                                                                                                            400, Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
+        self.puzzleImage = self.puzzleImage.copy((self.puzzleImage.width() - size) // 2,
+                                                 (self.puzzleImage.height() - size) // 2, size, size).scaled(400,
+                                                                                                             400,
+                                                                                                             Qt.IgnoreAspectRatio,
+                                                                                                             Qt.SmoothTransformation)
 
         random.seed(QCursor.pos().x() ^ QCursor.pos().y())
 
@@ -431,8 +427,8 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == '__main__':
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     window = MainWindow()
     window.openImage(':/images/example.jpg')

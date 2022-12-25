@@ -48,17 +48,14 @@
 ##
 #############################################################################
 
-import sys
 import math
+import sys
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class StarRating(object):
@@ -67,7 +64,7 @@ class StarRating(object):
 
     PaintingScaleFactor = 20
 
-    def __init__(self, starCount=1, maxStarCount=5):
+    def __init__(self, starCount = 1, maxStarCount = 5):
         self._starCount = starCount
         self._maxStarCount = maxStarCount
 
@@ -78,10 +75,10 @@ class StarRating(object):
 
         self.diamondPolygon = QPolygonF()
         self.diamondPolygon << QPointF(0.4, 0.5) \
-                            << QPointF(0.5, 0.4) \
-                            << QPointF(0.6, 0.5) \
-                            << QPointF(0.5, 0.6) \
-                            << QPointF(0.4, 0.5)
+        << QPointF(0.5, 0.4) \
+        << QPointF(0.6, 0.5) \
+        << QPointF(0.5, 0.6) \
+        << QPointF(0.4, 0.5)
 
     def starCount(self):
         return self._starCount
@@ -125,10 +122,9 @@ class StarRating(object):
 
 
 class StarEditor(QWidget):
-
     editingFinished = pyqtSignal()
 
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(StarEditor, self).__init__(parent)
 
         self._starRating = StarRating()
@@ -239,8 +235,8 @@ def populateTableWidget(tableWidget):
 
 
 if __name__ == '__main__':
-
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     tableWidget = QTableWidget(4, 4)

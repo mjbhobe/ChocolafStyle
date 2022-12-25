@@ -13,25 +13,21 @@
 import sys
 import platform
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+import chocolaf
 from mainWindow import *
-
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 def main():
+    chocolaf.enable_hi_dpi()
     print(f"PyQt Doodle - running with Python {platform.python_version()}, " +
           f"Qt {QT_VERSION_STR}, PyQt {PYQT_VERSION_STR} on {platform.system()}")
-    app = ChocolafApp(sys.argv)
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     mainWindow = MainWindow()
     mainWindow.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 
 if __name__ == "__main__":

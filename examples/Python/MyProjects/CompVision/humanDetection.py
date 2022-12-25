@@ -16,9 +16,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
-
+import chocolaf
 import textEditor_rc
 
 Window_Title = "PyQt Detecting Humans in Videos using OpenCV"
@@ -36,7 +34,7 @@ class VideoWorkerThread(QThread):
     frame_data_updated = pyqtSignal(np.ndarray)
     invalid_video_file = pyqtSignal()
 
-    def __init__(self, parent, video_file=None, render_frames_per_sec=60):
+    def __init__(self, parent, video_file = None, render_frames_per_sec = 60):
         super().__init__()
         self.parent = parent
         self.video_file = video_file
@@ -64,7 +62,7 @@ class VideoWorkerThread(QThread):
                                               (0, 0, 255), 2)
                     self.frame_data_updated.emit(frame)
                     # wait certain interval depending on desired frames/sec
-                    #self.msleep(1000 // self.render_frames_per_sec)
+                    # self.msleep(1000 // self.render_frames_per_sec)
 
     def createHOGDescriptor(self, frame):
         """Function creates the HOG Descriptor for human detection and
@@ -78,8 +76,8 @@ class VideoWorkerThread(QThread):
         # sliding window moves in the x and y directions the sliding window
         # is padded to improve accuracya smaller scale value will increase
         # detection accuracy, but also increase processing time
-        rects, weights = hog.detectMultiScale(frame, winStride=(4, 4),
-                                              padding=(8, 8), scale=1.1)
+        rects, weights = hog.detectMultiScale(frame, winStride = (4, 4),
+                                              padding = (8, 8), scale = 1.1)
         # For each of the rects detected in an image, add the values
         # for the corners of the rect to an array
         rects = np.array([[x, y, x + width, y + height]
@@ -209,8 +207,8 @@ class DisplayVideoWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     # app.setStyle("Fusion")
 

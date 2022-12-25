@@ -59,15 +59,13 @@ from PyQt5.QtPrintSupport import *
 from PyQt5.QtOpenGL import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
-
 
 import padnavigator_rc
 from ui_form import Ui_Form
 
 
 class PadNavigator(QGraphicsView):
-    def __init__(self, size, parent=None):
+    def __init__(self, size, parent = None):
         super(PadNavigator, self).__init__(parent)
 
         self.form = Ui_Form()
@@ -270,7 +268,7 @@ class PadNavigator(QGraphicsView):
 
 
 class RoundRectItem(QGraphicsObject):
-    def __init__(self, bounds, color, parent=None):
+    def __init__(self, bounds, color, parent = None):
         super(RoundRectItem, self).__init__(parent)
 
         self.fillRect = False
@@ -322,7 +320,7 @@ class RoundRectItem(QGraphicsObject):
 
 
 class FlippablePad(RoundRectItem):
-    def __init__(self, size, parent=None):
+    def __init__(self, size, parent = None):
         super(FlippablePad, self).__init__(self.boundsFromSize(size),
                                            QColor(226, 255, 92, 64), parent)
 
@@ -366,12 +364,12 @@ class FlippablePad(RoundRectItem):
 
 
 class SplashItem(QGraphicsObject):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(SplashItem, self).__init__(parent)
 
         self.text = "Welcome to the Pad Navigator Example. You can use the " \
-            "keyboard arrows to navigate the icons, and press enter to " \
-            "activate an item. Press any key to begin."
+                    "keyboard arrows to navigate the icons, and press enter to " \
+                    "activate an item. Press any key to begin."
 
         self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
 
@@ -395,7 +393,8 @@ class SplashItem(QGraphicsObject):
 
 
 if __name__ == '__main__':
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     navigator = PadNavigator(QSize(3, 3))

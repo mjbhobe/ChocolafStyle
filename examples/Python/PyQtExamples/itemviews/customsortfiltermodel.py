@@ -56,14 +56,11 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtXml import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class MySortFilterProxyModel(QSortFilterProxyModel):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(MySortFilterProxyModel, self).__init__(parent)
 
         self.minDate = QDate()
@@ -198,8 +195,8 @@ class Window(QWidget):
             self.filterSyntaxComboBox.itemData(
                 self.filterSyntaxComboBox.currentIndex()))
         caseSensitivity = (
-            self.filterCaseSensitivityCheckBox.isChecked()
-            and Qt.CaseSensitive or Qt.CaseInsensitive)
+                self.filterCaseSensitivityCheckBox.isChecked()
+                and Qt.CaseSensitive or Qt.CaseInsensitive)
         regExp = QRegExp(self.filterPatternLineEdit.text(), caseSensitivity, syntax)
         self.proxyModel.setFilterRegExp(regExp)
 
@@ -247,9 +244,8 @@ def createMailModel(parent):
 
 
 if __name__ == "__main__":
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     window = Window()

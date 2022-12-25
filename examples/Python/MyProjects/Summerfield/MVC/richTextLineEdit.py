@@ -16,12 +16,14 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+import chocolaf
+
 
 class RichTextLineEdit(QTextEdit):
     (Bold, Italic, Underline, StrikeOut, Monospaced, Sans, Serif,
      NoSuperOrSubscript, Subscript, Superscript) = range(10)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(RichTextLineEdit, self).__init__(parent)
 
         self.monofamily = "courier"
@@ -228,10 +230,13 @@ class RichTextLineEdit(QTextEdit):
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
+    # app = QApplication(sys.argv)
 
     lineedit = RichTextLineEdit()
-    #lineedit.resize(640, 480)
+    # lineedit.resize(640, 480)
     lineedit.show()
     lineedit.setWindowTitle("RichTextEdit")
 

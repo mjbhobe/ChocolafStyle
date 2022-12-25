@@ -49,8 +49,6 @@
 #############################################################################
 
 
-import os
-import pathlib
 import sys
 
 from PyQt5.QtCore import *
@@ -58,11 +56,10 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class MoviePlayer(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(MoviePlayer, self).__init__(parent)
 
         self.movie = QMovie(self)
@@ -215,15 +212,11 @@ class MoviePlayer(QWidget):
 
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     win = MoviePlayer()
-    # win.setStyleSheet(app.getStyleSheet("Chocolaf"))
     win.move(50, 50)
     win.show()
 

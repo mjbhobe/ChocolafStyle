@@ -21,12 +21,12 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from drawWindow import *
 
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 
 def main():
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     mainWindow = DrawWindow()

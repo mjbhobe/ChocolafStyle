@@ -59,7 +59,6 @@ from PyQt5.QtPrintSupport import *
 from PyQt5.QtOpenGL import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 import mice_rc
 
@@ -203,7 +202,8 @@ if __name__ == '__main__':
 
     MouseCount = 7
 
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     qsrand(QTime(0, 0, 0).secsTo(QTime.currentTime()))
 

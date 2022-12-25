@@ -8,7 +8,6 @@
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
-import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -18,7 +17,7 @@ class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(QMainWindow, self).__init__(*args, **kwargs)
         self.setWindowTitle("PyQt5 Doodle - Step05: Changing squiggle's width & color")
-        #self.setGeometry(QRect(100, 100, 640, 480))
+        # self.setGeometry(QRect(100, 100, 640, 480))
         self.resize(QGuiApplication.primaryScreen().availableSize() * 4 / 5)
         self.modified = False
         self.points = []
@@ -29,7 +28,7 @@ class MainWindow(QMainWindow):
 
     def drawSquiggle(self, painter):
         if len(self.points) > 0:
-            #print(f"In drawLine() function - drawing points {self.points}")
+            # print(f"In drawLine() function - drawing points {self.points}")
             pen = QPen(self.penColor, self.penWidth)
             painter.setPen(pen)
             lastPt = None
@@ -84,7 +83,7 @@ class MainWindow(QMainWindow):
                 self.points = []
                 # start a new doodle
                 pt = QPoint(e.pos().x(), e.pos().y())
-                #print(f"Got mousePressEvent at ({pt.x()}, {pt.y()})")
+                # print(f"Got mousePressEvent at ({pt.x()}, {pt.y()})")
                 self.points.append(pt)
                 self.modified = True
                 self.dragging = True
@@ -116,7 +115,7 @@ class MainWindow(QMainWindow):
         if (e.button() == Qt.LeftButton) and (self.dragging):
             pt = QPoint(e.pos().x(), e.pos().y())
             self.points.append(pt)
-            #print(f"Got mouseReleaseEvent event at ({pt.x()}, {pt.y()})")
+            # print(f"Got mouseReleaseEvent event at ({pt.x()}, {pt.y()})")
             self.dragging = False
             self.update()
         else:

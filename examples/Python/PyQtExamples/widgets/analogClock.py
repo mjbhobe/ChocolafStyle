@@ -57,7 +57,6 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class AnalogClock(QWidget):
@@ -128,13 +127,8 @@ class AnalogClock(QWidget):
 
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    # app = QApplication(sys.argv)
-    # app.setStyleSheet(chocolaf.loadStyleSheet())
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     clock = AnalogClock()

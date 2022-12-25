@@ -48,19 +48,15 @@
 ##
 #############################################################################
 
-import os
-import pathlib
-import sys
-import random
 import copy
+import random
+import sys
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
-
 
 NoShape, ZShape, SShape, LineShape, TShape, SquareShape, LShape, MirroredLShape = range(8)
 
@@ -131,7 +127,7 @@ class TetrixBoard(QFrame):
 
     linesRemovedChanged = pyqtSignal(int)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(TetrixBoard, self).__init__(parent)
 
         self.timer = QBasicTimer()
@@ -505,11 +501,8 @@ class TetrixPiece(object):
 
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
 
     win = TetrixWindow()
     win.setStyleSheet(app.getStyleSheet("Chocolaf"))

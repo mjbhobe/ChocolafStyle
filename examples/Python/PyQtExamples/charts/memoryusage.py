@@ -18,10 +18,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtChart import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 
 def run_process(command, args):
@@ -77,7 +74,7 @@ def getMemoryUsage():
                     legend = f'{command} {memory_usage}%'
                     result.append([legend, memory_usage])
 
-    result.sort(key=lambda x: x[1], reverse=True)
+    result.sort(key = lambda x: x[1], reverse = True)
     return result
 
 
@@ -107,9 +104,8 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == '__main__':
-    # app = QApplication(sys.argv)
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     main_win = MainWindow()
     available_geometry = main_win.screen().availableGeometry()

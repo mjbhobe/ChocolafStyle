@@ -16,7 +16,6 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 def createGui():
@@ -44,8 +43,8 @@ def createGui():
 
 
 def main():
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     # app.setStyle("Chocolaf")
 
     # create & show GUI

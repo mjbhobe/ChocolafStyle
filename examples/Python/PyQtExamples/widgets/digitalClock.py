@@ -59,7 +59,6 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class DigitalClock(QLCDNumber):
@@ -69,7 +68,7 @@ class DigitalClock(QLCDNumber):
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.showTime)
-        self.timer.start(1000)   # trigger every second
+        self.timer.start(1000)  # trigger every second
         self.showTime()
 
         self.setWindowTitle("Digital Clock")
@@ -83,13 +82,15 @@ class DigitalClock(QLCDNumber):
             text = ' '.join([text[:2], text[3:]])
         self.display(text)
 
+    def keyPressEvent(self, e):
+        # quit if user presses ESC
+        if e.key() == Qt.Key_Escape:
+            sys.exit(0)
+
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     win = DigitalClock()

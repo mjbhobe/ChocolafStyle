@@ -49,18 +49,15 @@
 #############################################################################
 
 import sys
-import math
 
-from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class Window(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(Window, self).__init__(parent)
 
         # Set up the model.
@@ -130,8 +127,8 @@ class Window(QWidget):
 
 
 if __name__ == '__main__':
-
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     window = Window()

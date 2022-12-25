@@ -16,12 +16,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def cv2_imshow(img, title=None, fig_size=None, show_axis=False):
+def cv2_imshow(img, title = None, fig_size = None, show_axis = False):
     """ show cv2 image in a matplotlib plot output window """
     # convert from default BGR to RGB schema
     rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     if fig_size is not None:
-        plt.figure(figsize=fig_size)
+        plt.figure(figsize = fig_size)
     if title is not None:
         plt.title(title)
     if not show_axis:
@@ -32,8 +32,8 @@ def cv2_imshow(img, title=None, fig_size=None, show_axis=False):
 
 def main():
     ap = ArgumentParser()
-    ap.add_argument("-i", "--image", required=True,
-                    help="Full path to image")
+    ap.add_argument("-i", "--image", required = True,
+                    help = "Full path to image")
     args = vars(ap.parse_args())
 
     # read in the image
@@ -42,18 +42,18 @@ def main():
 
         # display some info on image
         h, w, c = image.shape
-        print(f"Image dims -> h: {h} pix - w: {w} pix - c: {c} channels", flush=True)
+        print(f"Image dims -> h: {h} pix - w: {w} pix - c: {c} channels", flush = True)
 
         # cv2.imshow(f"Image : {args['image']}", image)
         # cv2.waitKey()
         image_name = os.path.basename(args['image'])
-        cv2_imshow(image, title=f"Image: {image_name}")
+        cv2_imshow(image, title = f"Image: {image_name}")
 
         # now let's set top left rectangle to blue
         h, w, c = image.shape
         # note OpenCV sets colors as BRG not RGB, so blue is (255,0,0) & not (0,0,255)
         image[:h // 4, :w // 4, :] = (255, 0, 0)
-        cv2_imshow(image, title=f"Blue Image: {image_name}")
+        cv2_imshow(image, title = f"Blue Image: {image_name}")
 
         # np.random.sample()
     else:

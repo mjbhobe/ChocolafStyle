@@ -11,20 +11,15 @@
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
+
 import sys
-
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-
+import chocolaf
 from mainWindow import *
-
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 def main():
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     mainWindow = MainWindow()

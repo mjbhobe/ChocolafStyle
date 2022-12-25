@@ -50,21 +50,16 @@
 #############################################################################
 
 
-import os
-import pathlib
 import sys
-import unicodedata
 
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class Window(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(Window, self).__init__(parent)
 
         grid = QGridLayout()
@@ -176,12 +171,8 @@ class Window(QWidget):
 
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    # os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     win = Window()

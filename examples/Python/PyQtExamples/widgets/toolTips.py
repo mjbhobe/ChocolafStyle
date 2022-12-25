@@ -60,7 +60,6 @@ from PyQt5.QtWidgets import *
 # sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
 # from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 import toolTip_rc
 
@@ -282,8 +281,8 @@ class SortingBox(QWidget):
 
 
 if __name__ == "__main__":
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     sortingBox = SortingBox()

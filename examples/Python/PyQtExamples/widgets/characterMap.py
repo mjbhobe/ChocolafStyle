@@ -49,37 +49,35 @@
 #############################################################################
 
 
-import os
-import pathlib
 import sys
-import unicodedata
 
+import unicodedata
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
+from chocolaf import ChocolafPalette
 
 
 def overrides(interface_class):
     def overrider(method):
-        assert(method.__name__ in dir(interface_class))
+        assert (method.__name__ in dir(interface_class))
         return method
+
     return overrider
 
 
 class CharacterWidget(QWidget):
-
     characterSelected = pyqtSignal(str)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(CharacterWidget, self).__init__(parent)
 
         self.displayFont = QFont()
         self.squareSize = 24
         self.squareSize = int(max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5))  # height() * 3)
-        print(f"(C) -> self.squareSize() = {self.squareSize}", flush=True)
+        print(f"(C) -> self.squareSize() = {self.squareSize}", flush = True)
         self.columns = 64
         self.lastKey = -1
         self.setMouseTracking(True)
@@ -87,7 +85,7 @@ class CharacterWidget(QWidget):
     def updateFont(self, fontFamily):
         self.displayFont.setFamily(fontFamily)
         self.squareSize = int(max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5))  # height() * 3)
-        print(f"self.squareSize() = {self.squareSize}", flush=True)
+        print(f"self.squareSize() = {self.squareSize}", flush = True)
         # self.squareSize = max(self.squareSize, QFontMetrics(self.displayFont).xWidth * 3)
         self.adjustSize()
         self.update()
@@ -317,27 +315,16 @@ class Window(QWidget):
 
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    # os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     win = Window()
-    # win.setStyleSheet(app.getStyleSheet("Chocolaf"))
     win.move(100, 100)
     win.show()
     # set fixed size, which prevents user from re-sizing window
     # DON'T do this in widget's constructor - we get wrong size
     win.setFixedSize(win.size().width(), win.size().height())
-
-    # rect = win.geometry()
-    # win1 = Window()
-    # win1.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
-    # win1.move(rect.left() + rect.width() // 4 + 20, rect.top() + rect.height() + 50)
-    # win1.show()
 
     return app.exec()
 

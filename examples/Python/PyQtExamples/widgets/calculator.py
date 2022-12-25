@@ -59,11 +59,10 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class Button(QToolButton):
-    def __init__(self, text, parent=None):
+    def __init__(self, text, parent = None):
         super(Button, self).__init__(parent)
 
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
@@ -79,7 +78,7 @@ class Button(QToolButton):
 class Calculator(QWidget):
     NumDigitButtons = 10
 
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(Calculator, self).__init__(parent)
 
         self.pendingAdditiveOperator = ''
@@ -102,15 +101,12 @@ class Calculator(QWidget):
         self.digitButtons = []
 
         for i in range(Calculator.NumDigitButtons):
-            self.digitButtons.append(self.createButton(str(i),
-                                                       self.digitClicked))
+            self.digitButtons.append(self.createButton(str(i), self.digitClicked))
 
         self.pointButton = self.createButton(".", self.pointClicked)
-        self.changeSignButton = self.createButton(u"\N{PLUS-MINUS SIGN}",
-                                                  self.changeSignClicked)
+        self.changeSignButton = self.createButton(u"\N{PLUS-MINUS SIGN}", self.changeSignClicked)
 
-        self.backspaceButton = self.createButton("Backspace",
-                                                 self.backspaceClicked)
+        self.backspaceButton = self.createButton("Backspace", self.backspaceClicked)
         self.clearButton = self.createButton("Clear", self.clear)
         self.clearAllButton = self.createButton("Clear All", self.clearAll)
 
@@ -121,17 +117,13 @@ class Calculator(QWidget):
 
         self.divisionButton = self.createButton(u"\N{DIVISION SIGN}",
                                                 self.multiplicativeOperatorClicked)
-        self.timesButton = self.createButton(u"\N{MULTIPLICATION SIGN}",
-                                             self.multiplicativeOperatorClicked)
+        self.timesButton = self.createButton(u"\N{MULTIPLICATION SIGN}", self.multiplicativeOperatorClicked)
         self.minusButton = self.createButton("-", self.additiveOperatorClicked)
         self.plusButton = self.createButton("+", self.additiveOperatorClicked)
 
-        self.squareRootButton = self.createButton("Sqrt",
-                                                  self.unaryOperatorClicked)
-        self.powerButton = self.createButton(u"x\N{SUPERSCRIPT TWO}",
-                                             self.unaryOperatorClicked)
-        self.reciprocalButton = self.createButton("1/x",
-                                                  self.unaryOperatorClicked)
+        self.squareRootButton = self.createButton("Sqrt", self.unaryOperatorClicked)
+        self.powerButton = self.createButton(u"x\N{SUPERSCRIPT TWO}", self.unaryOperatorClicked)
+        self.reciprocalButton = self.createButton("1/x", self.unaryOperatorClicked)
         self.equalButton = self.createButton("=", self.equalClicked)
 
         mainLayout = QGridLayout()
@@ -361,8 +353,8 @@ class Calculator(QWidget):
 
 
 if __name__ == '__main__':
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     # app.setStyle("QDarkStyle-dark")
 

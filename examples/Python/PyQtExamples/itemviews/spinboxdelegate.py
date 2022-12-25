@@ -56,7 +56,6 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class SpinBoxDelegate(QStyledItemDelegate):
@@ -100,8 +99,8 @@ def createTableView():
 
 
 if __name__ == '__main__':
-
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     tableView = createTableView()

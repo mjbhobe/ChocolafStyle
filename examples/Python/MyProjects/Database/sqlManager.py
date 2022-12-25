@@ -16,9 +16,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtSql import *
 
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 import toolbarIcons_rc
-
 
 # print(f"os.environ['QT_DEBUG_PLUGINS'] = {os.environ['QT_DEBUG_PLUGINS']}")
 THIS_DIR = os.path.dirname(__file__)
@@ -56,7 +55,7 @@ class SQLManager(QMainWindow):
 
     def setupWindow(self):
         self.queryField = QTextEdit()
-        points = ChocolafApp.pixelsToPoints(14)
+        points = chocolaf.pixelsToPoints(14)
         self.queryField.setFont(QFont("Consolas, SF Mono, Monospace", points))
         self.queryField.setPlaceholderText("Enter your SQL query here and press Ctrl+R to run...")
 
@@ -121,7 +120,7 @@ class SQLManager(QMainWindow):
                 if sqlQueryText == "":
                     pass
                 else:
-                    #sqlQueryText = " ".join(sqlQueryText.split("\n"))
+                    # sqlQueryText = " ".join(sqlQueryText.split("\n"))
                     sqlQueryText = " ".join(sqlQueryText.split("\n"))
                     print(f"Exec: {sqlQueryText}")
                     query = QSqlQuery(sqlQueryText, self.conn)
@@ -134,10 +133,10 @@ class SQLManager(QMainWindow):
 
 
 if __name__ == "__main__":
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
-    #app = QApplication(sys.argv)
+    # app = QApplication(sys.argv)
 
     try:
         conn = connectToDatabase()

@@ -48,24 +48,19 @@
 ##
 #############################################################################
 
-import sys
 import math
+import sys
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtXml import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
-
 import chart_rc
 
 
 class PieView(QAbstractItemView):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(PieView, self).__init__(parent)
 
         self.horizontalScrollBar().setRange(0, 0)
@@ -115,7 +110,7 @@ class PieView(QAbstractItemView):
             cy = self.totalSize / 2 - wy  # positive cy for items above the center
 
             # Determine the distance from the center point of the pie chart.
-            d = (cx**2 + cy**2)**0.5
+            d = (cx ** 2 + cy ** 2) ** 0.5
 
             if d == 0 or d > self.pieSize / 2:
                 return QModelIndex()
@@ -524,7 +519,7 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(splitter)
 
-    def openFile(self, path=None):
+    def openFile(self, path = None):
         if not path:
             path, _ = QFileDialog.getOpenFileName(self, "Choose a data file",
                                                   '', '*.cht')
@@ -589,8 +584,8 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == '__main__':
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     window = MainWindow()
     window.show()

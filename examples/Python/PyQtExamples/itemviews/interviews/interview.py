@@ -48,30 +48,23 @@
 ##
 #############################################################################
 
-import sys
-import math
-
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtXml import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 images_dir = QFileInfo(__file__).absolutePath() + '/images'
 
 
 class Node(object):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         self.parent = parent
         self.children = []
 
 
 class Model(QAbstractItemModel):
-    def __init__(self, rows, columns, parent=None):
+    def __init__(self, rows, columns, parent = None):
         super(Model, self).__init__(parent)
         self.services = QIcon(images_dir + '/services.png')
         self.rc = rows
@@ -153,8 +146,8 @@ class Model(QAbstractItemModel):
 
 
 def main(args):
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     page = QSplitter()
     data = Model(1000, 10, page)
@@ -193,4 +186,5 @@ def main(args):
 
 if __name__ == '__main__':
     import sys
+
     sys.exit(main(sys.argv))

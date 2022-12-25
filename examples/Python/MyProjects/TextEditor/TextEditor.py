@@ -20,8 +20,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.Qsci import *
 
-from chocolaf.utils.chocolafapp import ChocolafApp
-from chocolaf.palettes import ChocolafPalette
+import chocolaf
+from chocolaf import ChocolafPalette
 
 
 class TextEditorWindow(QMainWindow):
@@ -80,8 +80,8 @@ class TextEditorWindow(QMainWindow):
             self.loadTextFile(fileName)
 
     def setupEditor(self):
-        editorFontPointSize = ChocolafApp.pixelsToPoints(14)
-        print(f"Using {editorFontPointSize} point font for editor", flush=True)
+        editorFontPointSize = chocolaf.pixelsToPoints(14)
+        print(f"Using {editorFontPointSize} point font for editor", flush = True)
         self._editorFont = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
         self._editorFont.setPointSize(editorFontPointSize)
         self._editorFontBold = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
@@ -206,11 +206,11 @@ class TextEditorWindow(QMainWindow):
         default_filter = "Python Files (*.py)"
         startupDir = os.path.dirname(__file__)
         response = QFileDialog.getOpenFileName(
-            parent=self,
-            caption="Select a file to load",
-            directory=startupDir,
-            filter=file_filters,
-            initialFilter=default_filter
+            parent = self,
+            caption = "Select a file to load",
+            directory = startupDir,
+            filter = file_filters,
+            initialFilter = default_filter
         )
         if response[0] != "":
             self.loadTextFile(response[0])
@@ -229,12 +229,12 @@ class TextEditorWindow(QMainWindow):
 
 def main():
     ap = ArgumentParser()
-    ap.add_argument("-f", "--file", required=False,
-                    help="Full path of text file to edit")
+    ap.add_argument("-f", "--file", required = False,
+                    help = "Full path of text file to edit")
     args = vars(ap.parse_args())
 
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     w = TextEditorWindow()

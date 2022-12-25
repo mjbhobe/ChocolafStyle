@@ -57,12 +57,12 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtXml import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 import simpletreemodel_rc
 
+
 class TreeItem(object):
-    def __init__(self, data, parent=None):
+    def __init__(self, data, parent = None):
         self.parentItem = parent
         self.itemData = data
         self.childItems = []
@@ -95,7 +95,7 @@ class TreeItem(object):
 
 
 class TreeModel(QAbstractItemModel):
-    def __init__(self, data, parent=None):
+    def __init__(self, data, parent = None):
         super(TreeModel, self).__init__(parent)
 
         self.rootItem = TreeItem(("Title", "Summary"))
@@ -207,8 +207,8 @@ class TreeModel(QAbstractItemModel):
 
 
 if __name__ == '__main__':
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     f = QFile(':/default.txt')

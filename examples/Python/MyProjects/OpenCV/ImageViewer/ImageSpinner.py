@@ -9,12 +9,9 @@
 * My experiments with Python, C++, OpenCV, Data Science & ML
 * Code is provided for learning purposes only! Use at your own risk!!
 """
-import sys
 import os
-import pathlib
+
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
 
 
 class ImageSpinner(QObject):
@@ -33,7 +30,7 @@ class ImageSpinner(QObject):
         if (self.currIndex < 0):
             self.currIndex = 0
         prevImagePath = self.dir.absolutePath() + QDir.separator() + \
-            self.fileNames[self.currIndex]
+                        self.fileNames[self.currIndex]
         return prevImagePath
 
     def nextImagePath(self) -> str:
@@ -41,7 +38,7 @@ class ImageSpinner(QObject):
         if (self.currIndex > len(self.fileNames) - 1):
             self.currIndex = len(self.fileNames) - 1
         nextImagePath = self.dir.absolutePath() + QDir.separator() + \
-            self.fileNames[self.currIndex]
+                        self.fileNames[self.currIndex]
         return nextImagePath
 
     def atFirstPath(self):

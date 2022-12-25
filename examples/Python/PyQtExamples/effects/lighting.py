@@ -50,20 +50,18 @@
 #############################################################################
 
 
-import sys
 import math
+import sys
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class Lighting(QGraphicsView):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(Lighting, self).__init__(parent)
 
         self.angle = 0.0
@@ -147,8 +145,8 @@ class Lighting(QGraphicsView):
 
 
 if __name__ == '__main__':
-
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     lighting = Lighting()

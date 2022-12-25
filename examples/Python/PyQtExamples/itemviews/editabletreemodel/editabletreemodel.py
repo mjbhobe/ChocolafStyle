@@ -49,24 +49,18 @@
 #############################################################################
 
 import sys
-import math
 
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtXml import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 import editabletreemodel_rc
 from ui_mainwindow import Ui_MainWindow
 
 
 class TreeItem(object):
-    def __init__(self, data, parent=None):
+    def __init__(self, data, parent = None):
         self.parentItem = parent
         self.itemData = data
         self.childItems = []
@@ -149,14 +143,14 @@ class TreeItem(object):
 
 
 class TreeModel(QAbstractItemModel):
-    def __init__(self, headers, data, parent=None):
+    def __init__(self, headers, data, parent = None):
         super(TreeModel, self).__init__(parent)
 
         rootData = [header for header in headers]
         self.rootItem = TreeItem(rootData)
         self.setupModelData(data.split("\n"), self.rootItem)
 
-    def columnCount(self, parent=QModelIndex()):
+    def columnCount(self, parent = QModelIndex()):
         return self.rootItem.columnCount()
 
     def data(self, index, role):
@@ -183,13 +177,13 @@ class TreeModel(QAbstractItemModel):
 
         return self.rootItem
 
-    def headerData(self, section, orientation, role=Qt.DisplayRole):
+    def headerData(self, section, orientation, role = Qt.DisplayRole):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
             return self.rootItem.data(section)
 
         return None
 
-    def index(self, row, column, parent=QModelIndex()):
+    def index(self, row, column, parent = QModelIndex()):
         if parent.isValid() and parent.column() != 0:
             return QModelIndex()
 
@@ -200,14 +194,14 @@ class TreeModel(QAbstractItemModel):
         else:
             return QModelIndex()
 
-    def insertColumns(self, position, columns, parent=QModelIndex()):
+    def insertColumns(self, position, columns, parent = QModelIndex()):
         self.beginInsertColumns(parent, position, position + columns - 1)
         success = self.rootItem.insertColumns(position, columns)
         self.endInsertColumns()
 
         return success
 
-    def insertRows(self, position, rows, parent=QModelIndex()):
+    def insertRows(self, position, rows, parent = QModelIndex()):
         parentItem = self.getItem(parent)
         self.beginInsertRows(parent, position, position + rows - 1)
         success = parentItem.insertChildren(position, rows,
@@ -228,7 +222,7 @@ class TreeModel(QAbstractItemModel):
 
         return self.createIndex(parentItem.childNumber(), 0, parentItem)
 
-    def removeColumns(self, position, columns, parent=QModelIndex()):
+    def removeColumns(self, position, columns, parent = QModelIndex()):
         self.beginRemoveColumns(parent, position, position + columns - 1)
         success = self.rootItem.removeColumns(position, columns)
         self.endRemoveColumns()
@@ -238,7 +232,7 @@ class TreeModel(QAbstractItemModel):
 
         return success
 
-    def removeRows(self, position, rows, parent=QModelIndex()):
+    def removeRows(self, position, rows, parent = QModelIndex()):
         parentItem = self.getItem(parent)
 
         self.beginRemoveRows(parent, position, position + rows - 1)
@@ -247,12 +241,12 @@ class TreeModel(QAbstractItemModel):
 
         return success
 
-    def rowCount(self, parent=QModelIndex()):
+    def rowCount(self, parent = QModelIndex()):
         parentItem = self.getItem(parent)
 
         return parentItem.childCount()
 
-    def setData(self, index, value, role=Qt.EditRole):
+    def setData(self, index, value, role = Qt.EditRole):
         if role != Qt.EditRole:
             return False
 
@@ -264,7 +258,7 @@ class TreeModel(QAbstractItemModel):
 
         return result
 
-    def setHeaderData(self, section, orientation, value, role=Qt.EditRole):
+    def setHeaderData(self, section, orientation, value, role = Qt.EditRole):
         if role != Qt.EditRole or orientation != Qt.Horizontal:
             return False
 
@@ -317,7 +311,7 @@ class TreeModel(QAbstractItemModel):
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(MainWindow, self).__init__(parent)
 
         self.setupUi(self)
@@ -432,9 +426,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
 if __name__ == '__main__':
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     window = MainWindow()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

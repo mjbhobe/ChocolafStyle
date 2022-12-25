@@ -50,18 +50,11 @@
 #############################################################################
 
 
-import os
-import pathlib
 import sys
-import webbrowser
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 def createIntroPage():
@@ -116,8 +109,8 @@ def createConclusionPage():
 
 
 if __name__ == '__main__':
-
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     wizard = QWizard()

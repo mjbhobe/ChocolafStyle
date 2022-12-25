@@ -48,18 +48,13 @@
 ##
 #############################################################################
 
-import os
-import pathlib
 import sys
-import unicodedata
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class ShapedClock(QWidget):
@@ -78,7 +73,7 @@ class ShapedClock(QWidget):
     hourColor = QColor(127, 0, 127)
     minuteColor = QColor(0, 127, 127, 191)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(ShapedClock, self).__init__(parent,
                                           Qt.FramelessWindowHint | Qt.WindowSystemMenuHint)
 
@@ -86,8 +81,8 @@ class ShapedClock(QWidget):
         timer.timeout.connect(self.update)
         timer.start(1000)
 
-        quitAction = QAction("E&xit", self, shortcut="Ctrl+Q",
-                             triggered=QApplication.instance().quit)
+        quitAction = QAction("E&xit", self, shortcut = "Ctrl+Q",
+                             triggered = QApplication.instance().quit)
         self.addAction(quitAction)
 
         self.setContextMenuPolicy(Qt.ActionsContextMenu)
@@ -147,20 +142,21 @@ class ShapedClock(QWidget):
     def resizeEvent(self, event):
         side = min(self.width(), self.height())
 
-        maskedRegion = QRegion(self.width() // 2 - side // 2, self.height() // 2 - side // 2, side, side, QRegion.Ellipse)
+        maskedRegion = QRegion(self.width() // 2 - side // 2, self.height() // 2 - side // 2, side, side,
+                               QRegion.Ellipse)
         self.setMask(maskedRegion)
 
     def sizeHint(self):
         return QSize(250, 250)
 
+    def keyPressEvent(self, e: QKeyEvent) -> None:
+        if e.key() == Qt.Key_Escape:
+            sys.exit(0)
+
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    # os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     win = ShapedClock()

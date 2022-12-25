@@ -61,7 +61,6 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 import states_rc
 
@@ -80,8 +79,8 @@ class Pixmap(QGraphicsObject):
 
 
 if __name__ == '__main__':
-
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     # Text edit and button.

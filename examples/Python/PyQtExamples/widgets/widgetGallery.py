@@ -59,7 +59,6 @@ from PyQt5.QtWidgets import *
 from sklearn.manifold import trustworthiness
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class WidgetGallery(QWidget):
@@ -285,7 +284,7 @@ class WidgetGallery(QWidget):
         textToolBox.addItem(self.embedIntoHBoxLayout(self.systemInfoTextBrowser), "Text Browser")
         return textToolBox
 
-    @ staticmethod
+    @staticmethod
     def highDpiScaleFactorRoundingPolicy():
         policy = QGuiApplication.highDpiScaleFactorRoundingPolicy()
         if policy[-1] == ')':
@@ -316,12 +315,10 @@ class WidgetGallery(QWidget):
 
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    # ChocolafApp.setupAppForHighDpiScreens()
-    # app = ChocolafApp(sys.argv)
-    # app.setStyle("Chocolaf")
-    app = QApplication(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
+    # app = QApplication(sys.argv)
 
     w = WidgetGallery()
     # w.setStyleSheet(app.getStyleSheet("Chocolaf"))

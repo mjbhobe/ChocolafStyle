@@ -56,13 +56,10 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtXml import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
-
 
 SUBJECT, SENDER, DATE = range(3)
+
 
 # Work around the fact that QSortFilterProxyModel always filters datetime
 # values in QtCore.Qt.ISODate format, but the tree views display using
@@ -230,8 +227,8 @@ def createMailModel(parent):
 
 
 if __name__ == '__main__':
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     window = Window()
     window.setSourceModel(createMailModel(window))

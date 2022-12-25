@@ -49,21 +49,16 @@
 #############################################################################
 
 import sys
-import math
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtXml import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class ColorListEditor(QComboBox):
-    def __init__(self, widget=None):
+    def __init__(self, widget = None):
         super(ColorListEditor, self).__init__(widget)
 
         self.populateList()
@@ -75,7 +70,7 @@ class ColorListEditor(QComboBox):
     def setColor(self, color):
         self.setCurrentIndex(self.findData(color, Qt.DecorationRole))
 
-    color = pyqtProperty(QColor, getColor, setColor, user=True)
+    color = pyqtProperty(QColor, getColor, setColor, user = True)
 
     def populateList(self):
         for i, colorName in enumerate(QColor.colorNames()):
@@ -90,7 +85,7 @@ class ColorListItemEditorCreator(QItemEditorCreatorBase):
 
 
 class Window(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(Window, self).__init__(parent)
 
         factory = QItemEditorFactory()
@@ -129,9 +124,8 @@ class Window(QWidget):
 
 
 if __name__ == '__main__':
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     window = Window()

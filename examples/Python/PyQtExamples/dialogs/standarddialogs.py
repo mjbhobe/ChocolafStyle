@@ -54,19 +54,17 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class Dialog(QDialog):
     MESSAGE = "<p>Message boxes have a caption, a text, and up to three " \
-        "buttons, each with standard or custom texts.</p>" \
-        "<p>Click a button to close the message box. Pressing the Esc " \
-        "button will activate the detected escape button (if any).</p>"
+              "buttons, each with standard or custom texts.</p>" \
+              "<p>Click a button to close the message box. Pressing the Esc " \
+              "button will activate the detected escape button (if any).</p>"
 
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(Dialog, self).__init__(parent)
 
         self.openFilesPath = ''
@@ -238,7 +236,7 @@ class Dialog(QDialog):
         options = QFileDialog.DontResolveSymlinks | QFileDialog.ShowDirsOnly
         directory = QFileDialog.getExistingDirectory(self,
                                                      "QFileDialog.getExistingDirectory()",
-                                                     self.directoryLabel.text(), options=options)
+                                                     self.directoryLabel.text(), options = options)
         if directory:
             self.directoryLabel.setText(directory)
 
@@ -248,7 +246,7 @@ class Dialog(QDialog):
             options |= QFileDialog.DontUseNativeDialog
         fileName, _ = QFileDialog.getOpenFileName(self,
                                                   "QFileDialog.getOpenFileName()", self.openFileNameLabel.text(),
-                                                  "All Files (*);;Text Files (*.txt)", options=options)
+                                                  "All Files (*);;Text Files (*.txt)", options = options)
         if fileName:
             self.openFileNameLabel.setText(fileName)
 
@@ -258,7 +256,7 @@ class Dialog(QDialog):
             options |= QFileDialog.DontUseNativeDialog
         files, _ = QFileDialog.getOpenFileNames(self,
                                                 "QFileDialog.getOpenFileNames()", self.openFilesPath,
-                                                "All Files (*);;Text Files (*.txt)", options=options)
+                                                "All Files (*);;Text Files (*.txt)", options = options)
         if files:
             self.openFilesPath = files[0]
             self.openFileNamesLabel.setText("[%s]" % ', '.join(files))
@@ -270,7 +268,7 @@ class Dialog(QDialog):
         fileName, _ = QFileDialog.getSaveFileName(self,
                                                   "QFileDialog.getSaveFileName()",
                                                   self.saveFileNameLabel.text(),
-                                                  "All Files (*);;Text Files (*.txt)", options=options)
+                                                  "All Files (*);;Text Files (*.txt)", options = options)
         if fileName:
             self.saveFileNameLabel.setText(fileName)
 
@@ -325,10 +323,11 @@ class Dialog(QDialog):
 
 
 if __name__ == '__main__':
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
-    appfont: QFont = QFont("SF UI Text", 10)
-    app.setFont(appfont)
+    # appfont: QFont = QFont("SF UI Text", 10)
+    # app.setFont(appfont)
 
     dialog = Dialog()
     dialog.show()

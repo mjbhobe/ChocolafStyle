@@ -9,7 +9,6 @@
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
-import sys
 import os
 import pathlib
 
@@ -18,14 +17,13 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from drawWindow import DrawWindow
-from doodle import Doodle
-from chocolaf.palettes import ChocolafPalette
 
 # for icons on toolbars
 import painter_rc
 import textEditor_rc
 
 WinTitle = "PyQt5 Doodle - Step08: Adding Menus, Toolbars, Statusbars"
+
 
 class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):

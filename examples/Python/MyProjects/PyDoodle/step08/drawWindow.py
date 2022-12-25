@@ -9,24 +9,25 @@
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
-import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from squiggle import Squiggle
+
 from doodle import Doodle
+from squiggle import Squiggle
+
 
 class DrawWindow(QWidget):
     def __init__(self, *args, **kwargs):
         super(QWidget, self).__init__(*args, **kwargs)
         backColor = self.palette().color(QPalette.Window)
         self.setBackgroundRole(QPalette.Window)
-        #self.setStyleSheet("background-color: white")
+        # self.setStyleSheet("background-color: white")
         self.__doodle = Doodle()
         self.__dragging = False
         self.__currSquiggle = None
         self.setMouseTracking(True)
-        
+
     @property
     def doodle(self):
         return self.__doodle
@@ -55,7 +56,7 @@ class DrawWindow(QWidget):
                 pass
             else:
                 # start a new line
-                #self.__currSquiggle = Squiggle(self.penWidth, self.penColor)
+                # self.__currSquiggle = Squiggle(self.penWidth, self.penColor)
                 self.__currSquiggle = Squiggle()
                 self.__currSquiggle.penWidth = self.doodle.defPenWidth
                 self.__currSquiggle.penColor = self.doodle.defPenColor
@@ -98,4 +99,3 @@ class DrawWindow(QWidget):
             self.update()
         else:
             e.accept()
-

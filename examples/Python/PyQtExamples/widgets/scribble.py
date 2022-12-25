@@ -49,26 +49,22 @@
 #############################################################################
 
 
-import os
-import pathlib
 import sys
-import unicodedata
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
 from PyQt5.QtPrintSupport import *
+from PyQt5.QtWidgets import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
+from chocolaf import ChocolafPalette
+
 import textEditor_rc
 import scribble_rc
 
 
 class ScribbleArea(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(ScribbleArea, self).__init__(parent)
 
         self.setAttribute(Qt.WA_StaticContents)
@@ -148,7 +144,7 @@ class ScribbleArea(QWidget):
         painter.drawLine(self.lastPoint, endPoint)
         self.modified = True
 
-        rad = self.myPenWidth / 2 + 2
+        rad = self.myPenWidth // 2 + 2
         self.update(QRect(self.lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad))
         self.lastPoint = QPoint(endPoint)
 
@@ -272,39 +268,40 @@ class MainWindow(QMainWindow):
                           "widgets.</p>")
 
     def createActions(self):
-        self.openAct = QAction(QIcon(":/file_open.png"), "&Open...", self, shortcut="Ctrl+O",
-                               statusTip="Open scribble file", triggered=self.open)
+        self.openAct = QAction(QIcon(":/file_open.png"), "&Open...", self, shortcut = "Ctrl+O",
+                               statusTip = "Open scribble file", triggered = self.open)
 
         for format in QImageWriter.supportedImageFormats():
             format = str(format)
 
             text = format.upper() + "..."
 
-            action = QAction(text, self, triggered=self.save)
+            action = QAction(text, self, triggered = self.save)
             action.setData(format)
             self.saveAsActs.append(action)
 
         self.printAct = QAction(QIcon(":/file_print.png"), "&Print...", self,
-                                statusTip="Print scribble file", triggered=self.scribbleArea.print_)
+                                statusTip = "Print scribble file", triggered = self.scribbleArea.print_)
 
-        self.exitAct = QAction(QIcon(":/on-off.png"), "E&xit", self, shortcut="Ctrl+Q",
-                               statusTip="Quit application", triggered=self.close)
+        self.exitAct = QAction(QIcon(":/on-off.png"), "E&xit", self, shortcut = "Ctrl+Q",
+                               statusTip = "Quit application", triggered = self.close)
 
         self.penColorAct = QAction(QIcon(":/palette.png"), "&Pen Color...", self,
-                                   statusTip="Choose pen color", triggered=self.penColor)
+                                   statusTip = "Choose pen color", triggered = self.penColor)
 
         self.penWidthAct = QAction(QIcon(":/pen.png"), "Pen &Width...", self,
-                                   statusTip="Choose pen width", triggered=self.penWidth)
+                                   statusTip = "Choose pen width", triggered = self.penWidth)
 
-        self.clearScreenAct = QAction(QIcon(":/edit_delete.png"), "&Clear Screen", self, shortcut="Ctrl+L",
-                                      statusTip="Clear the doodle & start over", triggered=self.scribbleArea.clearImage)
+        self.clearScreenAct = QAction(QIcon(":/edit_delete.png"), "&Clear Screen", self, shortcut = "Ctrl+L",
+                                      statusTip = "Clear the doodle & start over",
+                                      triggered = self.scribbleArea.clearImage)
 
         self.aboutAct = QAction(
-            "&About", self, statusTip="Display information about application", triggered=self.about)
+            "&About", self, statusTip = "Display information about application", triggered = self.about)
 
         self.aboutQtAct = QAction(QIcon(":/qt_logo.png"), "About &Qt", self,
-                                  statusTip="Display information about Qt framework used",
-                                  triggered=QApplication.instance().aboutQt)
+                                  statusTip = "Display information about Qt framework used",
+                                  triggered = QApplication.instance().aboutQt)
 
     def createMenus(self):
         self.saveAsMenu = QMenu("&Save As", self)
@@ -366,12 +363,8 @@ class MainWindow(QMainWindow):
 
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    # os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     win = MainWindow()

@@ -57,10 +57,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtXml import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
-ChocolafApp.setupAppForHighDpiScreens()
-app = ChocolafApp(sys.argv)
+chocolaf.enable_hi_dpi()
+app = chocolaf.ChocolafApp(sys.argv)
 app.setStyle("Chocolaf")
 
 QCoreApplication.setApplicationVersion(QT_VERSION_STR)

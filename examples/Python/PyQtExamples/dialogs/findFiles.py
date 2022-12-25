@@ -50,20 +50,18 @@
 ##
 #############################################################################
 
-import sys
 import glob
+import sys
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class Window(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(Window, self).__init__(parent)
 
         browseButton = self.createButton("&Browse...", self.browse)
@@ -132,7 +130,7 @@ class Window(QDialog):
         fileName = f"**/{fileName}"
         # files = self.currentDir.entryList([fileName],
         #                                   QDir.Files | QDir.NoSymLinks | QDir.NoDot | QDir.NoDotDot | QDir.Dirs)
-        files = glob.glob(f"{path}/{fileName}", recursive=True)
+        files = glob.glob(f"{path}/{fileName}", recursive = True)
 
         if text:
             files = self.findFiles(files, text)
@@ -142,12 +140,12 @@ class Window(QDialog):
         progressDialog = QProgressDialog(self)
 
         progressDialog.setCancelButtonText("&Cancel")
-        progressDialog.setRange(0, len(files)) # files.count())
+        progressDialog.setRange(0, len(files))  # files.count())
         progressDialog.setWindowTitle("Find Files")
 
         foundFiles = []
 
-        for i in range(len(files)): # files.count()):
+        for i in range(len(files)):  # files.count()):
             progressDialog.setValue(i)
             progressDialog.setLabelText(f"Searching file number {i} of {len(files)}...")
             QApplication.processEvents()
@@ -195,7 +193,7 @@ class Window(QDialog):
         button.clicked.connect(member)
         return button
 
-    def createComboBox(self, text=""):
+    def createComboBox(self, text = ""):
         comboBox = QComboBox()
         comboBox.setEditable(True)
         comboBox.addItem(text)
@@ -220,10 +218,8 @@ class Window(QDialog):
 
 
 if __name__ == '__main__':
-
-    import sys
-
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     window = Window()
     window.show()

@@ -8,20 +8,22 @@
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
-import sys
 import platform
-from PyQt5.QtGui import *
+
+import chocolaf
 from mainWindow import *
 
 # code to import Chocolaf theme files
 from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
+# from chocolaf.utils.chocolafapp import ChocolafApp
+from chocolaf import ChocolafApp, enable_hi_dpi
 
 __version__ = "1.0"
 
 
 def main():
-    ChocolafApp.setupAppForHighDpiScreens()
+    # ChocolafApp.setupAppForHighDpiScreens()
+    chocolaf.enable_hi_dpi()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     print(f"PyQt Doodle - running with Python {platform.python_version()}, " +

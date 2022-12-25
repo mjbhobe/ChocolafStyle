@@ -56,7 +56,6 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 def sizeToString(size):
@@ -79,8 +78,8 @@ def sizeToString(size):
 
 class StorageModel(QAbstractTableModel):
     ColumnRootPath, ColumnName, ColumnDevice, ColumnFileSystemName, \
-        ColumnTotal, ColumnFree, ColumnAvailable, ColumnIsReady, \
-        ColumnIsReadOnly, ColumnIsValid, ColumnCount = range(11)
+    ColumnTotal, ColumnFree, ColumnAvailable, ColumnIsReady, \
+    ColumnIsReadOnly, ColumnIsValid, ColumnCount = range(11)
 
     columnFuncMap = {
         ColumnRootPath: lambda volume: QDir.toNativeSeparators(volume.rootPath()),
@@ -108,11 +107,11 @@ class StorageModel(QAbstractTableModel):
         ColumnIsValid: "Valid",
     }
 
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(StorageModel, self).__init__(parent)
         self.volumes = QStorageInfo.mountedVolumes()
 
-    def columnCount(self, parent=None):
+    def columnCount(self, parent = None):
         return self.ColumnCount
 
     def rowCount(self, parent):
@@ -149,7 +148,8 @@ class StorageModel(QAbstractTableModel):
 
 
 def main(args):
-    app = ChocolafApp(args)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(args)
     app.setStyle("Chocolaf")
     view = QTreeView()
     view.setModel(StorageModel(view))

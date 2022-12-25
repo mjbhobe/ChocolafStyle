@@ -9,15 +9,14 @@
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
-import sys
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from squiggle import Squiggle
+from chocolaf import ChocolafPalette
 from doodle import Doodle
-from chocolaf.palettes import ChocolafPalette
+from squiggle import Squiggle
 
 
 class DrawWindow(QWidget):
@@ -69,7 +68,7 @@ class DrawWindow(QWidget):
                     self.doodle.defPenWidth = newWidth
             else:
                 # start a new line
-                #self.__currSquiggle = Squiggle(self.penWidth, self.penColor)
+                # self.__currSquiggle = Squiggle(self.penWidth, self.penColor)
                 self.__currSquiggle = Squiggle()
                 self.__currSquiggle.penWidth = self.doodle.defPenWidth
                 self.__currSquiggle.penColor = self.doodle.defPenColor

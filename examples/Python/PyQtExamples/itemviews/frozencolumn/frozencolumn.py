@@ -56,10 +56,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtXml import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class FreezeTableWidget(QTableView):
@@ -79,8 +76,7 @@ class FreezeTableWidget(QTableView):
         self.frozenTableView.setModel(self.model())
         self.frozenTableView.setFocusPolicy(Qt.NoFocus)
         self.frozenTableView.verticalHeader().hide()
-        self.frozenTableView.horizontalHeader().setSectionResizeMode(
-            QHeaderView.Fixed)
+        self.frozenTableView.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
         self.viewport().stackUnder(self.frozenTableView)
 
         self.frozenTableView.setStyleSheet('''
@@ -141,8 +137,8 @@ def main(args):
     def split_and_strip(s, splitter):
         return [s.strip() for s in line.split(splitter)]
 
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     model = QStandardItemModel()
     file = QFile(QFileInfo(__file__).absolutePath() + '/grades.txt')
@@ -169,4 +165,5 @@ def main(args):
 
 if __name__ == '__main__':
     import sys
+
     sys.exit(main(sys.argv))

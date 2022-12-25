@@ -48,23 +48,18 @@
 ##
 #############################################################################
 
-import os
-import pathlib
 import sys
 
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class SlidersGroup(QGroupBox):
-
     valueChanged = pyqtSignal(int)
 
-    def __init__(self, orientation, title, parent=None):
+    def __init__(self, orientation, title, parent = None):
         super(SlidersGroup, self).__init__(title, parent)
 
         self.slider = QSlider(orientation)
@@ -198,11 +193,8 @@ class Window(QWidget):
 
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
 
     win = Window()
     win.setStyleSheet(app.getStyleSheet("Chocolaf"))

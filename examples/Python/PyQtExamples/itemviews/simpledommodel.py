@@ -57,11 +57,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtXml import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class DomItem(object):
-    def __init__(self, node, row, parent=None):
+    def __init__(self, node, row, parent = None):
         self.domNode = node
         # Record the item's location within its parent.
         self.rowNumber = row
@@ -91,7 +90,7 @@ class DomItem(object):
 
 
 class DomModel(QAbstractItemModel):
-    def __init__(self, document, parent=None):
+    def __init__(self, document, parent = None):
         super(DomModel, self).__init__(parent)
 
         self.domDocument = document
@@ -211,7 +210,7 @@ class MainWindow(QMainWindow):
     def openFile(self):
         filePath, _ = QFileDialog.getOpenFileName(self, "Open File",
                                                   self.xmlPath, "XML files (*.xml);;HTML files (*.html);;"
-                                                  "SVG files (*.svg);;User Interface files (*.ui)")
+                                                                "SVG files (*.svg);;User Interface files (*.ui)")
 
         if filePath:
             f = QFile(filePath)
@@ -227,7 +226,8 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == '__main__':
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     # app.setFont(QFont("SF UI Text", 11))
 

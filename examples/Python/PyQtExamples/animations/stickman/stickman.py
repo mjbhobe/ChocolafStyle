@@ -61,7 +61,6 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 import stickman_rc
 
@@ -69,7 +68,7 @@ import stickman_rc
 class Node(QGraphicsObject):
     positionChanged = pyqtSignal()
 
-    def __init__(self, pos, parent=None):
+    def __init__(self, pos, parent = None):
         super(Node, self).__init__(parent)
 
         self.m_dragging = False
@@ -131,7 +130,6 @@ Coords = (
     # Left leg: 14 - 15
     (25.0, 200.0),
     (30.0, 300.0))
-
 
 Bones = (
     # Neck.
@@ -354,15 +352,15 @@ class StickMan(QGraphicsObject):
                 painter.drawLine(20.0, -30.0, 30.0, -20.0)
                 painter.drawLine(30.0, -30.0, 20.0, -20.0)
             else:
-                painter.drawChord(QRectF(-30.0, -30.0, 25.0, 70.0), 30.0 * 16, 120.0 * 16)
-                painter.drawChord(QRectF(5.0, -30.0, 25.0, 70.0), 30.0 * 16, 120.0 * 16)
+                painter.drawChord(QRectF(-30.0, -30.0, 25.0, 70.0), int(30.0 * 16), int(120.0 * 16))
+                painter.drawChord(QRectF(5.0, -30.0, 25.0, 70.0), int(30.0 * 16), int(120.0 * 16))
 
             # Mouth.
             if self.m_isDead:
                 painter.drawLine(-28.0, 2.0, 29.0, 2.0)
             else:
                 painter.setBrush(QColor(128, 0, 64))
-                painter.drawChord(QRectF(-28.0, 2.0 - 55.0 / 2.0, 57.0, 55.0), 0.0, -180.0 * 16)
+                painter.drawChord(QRectF(-28.0, 2.0 - 55.0 / 2.0, 57.0, 55.0), 0, int(-180.0 * 16))
 
             # Pupils.
             if not self.m_isDead:
@@ -481,7 +479,7 @@ class Animation(object):
 
 
 class KeyPressTransition(QSignalTransition):
-    def __init__(self, receiver, key, target=None):
+    def __init__(self, receiver, key, target = None):
         super(KeyPressTransition, self).__init__(receiver.keyPressed)
 
         self.m_key = key
@@ -614,8 +612,8 @@ class LifeCycle(object):
 
 
 if __name__ == '__main__':
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     stickMan = StickMan()

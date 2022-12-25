@@ -50,16 +50,14 @@
 #############################################################################
 
 
-import sys
 import math
+import sys
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class Edge(QGraphicsItem):
@@ -128,7 +126,8 @@ class Edge(QGraphicsItem):
 
         return QRectF(self.sourcePoint,
                       QSizeF(self.destPoint.x() - self.sourcePoint.x(),
-                             self.destPoint.y() - self.sourcePoint.y())).normalized().adjusted(-extra, -extra, extra, extra)
+                             self.destPoint.y() - self.sourcePoint.y())).normalized().adjusted(-extra, -extra, extra,
+                                                                                               extra)
 
     def paint(self, painter, option, widget):
         if not self.source or not self.dest:
@@ -407,7 +406,7 @@ class GraphWidget(QGraphicsView):
         textRect = QRectF(sceneRect.left() + 4, sceneRect.top() + 4,
                           sceneRect.width() - 4, sceneRect.height() - 4)
         message = "Click and drag the nodes around, and zoom with the " \
-            "mouse wheel or the '+' and '-' keys"
+                  "mouse wheel or the '+' and '-' keys"
 
         font = painter.font()
         font.setBold(True)
@@ -428,7 +427,8 @@ class GraphWidget(QGraphicsView):
 
 
 if __name__ == '__main__':
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     qsrand(QTime(0, 0, 0).secsTo(QTime.currentTime()))
 

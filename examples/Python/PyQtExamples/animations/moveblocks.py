@@ -61,13 +61,12 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class StateSwitchEvent(QEvent):
     StateSwitchType = QEvent.User + 256
 
-    def __init__(self, rand=0):
+    def __init__(self, rand = 0):
         super(StateSwitchEvent, self).__init__(StateSwitchEvent.StateSwitchType)
 
         self.m_rand = rand
@@ -134,8 +133,8 @@ def createGeometryState(w1, rect1, w2, rect2, w3, rect3, w4, rect4, parent):
 
 
 if __name__ == '__main__':
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     button1 = QGraphicsRectWidget()

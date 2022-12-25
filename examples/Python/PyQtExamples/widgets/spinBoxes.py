@@ -50,17 +50,12 @@
 
 
 import os
-import pathlib
 import sys
 
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class Window(QWidget):
@@ -273,7 +268,6 @@ def loadStyleSheet() -> str:
     print(f"loadStyleSheet() . You are {here}")
     darkss_dir = os.path.join(here, "styles", "dark")
     sys.path.append(darkss_dir)
-    import stylesheet_rc
 
     darkss_path = os.path.join(darkss_dir, "stylesheet.css")
     assert os.path.exists(darkss_path)
@@ -285,11 +279,8 @@ def loadStyleSheet() -> str:
 
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
 
     win = Window()
     win.setStyleSheet(app.getStyleSheet("Chocolaf"))

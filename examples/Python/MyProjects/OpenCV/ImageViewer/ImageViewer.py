@@ -11,14 +11,14 @@
 """
 import os
 import sys
-import cv2
 from argparse import ArgumentParser
 
+import cv2
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 from ImageSpinner import ImageSpinner
 import ImageViewer_rc
 
@@ -34,8 +34,8 @@ class ImageViewer(QMainWindow):
         self.scaleFactorLabel = QLabel("")
         self.imageInfoLabel = QLabel("")
         self.scrollArea = QScrollArea()
-        self.cv2image = None        # OpenCV Mat
-        self.image = None           # QImage
+        self.cv2image = None  # OpenCV Mat
+        self.image = None  # QImage
         self.scaleFactor = 1.0
         self.firstDialog = True
         self.imageSpinner = None
@@ -215,7 +215,7 @@ class ImageViewer(QMainWindow):
         if self.imageSpinner is not None:
             imageInfoText = f"{self.image.width():4d} x {self.image.height():4d} {'grayscale' if self.image.isGrayscale() else 'color'}"
             self.imageInfoLabel.setText(imageInfoText)
-            selImageText = f"{self.imageSpinner.currIndex+1:3d} of {self.imageSpinner.size():3d} images"
+            selImageText = f"{self.imageSpinner.currIndex + 1:3d} of {self.imageSpinner.size():3d} images"
             self.imageCountLabel.setText(selImageText)
             scaleFactorText = "Zoom: Fit" if self.fitToWindowAction.isChecked() \
                 else f"Zoom: {int(self.scaleFactor * 100)} %"
@@ -234,7 +234,7 @@ class ImageViewer(QMainWindow):
         print(f"Image info -> width: {self.image.width()} - height: {self.image.height()} " +
               f"- bits/pixel: {self.image.depth()} - color: {not self.image.isGrayscale()}")
 
-    def scaleImage(self, factor=-1):
+    def scaleImage(self, factor = -1):
         """scale image to a certain scaling factor. Default value of -1 is 
            only used to scale a newly loaded image to same scale factor as prev image
         """
@@ -245,7 +245,7 @@ class ImageViewer(QMainWindow):
         self.adjustScrollbar(self.scrollArea.verticalScrollBar(), factor)
         self.zoomInAction.setEnabled(self.scaleFactor < 5.0)
         self.zoomOutAction.setEnabled(self.scaleFactor > 0.10)
-        #print(f"Scalefactor = {self.scaleFactor}")
+        # print(f"Scalefactor = {self.scaleFactor}")
 
     def adjustScrollbar(self, scrollBar: QScrollBar, factor):
         scrollBar.setValue(int(factor * scrollBar.value() +
@@ -379,12 +379,12 @@ class ImageViewer(QMainWindow):
 
 def main():
     ap = ArgumentParser()
-    ap.add_argument("-i", "--image", required=False,
-                    help="Full path to image")
+    ap.add_argument("-i", "--image", required = False,
+                    help = "Full path to image")
     args = vars(ap.parse_args())
 
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     w = ImageViewer()

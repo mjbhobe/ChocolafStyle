@@ -16,8 +16,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
+# from chocolaf.palettes import ChocolafPalette
+# from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 import textEditor_rc
 
@@ -133,8 +134,9 @@ class DisplayImageWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    # ChocolafApp.setupAppForHighDpiScreens()
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     win = DisplayImageWindow()

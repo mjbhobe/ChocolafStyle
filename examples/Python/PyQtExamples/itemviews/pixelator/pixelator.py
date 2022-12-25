@@ -49,27 +49,24 @@
 #############################################################################
 
 import sys
-import math
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
 from PyQt5.QtPrintSupport import *
+from PyQt5.QtWidgets import *
 
 # sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
 # from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 import pixelator_rc
 import textEditor_rc
-
 
 ItemSize = 256
 
 
 class PixelDelegate(QAbstractItemDelegate):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(PixelDelegate, self).__init__(parent)
 
         self.pixelSize = 12
@@ -94,9 +91,9 @@ class PixelDelegate(QAbstractItemDelegate):
             painter.setBrush(QBrush(Qt.black))
 
         painter.drawEllipse(QRectF(
-                            option.rect.x() + option.rect.width() / 2 - radius,
-                            option.rect.y() + option.rect.height() / 2 - radius,
-                            2 * radius, 2 * radius))
+            option.rect.x() + option.rect.width() / 2 - radius,
+            option.rect.y() + option.rect.height() / 2 - radius,
+            2 * radius, 2 * radius))
 
         painter.restore()
 
@@ -108,7 +105,7 @@ class PixelDelegate(QAbstractItemDelegate):
 
 
 class ImageModel(QAbstractTableModel):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(ImageModel, self).__init__(parent)
 
         self.modelImage = QImage()
@@ -304,10 +301,12 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == '__main__':
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
+
     window = MainWindow()
     window.show()
     window.openImage(':/images/qt.png')
-    sys.exit(app.exec_())
+
+    sys.exit(app.exec())

@@ -14,7 +14,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from squiggle import *
 
-from chocolaf.palettes import ChocolafPalette
+from chocolaf import ChocolafPalette
 
 
 class DrawWindow(QMainWindow):
@@ -56,7 +56,7 @@ class DrawWindow(QMainWindow):
             # color = QColor(53, 53, 53) if darkdetect.isDark() \
             #     else QColor(240, 240, 240)
             color = ChocolafPalette.Window_Color
-            #print(f'QPalette.Window color = {color.name()}')
+            # print(f'QPalette.Window color = {color.name()}')
             painter.begin(self)
             painter.setRenderHint(QPainter.Antialiasing, True)
             painter.setBrush(color)
@@ -79,7 +79,7 @@ class DrawWindow(QMainWindow):
                     self.penWidth = newWidth
             else:
                 # start a new line
-                #self.currSquiggle = Squiggle(self.penWidth, self.penColor)
+                # self.currSquiggle = Squiggle(self.penWidth, self.penColor)
                 self.currSquiggle = Squiggle()
                 self.currSquiggle.penWidth = self.penWidth
                 self.currSquiggle.penColor = self.penColor

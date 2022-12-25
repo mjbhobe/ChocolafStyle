@@ -49,30 +49,26 @@
 #############################################################################
 
 import sys
-import math
 
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtXml import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 
 
 class FileListModel(QAbstractListModel):
     numberPopulated = pyqtSignal(int)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(FileListModel, self).__init__(parent)
 
         self.fileCount = 0
         self.fileList = []
 
-    def rowCount(self, parent=QModelIndex()):
+    def rowCount(self, parent = QModelIndex()):
         return self.fileCount
 
-    def data(self, index, role=Qt.DisplayRole):
+    def data(self, index, role = Qt.DisplayRole):
         if not index.isValid():
             return None
 
@@ -117,7 +113,7 @@ class FileListModel(QAbstractListModel):
 
 
 class Window(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super(Window, self).__init__(parent)
 
         model = FileListModel(self)
@@ -151,8 +147,8 @@ class Window(QWidget):
 
 
 if __name__ == '__main__':
-
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     window = Window()

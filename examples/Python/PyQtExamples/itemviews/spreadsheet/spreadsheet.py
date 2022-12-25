@@ -49,33 +49,27 @@
 #############################################################################
 
 import sys
-import math
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
 from PyQt5.QtPrintSupport import *
+from PyQt5.QtWidgets import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
+from printview import PrintView
+from spreadsheetdelegate import SpreadSheetDelegate
+from spreadsheetitem import SpreadSheetItem
+from util import decode_pos, encode_pos
 
 import spreadsheet_rc
 
-from spreadsheetdelegate import SpreadSheetDelegate
-from spreadsheetitem import SpreadSheetItem
-from printview import PrintView
-from util import decode_pos, encode_pos
-
 
 class SpreadSheet(QMainWindow):
-
     dateFormats = ["dd/MM/yyyy", "yyyy/M/dd", "dd.MM.yyyy"]
 
     currentDateFormat = dateFormats[0]
 
-    def __init__(self, rows, cols, parent=None):
+    def __init__(self, rows, cols, parent = None):
         super(SpreadSheet, self).__init__(parent)
 
         self.toolBar = QToolBar()
@@ -160,8 +154,8 @@ class SpreadSheet(QMainWindow):
         self.dateFormatMenu = self.fileMenu.addMenu("&Date format")
         self.dateFormatGroup = QActionGroup(self)
         for f in self.dateFormats:
-            action = QAction(f, self, checkable=True,
-                             triggered=self.changeDateFormat)
+            action = QAction(f, self, checkable = True,
+                             triggered = self.changeDateFormat)
             self.dateFormatGroup.addAction(action)
             self.dateFormatMenu.addAction(action)
             if f == self.currentDateFormat:
@@ -545,9 +539,9 @@ class SpreadSheet(QMainWindow):
 
 
 if __name__ == '__main__':
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
-    # app.setStyle("Fusion")
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
+    app.setStyle("Fusion")
     sheet = SpreadSheet(10, 6)
     sheet.setWindowIcon(QIcon(QPixmap(":/images/interview.png")))
     sheet.resize(640, 420)

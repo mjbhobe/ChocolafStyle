@@ -59,7 +59,6 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtPrintSupport import *
 
 import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
 import textEditor_rc
 
 __version__ = "1.0.0"
@@ -180,40 +179,40 @@ class ImageViewer(QMainWindow):
                           )
 
     def createActions(self):
-        self.openAct = QAction(QIcon(":/file_open.png"), "&Open...", self, shortcut="Ctrl+O",
-                               statusTip="Open an image file to view",
-                               triggered=self.open)
+        self.openAct = QAction(QIcon(":/file_open.png"), "&Open...", self, shortcut = "Ctrl+O",
+                               statusTip = "Open an image file to view",
+                               triggered = self.open)
 
-        self.printAct = QAction(QIcon(":/file_print.png"), "&Print...", self, shortcut="Ctrl+P",
-                                statusTip="Print the displayed image",
-                                enabled=False, triggered=self.print_)
+        self.printAct = QAction(QIcon(":/file_print.png"), "&Print...", self, shortcut = "Ctrl+P",
+                                statusTip = "Print the displayed image",
+                                enabled = False, triggered = self.print_)
 
-        self.exitAct = QAction(QIcon(":/on-off.png"), "E&xit", self, shortcut="Ctrl+Q",
-                               statusTip="Quit the application",
-                               triggered=self.close)
+        self.exitAct = QAction(QIcon(":/on-off.png"), "E&xit", self, shortcut = "Ctrl+Q",
+                               statusTip = "Quit the application",
+                               triggered = self.close)
 
-        self.zoomInAct = QAction(QIcon(":/zoomin.png"), "Zoom &In (25%)", self, shortcut="Ctrl++",
-                                 statusTip="Zoom into the image by 25%",
-                                 enabled=False, triggered=self.zoomIn)
+        self.zoomInAct = QAction(QIcon(":/zoomin.png"), "Zoom &In (25%)", self, shortcut = "Ctrl++",
+                                 statusTip = "Zoom into the image by 25%",
+                                 enabled = False, triggered = self.zoomIn)
 
-        self.zoomOutAct = QAction(QIcon(":/zoomout.png"), "Zoom &Out (25%)", self, shortcut="Ctrl+-",
-                                  statusTip="Zoom out of the image by 25%",
-                                  enabled=False, triggered=self.zoomOut)
+        self.zoomOutAct = QAction(QIcon(":/zoomout.png"), "Zoom &Out (25%)", self, shortcut = "Ctrl+-",
+                                  statusTip = "Zoom out of the image by 25%",
+                                  enabled = False, triggered = self.zoomOut)
 
-        self.normalSizeAct = QAction("&Normal Size", self, shortcut="Ctrl+0",
-                                     statusTip="Zoom image to normal size",
-                                     enabled=False, triggered=self.normalSize)
+        self.normalSizeAct = QAction("&Normal Size", self, shortcut = "Ctrl+0",
+                                     statusTip = "Zoom image to normal size",
+                                     enabled = False, triggered = self.normalSize)
 
-        self.fitToWindowAct = QAction(QIcon(":/zoom_to_fill.png"), "&Fit to Window", self, enabled=False,
-                                      statusTip="Zoom image to fit the size of viewer",
-                                      checkable=True, shortcut="Ctrl+F", triggered=self.fitToWindow)
+        self.fitToWindowAct = QAction(QIcon(":/zoom_to_fill.png"), "&Fit to Window", self, enabled = False,
+                                      statusTip = "Zoom image to fit the size of viewer",
+                                      checkable = True, shortcut = "Ctrl+F", triggered = self.fitToWindow)
 
         self.aboutAct = QAction(
-            "&About", self, statusTip="Display information about application", triggered=self.about)
+            "&About", self, statusTip = "Display information about application", triggered = self.about)
 
         self.aboutQtAct = QAction(QIcon(":/qt_logo.png"), "About &Qt", self,
-                                  statusTip="Display information about Qt Framework used",
-                                  triggered=QApplication.instance().aboutQt)
+                                  statusTip = "Display information about Qt Framework used",
+                                  triggered = QApplication.instance().aboutQt)
 
     def createMenus(self):
         self.fileMenu = QMenu("&File", self)
@@ -268,12 +267,8 @@ class ImageViewer(QMainWindow):
 
 
 def main():
-    # QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    # QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    # os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
-
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     win = ImageViewer()
