@@ -9,16 +9,14 @@
 * Use at your own risk!!
 
 """
-import sys
 import os
+import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
 from PyQt5 import uic
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
 
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 APP_PATH = os.path.dirname(__file__)
 
@@ -45,8 +43,10 @@ def setupWindow(window):
     window.setWindowTitle(f"PyQt {PYQT_VERSION_STR} MainWindow")
 
 
-app = ChocolafApp(sys.argv)
+chocolaf.enable_hi_dpi()
+app = chocolaf.ChocolafApp(sys.argv)
 app.setStyle("Chocolaf")
+
 window = MainWindow()  # uic.loadUi(os.path.join(APP_PATH, "mainwindow.ui"))
 # setupWindow(window)
 window.show()

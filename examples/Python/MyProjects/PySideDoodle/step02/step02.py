@@ -10,39 +10,29 @@
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
+import os
+os.environ["QT_API"] = "pyqt5"
+
 import sys
 import platform
 import pathlib
 
-# import PySide6
-# from PySide6.QtCore import *
-# from PySide6.QtGui import *
-# from PySide6.QtWidgets import *
-from PyQt5.QtWidgets import QApplication
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
 from mainWindow import *
 
-# print(f"You are here: {pathlib.Path(__file__).resolve()}")
-# print(f"Your parent is: {pathlib.Path(__file__).resolve().parent}")
-# print(f"Your grand-parent is: {pathlib.Path(__file__).resolve().parent.parent}")
-sys.path.insert(0, pathlib.Path(__file__).resolve().parent.parent.__str__())
-# print(sys.path)
-from pyside_doodle import setupAppForHighDpiScreens
-# sys.exit(-1)
-
-#from chocolaf.palettes import ChocolafPalette
-#from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 
 def main():
-    setupAppForHighDpiScreens()
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
+    app.setStyle("Fusion")
     # print(f"PySide Doodle - running with Python {platform.python_version()}, " +
     #       f"Qt {PySide6.QtCore.__version__}, PySide {PySide6.__version__} on {platform.system()}")
-    app = QApplication(sys.argv)
-    app.setFont(QApplication.font("QMenu"))
-    app.setStyle("Fusion")
 
     mainWindow = MainWindow()
-    mainWindow.setFont(QApplication.font("QMenu"))
     mainWindow.show()
 
     sys.exit(app.exec())

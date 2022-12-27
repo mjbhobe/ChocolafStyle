@@ -15,8 +15,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-# import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 
 class MainWindow(QMainWindow):
@@ -39,11 +38,11 @@ class MainWindow(QMainWindow):
         # create actions
         appDir = os.path.dirname(__file__)
         click_image_path = os.path.join(appDir, "images", "click.png")
-        assert(os.path.exists(click_image_path))
+        assert (os.path.exists(click_image_path))
         toggle_image_path = os.path.join(appDir, "images", "toggle.png")
-        assert(os.path.exists(toggle_image_path))
+        assert (os.path.exists(toggle_image_path))
         exit_image_path = os.path.join(appDir, "images", "exit.png")
-        assert(os.path.exists(exit_image_path))
+        assert (os.path.exists(exit_image_path))
 
         self.button1_action = QAction(
             QIcon(click_image_path), "Click Button", self)
@@ -91,8 +90,8 @@ class MainWindow(QMainWindow):
         self.label.setText(txt)
 
 
-ChocolafApp.setupAppForHighDpiScreens()
-app = ChocolafApp(sys.argv)
+chocolaf.enable_hi_dpi()
+app = chocolaf.ChocolafApp(sys.argv)
 app.setStyle("Chocolaf")
 
 win = MainWindow()

@@ -21,8 +21,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 # NOTE: mainwindow_rc.py was created on the command line using
 #   pyuic5 mainwindow.ui -o mainwindow_rc.py
@@ -45,7 +44,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.label.setText(f"{self.button_text} - clicked {self.click_count} times")
 
 
-app = ChocolafApp(sys.argv)
+chocolaf.enable_hi_dpi()
+app = chocolaf.ChocolafApp(sys.argv)
 app.setStyle("Chocolaf")
 window = MainWindow()  # uic.loadUi(os.path.join(APP_PATH, "mainwindow.ui"))
 # setupWindow(window)

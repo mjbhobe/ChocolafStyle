@@ -9,14 +9,11 @@
 """
 
 import sys
-import os
 
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-# import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 
 class MainWindow(QMainWindow):
@@ -62,8 +59,8 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} core widgets")
 
 
-ChocolafApp.setupAppForHighDpiScreens()
-app = ChocolafApp(sys.argv)
+chocolaf.enable_hi_dpi()
+app = chocolaf.ChocolafApp(sys.argv)
 app.setStyle("Chocolaf")
 
 win = MainWindow()

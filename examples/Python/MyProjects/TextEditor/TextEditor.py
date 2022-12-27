@@ -13,6 +13,7 @@
 """
 import os
 import sys
+import pathlib
 from argparse import ArgumentParser
 
 from PyQt5.QtCore import *
@@ -22,6 +23,8 @@ from PyQt5.Qsci import *
 
 import chocolaf
 from chocolaf import ChocolafPalette
+
+logger = chocolaf.get_logger(pathlib.Path(__file__).name)
 
 
 class TextEditorWindow(QMainWindow):
@@ -81,7 +84,7 @@ class TextEditorWindow(QMainWindow):
 
     def setupEditor(self):
         editorFontPointSize = chocolaf.pixelsToPoints(14)
-        print(f"Using {editorFontPointSize} point font for editor", flush = True)
+        logger.info(f"Using {editorFontPointSize} point font for editor")
         self._editorFont = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
         self._editorFont.setPointSize(editorFontPointSize)
         self._editorFontBold = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
@@ -118,6 +121,7 @@ class TextEditorWindow(QMainWindow):
         lexer = None
         if file_ext in [".py"]:
             lexer = QsciLexerPython()
+            logger.info(f"Using QsciLexerPython for {filePath}")
             lexer.setFont(self._editorFontItalic, QsciLexerPython.Comment)
             lexer.setColor(QColor('#6A8759'), QsciLexerPython.Comment)
             lexer.setFont(self._editorFontItalic, QsciLexerPython.CommentBlock)
@@ -155,6 +159,7 @@ class TextEditorWindow(QMainWindow):
 
         elif file_ext in [".h", ".hpp", ".hxx", ".c", ".cc", ".cpp"]:
             lexer = QsciLexerCPP()
+            logger.info(f"Using QsciLexerCPP for {filePath}")
             lexer.setFont(self._editorFontItalic, QsciLexerCPP.Comment)
             lexer.setColor(QColor('#57A64A'), QsciLexerCPP.Comment)
             lexer.setFont(self._editorFontItalic, QsciLexerCPP.CommentLine)

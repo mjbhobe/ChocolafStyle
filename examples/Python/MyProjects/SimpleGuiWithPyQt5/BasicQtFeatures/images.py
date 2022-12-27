@@ -15,8 +15,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-# import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 app_dir = os.path.dirname(__file__)
 
@@ -68,9 +67,8 @@ class Window(QWidget):
             f"PyQt {PYQT_VERSION_STR} image labels: {image_path}")
 
 
-ChocolafApp.setupAppForHighDpiScreens()
-app = ChocolafApp(sys.argv)
-# app.setStyle("QDarkStyle-dark")
+chocolaf.enable_hi_dpi()
+app = chocolaf.ChocolafApp(sys.argv)
 app.setStyle("Chocolaf")
 print('Hello World!')
 

@@ -1,10 +1,11 @@
 import os
 import random
+import logging
 
 import numpy as np
 
 
-def seed_all(seed = None):
+def seed_all(seed=None):
     # to ensure that you get consistent results across runs & machines
     """seed all random number generators to get consistent results
        across multiple runs ON SAME MACHINE - you may get different results
@@ -71,3 +72,21 @@ So, x pixels = x * 72 / 96 points
     # screenDpi = QGuiApplication.primaryScreen().physicalDotsPerInch()
     # return int((pixels / default_font_dpi) * screenDpi)
     return int(pixels * 72 / 96)
+
+
+def get_logger(logger_name: str) -> logging.Logger:
+    """Return the logger with the name specified by logger_name arg.
+
+    Args:
+        logger_name: The name of logger.
+
+    Returns:
+        Logger reformatted for this package.
+    """
+    logger = logging.getLogger(logger_name)
+    logger.propagate = False
+    logger.setLevel(logging.INFO)
+    ch = logging.StreamHandler()
+    ch.setFormatter(logging.Formatter("[%(name)s] [%(levelname)s] [%(asctime)s] %(message)s"))
+    logger.addHandler(ch)
+    return logger

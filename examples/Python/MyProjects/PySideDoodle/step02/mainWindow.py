@@ -8,13 +8,17 @@
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
+import os
 import sys
-import PySide6
-from PySide6.QtCore import *
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
 
-WIN_TITLE = f"PySide {PySide6.__version__} Doodle - Step02: Handling Events"
+import qtpy
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
+
+
+WIN_TITLE = f"{qtpy.API_NAME} Doodle - Step02: Handling Events"
+
 
 class MainWindow(QMainWindow):
     def __init__(self):

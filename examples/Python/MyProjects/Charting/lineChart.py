@@ -10,6 +10,7 @@
 """
 import sys
 import os
+import pathlib
 
 import chocolaf
 
@@ -18,14 +19,12 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtChart import *
 
-# sys.path.append(os.path.join(pathlib.Path(__file__).absolute().parents[2], 'common_files'))
-# from pyqt5_utils import ChocolafApp
 from chocolaf.palettes import ChocolafPalette
-# from chocolaf.utils.chocolafapp import ChocolafApp
 
 import yfinance
 import pandas as pd
 from datetime import datetime, timedelta, date
+
 
 # some pandas tweaks
 pd.set_option("display.max_rows", 80)
@@ -35,18 +34,23 @@ pd.options.display.float_format = '{:,.4f}'.format
 # some global constants
 START_DATE = '2000-01-01'
 END_DATE = '2022-12-31'
-STOCKS = ['BAJAJ-AUTO.NS', 'BAJFINANCE.NS', 'DIVISLAB.NS', 'DIXON.NS', 'HDFCBANK.NS', 'HEROMOTOCO.NS',
-          'INFY.NS', 'LT.NS', 'PIDILITIND.NS', 'RELIANCE.NS', 'SUNPHARMA.NS', 'TCS.NS', 'TITAN.NS', 'ULTRACEMCO.NS']
+STOCKS = ['BAJAJ-AUTO.NS', 'BAJAJFINSV.NS', 'COLPAL.NS', 'DIXON.NS', 'HDFCBANK.NS', 'HDFC.NS', 'HEROMOTOCO.NS',
+          'INFY.NS', 'ITC.NS', 'KANSAINER.NS', 'LT.NS', 'M&M.NS', 'NESTLEIND.NS', 'PIDILITIND.NS', 'PGHH.NS',
+          'RELIANCE.NS', 'TCS.NS', 'TATASTEEL.NS', 'TITAN.NS', 'ULTRACEMCO.NS']
+
+logger = chocolaf.get_logger(pathlib.Path(__file__).name)
 
 
 # download RELIANCE stock prices from NSE
 
 
-def download_datasets(stocks_list = STOCKS, start_date = START_DATE, end_date = END_DATE):
+def download_datasets(stocks_list=STOCKS, start_date=START_DATE, end_date=END_DATE):
     for stock in stocks_list:
-        print(f"Downloading {stock} data from {start_date} to {end_date}...", flush = True)
-        stock_df = yfinance.download(stock, start = start_date, end = end_date, progress = False)
-        stock_df.to_csv(f'{os.path.dirname(__file__)}/data/{stock[1:] if stock.startswith("^") else stock}.csv')
+        # print(f"Downloading {stock} data from {start_date} to {end_date}...", flush=True)
+        save_file_path = f'{os.path.dirname(__file__)}/data/{stock[1:] if stock.startswith("^") else stock}.csv'
+        logger.info(f"Downloading {stock} data from {start_date} to {end_date} to file {save_file_path}")
+        stock_df = yfinance.download(stock, start=start_date, end=end_date, progress=False)
+        stock_df.to_csv(save_file_path)
 
 
 def datetime_to_float(d):
@@ -62,12 +66,12 @@ def float_to_datetime(fl):
 
 def getDefaultDateRange():
     today = datetime.today()
-    delta = timedelta(days = 150)  # approx 5 mths
+    delta = timedelta(days=150)  # approx 5 mths
     start_date = today - delta
     start_date = date(start_date.year, start_date.month, 1)
     nextMth = 1 if today.month == 12 else today.month + 1
     nextYear = today.year + 1 if nextMth == 1 else today.year
-    delta = timedelta(days = 1)
+    delta = timedelta(days=1)
     end_date = date(nextYear, nextMth, 1)
     end_date = end_date - delta
     return start_date, end_date
@@ -95,7 +99,8 @@ class LineChartWidget(QWidget):
         self.setWindowTitle(f"PyQt{PYQT_VERSION_STR}: line chart demo")
 
     def setupFilters(self):
-        stocks_list = sorted([stock.split('.')[0].title() for stock in STOCKS])
+        stocks_list = sorted([(stock.split('.')[0][1:] if stock.startswith("^")
+                               else stock.split('.')[0]).title() for stock in STOCKS])
         self.stocks_combo = QComboBox()
         for stock in stocks_list:
             self.stocks_combo.addItem(stock)
@@ -179,7 +184,7 @@ class LineChartWidget(QWidget):
 
 if __name__ == "__main__":
     # re-run the following line if you want to download stocks data
-    # download_datasets(start_date = START_DATE, end_date = END_DATE)
+    # download_datasets(start_date=START_DATE, end_date=END_DATE)
     # sys.exit(-1)
 
     stocks_list = [stock.split('.')[0].title() for stock in STOCKS]
@@ -187,10 +192,11 @@ if __name__ == "__main__":
     stock_df = pd.read_csv(f'{os.path.dirname(__file__)}/data/RELIANCE.NS.csv')
     print(stock_df.head())
 
-    # ChocolafApp.setupAppForHighDpiScreens()
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
+
     win = LineChartWidget()
     win.show()
+
     sys.exit(app.exec())

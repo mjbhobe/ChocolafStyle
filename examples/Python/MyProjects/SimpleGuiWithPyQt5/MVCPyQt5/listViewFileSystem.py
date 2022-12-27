@@ -16,16 +16,15 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 APP_PATH = os.path.dirname(__file__)
 Window_Title = f"PyQt {PYQT_VERSION_STR} MVC - 2 views of same file system"
 HOME_DIR = str(pathlib.Path.home())
 
 if __name__ == "__main__":
-    # ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     splitter = QSplitter()

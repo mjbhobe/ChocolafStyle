@@ -15,14 +15,13 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-# import chocolaf
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
 
 app_dir = os.path.dirname(__file__)
 
 
 class Color(QWidget):
-    def __init__(self, color, *args, darken=True, **kwargs):
+    def __init__(self, color, *args, darken = True, **kwargs):
         super(Color, self).__init__(*args, **kwargs)
         self.color = color
         self.darken = darken
@@ -30,7 +29,7 @@ class Color(QWidget):
         palette = self.palette()
         clr = QColor(color)
         if self.darken:
-            clr = clr.darker(factor=150)
+            clr = clr.darker(factor = 150)
         palette.setColor(QPalette.Window, clr)
         self.setPalette(palette)
 
@@ -44,18 +43,18 @@ class Window(QWidget):
         layout = QHBoxLayout()  # QVBoxLayout()
         layout.setSpacing(0)
         for color in rainbow:
-            layout.addWidget(Color(QColor(color)))
+            layout.addWidget(Color(QColor(color), darken = False))
         self.setLayout(layout)
 
         self.resize(300, 300)
-        icon_path = os.path.join(app_dir, "haha.png")
+        icon_path = os.path.join(app_dir, "images", "avatar1.png")
         self.setWindowIcon(QIcon(icon_path))
         self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} rainbow")
 
 
-ChocolafApp.setupAppForHighDpiScreens()
-app = ChocolafApp(sys.argv)
-# app.setStyle("QDarkStyle-dark")
+chocolaf.enable_hi_dpi()
+app = chocolaf.ChocolafApp(sys.argv)
+# app.setStyle("Chocolaf")
 
 win = Window()
 win.show()

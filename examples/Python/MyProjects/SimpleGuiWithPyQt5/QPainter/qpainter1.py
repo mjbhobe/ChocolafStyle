@@ -14,8 +14,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.chocolafapp import ChocolafApp
+import chocolaf
+from chocolaf import ChocolafPalette
 
 App_Path = os.path.dirname(__file__)
 Window_Title = f"PyQt {PYQT_VERSION_STR} QPainter - draw simple shapes"
@@ -71,8 +71,8 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-    ChocolafApp.setupAppForHighDpiScreens()
-    app = ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     # app.setStyle("Fusion")
     app.setStyle("Chocolaf")
 

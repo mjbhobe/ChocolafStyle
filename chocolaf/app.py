@@ -11,10 +11,11 @@ import sys
 import os
 import logging
 
-_logger = logging.getLogger(__name__)
 
 import chocolaf
 from chocolaf.palettes import ChocolafPalette
+from chocolaf.utilities import get_logger
+
 
 # from PyQt5.QtCore import *
 # from PyQt5.QtGui import *
@@ -24,7 +25,7 @@ from qtpy.QtCore import *
 from qtpy.QtGui import *
 from qtpy.QtWidgets import *
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__file__)
 
 
 class ChocolafApp(QApplication):
@@ -43,25 +44,37 @@ class ChocolafApp(QApplication):
     def getPalette(self) -> QPalette:
         palette = QPalette()
         # @see: https://doc.qt.io/qt-5/qpalette.html
-        palette.setColor(QPalette.Window, ChocolafPalette.Window_Color)  # general background color
-        palette.setColor(QPalette.WindowText, ChocolafPalette.WindowText_Color)  # general foreground color
-        palette.setColor(QPalette.Base, ChocolafPalette.Base_Color)  # background for text entry widgets
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Window,
+                         ChocolafPalette.Window_Color)  # general background color
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.WindowText,
+                         ChocolafPalette.WindowText_Color)  # general foreground color
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Base,
+                         ChocolafPalette.Base_Color)  # background for text entry widgets
         # background color for views with alternating colors
-        palette.setColor(QPalette.AlternateBase, ChocolafPalette.AlternateBase_Color)
-        palette.setColor(QPalette.ToolTipBase, ChocolafPalette.ToolTipBase_Color)  # background for tooltips
-        palette.setColor(QPalette.ToolTipText, ChocolafPalette.ToolTipText_Color)
-        palette.setColor(QPalette.Text, ChocolafPalette.Text_Color)  # foreground color to use with Base
-        palette.setColor(QPalette.Button, ChocolafPalette.Button_Color)  # pushbutton colors
-        palette.setColor(QPalette.ButtonText, ChocolafPalette.ButtonText_Color)  # pushbutton's text color
-        palette.setColor(QPalette.Link, ChocolafPalette.Link_Color)
-        palette.setColor(QPalette.LinkVisited, ChocolafPalette.LinkVisited_Color)
-        palette.setColor(QPalette.Highlight, ChocolafPalette.Highlight_Color)  # highlight color
-        palette.setColor(QPalette.HighlightedText, ChocolafPalette.HighlightedText_Color)
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.AlternateBase,
+                         ChocolafPalette.AlternateBase_Color)
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.ToolTipBase,
+                         ChocolafPalette.ToolTipBase_Color)  # background for tooltips
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.ToolTipText, ChocolafPalette.ToolTipText_Color)
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Text,
+                         ChocolafPalette.Text_Color)  # foreground color to use with Base
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Button,
+                         ChocolafPalette.Button_Color)  # pushbutton colors
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.ButtonText,
+                         ChocolafPalette.ButtonText_Color)  # pushbutton's text color
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Link, ChocolafPalette.Link_Color)
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.LinkVisited, ChocolafPalette.LinkVisited_Color)
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Highlight,
+                         ChocolafPalette.Highlight_Color)  # highlight color
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.HighlightedText,
+                         ChocolafPalette.HighlightedText_Color)
         # colors for disabled elements
-        palette.setColor(QPalette.Disabled, QPalette.ButtonText, ChocolafPalette.Disabled_ButtonText_Color)
-        palette.setColor(QPalette.Disabled, QPalette.WindowText, ChocolafPalette.Disabled_WindowText_Color)
-        palette.setColor(QPalette.Disabled, QPalette.Text, ChocolafPalette.Disabled_Text_Color)
-        palette.setColor(QPalette.Disabled, QPalette.Light, ChocolafPalette.Disabled_Light_Color)
+        palette.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.ButtonText,
+                         ChocolafPalette.Disabled_ButtonText_Color)
+        palette.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.WindowText,
+                         ChocolafPalette.Disabled_WindowText_Color)
+        palette.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.Text, ChocolafPalette.Disabled_Text_Color)
+        palette.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.Light, ChocolafPalette.Disabled_Light_Color)
 
         return palette
 
@@ -77,12 +90,12 @@ class ChocolafApp(QApplication):
             from qdarkstyle.dark.palette import DarkPalette
             from qdarkstyle.light.palette import LightPalette
 
-            qdarkstyle_darkss = qdarkstyle.load_stylesheet(palette = DarkPalette)
+            qdarkstyle_darkss = qdarkstyle.load_stylesheet(palette=DarkPalette)
             _logger.info(f"QDarkStyle - dark stylesheet loaded successfully")
             qdarkstyle_darkss += "\nQPushButton{min-height:1.2em; min-width:3em}"
             self.styles["QDarkStyle-dark"] = qdarkstyle_darkss
 
-            qdarkstyle_lightss = qdarkstyle.load_stylesheet(palette = LightPalette)
+            qdarkstyle_lightss = qdarkstyle.load_stylesheet(palette=LightPalette)
             _logger.info(f"QDarkStyle - light stylesheet loaded successfully")
             qdarkstyle_lightss += "\nQPushButton{min-height:1.2em; min-width:3em}"
             self.styles["QDarkStyle-light"] = qdarkstyle_lightss
@@ -96,7 +109,7 @@ class ChocolafApp(QApplication):
             _logger.info(f"NOTE: QDarkstyle is not available ChocolafApp.setStyle(\"QDarkStyle-XXX\") won't work!")
             pass
 
-    def availableStyles(self, subset = 'all') -> list:
+    def availableStyles(self, subset='all') -> list:
         assert subset in ['all', 'mine']
         availableStyles = []
         for key in self.styles.keys():
