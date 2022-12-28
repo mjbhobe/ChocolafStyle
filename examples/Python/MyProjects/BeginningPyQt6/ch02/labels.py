@@ -36,6 +36,7 @@ class MainWindow(QWidget):
 
 def main():
     app = QApplication(sys.argv)
+    app.setStyle("Fusion")
 
     # create the main window
     win = MainWindow()
