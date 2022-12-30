@@ -8,7 +8,8 @@
 * Use at your own risk!!
 """
 
-from PyQt5.QtGui import QColor, qRgb
+# from PyQt5.QtGui import QColor, qRgb
+from qtpy.QtGui import QColor, qRgb
 
 
 class ChocolafPalette:

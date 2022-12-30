@@ -10,22 +10,21 @@
 import sys
 import os
 import logging
-
+import pathlib
 
 import chocolaf
 from chocolaf.palettes import ChocolafPalette
 from chocolaf.utilities import get_logger
-
 
 # from PyQt5.QtCore import *
 # from PyQt5.QtGui import *
 # from PyQt5.QtWidgets import *
 
 from qtpy.QtCore import *
-from qtpy.QtGui import *
 from qtpy.QtWidgets import *
+from qtpy.QtGui import *
 
-_logger = logging.getLogger(__file__)
+_logger = get_logger(pathlib.Path(__file__).name)
 
 
 class ChocolafApp(QApplication):
@@ -38,7 +37,9 @@ class ChocolafApp(QApplication):
         # map of stylesheets
         self.styles = {}
         self.palettes = {}
-        self.setFont(QApplication.font("QMenu"))
+        # @NOTE: commenting out this line as it causes problems on Windows High-DPI screens
+        # where fonts get scaled to huge sizes!
+        # self.setFont(QApplication.font("QMenu"))
         self.loadStyleSheets()
 
     def getPalette(self) -> QPalette:

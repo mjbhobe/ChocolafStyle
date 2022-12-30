@@ -52,13 +52,17 @@
 
 
 import sys
+import os
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+os.environ["QT_API"] = "pyqt6"
+
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
 from sklearn.manifold import trustworthiness
 
-import chocolaf
+
+# import chocolaf
 
 
 class WidgetGallery(QWidget):
@@ -74,7 +78,8 @@ class WidgetGallery(QWidget):
         closeLayout = QHBoxLayout()
         closeLayout.addStretch()
         closeLayout.addWidget(closeBtn)
-        closeBtn.clicked.connect(qApp.exit)
+        # closeBtn.clicked.connect(qApp.exit)
+        closeBtn.clicked.connect(QApplication.instance().exit)
 
         groupsLayout = QGridLayout()
         groupsLayout.addWidget(self.buttonsGroupBox, 0, 0)
@@ -315,10 +320,10 @@ class WidgetGallery(QWidget):
 
 
 def main():
-    chocolaf.enable_hi_dpi()
-    app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
-    # app = QApplication(sys.argv)
+    # chocolaf.enable_hi_dpi()
+    # app = chocolaf.ChocolafApp(sys.argv)
+    # app.setStyle("Chocolaf")
+    app = QApplication(sys.argv)
 
     w = WidgetGallery()
     # w.setStyleSheet(app.getStyleSheet("Chocolaf"))

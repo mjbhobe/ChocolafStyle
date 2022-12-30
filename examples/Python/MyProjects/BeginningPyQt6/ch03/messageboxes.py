@@ -2,11 +2,14 @@
 import sys
 import os
 
+# os.environ["QT_API"] = "pyqt6"
+
 from PyQt6.QtCore import PYQT_VERSION_STR, Qt
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox
 from PyQt6.QtGui import QFont
 
 AppDir = os.path.dirname(__file__)
+import chocolaf
 
 
 class MainWindow(QWidget):
@@ -22,7 +25,7 @@ class MainWindow(QWidget):
     def setupMainWindow(self):
         """ setup widgets & connect signals/slots """
         catalogue_label = QLabel("Author Catalogue", self)
-        catalogue_label.setFont(QFont("Arial", 18))
+        catalogue_label.setFont(QFont("Arial", 16))
         catalogue_label.move(80, 10)
 
         search_label = QLabel("Search the index for an author", self)
@@ -70,6 +73,8 @@ class MainWindow(QWidget):
 
 
 def main():
+    chocolaf.enable_hi_dpi()
+    # app = chocolaf.ChocolafApp(sys.argv)
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
 

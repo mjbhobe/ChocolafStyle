@@ -20,6 +20,7 @@ class MainWindow(QWidget):
         name_label = QLabel("Name:", self)
         name_label.move(20, 50)
 
+        # author name
         self.name_edit = QLineEdit(self)
         self.name_edit.resize(212, 22)
         self.name_edit.move(70, 50)
