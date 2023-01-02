@@ -1,7 +1,8 @@
 // c2f.cc - convert celcius temp to farenheit
 #include "common_funcs.h"
-#include <cstdlib>
 #include <QtCore>
+#include <cstdio>
+#include <cstdlib>
 
 static QTextStream cout(stdout, QIODevice::WriteOnly);
 static QTextStream cerr(stderr, QIODevice::WriteOnly);
@@ -14,6 +15,7 @@ int main(int argc, char **argv)
    float farenheit{0.0f};
    QString strCelcius{""};
    bool ok{false};
+   fflush(stdin);
 
    do {
       cout << "Celcius temp (enter to quit)? " << Qt::flush;
@@ -25,9 +27,8 @@ int main(int argc, char **argv)
          }
          else {
             farenheit = (celcius * (9.0f / 5.0f)) + 32.0f;
-            QString msg
-               = QString("%1 C = %2 F").arg(celcius, 6, 'f', 2).arg(farenheit, 6, 'f', 2);
-            //cout << celcius << " C = " << farenheit << " F" << Qt::endl;
+            QString msg = QString("%1 C = %2 F").arg(celcius, 6, 'f', 2).arg(farenheit, 6, 'f', 2);
+            // cout << celcius << " C = " << farenheit << " F" << Qt::endl;
             cout << msg << Qt::endl;
          }
       }

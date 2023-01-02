@@ -7,17 +7,40 @@ os.environ["QT_API"] = "pyqt6"
 from qtpy.QtCore import PYQT_VERSION_STR, Qt
 from qtpy.QtWidgets import (
     QApplication, QWidget, QLabel, QLineEdit, QPushButton,
-    QCheckBox, QGridLayout, QHBoxLayout, QMessageBox
+    QCheckBox, QGridLayout, QHBoxLayout, QMessageBox, QMainWindow
 )
 from qtpy.QtGui import QFont, QPixmap
-
 import chocolaf
+from registration import NewUserDialog
 
 custom_stylesheet = """
     QMessageBox {
-        font-size: 12pt;
+        font-size: 13px;
     }
 """
+
+AppDir = os.path.dirname(__file__)
+
+
+class MainWindow(QMainWindow):
+    def __init__(self, parent: QWidget = None):
+        super(MainWindow, self).__init__(parent)
+        self.initializeUi()
+
+    def initializeUi(self):
+        self.setMinimumSize(640, 480)
+        self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} MainWindow")
+        self.setupMainWindow()
+
+    def setupMainWindow(self):
+        image_path = os.path.join(AppDir, "images/background_kingfisher.jpg")
+        if os.path.exists(image_path):
+            self.main_label = QLabel()
+            pixmap = QPixmap(image_path)
+            self.main_label.setPixmap(pixmap)
+            self.setCentralWidget(self.main_label)
+        else:
+            raise FileNotFoundError(f"FATAL: {image_path} does note exist!")
 
 
 class LoginWindow(QWidget):
@@ -73,24 +96,56 @@ class LoginWindow(QWidget):
 
         self.setLayout(layout)
 
-    def displayPasswordIfChecked(self):
-        pass
+    def displayPasswordIfChecked(self, checked):
+        if checked:
+            self.password_edit.setEchoMode(QLineEdit.EchoMode.Normal)
+        else:
+            self.password_edit.setEchoMode(QLineEdit.EchoMode.Password)
 
     def clickLoginButton(self):
-        QMessageBox.information(self, "Login",
-                                f"Trying to login as {self.username_edit.text()}/{self.password_edit.text()}")
+        """ check credentials & allow/deny login """
+        users = {}
+        password_file = os.path.join(AppDir, "files/users.txt")
+
+        try:
+            with open(password_file, "r") as f:
+                for line in f:
+                    user_info = line.split(" ")
+                    user_name = user_info[0].strip()
+                    password = user_info[1].strip()
+                    users[user_name] = password
+
+            # collect data from screen
+            username = self.username_edit.text()
+            password = self.password_edit.text()
+            if (username, password) in users.items():
+                QMessageBox.information(self, "Login Successful!",
+                                        "Login successful", QMessageBox.StandardButton.Ok, QMessageBox.StandardButton.Ok)
+                self.close()
+                self.openApplicationWindow()
+            else:
+                QMessageBox.warning(self, "Login Failed!",
+                                    "Login failed - invalid credentials.", QMessageBox.StandardButton.Ok, QMessageBox.StandardButton.Ok)
+        except FileNotFoundError as error:
+            QMessageBox.warning(self, "Error",
+                                f"""<p>File not found.</p>
+                 <p>Error: {error}</p>""", QMessageBox.StandardButton.Ok)
 
     def createNewUser(self):
-        pass
+        new_user_dlg = NewUserDialog(self)
+        new_user_dlg.show()
+
+    def openApplicationWindow(self):
+        self.main_window = MainWindow()
+        self.main_window.show()
 
 
 def main():
-    app = QApplication(sys.argv)
+    # app = QApplication(sys.argv)
+    # app.setStyle("Fusion")
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Fusion")
-    app.setStyleSheet(custom_stylesheet)
-    # chocolaf.enable_hi_dpi()
-    # app = chocolaf.ChocolafApp(sys.argv)
-    # app.setStyle("Chocolaf")
 
     # create the main window
     win = LoginWindow()
