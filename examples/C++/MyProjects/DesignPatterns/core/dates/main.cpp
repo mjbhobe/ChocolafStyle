@@ -1,8 +1,8 @@
+#include <cstdio>
+#include <cstdlib>
 #include <QCoreApplication>
 #include <QDate>
 #include <QTextStream>
-#include <cstdio>
-#include <cstdlib>
 
 // NOTE: do not include <iostream>!
 QTextStream cout(stdout, QIODeviceBase::WriteOnly);
@@ -26,11 +26,12 @@ int main(int argc, char *argv[])
    cout << "Today is " << QDate::currentDate().toString("dddd MMMM dd yyyy") << Qt::endl;
 
    QDate bday(1969, 6, 22); // yeah, I'm really old :(
-   cout << "I was born on " << bday.toString("dd-MMM-yy") << " which makes me approximately "
-        << QDate::currentDate().year() - bday.year() << " years old!"
-        << "(maaaaaan!! that's fossil old :D)" << Qt::endl;
+   cout << "I was born on " << bday.toString("dd-MMM-yy")
+        << " which makes me approximately " << QDate::currentDate().year() - bday.year()
+        << " years old! (maaaaaan!! that's fossil old :D)" << Qt::endl;
    QDate today = QDate::currentDate();
-   cout << "I have been alive for " << bday.daysTo(today) << " days! (beat that)" << Qt::endl;
+   cout << "I have been alive for " << bday.daysTo(today) << " days! (beat that)"
+        << Qt::endl;
    // how many days to my next birthday?
    auto year = (today.month() > bday.month()) ? today.year() + 1 : today.year();
    QDate nextBday = QDate(year, bday.month(), bday.day());
@@ -44,8 +45,8 @@ int main(int argc, char *argv[])
    cout << "My wife's birthday is coming up in just " << today.daysTo(anus_bday)
         << " days!! It's on " << anus_bday.toString("dd-MMM-yy")
         << " and I have not though of a gift yet. I'm screwed!!" << Qt::endl;
-   cout << "Anu's birthday: " << today.addDays(36).toString("dd-MMM-yy") << " coming up in "
-        << today.daysTo(anus_bday) << " days!" << Qt::endl;
+   cout << "Anu's birthday: " << today.addDays(36).toString("dd-MMM-yy")
+        << " coming up in " << today.daysTo(anus_bday) << " days!" << Qt::endl;
    auto nupoors_bday = QDate(today.year() + 1, 5, 8);
    cout << "Nupoor's birthday: " << nupoors_bday.toString("dd-MMM-yy") << " coming up in "
         << today.daysTo(nupoors_bday) << " days!" << Qt::endl;

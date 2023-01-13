@@ -4,6 +4,8 @@ import sys
 from PyQt6.QtCore import PYQT_VERSION_STR, Qt
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QCheckBox
 
+import chocolaf
+
 
 class MainWindow(QWidget):
     def __init__(self, parent: QWidget = None):
@@ -11,7 +13,7 @@ class MainWindow(QWidget):
         self.initializeUi()
 
     def initializeUi(self):
-        self.setGeometry(200, 100, 250, 150)
+        self.setGeometry(200, 100, 250, 175)
         self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} checkboxes")
         self.setupMainWindow()
 
@@ -28,10 +30,10 @@ class MainWindow(QWidget):
         morning_cb.toggled.connect(self.printSelected)
         morning_cb.toggle()  # Uncomment to start checked
         after_cb = QCheckBox("Afternoon [1 PM-8 PM]", self)
-        after_cb.move(40, 80)
+        after_cb.move(40, 90)
         after_cb.toggled.connect(self.printSelected)
         night_cb = QCheckBox("Night [7 PM-3 AM]", self)
-        night_cb.move(40, 100)
+        night_cb.move(40, 120)
         night_cb.toggled.connect(self.printSelected)
 
     def printSelected(self, checked):
@@ -44,8 +46,11 @@ class MainWindow(QWidget):
 
 
 def main():
-    app = QApplication(sys.argv)
-    app.setStyle("Fusion")
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
+    app.setStyle("Chocolaf")
+    # app = QApplication(sys.argv)
+    # app.setStyle("Fusion")
 
     # create the main window
     win = MainWindow()

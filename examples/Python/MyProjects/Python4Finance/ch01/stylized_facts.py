@@ -28,11 +28,11 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(1, 2, figsize=(16, 8))
     # histogram with norm distribution
     sns.distplot(df.Log_Rtn, kde=False, norm_hist=True, ax=ax[0])
-    ax[0].set_title('Distribution of MSFT Returns', fontsize=16)
-    ax[0].plot(r_range, norm_pdf, color='green', lw=2,
+    ax[0].set_title('Distribution of MSFT Returns', fontsize=12)
+    ax[0].plot(r_range, norm_pdf, color='firebrick', lw=2,
                label=f'N({mu:.2f}, {sigma**2:.4f})')
     ax[0].legend(loc='upper left')
     # QQ-plot
     qq = sm.qqplot(df.Log_Rtn.values, line='s', ax=ax[1])
-    ax[1].set_title('Q-Q plot', fontsize=16)
+    ax[1].set_title('Q-Q plot', fontsize=12)
     plt.show()
