@@ -10,6 +10,9 @@ Makefile
 Makefile.Debug
 Makefile.Release
 
+# ignore configuration files
+*.ini
+
 # ignore .vscode folder (Visual Studio code settings)
 .vscode
 .vs
@@ -39,7 +42,7 @@ PROJECT
 
 # Windows & Mac specific files
 Thumbs.db
-desktop.ini 
+desktop.ini
 .DS_Store
 
 # ignore stash files
@@ -53,4 +56,3 @@ __pycache__
 
 # ignore pt (checkpoint) files
 *.pt
-

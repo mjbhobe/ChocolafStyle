@@ -1,9 +1,9 @@
 #include "argparse/argparse.hpp"
+#include <filesystem>
+#include <fmt/core.h>
 #include <QtCore>
 #include <QtGui>
 #include <QtWidgets>
-#include <filesystem>
-#include <fmt/core.h>
 
 #include "ImageViewer.h"
 #include "chocolaf.h"
@@ -16,18 +16,22 @@ static QTextStream cerr(stderr, QIODevice::WriteOnly);
 // define expected command line args
 // @see: https://github.com/morrisfranken/argparse
 struct MyArgs : public argparse::Args {
-  // -i | --image <image_path>
-  std::string &image_path =
-      kwarg("i,image", "Full path to image file to display.").set_default("");
+   // -i | --image <image_path>
+   std::string &image_path = kwarg("i,image", "Full path to image file to display.")
+                                .set_default("");
 };
 
 int main(int argc, char **argv)
 {
-  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-  Chocolaf::ChocolafApp app(argc, argv);
-  app.setStyle("Chocolaf");
+   Chocolaf::ChocolafApp::setupForHighDpiScreens();
+   Chocolaf::ChocolafApp app(argc, argv);
+#ifdef Q_OS_WIN
+   app.setStyle("WindowsDark");
+#else
+   app.setStyle("Chocolaf");
+#endif
 
-  /*
+   /*
   QApplication app(argc, argv);
 
   QFile f(":chocolaf/chocolaf.css");
@@ -40,22 +44,23 @@ int main(int argc, char **argv)
     app.setStyleSheet(ts.readAll());
   }
   */
-  app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
+   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
-  // parse the command line params
-  MyArgs args = argparse::parse<MyArgs>(argc, argv, /* raise_on_error */ true);
+   // parse the command line params
+   MyArgs args = argparse::parse<MyArgs>(argc, argv, /* raise_on_error */ true);
 
-  ImageViewer w;
-  if ((args.image_path != "")) {
-    if (fs::exists(args.image_path)) {
-      w.loadImage(QString(args.image_path.c_str()));
-      w.updateActions();
-    } else {
-      cerr << "WARNING: " << args.image_path.c_str() << " - path does not exist!"
-           << Qt::endl;
-    }
-  }
-  w.show();
+   ImageViewer w;
+   if ((args.image_path != "")) {
+      if (fs::exists(args.image_path)) {
+         w.loadImage(QString(args.image_path.c_str()));
+         w.updateActions();
+      }
+      else {
+         cerr << "WARNING: " << args.image_path.c_str() << " - path does not exist!"
+              << Qt::endl;
+      }
+   }
+   w.show();
 
-  return app.exec();
+   return app.exec();
 }
