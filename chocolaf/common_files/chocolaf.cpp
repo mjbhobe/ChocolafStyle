@@ -7,11 +7,16 @@
 #include <QMessageBox>
 #include <QPalette>
 #include <QScreen>
+#include <QSettings>
 #include <QStyleFactory>
 #include <QTextStream>
 #ifdef Q_OS_WIN
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <dwmapi.h>
 #include <shellscalingapi.h> // for SetProcessDpiAwareness
+#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
+#define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+#endif
 #endif
 #include <windows.h>
 #include <winuser.h>
@@ -142,28 +147,59 @@ void ChocolafApp::setStyle(const QString &styleName)
    }
    else if (styleName == QString("WindowsDark")) {
       this->setStyle("Fusion");
-      //this->setStyle(QStyleFactory::create("Fusion"));
       setFont(QApplication::font("QMenu"));
       QPalette darkPalette;
-      QColor darkColor = QColor(45, 45, 45);
-      QColor disabledColor = QColor(127, 127, 127);
-      darkPalette.setColor(QPalette::Window, darkColor);
-      darkPalette.setColor(QPalette::WindowText, Qt::white);
-      darkPalette.setColor(QPalette::Base, QColor(18, 18, 18));
-      darkPalette.setColor(QPalette::AlternateBase, darkColor);
-      darkPalette.setColor(QPalette::ToolTipBase, Qt::white);
-      darkPalette.setColor(QPalette::ToolTipText, Qt::white);
-      darkPalette.setColor(QPalette::Text, Qt::white);
-      darkPalette.setColor(QPalette::Disabled, QPalette::Text, disabledColor);
-      darkPalette.setColor(QPalette::Button, darkColor);
-      darkPalette.setColor(QPalette::ButtonText, Qt::white);
-      darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText, disabledColor);
-      darkPalette.setColor(QPalette::BrightText, Qt::red);
-      darkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
+      //      QColor darkColor = QColor(45, 45, 45);
+      //      QColor disabledColor = QColor(127, 127, 127);
+      //      darkPalette.setColor(QPalette::Window, darkColor);
+      //      darkPalette.setColor(QPalette::WindowText, Qt::white);
+      //      darkPalette.setColor(QPalette::Base, QColor(18, 18, 18));
+      //      darkPalette.setColor(QPalette::AlternateBase, darkColor);
+      //      darkPalette.setColor(QPalette::ToolTipBase, Qt::white);
+      //      darkPalette.setColor(QPalette::ToolTipText, Qt::white);
+      //      darkPalette.setColor(QPalette::Text, Qt::white);
+      //      darkPalette.setColor(QPalette::Disabled, QPalette::Text, disabledColor);
+      //      darkPalette.setColor(QPalette::Button, darkColor);
+      //      darkPalette.setColor(QPalette::ButtonText, Qt::white);
+      //      darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText, disabledColor);
+      //      darkPalette.setColor(QPalette::BrightText, Qt::red);
+      //      darkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
 
-      darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
-      darkPalette.setColor(QPalette::HighlightedText, Qt::black);
-      darkPalette.setColor(QPalette::Disabled, QPalette::HighlightedText, disabledColor);
+      //      darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+      //      darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+      //      darkPalette.setColor(QPalette::Disabled, QPalette::HighlightedText, disabledColor);
+      darkPalette.setColor(QPalette::Window,
+                           WinDarkPalette::Window_Color); // general background color
+      darkPalette.setColor(QPalette::WindowText,
+                           WinDarkPalette::WindowText_Color); // general foreground color
+      darkPalette.setColor(QPalette::Base,
+                           WinDarkPalette::Base_Color); // background for text entry widgets
+      // background color for views with alternating colors
+      darkPalette.setColor(QPalette::AlternateBase, WinDarkPalette::AlternateBase_Color);
+      darkPalette.setColor(QPalette::ToolTipBase,
+                           WinDarkPalette::ToolTipBase_Color); // background for tooltips
+      darkPalette.setColor(QPalette::ToolTipText, WinDarkPalette::ToolTipText_Color);
+      darkPalette.setColor(QPalette::Text,
+                           WinDarkPalette::Text_Color); // foreground color to use with Base
+      darkPalette.setColor(QPalette::Button,
+                           WinDarkPalette::Button_Color); // pushbutton colors
+      darkPalette.setColor(QPalette::ButtonText,
+                           WinDarkPalette::ButtonText_Color); // pushbutton's text color
+      darkPalette.setColor(QPalette::Link, WinDarkPalette::Link_Color);
+      darkPalette.setColor(QPalette::LinkVisited, WinDarkPalette::LinkVisited_Color);
+      darkPalette.setColor(QPalette::Highlight,
+                           WinDarkPalette::Highlight_Color); // highlight color
+      darkPalette.setColor(QPalette::HighlightedText,
+                           WinDarkPalette::HighlightedText_Color);
+      // colors for disabled elements
+      darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText,
+                           WinDarkPalette::Disabled_ButtonText_Color);
+      darkPalette.setColor(QPalette::Disabled, QPalette::WindowText,
+                           WinDarkPalette::Disabled_WindowText_Color);
+      darkPalette.setColor(QPalette::Disabled, QPalette::Text,
+                           WinDarkPalette::Disabled_Text_Color);
+      darkPalette.setColor(QPalette::Disabled, QPalette::Light,
+                           WinDarkPalette::Disabled_Light_Color);
 
       this->setPalette(darkPalette);
 
@@ -219,6 +255,24 @@ int ChocolafApp::pointsToPixels(int points)
    // NOTE: 1 inch == 96 pixels and 1 inch == 72 points
    // hence 96 pixels = 72 points
    return static_cast<int>(points * 96 / 72);
+}
+
+// static
+void ChocolafApp::setDarkTitlebar(QWidget &win)
+{
+#ifdef Q_OS_WIN
+   QSettings
+      settings("HKEY_CURRENT_"
+               "USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+               QSettings::NativeFormat);
+   //BOOL setDarkTitlebar = (settings.value("AppsUseLightTheme") == 0) ? TRUE : FALSE;
+   BOOL setDarkTitlebar = TRUE;
+   if (setDarkTitlebar) {
+      HWND hWnd = HWND(win.winId());
+      ::DwmSetWindowAttribute(hWnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &setDarkTitlebar,
+                              sizeof(setDarkTitlebar));
+   }
+#endif
 }
 
 /*-------------------------------------------------

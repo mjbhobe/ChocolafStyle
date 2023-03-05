@@ -5,13 +5,14 @@
 #include "window.h"
 #include <QApplication>
 
-int main(int argc, char *argv[]) {
-  // QApplication app(argc, argv);
-  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-  Chocolaf::ChocolafApp app(argc, argv);
-  app.setStyle("Chocolaf");
+int main(int argc, char *argv[])
+{
+   // QApplication app(argc, argv);
+   Chocolaf::ChocolafApp::setupForHighDpiScreens();
+   Chocolaf::ChocolafApp app(argc, argv);
+   app.setStyle("WindowsDark");
 
-  Window window;
-  window.show();
-  return app.exec();
+   Window window;
+   window.show();
+   return app.exec();
 }
