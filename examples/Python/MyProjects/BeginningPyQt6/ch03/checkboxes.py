@@ -6,6 +6,101 @@ from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QCheckBox
 
 import chocolaf
 
+STYLE_SHEET = """
+    QWidget {
+       background-color: rgb(47, 47, 47);
+        border: 0px solid rgb(127, 127, 127);
+        padding: 0px;
+        color: rgb(220, 220, 220);
+        selection-background-color: rgb(0, 114, 198);
+        selection-color: rgb(220, 220, 220);
+    }
+
+    QWidget:disabled {
+        background-color: rgb(47, 47, 47);
+        color: rgb(127, 127, 127);
+        selection-background-color: rgb(43, 87, 154);
+        selection-color: rgb(127, 127, 127);
+    }
+
+    QWidget::item:selected {
+        background-color: rgb(0, 114, 198);
+    }
+
+    QWidget::item:hover: !selected {
+        background: rgb(83, 88, 90);
+        color: rgb(220, 220, 220);
+    }    
+
+QLabel {
+    background-color: rgb(47, 47, 47);
+    color: rgb(220, 220, 220);
+    border: none;
+    padding: 2px;
+    margin: 0px;
+}
+
+QLabel:disabled {
+    background-color: rgb(47, 47, 47);
+    border: none;
+    color: rgb(127, 127, 127);
+}
+
+QCheckBox {
+    background-color: rgb(27, 27, 27);
+    color: rgb(220, 220, 220);
+    spacing: 4px;
+    # outline: none;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+QCheckBox:focus {
+    border: 1px solid rgb(220, 220, 220);
+}
+
+QCheckBox QWidget:disabled {
+    background-color: rgb(37, 37, 37);
+    color: rgb(127, 127, 127);
+}    
+"""
+
+label_style = """
+QLabel {
+    background-color: rgb(47, 47, 47);
+    color: rgb(220, 220, 220);
+    border: none;
+    padding: 2px;
+    margin: 0px;
+}
+
+QLabel:disabled {
+    background-color: rgb(47, 47, 47);
+    border: none;
+    color: rgb(127, 127, 127);
+}
+"""
+
+checkbox_style = """
+QCheckBox {
+    background-color: rgb(47, 47, 47);
+    color: rgb(220, 220, 220);
+    spacing: 4px;
+    outline: none;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+QCheckBox:focus {
+    border: none;
+}
+
+QCheckBox QWidget:disabled {
+    background-color: rgb(47, 47, 47);
+    color: rgb(127, 127, 127);
+}
+"""
+
 
 class MainWindow(QWidget):
     def __init__(self, parent: QWidget = None):
@@ -47,10 +142,11 @@ class MainWindow(QWidget):
 
 def main():
     chocolaf.enable_hi_dpi()
-    app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
-    # app = QApplication(sys.argv)
-    # app.setStyle("Fusion")
+    # app = chocolaf.ChocolafApp(sys.argv)
+    # app.setStyle("Chocolaf")
+    app = QApplication(sys.argv)
+    app.setStyle("Fusion")
+    app.setStyleSheet(STYLE_SHEET)
 
     # create the main window
     win = MainWindow()

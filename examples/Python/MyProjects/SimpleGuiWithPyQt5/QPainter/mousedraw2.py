@@ -5,7 +5,6 @@
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
-
 """
 from re import L
 import sys
@@ -110,7 +109,7 @@ class MainWindow(QMainWindow):
     def addPaletteButtons(self, layout):
         for c in COLORS:
             b = PaletteButton(c)
-            b.pressed.connect(lambda c = c: self.canvas.setPenColor(c))
+            b.pressed.connect(lambda c=c: self.canvas.setPenColor(c))
             layout.addWidget(b)
 
 

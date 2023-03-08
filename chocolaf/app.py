@@ -13,7 +13,7 @@ import logging
 import pathlib
 
 import chocolaf
-from chocolaf.palettes import ChocolafPalette
+from chocolaf.palettes import ChocolafPalette, WinDarkPalette
 from chocolaf.utilities import get_logger
 
 # from PyQt5.QtCore import *
@@ -129,6 +129,47 @@ class ChocolafApp(QApplication):
             msg = f"\"{style}\" is not recognized as a valid stylesheet!\nValid options are: {availableStyles}"
             raise ValueError(msg)
 
+    def setWindowsDarkStyle(self):
+        self.setStyle("Fusion")
+        self.setFont(QApplication.font("QMenu"))
+        palette = QPalette()
+        # @see: https://doc.qt.io/qt-5/qpalette.html
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Window,
+                         WinDarkPalette.Window_Color)  # general background color
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.WindowText,
+                         WinDarkPalette.WindowText_Color)  # general foreground color
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Base,
+                         WinDarkPalette.Base_Color)  # background for text entry widgets
+        # background color for views with alternating colors
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.AlternateBase,
+                         WinDarkPalette.AlternateBase_Color)
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.ToolTipBase,
+                         WinDarkPalette.ToolTipBase_Color)  # background for tooltips
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.ToolTipText, WinDarkPalette.ToolTipText_Color)
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Text,
+                         WinDarkPalette.Text_Color)  # foreground color to use with Base
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Button,
+                         WinDarkPalette.Button_Color)  # pushbutton colors
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.ButtonText,
+                         WinDarkPalette.ButtonText_Color)  # pushbutton's text color
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Link, WinDarkPalette.Link_Color)
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.LinkVisited, WinDarkPalette.LinkVisited_Color)
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Highlight,
+                         WinDarkPalette.Highlight_Color)  # highlight color
+        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.HighlightedText,
+                         WinDarkPalette.HighlightedText_Color)
+        # colors for disabled elements
+        palette.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.ButtonText,
+                         WinDarkPalette.Disabled_ButtonText_Color)
+        palette.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.WindowText,
+                         WinDarkPalette.Disabled_WindowText_Color)
+        palette.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.Text, WinDarkPalette.Disabled_Text_Color)
+        palette.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.Light, WinDarkPalette.Disabled_Light_Color)
+
+        self.setPalette(palette)
+        self.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: "
+                           "1px solid white; }")
+
     def setStyle(self, style: str) -> None:
         """ NOTE: style is case sensitive! """
         if style in self.styles.keys():
@@ -137,6 +178,8 @@ class ChocolafApp(QApplication):
             self.setStyleSheet(stylesheet)
             if style == "Chocolaf":
                 self.setPalette(self.getPalette())
+        elif style == "WindowsDark":
+            self.setWindowsDarkStyle()
         elif style in QStyleFactory.keys():
             super(ChocolafApp, self).setStyle(style)
         else:
