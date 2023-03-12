@@ -62,7 +62,7 @@ import chocolaf
 
 
 class Button(QToolButton):
-    def __init__(self, text, parent = None):
+    def __init__(self, text, parent=None):
         super(Button, self).__init__(parent)
 
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
@@ -78,7 +78,7 @@ class Button(QToolButton):
 class Calculator(QWidget):
     NumDigitButtons = 10
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(Calculator, self).__init__(parent)
 
         self.pendingAdditiveOperator = ''
