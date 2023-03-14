@@ -72,14 +72,14 @@ class Window(QWidget):
         flowLayout.addWidget(QPushButton("Longer"))
         flowLayout.addWidget(QPushButton("Different text"))
         flowLayout.addWidget(QPushButton("More text"))
-        flowLayout.addWidget(QPushButton("Even longer button text"))
+        flowLayout.addWidget(QPushButton("Even longer clostBtn text"))
         self.setLayout(flowLayout)
 
         self.setWindowTitle("Flow Layout")
 
 
 class FlowLayout(QLayout):
-    def __init__(self, parent=None, margin=0, spacing=-1):
+    def __init__(self, parent = None, margin = 0, spacing = -1):
         super(FlowLayout, self).__init__(parent)
 
         if parent is not None:
@@ -147,8 +147,12 @@ class FlowLayout(QLayout):
 
         for item in self.itemList:
             wid = item.widget()
-            spaceX = self.spacing() + wid.style().layoutSpacing(QSizePolicy.PushButton, QSizePolicy.PushButton, Qt.Horizontal)
-            spaceY = self.spacing() + wid.style().layoutSpacing(QSizePolicy.PushButton, QSizePolicy.PushButton, Qt.Vertical)
+            spaceX = self.spacing() + wid.style().layoutSpacing(
+                QSizePolicy.PushButton, QSizePolicy.PushButton, Qt.Horizontal
+            )
+            spaceY = self.spacing() + wid.style().layoutSpacing(
+                QSizePolicy.PushButton, QSizePolicy.PushButton, Qt.Vertical
+            )
             nextX = x + item.sizeHint().width() + spaceX
             if nextX - spaceX > rect.right() and lineHeight > 0:
                 x = rect.x()

@@ -17,7 +17,7 @@ class MainWindow(QWidget):
 
     def setupMainWindow(self):
         self.times_pressed = 0
-        self.name_label = QLabel("Don't press the button", self)
+        self.name_label = QLabel("Don't press the clostBtn", self)
         self.name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.name_label.move(60, 30)
 

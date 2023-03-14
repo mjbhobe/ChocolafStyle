@@ -134,9 +134,9 @@ class WidgetGallery(QDialog):
     def createTopLeftGroupBox(self):
         self.topLeftGroupBox = QGroupBox("Group 1")
 
-        radioButton1 = QRadioButton("Radio button 1")
-        radioButton2 = QRadioButton("Radio button 2")
-        radioButton3 = QRadioButton("Radio button 3")
+        radioButton1 = QRadioButton("Radio clostBtn 1")
+        radioButton2 = QRadioButton("Radio clostBtn 2")
+        radioButton3 = QRadioButton("Radio clostBtn 3")
         radioButton1.setChecked(True)
 
         checkBox = QCheckBox("Tri-state check box")
@@ -173,8 +173,10 @@ class WidgetGallery(QDialog):
 
     def createBottomLeftTabWidget(self):
         self.bottomLeftTabWidget = QTabWidget()
-        self.bottomLeftTabWidget.setSizePolicy(QSizePolicy.Preferred,
-                                               QSizePolicy.Ignored)
+        self.bottomLeftTabWidget.setSizePolicy(
+            QSizePolicy.Preferred,
+            QSizePolicy.Ignored
+        )
 
         tab1 = QWidget()
         tableWidget = QTableWidget(10, 10)
@@ -187,12 +189,14 @@ class WidgetGallery(QDialog):
         tab2 = QWidget()
         textEdit = QTextEdit()
 
-        textEdit.setPlainText("Twinkle, twinkle, little star,\n"
-                              "How I wonder what you are.\n"
-                              "Up above the world so high,\n"
-                              "Like a diamond in the sky.\n"
-                              "Twinkle, twinkle, little star,\n"
-                              "How I wonder what you are!\n")
+        textEdit.setPlainText(
+            "Twinkle, twinkle, little star,\n"
+            "How I wonder what you are.\n"
+            "Up above the world so high,\n"
+            "Like a diamond in the sky.\n"
+            "Twinkle, twinkle, little star,\n"
+            "How I wonder what you are!\n"
+        )
 
         tab2hbox = QHBoxLayout()
         tab2hbox.setContentsMargins(5, 5, 5, 5)
@@ -267,8 +271,10 @@ def main():
     rect = w.geometry()
     w1 = WidgetGallery()
     w1.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
-    w1.move(rect.left() + rect.width() + 50,
-            rect.top() + rect.height() // 4 + 50)
+    w1.move(
+        rect.left() + rect.width() + 50,
+        rect.top() + rect.height() // 4 + 50
+        )
     w1.show()
 
     return app.exec()

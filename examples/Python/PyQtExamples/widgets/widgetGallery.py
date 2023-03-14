@@ -61,8 +61,7 @@ from qtpy.QtGui import *
 from qtpy.QtWidgets import *
 from sklearn.manifold import trustworthiness
 
-
-# import chocolaf
+import chocolaf
 
 
 class WidgetGallery(QWidget):
@@ -320,10 +319,10 @@ class WidgetGallery(QWidget):
 
 
 def main():
-    # chocolaf.enable_hi_dpi()
-    # app = chocolaf.ChocolafApp(sys.argv)
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
+    app.setStyle("WindowsDark")
     # app.setStyle("Chocolaf")
-    app = QApplication(sys.argv)
 
     w = WidgetGallery()
     # w.setStyleSheet(app.getStyleSheet("Chocolaf"))

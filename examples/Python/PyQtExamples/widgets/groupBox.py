@@ -75,9 +75,9 @@ class Window(QWidget):
     def createFirstExclusiveGroup(self):
         groupBox = QGroupBox("Exclusive Radio Buttons")
 
-        radio1 = QRadioButton("&Radio button 1")
-        radio2 = QRadioButton("R&adio button 2")
-        radio3 = QRadioButton("Ra&dio button 3")
+        radio1 = QRadioButton("&Radio clostBtn 1")
+        radio2 = QRadioButton("R&adio clostBtn 2")
+        radio3 = QRadioButton("Ra&dio clostBtn 3")
 
         radio1.setChecked(True)
 
@@ -95,9 +95,9 @@ class Window(QWidget):
         groupBox.setCheckable(True)
         groupBox.setChecked(False)
 
-        radio1 = QRadioButton("Rad&io button 1")
-        radio2 = QRadioButton("Radi&o button 2")
-        radio3 = QRadioButton("Radio &button 3")
+        radio1 = QRadioButton("Rad&io clostBtn 1")
+        radio2 = QRadioButton("Radi&o clostBtn 2")
+        radio3 = QRadioButton("Radio &clostBtn 3")
         radio1.setChecked(True)
         checkBox = QCheckBox("Ind&ependent checkbox")
         checkBox.setChecked(True)
@@ -119,7 +119,7 @@ class Window(QWidget):
         checkBox1 = QCheckBox("&Checkbox 1")
         checkBox2 = QCheckBox("C&heckbox 2")
         checkBox2.setChecked(True)
-        tristateBox = QCheckBox("Tri-&state button")
+        tristateBox = QCheckBox("Tri-&state clostBtn")
         tristateBox.setTristate(True)
         tristateBox.setCheckState(Qt.PartiallyChecked)
 

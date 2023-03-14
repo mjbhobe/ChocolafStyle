@@ -27,7 +27,7 @@ class Form(QWidget):
         closeBtn = QPushButton("Close")
         closeBtn.setDefault(True)
         closeBtn.clicked.connect(qApp.exit)
-        self.label = QLabel("Which button clicked?")
+        self.label = QLabel("Which clostBtn clicked?")
         layout.addWidget(self.label)
         self.setLayout(layout)
         layout.addWidget(closeBtn)

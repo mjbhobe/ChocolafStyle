@@ -84,14 +84,14 @@ class FinalWidget(QFrame):
         self.setLayout(layout)
 
     def mouseMoveEvent(self, event):
-        """ If the mouse moves far enough when the left mouse button is held
+        """ If the mouse moves far enough when the left mouse clostBtn is held
             down, start a drag and drop operation.
         """
         if not event.buttons() & Qt.LeftButton:
             return
 
         if (event.pos() - self.dragStartPosition).manhattanLength() \
-                < QApplication.startDragDistance():
+            < QApplication.startDragDistance():
             return
 
         if not self.hasImage:
@@ -109,15 +109,19 @@ class FinalWidget(QFrame):
 
         drag.setMimeData(mimeData)
         drag.setPixmap(self.imageLabel.pixmap().scaled(64, 64, Qt.KeepAspectRatio))
-        drag.setHotSpot(QPoint(drag.pixmap().width() / 2,
-                               drag.pixmap().height()))
+        drag.setHotSpot(
+            QPoint(
+                drag.pixmap().width() / 2,
+                drag.pixmap().height()
+                )
+        )
         drag.start()
 
     def mousePressEvent(self, event):
-        """ Check for left mouse button presses in order to enable drag and
+        """ Check for left mouse clostBtn presses in order to enable drag and
             drop.
         """
-        if event.button() == Qt.LeftButton:
+        if event.clostBtn() == Qt.LeftButton:
             self.dragStartPosition = event.pos()
 
     def pixmap(self):
@@ -210,7 +214,8 @@ class ScreenWidget(QFrame):
                 newColor = QColor(
                     255 - min(int(amount * cyanInk), 255),
                     255 - min(int(amount * magentaInk), 255),
-                    255 - min(int(amount * yellowInk), 255))
+                    255 - min(int(amount * yellowInk), 255)
+                )
 
                 newImage.setPixel(x, y, newColor.rgb())
 
@@ -347,12 +352,18 @@ class Viewer(QMainWindow):
 
         self.finalWidget = FinalWidget(frame, "Final image", labelSize)
 
-        self.cyanWidget = ScreenWidget(frame, Qt.cyan, "Cyan",
-                                       ScreenWidget.Cyan, labelSize)
-        self.magentaWidget = ScreenWidget(frame, Qt.magenta, "Magenta",
-                                          ScreenWidget.Magenta, labelSize)
-        self.yellowWidget = ScreenWidget(frame, Qt.yellow, "Yellow",
-                                         ScreenWidget.Yellow, labelSize)
+        self.cyanWidget = ScreenWidget(
+            frame, Qt.cyan, "Cyan",
+            ScreenWidget.Cyan, labelSize
+        )
+        self.magentaWidget = ScreenWidget(
+            frame, Qt.magenta, "Magenta",
+            ScreenWidget.Magenta, labelSize
+        )
+        self.yellowWidget = ScreenWidget(
+            frame, Qt.yellow, "Yellow",
+            ScreenWidget.Yellow, labelSize
+        )
 
         self.cyanWidget.imageChanged.connect(self.createImage)
         self.magentaWidget.imageChanged.connect(self.createImage)
@@ -371,8 +382,10 @@ class Viewer(QMainWindow):
             and display it.
         """
         picsLocation = QStandardPaths.standardLocations(QStandardPaths.PicturesLocation)
-        imageFile, _ = QFileDialog.getOpenFileName(self,
-                                                   "Choose an image file to open", picsLocation[-1], "Images (*.*)")
+        imageFile, _ = QFileDialog.getOpenFileName(
+            self,
+            "Choose an image file to open", picsLocation[-1], "Images (*.*)"
+        )
 
         if imageFile != '':
             self.openImageFile(imageFile)
@@ -417,10 +430,12 @@ class Viewer(QMainWindow):
             self.yellowWidget.setImage(self.scaledImage)
             self.createImage()
         else:
-            QMessageBox.warning(self, "Cannot open file",
-                                "The selected file could not be opened.",
-                                QMessageBox.Cancel, QMessageBox.NoButton,
-                                QMessageBox.NoButton)
+            QMessageBox.warning(
+                self, "Cannot open file",
+                "The selected file could not be opened.",
+                QMessageBox.Cancel, QMessageBox.NoButton,
+                QMessageBox.NoButton
+            )
 
     def createImage(self):
         """ Creates an image by combining the contents of the three screens
@@ -460,7 +475,8 @@ class Viewer(QMainWindow):
                 newColor = QColor(
                     max(255 - int(cyan1 + cyan2 + cyan3) - darkness, 0),
                     max(255 - int(magenta1 + magenta2 + magenta3) - darkness, 0),
-                    max(255 - int(yellow1 + yellow2 + yellow3) - darkness, 0))
+                    max(255 - int(yellow1 + yellow2 + yellow3) - darkness, 0)
+                )
 
                 newImage.setPixel(x, y, newColor.rgb())
 
@@ -469,28 +485,35 @@ class Viewer(QMainWindow):
     def saveImage(self):
         """ Provides a dialog window to allow the user to save the image file.
         """
-        imageFile, _ = QFileDialog.getSaveFileName(self,
-                                                   "Choose a filename to save the image", "", "Images (*.png)")
+        imageFile, _ = QFileDialog.getSaveFileName(
+            self,
+            "Choose a filename to save the image", "", "Images (*.png)"
+        )
 
         info = QFileInfo(imageFile)
 
         if info.baseName() != '':
-            newImageFile = QFileInfo(info.absoluteDir(),
-                                     info.baseName() + '.png').absoluteFilePath()
+            newImageFile = QFileInfo(
+                info.absoluteDir(),
+                info.baseName() + '.png'
+                ).absoluteFilePath()
 
             if not self.finalWidget.pixmap().save(newImageFile, 'PNG'):
-                QMessageBox.warning(self, "Cannot save file",
-                                    "The file could not be saved.",
-                                    QMessageBox.Cancel, QMessageBox.NoButton,
-                                    QMessageBox.NoButton)
+                QMessageBox.warning(
+                    self, "Cannot save file",
+                    "The file could not be saved.",
+                    QMessageBox.Cancel, QMessageBox.NoButton,
+                    QMessageBox.NoButton
+                )
         else:
-            QMessageBox.warning(self, "Cannot save file",
-                                "Please enter a valid filename.", QMessageBox.Cancel,
-                                QMessageBox.NoButton, QMessageBox.NoButton)
+            QMessageBox.warning(
+                self, "Cannot save file",
+                "Please enter a valid filename.", QMessageBox.Cancel,
+                QMessageBox.NoButton, QMessageBox.NoButton
+            )
 
 
 if __name__ == '__main__':
-
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     window = Viewer()

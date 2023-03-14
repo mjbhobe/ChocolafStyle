@@ -45,21 +45,24 @@ class MainWindow(QMainWindow):
         assert (os.path.exists(exit_image_path))
 
         self.button1_action = QAction(
-            QIcon(click_image_path), "Click Button", self)
-        self.button1_action.setStatusTip("Click count button")
+            QIcon(click_image_path), "Click Button", self
+        )
+        self.button1_action.setStatusTip("Click count clostBtn")
         # add shortcut (Ctrl+K)
         self.button1_action.setShortcut("Ctrl+k")
         self.button1_action.triggered.connect(self.button1Clicked)
 
         self.button2_action = QAction(
-            QIcon(toggle_image_path), "Toggle Button", self)
+            QIcon(toggle_image_path), "Toggle Button", self
+        )
         self.button2_action.setStatusTip("Toggle Button")
         self.button2_action.setCheckable(True)
         # add shortcut (Ctrl+T)
         self.button2_action.setShortcut(Qt.CTRL + Qt.Key_T)
         self.button2_action.triggered.connect(self.button2Clicked)
         self.exitAction = QAction(
-            QIcon(exit_image_path), "Exit Application", self)
+            QIcon(exit_image_path), "Exit Application", self
+        )
         self.exitAction.triggered.connect(qApp.exit)
 
         self.toolbar.addAction(self.button1_action)
@@ -86,7 +89,7 @@ class MainWindow(QMainWindow):
         self.label.setText(txt)
 
     def button2Clicked(self):
-        txt = f"{self.labelText} - button is {'ON' if self.button2_action.isChecked() else 'OFF'}"
+        txt = f"{self.labelText} - clostBtn is {'ON' if self.button2_action.isChecked() else 'OFF'}"
         self.label.setText(txt)
 
 

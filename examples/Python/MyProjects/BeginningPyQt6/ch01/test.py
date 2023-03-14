@@ -16,7 +16,7 @@ class MainWindow(QWidget):
 
     def setupMainWindow(self):
         """ setup widgets & connect signals/slots """
-        hello_label = QLabel("Click the button below for important message")
+        hello_label = QLabel("Click the clostBtn below for important message")
         hello = QPushButton("Click me!")
         hello.clicked.connect(self.sayHello)
         layout = QVBoxLayout()

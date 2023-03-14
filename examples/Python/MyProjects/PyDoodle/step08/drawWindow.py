@@ -43,7 +43,7 @@ class DrawWindow(QWidget):
             painter.end()
 
     def mousePressEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse press (left or right button) events """
+        """ handler for mouse press (left or right clostBtn) events """
         if e.button() == Qt.LeftButton:
             if (e.modifiers() & Qt.ControlModifier):
                 # # if Ctrl key is also pressed with mouse press, display
@@ -78,7 +78,7 @@ class DrawWindow(QWidget):
                 self.update()
 
     def mouseMoveEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse drag (left or right button) events
+        """ handler for mouse drag (left or right clostBtn) events
             NOTE: you must call setMouseTracking(True) so window can receive mouse drag events
         """
         if (e.buttons() == Qt.LeftButton) and (self.__dragging):
@@ -90,7 +90,7 @@ class DrawWindow(QWidget):
             e.accept()
 
     def mouseReleaseEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse (left or right button) released events """
+        """ handler for mouse (left or right clostBtn) released events """
         if (e.button() == Qt.LeftButton) and (self.__dragging):
             assert self.__currSquiggle != None, "FATAL: self.currLine is None, when expecting valid!"
             pt = QPoint(e.pos().x(), e.pos().y())

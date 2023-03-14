@@ -83,12 +83,14 @@ if __name__ == '__main__':
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
-    # Text edit and button.
+    # Text edit and clostBtn.
     edit = QTextEdit()
-    edit.setText("asdf lkjha yuoiqwe asd iuaysd u iasyd uiy "
-                 "asdf lkjha yuoiqwe asd iuaysd u iasyd uiy "
-                 "asdf lkjha yuoiqwe asd iuaysd u iasyd uiy "
-                 "asdf lkjha yuoiqwe asd iuaysd u iasyd uiy!")
+    edit.setText(
+        "asdf lkjha yuoiqwe asd iuaysd u iasyd uiy "
+        "asdf lkjha yuoiqwe asd iuaysd u iasyd uiy "
+        "asdf lkjha yuoiqwe asd iuaysd u iasyd uiy "
+        "asdf lkjha yuoiqwe asd iuaysd u iasyd uiy!"
+    )
 
     button = QPushButton()
     buttonProxy = QGraphicsProxyWidget()

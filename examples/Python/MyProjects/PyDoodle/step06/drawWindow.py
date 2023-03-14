@@ -20,7 +20,9 @@ from chocolaf import ChocolafPalette
 class DrawWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(QMainWindow, self).__init__(*args, **kwargs)
-        self.setWindowTitle("PyQt5 Doodle - Step06: Drawing multiple Squiggles with own pen width & color")
+        self.setWindowTitle(
+            "PyQt5 Doodle - Step06: Drawing multiple Squiggles with own pen width & color"
+        )
         self.resize(QGuiApplication.primaryScreen().availableSize() * 4 / 5)
         self.modified = False
         self.squiggles = []
@@ -38,9 +40,11 @@ class DrawWindow(QMainWindow):
     def closeEvent(self, e):
         """ called just before the main window closes """
         if self.modified:
-            resp = QMessageBox.question(self, "Confirm Close",
-                                        "This will close the application.\nOk to quit?",
-                                        QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            resp = QMessageBox.question(
+                self, "Confirm Close",
+                "This will close the application.\nOk to quit?",
+                QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+                )
             if resp == QMessageBox.Yes:
                 e.accept()
             else:
@@ -67,14 +71,16 @@ class DrawWindow(QMainWindow):
             painter.end()
 
     def mousePressEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse press (left or right button) events """
+        """ handler for mouse press (left or right clostBtn) events """
         if e.button() == Qt.LeftButton:
             if (e.modifiers() & Qt.ControlModifier):
                 # if Ctrl key is also pressed with mouse press, display
                 # dialog to change pen thickness
-                newWidth, ok = QInputDialog.getInt(self, "Pen Width",
-                                                   "Enter new pen width (2-12):",
-                                                   self.penWidth, 2, 12)
+                newWidth, ok = QInputDialog.getInt(
+                    self, "Pen Width",
+                    "Enter new pen width (2-12):",
+                    self.penWidth, 2, 12
+                )
                 if ok:  # user clicked Ok on QInputDialog
                     self.penWidth = newWidth
             else:
@@ -103,7 +109,7 @@ class DrawWindow(QMainWindow):
                 self.update()
 
     def mouseMoveEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse drag (left or right button) events
+        """ handler for mouse drag (left or right clostBtn) events
             NOTE: you must call setMouseTracking(True) so window can receive mouse drag events
         """
         if (e.buttons() == Qt.LeftButton) and (self.dragging):
@@ -115,7 +121,7 @@ class DrawWindow(QMainWindow):
             e.accept()
 
     def mouseReleaseEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse (left or right button) released events """
+        """ handler for mouse (left or right clostBtn) released events """
         if (e.button() == Qt.LeftButton) and (self.dragging):
             assert self.currSquiggle != None, "FATAL: self.currLine is None, when expecting valid!"
             pt = QPoint(e.pos().x(), e.pos().y())

@@ -76,7 +76,9 @@ class CharacterWidget(QWidget):
 
         self.displayFont = QFont()
         self.squareSize = 24
-        self.squareSize = int(max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5))  # height() * 3)
+        self.squareSize = int(
+            max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5)
+        )  # height() * 3)
         print(f"(C) -> self.squareSize() = {self.squareSize}", flush = True)
         self.columns = 64
         self.lastKey = -1
@@ -84,7 +86,9 @@ class CharacterWidget(QWidget):
 
     def updateFont(self, fontFamily):
         self.displayFont.setFamily(fontFamily)
-        self.squareSize = int(max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5))  # height() * 3)
+        self.squareSize = int(
+            max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5)
+        )  # height() * 3)
         print(f"self.squareSize() = {self.squareSize}", flush = True)
         # self.squareSize = max(self.squareSize, QFontMetrics(self.displayFont).xWidth * 3)
         self.adjustSize()
@@ -93,17 +97,23 @@ class CharacterWidget(QWidget):
     def updateSize(self, fontSize):
         fontSize = int(fontSize)
         self.displayFont.setPointSize(fontSize)
-        self.squareSize = int(max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5))  # height() * 3)
+        self.squareSize = int(
+            max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5)
+        )  # height() * 3)
         self.adjustSize()
         self.update()
 
     def updateStyle(self, fontStyle):
         fontDatabase = QFontDatabase()
         oldStrategy = self.displayFont.styleStrategy()
-        self.displayFont = fontDatabase.font(self.displayFont.family(),
-                                             fontStyle, self.displayFont.pointSize())
+        self.displayFont = fontDatabase.font(
+            self.displayFont.family(),
+            fontStyle, self.displayFont.pointSize()
+        )
         self.displayFont.setStyleStrategy(oldStrategy)
-        self.squareSize = int(max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5))  # height() * 3)
+        self.squareSize = int(
+            max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5)
+        )  # height() * 3)
         self.adjustSize()
         self.update()
 
@@ -116,19 +126,22 @@ class CharacterWidget(QWidget):
         self.update()
 
     def sizeHint(self):
-        return QSize(self.columns * self.squareSize,
-                     (65536 // self.columns) * self.squareSize)
+        return QSize(
+            self.columns * self.squareSize,
+            (65536 // self.columns) * self.squareSize
+            )
 
     def mouseMoveEvent(self, event):
         widgetPosition = self.mapFromGlobal(event.globalPos())
-        key = (widgetPosition.y() // self.squareSize) * self.columns + widgetPosition.x() // self.squareSize
+        key = (
+                      widgetPosition.y() // self.squareSize) * self.columns + widgetPosition.x() // self.squareSize
 
         text = '<p>Character: <span style="font-size: 24pt; font-family: %s">%s</span><p>Value: 0x%x' % (
             self.displayFont.family(), self._chr(key), key)
         QToolTip.showText(event.globalPos(), text, self)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.clostBtn() == Qt.LeftButton:
             self.lastKey = (event.y() // self.squareSize) * self.columns + event.x() // self.squareSize
             key_ch = self._chr(self.lastKey)
 
@@ -152,28 +165,36 @@ class CharacterWidget(QWidget):
         painter.setPen(ChocolafPalette.Disabled_Light_Color)  # QColor(102, 102, 102))  # Qt.gray)
         for row in range(beginRow, endRow + 1):
             for column in range(beginColumn, endColumn + 1):
-                painter.drawRect(column * self.squareSize,
-                                 row * self.squareSize, self.squareSize,
-                                 self.squareSize)
+                painter.drawRect(
+                    column * self.squareSize,
+                    row * self.squareSize, self.squareSize,
+                    self.squareSize
+                    )
 
         fontMetrics = QFontMetrics(self.displayFont)
         painter.setPen(ChocolafPalette.WindowText_Color)  # QColor(220, 220, 220))  # Qt.black)
         for row in range(beginRow, endRow + 1):
             for column in range(beginColumn, endColumn + 1):
                 key = row * self.columns + column
-                painter.setClipRect(column * self.squareSize,
-                                    row * self.squareSize, self.squareSize,
-                                    self.squareSize)
+                painter.setClipRect(
+                    column * self.squareSize,
+                    row * self.squareSize, self.squareSize,
+                    self.squareSize
+                    )
 
                 if key == self.lastKey:
-                    painter.fillRect(column * self.squareSize + 1,
-                                     row * self.squareSize + 1, self.squareSize,
-                                     self.squareSize, Qt.red)
+                    painter.fillRect(
+                        column * self.squareSize + 1,
+                        row * self.squareSize + 1, self.squareSize,
+                        self.squareSize, Qt.red
+                        )
 
                 key_ch = self._chr(key)
-                painter.drawText(column * self.squareSize + (self.squareSize // 2) - fontMetrics.width(key_ch) // 2,
-                                 row * self.squareSize + 4 + fontMetrics.ascent(),
-                                 key_ch)
+                painter.drawText(
+                    column * self.squareSize + (self.squareSize // 2) - fontMetrics.width(key_ch) // 2,
+                    row * self.squareSize + 4 + fontMetrics.ascent(),
+                    key_ch
+                    )
 
     @staticmethod
     def _chr(codepoint):

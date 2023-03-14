@@ -17,8 +17,10 @@ import cv2
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+import qtawesome as qta
 
 import chocolaf
+from chocolaf import ChocolafIcons
 from ImageSpinner import ImageSpinner
 import ImageViewer_rc
 
@@ -59,7 +61,8 @@ class ImageViewer(QMainWindow):
         self.createToolbar()
         # and status bar
         self.statusBar().showMessage(
-            f"Image Viewer: developed with PyQt {PYQT_VERSION_STR} by Manish Bhobe")
+            f"Image Viewer: developed with PyQt {PYQT_VERSION_STR} by Manish Bhobe"
+        )
         self.setupStatusBar()
 
         self.resize(QGuiApplication.primaryScreen().availableSize() * (4 / 5))
@@ -67,9 +70,10 @@ class ImageViewer(QMainWindow):
 
     def createActions(self):
         # open image
-        self.openAction = QAction("&Open...", self)
+        file_open_icon = qta.icon("mdi6.access-point-network")
+        self.openAction = QAction(file_open_icon, "&Open...", self)
         self.openAction.setShortcut(QKeySequence.New)
-        self.openAction.setIcon(QIcon(":/open.png"))
+        # self.openAction.setIcon(QIcon(":/open.png"))
         self.openAction.setStatusTip("Open a new image file to view")
         self.openAction.triggered.connect(self.open)
 
@@ -151,7 +155,8 @@ class ImageViewer(QMainWindow):
 
         self.aboutQtAction = QAction("About &Qt...", self)
         self.aboutQtAction.setStatusTip(
-            "Display information about Qt library being used")
+            "Display information about Qt library being used"
+        )
         self.aboutQtAction.triggered.connect(QApplication.instance().aboutQt)
 
     def createMenu(self):
@@ -231,8 +236,10 @@ class ImageViewer(QMainWindow):
     def displayImageInfo(self):
         if self.image.isNull():
             return
-        print(f"Image info -> width: {self.image.width()} - height: {self.image.height()} " +
-              f"- bits/pixel: {self.image.depth()} - color: {not self.image.isGrayscale()}")
+        print(
+            f"Image info -> width: {self.image.width()} - height: {self.image.height()} " +
+            f"- bits/pixel: {self.image.depth()} - color: {not self.image.isGrayscale()}"
+        )
 
     def scaleImage(self, factor = -1):
         """scale image to a certain scaling factor. Default value of -1 is 
@@ -248,15 +255,20 @@ class ImageViewer(QMainWindow):
         # print(f"Scalefactor = {self.scaleFactor}")
 
     def adjustScrollbar(self, scrollBar: QScrollBar, factor):
-        scrollBar.setValue(int(factor * scrollBar.value() +
-                               ((factor - 1) * scrollBar.pageStep() / 2)))
+        scrollBar.setValue(
+            int(
+                factor * scrollBar.value() +
+                ((factor - 1) * scrollBar.pageStep() / 2)
+            )
+        )
 
     def initOpenDialog(self, dialog: QFileDialog, acceptMode: QFileDialog.AcceptMode):
         picLocations = QStandardPaths.standardLocations(QStandardPaths.PicturesLocation)
         # print(f"Standard pic locations: {picLocations}")
         dialog.setDirectory(QDir.currentPath if len(picLocations) == 0 else picLocations[-1])
-        supportedMimeTypes = (QImageReader.supportedMimeTypes() if acceptMode == QFileDialog.AcceptMode.AcceptOpen
-                              else QImageWriter.supportedMimeTypes())
+        supportedMimeTypes = (
+            QImageReader.supportedMimeTypes() if acceptMode == QFileDialog.AcceptMode.AcceptOpen
+            else QImageWriter.supportedMimeTypes())
         mimeTypeFilters = [str(mimeTypeName, 'utf-8') for mimeTypeName in supportedMimeTypes]
         mimeTypeFilters = sorted(mimeTypeFilters)
         dialog.setMimeTypeFilters(mimeTypeFilters)
@@ -318,8 +330,10 @@ class ImageViewer(QMainWindow):
                 self.displayImageInfo()
 
     def print(self):
-        QMessageBox.information(self, "ImageViewer",
-                                "This is the 'print' action handler - yet to be implemented")
+        QMessageBox.information(
+            self, "ImageViewer",
+            "This is the 'print' action handler - yet to be implemented"
+        )
 
     def zoomIn(self):
         self.scaleImage(1.25)
@@ -370,22 +384,26 @@ class ImageViewer(QMainWindow):
             QMessageBox.information(self, "ImageViewer", "Displaying last image in folder!")
 
     def about(self):
-        QMessageBox.about(self, "About Image Viewer",
-                          f"<b>Image Viewer</b> application to view images on desktop.<br/>"
-                          f"Developed with PyQt {PYQT_VERSION_STR} and Chocolaf theme<br/><br/>"
-                          f"Version 1.0, by Manish Bhobe<br/>"
-                          f"Free to use, but use at your own risk!!")
+        QMessageBox.about(
+            self, "About Image Viewer",
+            f"<b>Image Viewer</b> application to view images on desktop.<br/>"
+            f"Developed with PyQt {PYQT_VERSION_STR} and Chocolaf theme<br/><br/>"
+            f"Version 1.0, by Manish Bhobe<br/>"
+            f"Free to use, but use at your own risk!!"
+        )
 
 
 def main():
     ap = ArgumentParser()
-    ap.add_argument("-i", "--image", required = False,
-                    help = "Full path to image")
+    ap.add_argument(
+        "-i", "--image", required = False,
+        help = "Full path to image"
+    )
     args = vars(ap.parse_args())
 
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     w = ImageViewer()
     w.setWindowTitle(f"PyQt {PYQT_VERSION_STR} Image Viewer")

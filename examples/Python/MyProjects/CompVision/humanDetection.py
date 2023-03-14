@@ -58,8 +58,10 @@ class VideoWorkerThread(QThread):
                     rects = self.createHOGDescriptor(frame)
                     # draw blue rectangles around humans detected in video
                     for (x_tr, y_tr, x_br, y_br) in rects:
-                        frame = cv2.rectangle(frame, (x_tr, y_tr), (x_br, y_br),
-                                              (0, 0, 255), 2)
+                        frame = cv2.rectangle(
+                            frame, (x_tr, y_tr), (x_br, y_br),
+                            (0, 0, 255), 2
+                        )
                     self.frame_data_updated.emit(frame)
                     # wait certain interval depending on desired frames/sec
                     # self.msleep(1000 // self.render_frames_per_sec)
@@ -76,12 +78,16 @@ class VideoWorkerThread(QThread):
         # sliding window moves in the x and y directions the sliding window
         # is padded to improve accuracya smaller scale value will increase
         # detection accuracy, but also increase processing time
-        rects, weights = hog.detectMultiScale(frame, winStride = (4, 4),
-                                              padding = (8, 8), scale = 1.1)
+        rects, weights = hog.detectMultiScale(
+            frame, winStride = (4, 4),
+            padding = (8, 8), scale = 1.1
+        )
         # For each of the rects detected in an image, add the values
         # for the corners of the rect to an array
-        rects = np.array([[x, y, x + width, y + height]
-                          for (x, y, width, height) in rects])
+        rects = np.array(
+            [[x, y, x + width, y + height]
+             for (x, y, width, height) in rects]
+        )
         return rects
 
     def stopThread(self):
@@ -175,10 +181,12 @@ class DisplayVideoWindow(QMainWindow):
     def openVideo(self):
         """ displays the standard file dialog so user can select video to view
             Video path is captured to displayVideoPathLine edit control - video will
-            be displayed only when 'start video' button is clicked """
+            be displayed only when 'start video' clostBtn is clicked """
         videosLoc = QStandardPaths.standardLocations(QStandardPaths.MoviesLocation)
-        videoFile, _ = QFileDialog.getOpenFileName(self, "Open Video", videosLoc[-1],
-                                                   "Videos (*.mp4 *.avi)")
+        videoFile, _ = QFileDialog.getOpenFileName(
+            self, "Open Video", videosLoc[-1],
+            "Videos (*.mp4 *.avi)"
+        )
         if videoFile:
             self.displayVideoPathLine.setText(videoFile)
         else:
@@ -190,10 +198,12 @@ class DisplayVideoWindow(QMainWindow):
         height, width, channels = video_frame.shape
         bytes_per_line = width * channels
         convertedQImage = QImage(video_frame, width, height, bytes_per_line, QImage.Format_RGB888)
-        self.videoDisplayLabel.setPixmap(QPixmap.fromImage(convertedQImage).scaled(
-            self.videoDisplayLabel.width(), self.videoDisplayLabel.height(),
-            Qt.KeepAspectRatioByExpanding
-        ))
+        self.videoDisplayLabel.setPixmap(
+            QPixmap.fromImage(convertedQImage).scaled(
+                self.videoDisplayLabel.width(), self.videoDisplayLabel.height(),
+                Qt.KeepAspectRatioByExpanding
+            )
+        )
 
     def invalidVideoFile(self):
         """ display messagebox to inform user that an error has occured """

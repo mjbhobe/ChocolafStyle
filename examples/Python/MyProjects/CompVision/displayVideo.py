@@ -163,10 +163,12 @@ class DisplayVideoWindow(QMainWindow):
     def openVideo(self):
         """ displays the standard file dialog so user can select video to view
             Video path is captured to displayVideoPathLine edit control - video will
-            be displayed only when 'start video' button is clicked """
+            be displayed only when 'start video' clostBtn is clicked """
         videosLoc = QStandardPaths.standardLocations(QStandardPaths.MoviesLocation)
-        videoFile, _ = QFileDialog.getOpenFileName(self, "Open Video", videosLoc[-1],
-                                                   "Videos (*.mp4 *.avi)")
+        videoFile, _ = QFileDialog.getOpenFileName(
+            self, "Open Video", videosLoc[-1],
+            "Videos (*.mp4 *.avi)"
+        )
         if videoFile:
             self.displayVideoPathLine.setText(videoFile)
         else:
@@ -178,10 +180,12 @@ class DisplayVideoWindow(QMainWindow):
         height, width, channels = video_frame.shape
         bytes_per_line = width * channels
         convertedQImage = QImage(video_frame, width, height, bytes_per_line, QImage.Format_RGB888)
-        self.videoDisplayLabel.setPixmap(QPixmap.fromImage(convertedQImage).scaled(
-            self.videoDisplayLabel.width(), self.videoDisplayLabel.height(),
-            Qt.KeepAspectRatioByExpanding
-        ))
+        self.videoDisplayLabel.setPixmap(
+            QPixmap.fromImage(convertedQImage).scaled(
+                self.videoDisplayLabel.width(), self.videoDisplayLabel.height(),
+                Qt.KeepAspectRatioByExpanding
+            )
+        )
 
     def invalidVideoFile(self):
         """ display messagebox to inform user that an error has occured """
