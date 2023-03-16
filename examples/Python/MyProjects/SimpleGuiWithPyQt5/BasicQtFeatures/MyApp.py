@@ -16,6 +16,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import chocolaf
+import qtawesome as qta
 
 
 class MainWindow(QMainWindow):
@@ -34,6 +35,8 @@ class MainWindow(QMainWindow):
         self.toolbar = QToolBar("Main Toolbar")
         self.toolbar.setIconSize(QSize(22, 22))
         self.addToolBar(self.toolbar)
+        self.toggle_switch_off_icon = qta.icon("mdi6.toggle-switch-off-outline")
+        self.toggle_switch_on_icon = qta.icon("mdi6.toggle-switch-outline", color = "#fd0")
 
         # create actions
         appDir = os.path.dirname(__file__)
@@ -45,7 +48,7 @@ class MainWindow(QMainWindow):
         assert (os.path.exists(exit_image_path))
 
         self.button1_action = QAction(
-            QIcon(click_image_path), "Click Button", self
+            qta.icon("mdi6.camera-party-mode"), "Click Button", self
         )
         self.button1_action.setStatusTip("Click count clostBtn")
         # add shortcut (Ctrl+K)
@@ -53,7 +56,7 @@ class MainWindow(QMainWindow):
         self.button1_action.triggered.connect(self.button1Clicked)
 
         self.button2_action = QAction(
-            QIcon(toggle_image_path), "Toggle Button", self
+            self.toggle_switch_off_icon, "Toggle Button", self
         )
         self.button2_action.setStatusTip("Toggle Button")
         self.button2_action.setCheckable(True)
@@ -61,7 +64,7 @@ class MainWindow(QMainWindow):
         self.button2_action.setShortcut(Qt.CTRL + Qt.Key_T)
         self.button2_action.triggered.connect(self.button2Clicked)
         self.exitAction = QAction(
-            QIcon(exit_image_path), "Exit Application", self
+            qta.icon("mdi6.power"), "Exit Application", self
         )
         self.exitAction.triggered.connect(qApp.exit)
 
@@ -91,11 +94,16 @@ class MainWindow(QMainWindow):
     def button2Clicked(self):
         txt = f"{self.labelText} - clostBtn is {'ON' if self.button2_action.isChecked() else 'OFF'}"
         self.label.setText(txt)
+        self.button2_action.setIcon(
+            self.toggle_switch_on_icon if self.button2_action.isChecked() \
+                else self.toggle_switch_off_icon
+        )
 
 
 chocolaf.enable_hi_dpi()
 app = chocolaf.ChocolafApp(sys.argv)
-app.setStyle("Chocolaf")
+# app.setStyle("Chocolaf")
+app.setStyle("WindowsDark")
 
 win = MainWindow()
 win.show()

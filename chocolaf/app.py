@@ -12,18 +12,14 @@ import os
 import logging
 import pathlib
 
+from qtpy.QtCore import *
+from qtpy.QtWidgets import *
+from qtpy.QtGui import *
+
 import chocolaf
 from .palettes import ChocolafPalette, WinDarkPalette
 from .utilities import get_logger
 from .windarkPalette import setWindowsPaletteAndStyleSheet
-
-# from PyQt5.QtCore import *
-# from PyQt5.QtGui import *
-# from PyQt5.QtWidgets import *
-
-from qtpy.QtCore import *
-from qtpy.QtWidgets import *
-from qtpy.QtGui import *
 
 _logger = get_logger(pathlib.Path(__file__).name)
 

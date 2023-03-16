@@ -17,10 +17,8 @@ import cv2
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import qtawesome as qta
 
 import chocolaf
-from chocolaf import ChocolafIcons
 from ImageSpinner import ImageSpinner
 import ImageViewer_rc
 
@@ -70,17 +68,16 @@ class ImageViewer(QMainWindow):
 
     def createActions(self):
         # open image
-        file_open_icon = qta.icon("mdi6.access-point-network")
-        self.openAction = QAction(file_open_icon, "&Open...", self)
+        self.openAction = QAction(chocolaf.get_icon("File_Open"), "&Open...", self)
         self.openAction.setShortcut(QKeySequence.New)
         # self.openAction.setIcon(QIcon(":/open.png"))
         self.openAction.setStatusTip("Open a new image file to view")
         self.openAction.triggered.connect(self.open)
 
         # print image
-        self.printAction = QAction("&Print...", self)
+        self.printAction = QAction(chocolaf.get_icon("File_Print"), "&Print...", self)
         self.printAction.setShortcut(QKeySequence.Print)
-        self.printAction.setIcon(QIcon(":/print.png"))
+        # self.printAction.setIcon(QIcon(":/print.png"))
         self.printAction.setStatusTip("Print the current image")
         self.printAction.triggered.connect(self.print)
         self.printAction.setEnabled(False)
@@ -92,16 +89,16 @@ class ImageViewer(QMainWindow):
         self.exitAction.triggered.connect(QApplication.instance().quit)
 
         # View category...
-        self.zoomInAction = QAction("Zoom &in (25%)", self)
+        self.zoomInAction = QAction(chocolaf.get_icon("Zoom_In"), "Zoom &in (25%)", self)
         self.zoomInAction.setShortcut(QKeySequence("Ctrl++"))
-        self.zoomInAction.setIcon(QIcon(":/zoom_in.png"))
+        # self.zoomInAction.setIcon(QIcon(":/zoom_in.png"))
         self.zoomInAction.setStatusTip("Zoom into the image by 25%")
         self.zoomInAction.triggered.connect(self.zoomIn)
         self.zoomInAction.setEnabled(False)
 
-        self.zoomOutAction = QAction("Zoom &out (25%)", self)
+        self.zoomOutAction = QAction(chocolaf.get_icon("Zoom_Out"), "Zoom &out (25%)", self)
         self.zoomOutAction.setShortcut(QKeySequence("Ctrl+-"))
-        self.zoomOutAction.setIcon(QIcon(":/zoom_out.png"))
+        # self.zoomOutAction.setIcon(QIcon(":/zoom_out.png"))
         self.zoomOutAction.setStatusTip("Zoom out of the image by 25%")
         self.zoomOutAction.triggered.connect(self.zoomOut)
         self.zoomOutAction.setEnabled(False)
@@ -112,38 +109,38 @@ class ImageViewer(QMainWindow):
         self.zoomNormalAction.triggered.connect(self.zoomNormal)
         self.zoomNormalAction.setEnabled(False)
 
-        self.rotateLeftAction = QAction("Rotate &left", self)
+        self.rotateLeftAction = QAction(chocolaf.get_icon("Rotate_Left"), "Rotate &left", self)
         self.rotateLeftAction.setShortcut(QKeySequence("Ctrl+<"))
-        self.rotateLeftAction.setIcon(QIcon(":/rotate_left.png"))
+        # self.rotateLeftAction.setIcon(QIcon(":/rotate_left.png"))
         self.rotateLeftAction.setStatusTip("Rotate image left by 90 degrees")
         self.rotateLeftAction.triggered.connect(self.rotateLeft)
         self.rotateLeftAction.setEnabled(False)
 
-        self.rotateRightAction = QAction("Rotate &right", self)
+        self.rotateRightAction = QAction(chocolaf.get_icon("Rotate_Right"), "Rotate &right", self)
         self.rotateRightAction.setShortcut(QKeySequence("Ctrl+>"))
-        self.rotateRightAction.setIcon(QIcon(":/rotate_right.png"))
+        # self.rotateRightAction.setIcon(QIcon(":/rotate_right.png"))
         self.rotateRightAction.setStatusTip("Rotate image right by 90 degrees")
         self.rotateRightAction.triggered.connect(self.rotateRight)
         self.rotateRightAction.setEnabled(False)
 
-        self.fitToWindowAction = QAction("Fit to &window", self)
+        self.fitToWindowAction = QAction(chocolaf.get_icon("Zoom_ExpandAll"), "Fit to &window", self)
         self.fitToWindowAction.setShortcut(QKeySequence("Ctrl+1"))
-        self.fitToWindowAction.setIcon(QIcon(":/zoom_fit.png"))
+        # self.fitToWindowAction.setIcon(QIcon(":/zoom_fit.png"))
         self.fitToWindowAction.setStatusTip("Fit image to size of window")
         self.fitToWindowAction.triggered.connect(self.fitToWindow)
         self.fitToWindowAction.setEnabled(False)
         self.fitToWindowAction.setCheckable(True)
 
-        self.prevImageAction = QAction("&Previous Image", self)
+        self.prevImageAction = QAction(chocolaf.get_icon("Arrow_Left"), "&Previous Image", self)
         self.prevImageAction.setShortcut(QKeySequence.MoveToPreviousChar)
-        self.prevImageAction.setIcon(QIcon(":/go_prev.png"))
+        # self.prevImageAction.setIcon(QIcon(":/go_prev.png"))
         self.prevImageAction.setStatusTip("View previous image in folder")
         self.prevImageAction.triggered.connect(self.prevImage)
         self.prevImageAction.setEnabled(False)
 
-        self.nextImageAction = QAction("&Next Image", self)
+        self.nextImageAction = QAction(chocolaf.get_icon("Arrow_Right"), "&Next Image", self)
         self.nextImageAction.setShortcut(QKeySequence.MoveToNextChar)
-        self.nextImageAction.setIcon(QIcon(":/go_next.png"))
+        # self.nextImageAction.setIcon(QIcon(":/go_next.png"))
         self.nextImageAction.setStatusTip("View next image in folder")
         self.nextImageAction.triggered.connect(self.nextImage)
         self.nextImageAction.setEnabled(False)

@@ -1,9 +1,9 @@
 """ hello.py - illustrates use of icons inside PyQt widgets """
 import sys
 
-from PyQt6.QtCore import *
-from PyQt6.QtGui import *
-from PyQt6.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 import qtawesome as qta
 import chocolaf
 
@@ -122,6 +122,10 @@ def main():
     # mainWin.setStyleSheet(STYLE_SHEET)
     mainWin.setWindowTitle("Chocolaf and QtAwesome Icons")
     mainWin.show()
+    # or Material Design Icons:
+    # my_icon = qta.icon('msc.chevron-left')
+    # mdi6_button = QPushButton(my_icon, 'Works?')
+    # mdi6_button.show()
 
     sys.exit(app.exec())
 

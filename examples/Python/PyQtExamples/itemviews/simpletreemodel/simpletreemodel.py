@@ -209,7 +209,8 @@ class TreeModel(QAbstractItemModel):
 if __name__ == '__main__':
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     f = QFile(':/default.txt')
     f.open(QIODevice.ReadOnly)

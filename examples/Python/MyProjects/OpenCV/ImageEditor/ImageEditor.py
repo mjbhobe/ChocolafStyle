@@ -14,12 +14,13 @@ import sys
 from argparse import ArgumentParser
 
 import cv2
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 
 import chocolaf
 from ImageSpinner import ImageSpinner
+import qtawesome as qta
 import ImageEditor_rc
 
 
@@ -55,7 +56,8 @@ class ImageEditor(QMainWindow):
         self.createToolbar()
         # and status bar
         self.statusBar().showMessage(
-            f"Image Editor: developed with PyQt {PYQT_VERSION_STR} by Manish Bhobe")
+            f"Image Editor: developed with PyQt {PYQT_VERSION_STR} by Manish Bhobe"
+        )
         self.setupStatusBar()
 
         self.resize(QGuiApplication.primaryScreen().availableSize() * (4 / 5))
@@ -63,16 +65,16 @@ class ImageEditor(QMainWindow):
 
     def createActions(self) -> None:
         # open image
-        self.openAction = QAction("&Open...", self)
+        self.openAction = QAction(chocolaf.get_icon("File_Open"), "&Open...", self)
         self.openAction.setShortcut(QKeySequence.New)
-        self.openAction.setIcon(QIcon(":/open.png"))
+        # self.openAction.setIcon(QIcon(":/open.png"))
         self.openAction.setStatusTip("Open a new image file to view")
         self.openAction.triggered.connect(self.open)
 
         # print image
-        self.printAction = QAction("&Print...", self)
+        self.printAction = QAction(chocolaf.get_icon("File_Print"), "&Print...", self)
         self.printAction.setShortcut(QKeySequence.Print)
-        self.printAction.setIcon(QIcon(":/print.png"))
+        # self.printAction.setIcon(QIcon(":/print.png"))
         self.printAction.setStatusTip("Print the current image")
         self.printAction.triggered.connect(self.print)
         self.printAction.setEnabled(False)
@@ -83,41 +85,45 @@ class ImageEditor(QMainWindow):
         self.exitAction.setStatusTip("Exit the application")
         self.exitAction.triggered.connect(QApplication.instance().quit)
 
-        self.blurAction = QAction("&Blur Image", self)
-        self.blurAction.setIcon(QIcon(":/blur.png"))
+        blur_icon = qta.icon("mdi6.blur")
+        self.blurAction = QAction(blur_icon, "&Blur Image", self)
+        # self.blurAction.setIcon(QIcon(":/blur.png"))
         self.blurAction.setStatusTip("Blue active image")
         self.blurAction.triggered.connect(self.blurImage)
         self.blurAction.setEnabled(False)
 
-        self.sharpenAction = QAction("&Sharpen Image", self)
-        self.sharpenAction.setIcon(QIcon(":/sharpen.png"))
+        sharpen_icon = qta.icon("mdi6.triangle")
+        self.sharpenAction = QAction(sharpen_icon, "&Sharpen Image", self)
+        #  self.sharpenAction.setIcon(QIcon(":/sharpen.png"))
         self.sharpenAction.setStatusTip("Sharpen active image")
         self.sharpenAction.triggered.connect(self.sharpenImage)
         self.sharpenAction.setEnabled(False)
 
-        self.erodeAction = QAction("&Erode Image", self)
-        self.erodeAction.setIcon(QIcon(":/erode.png"))
+        erode_icon = qta.icon("mdi6.dots-triangle")
+        self.erodeAction = QAction(erode_icon, "&Erode Image", self)
+        # self.erodeAction.setIcon(QIcon(":/erode.png"))
         self.erodeAction.setStatusTip("Erode active image")
         self.erodeAction.triggered.connect(self.erodeImage)
         self.erodeAction.setEnabled(False)
 
-        self.cartoonAction = QAction("&Cartoonify Image", self)
-        self.cartoonAction.setIcon(QIcon(":/cartoon.png"))
+        cartoon_icon = qta.icon("ph.smiley-wink-fill")
+        self.cartoonAction = QAction(cartoon_icon, "&Cartoonify Image", self)
+        # self.cartoonAction.setIcon(QIcon(":/cartoon.png"))
         self.cartoonAction.setStatusTip("Cartoonify active image")
         self.cartoonAction.triggered.connect(self.cartoonifyImage)
         self.cartoonAction.setEnabled(False)
 
         # View category...
-        self.zoomInAction = QAction("Zoom &in (25%)", self)
+        self.zoomInAction = QAction(chocolaf.get_icon("Zoom_In"), "Zoom &in (25%)", self)
         self.zoomInAction.setShortcut(QKeySequence("Ctrl++"))
-        self.zoomInAction.setIcon(QIcon(":/zoom_in.png"))
+        # self.zoomInAction.setIcon(QIcon(":/zoom_in.png"))
         self.zoomInAction.setStatusTip("Zoom into the image by 25%")
         self.zoomInAction.triggered.connect(self.zoomIn)
         self.zoomInAction.setEnabled(False)
 
-        self.zoomOutAction = QAction("Zoom &out (25%)", self)
+        self.zoomOutAction = QAction(chocolaf.get_icon("Zoom_Out"), "Zoom &out (25%)", self)
         self.zoomOutAction.setShortcut(QKeySequence("Ctrl++"))
-        self.zoomOutAction.setIcon(QIcon(":/zoom_out.png"))
+        # self.zoomOutAction.setIcon(QIcon(":/zoom_out.png"))
         self.zoomOutAction.setStatusTip("Zoom out of the image by 25%")
         self.zoomOutAction.triggered.connect(self.zoomOut)
         self.zoomOutAction.setEnabled(False)
@@ -129,24 +135,24 @@ class ImageEditor(QMainWindow):
         self.zoomNormalAction.triggered.connect(self.zoomNormal)
         self.zoomNormalAction.setEnabled(False)
 
-        self.fitToWindowAction = QAction("Fit to &window", self)
+        self.fitToWindowAction = QAction(chocolaf.get_icon("Zoom_ExpandAll"), "Fit to &window", self)
         self.fitToWindowAction.setShortcut(QKeySequence("Ctrl+1"))
-        self.fitToWindowAction.setIcon(QIcon(":/zoom_fit.png"))
+        # self.fitToWindowAction.setIcon(QIcon(":/zoom_fit.png"))
         self.fitToWindowAction.setStatusTip("Fit image to size of window")
         self.fitToWindowAction.triggered.connect(self.fitToWindow)
         self.fitToWindowAction.setEnabled(False)
         self.fitToWindowAction.setCheckable(True)
 
-        self.prevImageAction = QAction("&Previous Image", self)
+        self.prevImageAction = QAction(chocolaf.get_icon("Arrow_Left"), "&Previous Image", self)
         self.prevImageAction.setShortcut(QKeySequence.MoveToPreviousChar)
-        self.prevImageAction.setIcon(QIcon(":/go_prev.png"))
+        # self.prevImageAction.setIcon(QIcon(":/go_prev.png"))
         self.prevImageAction.setStatusTip("View previous image in folder")
         self.prevImageAction.triggered.connect(self.prevImage)
         self.prevImageAction.setEnabled(False)
 
-        self.nextImageAction = QAction("&Next Image", self)
+        self.nextImageAction = QAction(chocolaf.get_icon("Arrow_Right"), "&Next Image", self)
         self.nextImageAction.setShortcut(QKeySequence.MoveToNextChar)
-        self.nextImageAction.setIcon(QIcon(":/go_next.png"))
+        # self.nextImageAction.setIcon(QIcon(":/go_next.png"))
         self.nextImageAction.setStatusTip("View next image in folder")
         self.nextImageAction.triggered.connect(self.nextImage)
         self.nextImageAction.setEnabled(False)
@@ -247,8 +253,10 @@ class ImageEditor(QMainWindow):
     def displayImageInfo(self) -> None:
         if self.image.isNull():
             return
-        print(f"Image info -> width: {self.image.width()} - height: {self.image.height()} " +
-              f"- bits/pixel: {self.image.depth()}")
+        print(
+            f"Image info -> width: {self.image.width()} - height: {self.image.height()} " +
+            f"- bits/pixel: {self.image.depth()}"
+        )
 
     def scaleImage(self, factor = -1):
         """scale image to a certain scaling factor. Default value of -1 is 
@@ -264,15 +272,20 @@ class ImageEditor(QMainWindow):
         # print(f"Scalefactor = {self.scaleFactor}")
 
     def adjustScrollbar(self, scrollBar: QScrollBar, factor: float):
-        scrollBar.setValue(int(factor * scrollBar.value() +
-                               ((factor - 1) * scrollBar.pageStep() / 2)))
+        scrollBar.setValue(
+            int(
+                factor * scrollBar.value() +
+                ((factor - 1) * scrollBar.pageStep() / 2)
+            )
+        )
 
     def initOpenDialog(self, dialog: QFileDialog, acceptMode: QFileDialog.AcceptMode):
         picLocations = QStandardPaths.standardLocations(QStandardPaths.PicturesLocation)
         # print(f"Standard pic locations: {picLocations}")
         dialog.setDirectory(QDir.currentPath if len(picLocations) == 0 else picLocations[-1])
-        supportedMimeTypes = (QImageReader.supportedMimeTypes() if acceptMode == QFileDialog.AcceptMode.AcceptOpen
-                              else QImageWriter.supportedMimeTypes())
+        supportedMimeTypes = (
+            QImageReader.supportedMimeTypes() if acceptMode == QFileDialog.AcceptMode.AcceptOpen
+            else QImageWriter.supportedMimeTypes())
         mimeTypeFilters = [str(mimeTypeName, 'utf-8') for mimeTypeName in supportedMimeTypes]
         mimeTypeFilters = sorted(mimeTypeFilters)
         dialog.setMimeTypeFilters(mimeTypeFilters)
@@ -334,8 +347,10 @@ class ImageEditor(QMainWindow):
                 self.displayImageInfo()
 
     def print(self):
-        QMessageBox.information(self, "ImageEditor",
-                                "This is the 'print' action handler - yet to be implemented")
+        QMessageBox.information(
+            self, "ImageEditor",
+            "This is the 'print' action handler - yet to be implemented"
+        )
 
     def blurImage(self):
         self.cv2image = cv2.blur(self.cv2image, ksize = (8, 8))
@@ -344,8 +359,10 @@ class ImageEditor(QMainWindow):
         # print("Will blur active image")
 
     def sharpenImage(self):
-        self.cv2image = cv2.GaussianBlur(self.cv2image, ksize = (9, 9), sigmaX = 0.0,
-                                         sigmaY = 0.0, borderType = 4)
+        self.cv2image = cv2.GaussianBlur(
+            self.cv2image, ksize = (9, 9), sigmaX = 0.0,
+            sigmaY = 0.0, borderType = 4
+        )
         self.image = self.openCV2QImage(self.cv2image)
         self.showImage(self.image)
         # print("Will sharpen active image")
@@ -395,22 +412,27 @@ class ImageEditor(QMainWindow):
             QMessageBox.information(self, "ImageEditor", "Displaying last image in folder!")
 
     def about(self):
-        QMessageBox.about(self, "About Image Editor",
-                          f"<b>Image Editor</b> application to view images & apply simple effects.<br/>"
-                          f"Developed with PyQt {PYQT_VERSION_STR} and Chocolaf theme<br/><br/>"
-                          f"Version 1.0, by Manish Bhobe<br/>"
-                          f"Free to use, but use at your own risk!!")
+        QMessageBox.about(
+            self, "About Image Editor",
+            f"<b>Image Editor</b> application to view images & apply simple effects.<br/>"
+            f"Developed with PyQt {PYQT_VERSION_STR} and Chocolaf theme<br/><br/>"
+            f"Version 1.0, by Manish Bhobe<br/>"
+            f"Free to use, but use at your own risk!!"
+        )
 
 
 def main():
     ap = ArgumentParser()
-    ap.add_argument("-i", "--image", required = False,
-                    help = "Full path to image")
+    ap.add_argument(
+        "-i", "--image", required = False,
+        help = "Full path to image"
+    )
     args = vars(ap.parse_args())
 
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     w = ImageEditor()
     w.setWindowTitle(f"PyQt {PYQT_VERSION_STR} Image Editor")
