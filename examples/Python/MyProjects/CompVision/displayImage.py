@@ -49,7 +49,7 @@ class DisplayImageWindow(QMainWindow):
         self.setupWindow()
         self.setupMenu()
 
-    def setupWindow(self):
+    def setupWindow(self) -> None:
         """ setup the widgets in the main window """
         original_image_header = QLabel("Original Image")
         self.original_label = QLabel()
@@ -69,8 +69,8 @@ class DisplayImageWindow(QMainWindow):
         opencv_layout.addWidget(self.opencv_label, 1)
 
         main_layout = QHBoxLayout()
-        main_layout.addLayout(orig_layout, Qt.AlignCenter)
-        main_layout.addLayout(opencv_layout, Qt.AlignCenter)
+        main_layout.addLayout(orig_layout, Qt.AlignmentFlag.AlignCenter)
+        main_layout.addLayout(opencv_layout, Qt.AlignmentFlag.AlignCenter)
 
         container = QWidget()
         container.setLayout(main_layout)

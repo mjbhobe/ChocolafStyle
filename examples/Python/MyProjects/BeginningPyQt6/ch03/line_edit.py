@@ -39,6 +39,7 @@ class MainWindow(QWidget):
         self.name_edit.clear()
 
     def acceptText(self):
+        print(f"Button size: {self.accept_button.size()}")
         print(f"Hello {self.name_edit.text()}, welcome to PyQt6")
         self.close()
 

@@ -1129,7 +1129,7 @@ QScrollBar:horizontal {
     border: none;
     /* 1px solid rgb(127, 127, 127); */
     border-radius: 4px;
-    background-color: rgb(64, 64, 64);
+    background-color: rgb(23, 23, 23);
 }
 
 /* rgb(75, 110, 175);  */

@@ -12,6 +12,7 @@ _logger = get_logger(pathlib.Path(__file__).name)
 WINDOWS_DARK_STYLE_SHEET = """
     QWidget:!active {
         background-color: rgb(32, 32, 32);    
+        color: rgb(220, 220, 220);
     }
     QPushButton {
         min-height: 1.3em;

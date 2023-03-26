@@ -25,7 +25,8 @@ HOME_DIR = str(pathlib.Path.home())
 if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     splitter = QSplitter()
     splitter.setMinimumSize(800, 400)

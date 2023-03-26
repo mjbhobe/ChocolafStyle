@@ -55,6 +55,7 @@ class Window(QWidget):
 chocolaf.enable_hi_dpi()
 app = chocolaf.ChocolafApp(sys.argv)
 # app.setStyle("Chocolaf")
+app.setStyle("WindowsDark")
 
 win = Window()
 win.show()

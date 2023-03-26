@@ -32,74 +32,85 @@ STYLE_SHEET = """
         color: rgb(220, 220, 220);
     }    
 
-QLabel {
-    background-color: rgb(47, 47, 47);
-    color: rgb(220, 220, 220);
-    border: none;
-    padding: 2px;
-    margin: 0px;
-}
+    QLabel {
+        background-color: rgb(47, 47, 47);
+        color: rgb(220, 220, 220);
+        border: none;
+        padding: 2px;
+        margin: 0px;
+    }
 
-QLabel:disabled {
-    background-color: rgb(47, 47, 47);
-    border: none;
-    color: rgb(127, 127, 127);
-}
+    QLabel:disabled {
+        background-color: rgb(47, 47, 47);
+        border: none;
+        color: rgb(127, 127, 127);
+    }
 
-QCheckBox {
-    background-color: rgb(27, 27, 27);
-    color: rgb(220, 220, 220);
-    spacing: 4px;
-    # outline: none;
-    padding-top: 4px;
-    padding-bottom: 4px;
-}
+    QCheckBox {
+        background-color: rgb(27, 27, 27);
+        color: rgb(220, 220, 220);
+        spacing: 4px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        height: 24px;
+    }
 
-QCheckBox:focus {
-    border: 1px solid rgb(220, 220, 220);
-}
+    QCheckBox:focus {
+        border: 1px solid rgb(220, 220, 220);
+    }
 
-QCheckBox QWidget:disabled {
-    background-color: rgb(37, 37, 37);
-    color: rgb(127, 127, 127);
-}    
+    QCheckBox QWidget:disabled {
+        background-color: rgb(37, 37, 37);
+        color: rgb(127, 127, 127);
+    }   
+    
+    QCheckBox::indicator {
+      margin-left: 1px;
+      height: 24px;
+      width: 24px;
+    } 
 """
 
-label_style = """
-QLabel {
-    background-color: rgb(47, 47, 47);
-    color: rgb(220, 220, 220);
-    border: none;
-    padding: 2px;
-    margin: 0px;
-}
 
-QLabel:disabled {
-    background-color: rgb(47, 47, 47);
-    border: none;
-    color: rgb(127, 127, 127);
-}
-"""
-
-checkbox_style = """
-QCheckBox {
-    background-color: rgb(47, 47, 47);
-    color: rgb(220, 220, 220);
-    spacing: 4px;
-    outline: none;
-    padding-top: 4px;
-    padding-bottom: 4px;
-}
-
-QCheckBox:focus {
-    border: none;
-}
-
-QCheckBox QWidget:disabled {
-    background-color: rgb(47, 47, 47);
-    color: rgb(127, 127, 127);
-}
-"""
+# label_style = """
+# QLabel {
+#     background-color: rgb(47, 47, 47);
+#     color: rgb(220, 220, 220);
+#     border: none;
+#     padding: 2px;
+#     margin: 0px;
+# }
+#
+# QLabel:disabled {
+#     background-color: rgb(47, 47, 47);
+#     border: none;
+#     color: rgb(127, 127, 127);
+# }
+# """
+#
+# checkbox_style = """
+# QCheckBox {
+#     background-color: rgb(47, 47, 47);
+#     color: rgb(220, 220, 220);
+#     spacing: 4px;
+#     border: 1px solid rgb(220, 220, 220);
+#     outline: none;
+#     padding-top: 4px;
+#     padding-bottom: 4px;
+# }
+#
+# QCheckBox:focus {
+#     border: none;
+# }
+#
+# QCheckBox QWidget:disabled {
+#     background-color: rgb(47, 47, 47);
+#     color: rgb(127, 127, 127);
+# }
+#
+#
+#
+# """
 
 
 class MainWindow(QWidget):
@@ -113,8 +124,10 @@ class MainWindow(QWidget):
         self.setupMainWindow()
 
     def setupMainWindow(self):
-        header_label = QLabel("Which shifts can you work?"
-                              "(Please check all that apply)", self)
+        header_label = QLabel(
+            "Which shifts can you work?"
+            "(Please check all that apply)", self
+        )
         header_label.setWordWrap(True)
         header_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         header_label.move(10, 10)
@@ -141,7 +154,7 @@ class MainWindow(QWidget):
 
 
 def main():
-    chocolaf.enable_hi_dpi()
+    # chocolaf.enable_hi_dpi()
     # app = chocolaf.ChocolafApp(sys.argv)
     # app.setStyle("Chocolaf")
     app = QApplication(sys.argv)

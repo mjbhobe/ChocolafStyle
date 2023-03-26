@@ -28,7 +28,8 @@ class Window(QWidget):
         self.checked_text = "Uncheck to see Muffin's picture"
         self.mojo_image_path = os.path.join(app_dir, "images", "Mojo.jpg")
         self.muffin_image_path = os.path.join(
-            app_dir, "images", "Muffin-2.jpg")
+            app_dir, "images", "Muffin-2.jpg"
+        )
         self.setupUi()
 
     def setupUi(self):
@@ -61,15 +62,20 @@ class Window(QWidget):
         pixmap = QPixmap(image_path)
         # self.image_label.setPixmap(pixmap.scaled(self.image_label.width(), self.image_label.height(),
         #                                          Qt.KeepAspectRatio, Qt.SmoothTransformation))
-        self.image_label.setPixmap(pixmap.scaled(self.image_label.width(), self.image_label.height(),
-                                                 Qt.KeepAspectRatio))
+        self.image_label.setPixmap(
+            pixmap.scaled(
+                self.image_label.width(), self.image_label.height(),
+                Qt.KeepAspectRatio
+            )
+        )
         self.setWindowTitle(
-            f"PyQt {PYQT_VERSION_STR} image labels: {image_path}")
+            f"PyQt {PYQT_VERSION_STR} image labels: {image_path}"
+        )
 
 
 chocolaf.enable_hi_dpi()
 app = chocolaf.ChocolafApp(sys.argv)
-app.setStyle("Chocolaf")
+app.setStyle("WindowsDark")
 print('Hello World!')
 
 win = Window()

@@ -25,7 +25,7 @@ INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 CONFIG += c++17 console
-QT += core gui xml sql network
+QT += core gui xml sql network svg
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 QMAKE_CXXFLAGS += -std=c++17 -Wno-deprecated-enum-enum-conversion
 QMAKE_CXXFLAGS_DEBUG += -O0 -g2 -pedantic -Wall
