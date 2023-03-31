@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# utils.py - utility functions
+# cv2_utils.py - utility functions
 
 import platform
 from PyQt5.QtCore import *

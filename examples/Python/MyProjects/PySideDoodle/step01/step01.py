@@ -17,15 +17,17 @@ from mainWindow import *
 
 # code to import Chocolaf theme files
 # from chocolaf.palettes import ChocolafPalette
-# from chocolaf.utils.chocolafapp import Chocolaf
+# from chocolaf.cv2_utils.chocolafapp import Chocolaf
 
 __version__ = "1.0"
 
 
 def main():
     app = QApplication(sys.argv)
-    print(f"PySide Doodle - running with Python {platform.python_version()}, " +
-          f"Qt {PySide6.QtCore.__version__}, PySide {PySide6.__version__} on {platform.system()}")
+    print(
+        f"PySide Doodle - running with Python {platform.python_version()}, " +
+        f"Qt {PySide6.QtCore.__version__}, PySide {PySide6.__version__} on {platform.system()}"
+        )
 
     mainWindow = MainWindow()
     mainWindow.show()

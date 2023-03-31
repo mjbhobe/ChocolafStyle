@@ -17,7 +17,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-# from chocolaf.utils.chocolafapp import ChocolafApp
+# from chocolaf.cv2_utils.chocolafapp import ChocolafApp
 import chocolaf
 import textEditor_rc
 

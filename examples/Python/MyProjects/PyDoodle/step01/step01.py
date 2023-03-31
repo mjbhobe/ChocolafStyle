@@ -15,7 +15,7 @@ from mainWindow import *
 
 # code to import Chocolaf theme files
 from chocolaf.palettes import ChocolafPalette
-# from chocolaf.utils.chocolafapp import ChocolafApp
+# from chocolaf.cv2_utils.chocolafapp import ChocolafApp
 from chocolaf import ChocolafApp, enable_hi_dpi
 
 __version__ = "1.0"
@@ -26,8 +26,10 @@ def main():
     chocolaf.enable_hi_dpi()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
-    print(f"PyQt Doodle - running with Python {platform.python_version()}, " +
-          f"Qt {QT_VERSION_STR}, PyQt {PYQT_VERSION_STR} on {platform.system()}")
+    print(
+        f"PyQt Doodle - running with Python {platform.python_version()}, " +
+        f"Qt {QT_VERSION_STR}, PyQt {PYQT_VERSION_STR} on {platform.system()}"
+        )
 
     mainWindow = MainWindow()
     mainWindow.show()

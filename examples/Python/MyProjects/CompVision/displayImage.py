@@ -17,7 +17,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 # from chocolaf.palettes import ChocolafPalette
-# from chocolaf.utils.chocolafapp import ChocolafApp
+# from chocolaf.cv2_utils.chocolafapp import ChocolafApp
 import chocolaf
 
 import textEditor_rc
@@ -96,24 +96,30 @@ class DisplayImageWindow(QMainWindow):
     def openImage(self):
         picsLoc = QStandardPaths.standardLocations(QStandardPaths.PicturesLocation)
         print(f"{picsLoc[-1]}")
-        image_file, _ = QFileDialog.getOpenFileName(self, "Open Image", picsLoc[-1],
-                                                    "Image files (*.png, *.tiff. *.jpg *.jpeg *.bmp)")
+        image_file, _ = QFileDialog.getOpenFileName(
+            self, "Open Image", picsLoc[-1],
+            "Image files (*.png, *.tiff. *.jpg *.jpeg *.bmp)"
+        )
         if image_file:
             image = QImage()
             image.load(image_file)
 
             # show original
-            self.original_label.setPixmap(QPixmap.fromImage(image).scaled(
-                self.original_label.width(), self.original_label.height(),
-                Qt.KeepAspectRatioByExpanding
-            ))
+            self.original_label.setPixmap(
+                QPixmap.fromImage(image).scaled(
+                    self.original_label.width(), self.original_label.height(),
+                    Qt.KeepAspectRatioByExpanding
+                )
+            )
 
             # display openCv image
             converted_image = self.convertCV2QImage(image_file)
-            self.opencv_label.setPixmap(QPixmap.fromImage(converted_image).scaled(
-                self.opencv_label.width(), self.opencv_label.height(),
-                Qt.KeepAspectRatioByExpanding
-            ))
+            self.opencv_label.setPixmap(
+                QPixmap.fromImage(converted_image).scaled(
+                    self.opencv_label.width(), self.opencv_label.height(),
+                    Qt.KeepAspectRatioByExpanding
+                )
+            )
             # and adjust size of main window to better accommodate images
             self.adjustSize()
             self.setWindowTitle(f"{Window_Title} - {image_file}")
@@ -128,8 +134,10 @@ class DisplayImageWindow(QMainWindow):
         # get dimensions of image
         height, width, channels = cv_image.shape
         bytes_per_line = width * channels
-        converted_QImage = QImage(cv_image, width, height, bytes_per_line,
-                                  QImage.Format_RGB888)
+        converted_QImage = QImage(
+            cv_image, width, height, bytes_per_line,
+            QImage.Format_RGB888
+        )
         return converted_QImage
 
 

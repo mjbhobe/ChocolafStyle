@@ -8,13 +8,16 @@
 * My experiments with Python, C++, OpenCV, Data Science & ML
 * Code is provided for learning purposes only! Use at your own risk!!
 """
-import os
-import sys
+import sys, os
 import pathlib
-from argparse import ArgumentParser
 
 import numpy as np
 import cv2
+
+# add our module to sys.path
+UTILS_PATH = pathlib.Path(os.getcwd()).parent
+sys.path.append(str(UTILS_PATH))
+
 import cv2_utils
 from cv2_utils import cv2_imxshow
 
@@ -34,7 +37,7 @@ def main():
     manish2 = cv2_utils.affine_transform_image(manish_image, src_points, dst_points)
     cv2_imxshow(
         [manish_image, manish2], ["Your's Truly", "All scrunched up!"],
-        title="Affine Transform"
+        title = "Affine Transform"
     )
 
     # flip manish
@@ -42,7 +45,7 @@ def main():
     dst_points = np.float32([[num_cols - 1, 0], [0, 0], [num_cols - 1, num_rows - 1]])
     manish_flipped = cv2_utils.affine_transform_image(manish_image, src_points, dst_points)
     cv2_imxshow(
-        [manish_image, manish_flipped], ["Original", "Flipped?"], title="Flipping about Y"
+        [manish_image, manish_flipped], ["Original", "Flipped?"], title = "Flipping about Y"
     )
 
     # perspective transformation
@@ -53,7 +56,7 @@ def main():
     )
     manish_cone = cv2_utils.perspective_transform_image(manish_image, src_points, dst_points)
     cv2_imxshow(
-        [manish_image, manish_cone], ["Original", "Conical?"], title="Perspective Transformation"
+        [manish_image, manish_cone], ["Original", "Conical?"], title = "Perspective Transformation"
     )
 
     # # now let's set top left rectangle to blue
