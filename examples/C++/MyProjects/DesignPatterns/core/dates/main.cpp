@@ -41,15 +41,22 @@ int main(int argc, char *argv[])
    cout << "Another " << RETIREMENT_AGE - yearsOld << " years till retirement, and "
         << PLATINUM_JUBLEE - yearsOld << " years to go to celebrate my platinum jublee!!"
         << Qt::endl;
-   auto anus_bday = QDate(2023, 1, 22);
-   cout << "My wife's birthday is coming up in just " << today.daysTo(anus_bday)
-        << " days!! It's on " << anus_bday.toString("dd-MMM-yy")
-        << " and I have not though of a gift yet. I'm screwed!!" << Qt::endl;
-   cout << "Anu's birthday: " << today.addDays(36).toString("dd-MMM-yy")
-        << " coming up in " << today.daysTo(anus_bday) << " days!" << Qt::endl;
-   auto nupoors_bday = QDate(today.year() + 1, 5, 8);
-   cout << "Nupoor's birthday: " << nupoors_bday.toString("dd-MMM-yy") << " coming up in "
-        << today.daysTo(nupoors_bday) << " days!" << Qt::endl;
+   auto anus_bday = QDate(1976, 1, 22);
+   year = (today.month() > anus_bday.month()) ? today.year() + 1 : today.year();
+   auto anus_next_bday = QDate(year, anus_bday.month(), anus_bday.day());
+   auto days_to_anus_next_bday = today.daysTo(anus_next_bday);
+   cout << "My wife's birthday is coming up in "
+        << (days_to_anus_next_bday <= 30 ? "just " : "") << days_to_anus_next_bday
+        << " days" << (days_to_anus_next_bday <= 30 ? "!! " : ". ") << "It's on "
+        << anus_next_bday.toString("dd-MMM-yy");
+   if (days_to_anus_next_bday <= 30)
+      cout << " and I have not though of a gift yet. I'm screwed!!";
+   cout << Qt::endl;
+   auto nupoors_bday = QDate(2007, 5, 8);
+   year = (today.month() > nupoors_bday.month()) ? today.year() + 1 : today.year();
+   auto nupoors_next_bday = QDate(year, nupoors_bday.month(), nupoors_bday.day());
+   cout << "Nupoor's birthday: " << nupoors_next_bday.toString("dd-MMM-yy")
+        << " coming up in " << today.daysTo(nupoors_next_bday) << " days!" << Qt::endl;
 
    return EXIT_SUCCESS;
 }
