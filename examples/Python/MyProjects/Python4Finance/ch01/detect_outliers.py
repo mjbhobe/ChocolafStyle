@@ -9,7 +9,7 @@ from download import download_stock_prices
 # print(plt.style.available)
 # sys.exit(-1)
 
-START_DATE, END_DATE = '2000-01-01', '2023-02-28'
+START_DATE, END_DATE = '2000-01-01', '2023-03-31'
 
 
 def detect_outliers(row, n_sigmas = 3):

@@ -15,7 +15,7 @@ import numpy as np
 import cv2
 
 # add our module to sys.path
-UTILS_PATH = pathlib.Path(os.getcwd()).parent
+UTILS_PATH = pathlib.Path(__file__).parent.parent
 sys.path.append(str(UTILS_PATH))
 
 import cv2_utils

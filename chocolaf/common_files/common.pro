@@ -15,7 +15,7 @@ win32 {
     LIBS += -lUser32 -lGdi32 -lKernel32 -lDwmapi -lShcore
 }
 unix {
-    COMMON_FILES_HOME = /home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf
+    COMMON_FILES_HOME = /home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf
 }
 INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
 
@@ -65,7 +65,8 @@ unix {
    INCLUDEPATH += /usr/include/opencv4
    OPENCV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video \
          -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_videoio -lopencv_imgcodecs -lopencv_flann
-   STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq
+   STD_LIBS = -lm -lstdc++ -lfmt
+   # -lpqxx -lpq
 }
 
 GMP_LIBS = -lgmp -lgmpxx

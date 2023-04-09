@@ -15,11 +15,11 @@
 
 int main(int argc, char **argv)
 {
-   //  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-   //  Chocolaf::ChocolafApp app(argc, argv);
-   //  app.setStyle("Chocolaf");
-
+   //   Chocolaf::ChocolafApp::setupForHighDpiScreens();
+   //   Chocolaf::ChocolafApp app(argc, argv);
+   //   app.setStyle("WindowsDark");
    QApplication app(argc, argv);
+   app.setStyle("Fusion");
 
    /*
   QApplication app(argc, argv);

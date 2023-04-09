@@ -68,7 +68,8 @@ unix {
    INCLUDEPATH += /usr/include/opencv4
    OPENCV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video \
          -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_videoio -lopencv_imgcodecs -lopencv_flann
-   STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq
+   STD_LIBS = -lm -lstdc++ -lfmt
+   # -lpqxx -lpq
 }
 
 GMP_LIBS = -lgmp -lgmpxx

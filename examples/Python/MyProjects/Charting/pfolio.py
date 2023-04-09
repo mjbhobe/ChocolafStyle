@@ -72,8 +72,11 @@ if __name__ == "__main__":
     pfolio_df.to_csv(f"{save_path}")
     print(f"Portfolio saved to {save_path}")
     print("Displaying performance from past 5 business days...")
-    pfolio_latest = pfolio_df.iloc[:, -5:]
-    print(pfolio_latest)
+    pfolio_latest_five = pfolio_df.iloc[:, -5:]
+    print(pfolio_latest_five)
+    # last business day
+    pfolio_latest_sum = pfolio_df.iloc[:, -1].sum()
+    print(f"Last portfilio value: {pfolio_latest_sum:,.3f}")
 
     # parser = argparse.ArgumentParser()
     # parser.add_argument("path")
