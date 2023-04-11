@@ -11,12 +11,12 @@
 #include <QStyleFactory>
 #include <QTextStream>
 #ifdef Q_OS_WIN
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#include <dwmapi.h>
-#include <shellscalingapi.h> // for SetProcessDpiAwareness
-#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
-#define DWMWA_USE_IMMERSIVE_DARK_MODE 20
-#endif
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        #include <dwmapi.h>
+        #include <shellscalingapi.h> // for SetProcessDpiAwareness
+        #ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
+        #define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+    #endif
 #endif
 #include <windows.h>
 #include <winuser.h>
@@ -219,26 +219,28 @@ void ChocolafApp::setStyle(const QString &styleName)
 // static
 void ChocolafApp::setupForHighDpiScreens()
 {
-#ifdef Q_OS_WIN
+# if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    #ifdef Q_OS_WIN
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-   ::SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
-   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-#else
-   //::SetProcessDPIAware();
-   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-#endif
+        #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+             ::SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
+             QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+             QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+        #else
+             //::SetProcessDPIAware();
+             QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+             QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+        #endif
 
-#else
-   // non Windows
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
-   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-#endif
+        #else
+             // non Windows
+        #if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+             QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+             QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+        #endif
 
-#endif
+    #endif
+#endif	// QT_VERSION < QT_VERSION_CHECK
 }
 
 // static
@@ -272,6 +274,9 @@ void ChocolafApp::setDarkTitlebar(QWidget &win)
       ::DwmSetWindowAttribute(hWnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &setDarkTitlebar,
                               sizeof(setDarkTitlebar));
    }
+#else
+   // this is to get rid of compiler warnings!!
+   Q_UNUSED(win);
 #endif
 }
 

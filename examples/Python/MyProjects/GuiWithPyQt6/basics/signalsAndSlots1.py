@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.icon_off = qta.icon("ei.bullhorn")
-        self.icon_on = qta.icon("ph.smiley-wink-fill", color = "#EBCB8B")
+        self.icon_on = qta.icon("ph.smiley-wink-fill", color="#EBCB8B")
         self.button1 = QPushButton(self.icon_off, "Click Me")
         self.button1.setCheckable(True)
         self.button2 = QPushButton(chocolaf.get_icon("Cancel"), "Close")
@@ -59,6 +59,7 @@ class MainWindow(QMainWindow):
 # app = QApplication(sys.argv)
 app = chocolaf.ChocolafApp(sys.argv)
 app.setStyle("WindowsDark")
+# app.setStyle("Fusion")
 
 # here is the window
 win = MainWindow()

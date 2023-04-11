@@ -10,16 +10,23 @@
 // =============================================================================
 
 #include "DrawWindow.h"
-//#include "chocolaf.h"
 #include "chocolaf.h"
 #include <QApplication>
 #include <QtGui>
+#include <QTextStream>
+
+QTextStream cout(stdout, QIODeviceBase::WriteOnly);
 
 int main(int argc, char **argv)
 {
   Chocolaf::ChocolafApp::setupForHighDpiScreens();
   Chocolaf::ChocolafApp app(argc, argv);
   app.setStyle("Chocolaf");
+  QStringList args = QCoreApplication::arguments();
+  foreach (auto arg, args)
+      cout << arg << " ";
+  cout << Qt::endl;
+
 
   /*
   QApplication app(argc, argv);
