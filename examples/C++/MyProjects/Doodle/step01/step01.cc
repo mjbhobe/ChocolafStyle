@@ -13,35 +13,36 @@
 #include <QMainWindow>
 #include <QtGui>
 
-int main(int argc, char **argv)
-{
-   //   Chocolaf::ChocolafApp::setupForHighDpiScreens();
-   //   Chocolaf::ChocolafApp app(argc, argv);
-   //   app.setStyle("WindowsDark");
-   QApplication app(argc, argv);
-   app.setStyle("Fusion");
+int main(int argc, char **argv) {
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  Chocolaf::ChocolafApp app(argc, argv);
+  Chocolaf::setStyle(app, "Chocolaf");
+  // app.setStyle("Chocolaf");
+  //   QApplication app(argc, argv);
+  //   app.setStyle("Fusion");
 
-   /*
-  QApplication app(argc, argv);
-  // use Chocolaf style
-  QFile f(":chocolaf/chocolaf.css");
-  if (!f.exists()) {
-    printf("Unable to open stylesheet!");
-  } else {
-    f.open(QFile::ReadOnly | QFile::Text);
-    QTextStream ts(&f);
-    app.setStyleSheet(ts.readAll());
-  }
-  */
+  /*
+ QApplication app(argc, argv);
+ // use Chocolaf style
+ QFile f(":chocolaf/chocolaf.css");
+ if (!f.exists()) {
+   printf("Unable to open stylesheet!");
+ } else {
+   f.open(QFile::ReadOnly | QFile::Text);
+   QTextStream ts(&f);
+   app.setStyleSheet(ts.readAll());
+ }
+ */
 
-   // create the GUI
-   QMainWindow mainWindow;
-   QString title = QString("Qt %1 Doodle with Chocolaf - Step01: Basic Window")
+  // create the GUI
+  QMainWindow mainWindow;
+  QString title = QString("Qt %1 Doodle with Chocolaf - Step01: Basic Window")
                       .arg(QT_VERSION_STR);
-   mainWindow.setWindowTitle(title);
-   // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
-   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
-   mainWindow.show();
+  mainWindow.setWindowTitle(title);
+  // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 /
+  // 5);
+  Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
+  mainWindow.show();
 
-   return app.exec();
+  return app.exec();
 }

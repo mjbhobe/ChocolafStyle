@@ -72,8 +72,8 @@ class MainWindow(QMainWindow):
 
 # app = QApplication(sys.argv)
 app = chocolaf.ChocolafApp(sys.argv)
-# app.setStyle("WindowsDark")
-app.setStyle("Fusion")
+app.setStyle("WindowsDark")
+# app.setStyle("Fusion")
 
 # here is the window
 win = MainWindow()

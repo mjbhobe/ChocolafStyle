@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         self.label = QLabel(f"Hello PyQt {PYQT_VERSION_STR}")
         self.label.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         font = self.label.font()
-        font.setPixelSize(25)
+        font.setPixelSize(32)
         self.label.setFont(font)
         self.setCentralWidget(self.label)
 

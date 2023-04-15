@@ -5,7 +5,6 @@
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
-
 """
 import sys
 import os
@@ -47,7 +46,7 @@ class MainWindow(QMainWindow):
 
 # app = QApplication(sys.argv)
 app = chocolaf.ChocolafApp(sys.argv)
-app.setStyle("Fusion")
+app.setStyle("Chocolaf")
 
 # here is the window
 win = MainWindow()
