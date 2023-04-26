@@ -10,6 +10,7 @@
 import sys
 import os
 import argparse
+import qtawesome as qta
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -40,6 +41,8 @@ class SQLManager(QMainWindow):
     def __init__(self, dbConn: QSqlDatabase, parent: QWidget = None):
         super(SQLManager, self).__init__(parent)
         self.conn = dbConn
+        self.clearTextAction = None
+        self.runQueryAction = None
         self.initializeUi()
 
     def initializeUi(self):
@@ -58,16 +61,17 @@ class SQLManager(QMainWindow):
         points = chocolaf.pixelsToPoints(14)
         self.queryField.setFont(QFont("Consolas, SF Mono, Monospace", points))
         self.queryField.setPlaceholderText("Enter your SQL query here and press Ctrl+R to run...")
+        self.queryField.textChanged.connect(self.queryTextChanged)
 
         self.results = QTableView()
         self.results.setAlternatingRowColors(True)
         self.results.setModel(self.model)
         self.results.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.results.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # self.results.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.results.hideColumn(0)
 
         self.splitter = QSplitter()
-        self.splitter.setOrientation(Qt.Vertical)
+        self.splitter.setOrientation(Qt.Orientation.Vertical)
         self.splitter.addWidget(self.queryField)
         self.splitter.addWidget(self.results)
         # divide 30:70 ratios
@@ -89,26 +93,38 @@ class SQLManager(QMainWindow):
     def setupToolbar(self):
         toolbar = QToolBar()
         toolbar.setIconSize(QSize(24, 24))
-        self.addToolBar(Qt.RightToolBarArea, toolbar)
+        self.addToolBar(Qt.ToolBarArea.RightToolBarArea, toolbar)
 
-        clearTextAction = QAction(QIcon(":/edit_delete.png"), "Clear Queries",
-                                  toolbar)
-        clearTextAction.setToolTip("Clear all queries in text field")
-        clearTextAction.triggered.connect(self.clearText)
+        clear_text_icon = qta.icon("mdi6.close-thick", color=QColor(230, 63, 49))
+        # clearTextAction = QAction(QIcon(":/edit_delete.png"), "Clear Queries", toolbar)
+        self.clearTextAction = QAction(clear_text_icon, "Clear Queries", toolbar)
+        self.clearTextAction.setToolTip("Clear all queries in text field")
+        self.clearTextAction.setEnabled(False)
+        self.clearTextAction.triggered.connect(self.clearText)
 
-        runQueryAction = QAction(QIcon(":/playback_play.png"), "Run Queries",
-                                 toolbar)
-        runQueryAction.setToolTip("Run all queries entered")
-        runQueryAction.triggered.connect(self.executeQueries)
+        run_icon = qta.icon("mdi6.run", color=QColor(75, 199, 90))
+        # runQueryAction = QAction(QIcon(":/playback_play.png"), "Run Queries", toolbar)
+        self.runQueryAction = QAction(run_icon, "Run Queries", toolbar)
+        self.runQueryAction.setToolTip("Run all queries entered")
+        self.runQueryAction.setEnabled(False)
+        self.runQueryAction.triggered.connect(self.executeQueries)
 
-        quitAction = QAction(QIcon(":/on-off.png"), "Quit Application", toolbar)
+        quit_icon = qta.icon("mdi6.location-exit")
+        # quitAction = QAction(QIcon(":/on-off.png"), "Quit Application", toolbar)
+        quitAction = QAction(quit_icon, "Quit Application", toolbar)
         quitAction.setToolTip("Quit the application")
         quitAction.triggered.connect(qApp.exit)
 
-        toolbar.addAction(runQueryAction)
-        toolbar.addAction(clearTextAction)
+        toolbar.addAction(self.runQueryAction)
+        toolbar.addAction(self.clearTextAction)
         toolbar.addSeparator()
         toolbar.addAction(quitAction)
+
+    def queryTextChanged(self):
+        query_text = self.queryField.toPlainText()
+        has_text: bool = (len(query_text) > 0)
+        self.clearTextAction.setEnabled(has_text)
+        self.runQueryAction.setEnabled(has_text)
 
     def executeQueries(self):
         sqlQueryTexts = self.queryField.toPlainText().strip()  # str(self.queryField.textCursor().selectedText())
@@ -136,6 +152,7 @@ if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
+    # app.setStyle("WindowsDark")
     # app = QApplication(sys.argv)
 
     try:
