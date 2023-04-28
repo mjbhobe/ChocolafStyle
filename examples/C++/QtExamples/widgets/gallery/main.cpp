@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
    //#else
    //   app.setStyle("Chocolaf");
    //#endif
-   app.setStyle("WindowsDark");
+   app.setStyle("Chocolaf");
 
    WidgetGallery gallery;
    gallery.show();

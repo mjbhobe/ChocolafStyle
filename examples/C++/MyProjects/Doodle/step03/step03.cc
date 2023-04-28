@@ -18,7 +18,8 @@
 #include <QtGui>
 
 const QString AppTitle("Qt Scribble");
-const QString WinTitle = QString("Qt %1 Doodle - Step03: Handling mouse clicks").arg(QT_VERSION_STR);
+const QString WinTitle = QString("Qt %1 Doodle - Step03: Handling mouse clicks")
+                            .arg(QT_VERSION_STR);
 
 void DrawMainWindow::closeEvent(QCloseEvent *event)
 {
@@ -28,31 +29,32 @@ void DrawMainWindow::closeEvent(QCloseEvent *event)
             << (_drawWindow->isModified() ? "True" : "False");
 
    if (_drawWindow->isModified()) {
-      switch (
-         QMessageBox::question(this, tr("Qt Scribble Tutorial"),
-                               tr("Contents of the doodle have changed.\nDo you want to quit without saving?"),
-                               QMessageBox::Yes | QMessageBox::No, QMessageBox::No)) {
-         case QMessageBox::Yes:
-            // ok to quit
-            qDebug() << "User chose to quit without saving...";
-            event->accept();
-            break;
-         default:
-            // don't quit yet
-            event->ignore();
+      switch (QMessageBox::question(
+         this, tr("Qt Scribble Tutorial"),
+         tr("Contents of the doodle have changed.\nDo you want to quit without saving?"),
+         QMessageBox::Yes | QMessageBox::No, QMessageBox::No)) {
+      case QMessageBox::Yes:
+         // ok to quit
+         qDebug() << "User chose to quit without saving...";
+         event->accept();
+         break;
+      default:
+         // don't quit yet
+         event->ignore();
       }
-   } else {
+   }
+   else {
       event->accept();
    }
 }
 
 int main(int argc, char **argv)
 {
-  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-  Chocolaf::ChocolafApp app(argc, argv);
-  app.setStyle("Chocolaf");
+   Chocolaf::ChocolafApp::setupForHighDpiScreens();
+   Chocolaf::ChocolafApp app(argc, argv);
+   app.setStyle("Fusion");
 
-  /*
+   /*
    QApplication app(argc, argv);
 
    QFile f(":chocolaf/chocolaf.css");
@@ -65,16 +67,16 @@ int main(int argc, char **argv)
       app.setStyleSheet(ts.readAll());
    }
   */
-  app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
+   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
-  // create the GUI
-  DrawWindow *drawWidget = new DrawWindow;
-  DrawMainWindow mainWindow(drawWidget);
-  mainWindow.setWindowTitle(WinTitle);
-  mainWindow.setCentralWidget(drawWidget);
-  // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
-  Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
-  mainWindow.show();
+   // create the GUI
+   DrawWindow *drawWidget = new DrawWindow;
+   DrawMainWindow mainWindow(drawWidget);
+   mainWindow.setWindowTitle(WinTitle);
+   mainWindow.setCentralWidget(drawWidget);
+   // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
+   mainWindow.show();
 
-  return app.exec();
+   return app.exec();
 }

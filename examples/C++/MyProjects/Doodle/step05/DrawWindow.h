@@ -8,14 +8,13 @@ class QImage;
 class QColor;
 class Line;
 
-class DrawWindow : public QMainWindow
-{
+class DrawWindow : public QMainWindow {
    Q_OBJECT
- public:
+public:
    DrawWindow();
    ~DrawWindow();
 
- protected:
+protected:
    // operating system events
    void closeEvent(QCloseEvent *event);
    void paintEvent(QPaintEvent *event);
@@ -25,7 +24,7 @@ class DrawWindow : public QMainWindow
    void mouseMoveEvent(QMouseEvent *event);
    void mouseReleaseEvent(QMouseEvent *event);
 
- private:
+private:
    void drawLineTo(const QPoint &pt);
    void clearImage();
    void resizeImage(const QSize &size);

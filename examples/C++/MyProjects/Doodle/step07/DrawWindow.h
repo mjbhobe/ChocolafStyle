@@ -13,12 +13,13 @@ class Line;
 class Doodle;
 class QToolBar;
 
-class DrawWindow  : public QMainWindow {
+class DrawWindow : public QMainWindow {
    Q_OBJECT
-      public:
-               DrawWindow();
+public:
+   DrawWindow();
    ~DrawWindow();
- protected:
+
+protected:
    // operating system events
    void closeEvent(QCloseEvent *event);
    void paintEvent(QPaintEvent *event);
@@ -27,7 +28,7 @@ class DrawWindow  : public QMainWindow {
    void mousePressEvent(QMouseEvent *event);
    void mouseMoveEvent(QMouseEvent *event);
    void mouseReleaseEvent(QMouseEvent *event);
- private slots:
+private slots:
    // action response slots
    void fileNew();
    void fileOpen();
@@ -38,23 +39,23 @@ class DrawWindow  : public QMainWindow {
    void changePenColor();
    void about();
 
- private:
-   void drawLineTo(const QPoint& pt);
+private:
+   void drawLineTo(const QPoint &pt);
    void clearImage();
-   void resizeImage(const QSize& size);
+   void resizeImage(const QSize &size);
    void createActions();
    void createMenus();
    void createToolbar();
    bool canClose();
 
-      // members
+   // members
    QImage _image;
    QPoint _lastPt;
    bool _dragging;
    Doodle *_doodle;
    Line *_currLine;
 
-      // actions
+   // actions
    QAction *fileNewAction;
    QAction *fileOpenAction;
    QAction *fileSaveAction;
@@ -71,5 +72,4 @@ class DrawWindow  : public QMainWindow {
    QToolBar *toolbar;
 };
 
-
-#endif  // __DrawWindow_h__
+#endif // __DrawWindow_h__

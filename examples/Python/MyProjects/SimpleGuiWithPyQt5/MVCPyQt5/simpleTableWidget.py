@@ -41,7 +41,7 @@ def get_rgb_from_hex(code):
 
 def main():
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     # create & show GUI
     table = QTableWidget()

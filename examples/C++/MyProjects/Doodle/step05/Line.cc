@@ -13,7 +13,10 @@ Line::Line(int penWidth /*= 2*/, const QColor &penColor /*= qRgb(0,0,255)*/)
    _points = new QList<QPoint>();
 }
 
-Line::~Line() { delete _points; }
+Line::~Line()
+{
+   delete _points;
+}
 
 void Line::setPenWidth(int newWidth)
 {
@@ -36,7 +39,10 @@ void Line::setPenColor(const QColor &newColor)
    emit penColorChanged(_penColor);
 }
 
-int Line::numPoints() const { return (_points == nullptr) ? 0 : _points->count(); }
+int Line::numPoints() const
+{
+   return (_points == nullptr) ? 0 : _points->count();
+}
 
 void Line::addPoint(const QPoint &pt)
 {
