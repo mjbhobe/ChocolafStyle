@@ -10,8 +10,8 @@
 
 import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtWidgets import *
 
 import chocolaf
 
@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
 
 chocolaf.enable_hi_dpi()
 app = chocolaf.ChocolafApp(sys.argv)
-app.setStyle("WindowsDark")
+app.setStyle("Fusion")
 
 win = MainWindow()
 win.show()

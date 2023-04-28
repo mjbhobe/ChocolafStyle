@@ -11,9 +11,9 @@
 import sys
 import os
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 
 import chocolaf
 import qtawesome as qta
@@ -36,7 +36,7 @@ class MainWindow(QMainWindow):
         self.toolbar.setIconSize(QSize(22, 22))
         self.addToolBar(self.toolbar)
         self.toggle_switch_off_icon = qta.icon("mdi6.toggle-switch-off-outline")
-        self.toggle_switch_on_icon = qta.icon("mdi6.toggle-switch-outline", color = "#fd0")
+        self.toggle_switch_on_icon = qta.icon("mdi6.toggle-switch-outline", color="#fd0")
 
         # create actions
         appDir = os.path.dirname(__file__)
@@ -95,8 +95,8 @@ class MainWindow(QMainWindow):
         txt = f"{self.labelText} - clostBtn is {'ON' if self.button2_action.isChecked() else 'OFF'}"
         self.label.setText(txt)
         self.button2_action.setIcon(
-            self.toggle_switch_on_icon if self.button2_action.isChecked() \
-                else self.toggle_switch_off_icon
+            self.toggle_switch_on_icon if self.button2_action.isChecked()
+            else self.toggle_switch_off_icon
         )
 
 

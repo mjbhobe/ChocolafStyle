@@ -12,9 +12,9 @@ import sys
 import os
 import random
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 
 import chocolaf
 
@@ -71,6 +71,7 @@ class Window(QWidget):
 chocolaf.enable_hi_dpi()
 app = chocolaf.ChocolafApp(sys.argv)
 # app.setStyle("Chocolaf")
+app.setStyle("Fusion")
 
 win = Window()
 win.show()
