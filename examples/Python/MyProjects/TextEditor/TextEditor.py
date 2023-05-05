@@ -16,10 +16,10 @@ import sys
 import pathlib
 from argparse import ArgumentParser
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.Qsci import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+from PyQt6.Qsci import *
 
 import chocolaf
 from chocolaf import ChocolafPalette
@@ -38,7 +38,8 @@ class TextEditorWindow(QMainWindow):
     def setupUi(self):
         # self._layout.addWidget(self._editor)
         # self.setLayout(self._layout)
-        self.resize(QGuiApplication.primaryScreen().availableSize() * (4 / 5))
+        # self.resize(QGuiApplication.primaryScreen().availableSize() * (4 / 5))
+        self.resize(QSize(1024, 768))
         self.setupEditor()
         self.setupActions()
         self.setupMenu()
@@ -84,13 +85,14 @@ class TextEditorWindow(QMainWindow):
 
     def setupEditor(self):
         editorFontPointSize = chocolaf.pixelsToPoints(14)
+        editor_font_names = "DejaVu Sans Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace"
         logger.info(f"Using {editorFontPointSize} point font for editor")
-        self._editorFont = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
+        self._editorFont = QFont(editor_font_names)
         self._editorFont.setPointSize(editorFontPointSize)
-        self._editorFontBold = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
+        self._editorFontBold = QFont(editor_font_names)
         self._editorFontBold.setPointSize(editorFontPointSize)
         self._editorFontBold.setBold(True)
-        self._editorFontItalic = QFont("Noto Mono, Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace")
+        self._editorFontItalic = QFont(editor_font_names)
         self._editorFontItalic.setPointSize(editorFontPointSize)
         self._editorFontItalic.setItalic(True)
         # screenDpi = QApplication.desktop().logicalDpiX()
@@ -106,56 +108,61 @@ class TextEditorWindow(QMainWindow):
         self._editor.setCaretWidth(3)
         # set current line background color
         self._editor.setCaretLineVisible(True)
-        self._editor.setCaretLineBackgroundColor(QColor("#1fff0000"))
+        self._editor.setCaretLineBackgroundColor(QColor("#484848"))
         # setup margins
-        self._editor.setMarginType(0, QsciScintilla.NumberMargin)
-        self._editor.setMarginType(1, QsciScintilla.TextMargin)
+        self._editor.setMarginType(0, QsciScintilla.MarginType.NumberMargin)
+        self._editor.setMarginType(1, QsciScintilla.MarginType.TextMargin)
         self._editor.setMarginWidth(0, "99999")
         self._editor.setMarginWidth(1, "99")
         self._editor.setMarginsBackgroundColor(ChocolafPalette.Button_Color)
-        self._editor.setMarginsForegroundColor(ChocolafPalette.Disabled_Text_Color)
+        self._editor.setMarginsForegroundColor(ChocolafPalette.Text_Color)
 
     def getLexerFor(self, filePath):
         # set a lexer
         file_ext = os.path.splitext(str(filePath).lower())[-1]
         lexer = None
         if file_ext in [".py"]:
+            # using Visual Studio Code scheme
             lexer = QsciLexerPython()
             logger.info(f"Using QsciLexerPython for {filePath}")
-            lexer.setFont(self._editorFontItalic, QsciLexerPython.Comment)
+
+            lexer.setDefaultColor(QColor('#D4D4D4'))
+            lexer.setDefaultFont(self._editorFont)
+
+            lexer.setFont(self._editorFont, QsciLexerPython.Comment)
             lexer.setColor(QColor('#6A8759'), QsciLexerPython.Comment)
-            lexer.setFont(self._editorFontItalic, QsciLexerPython.CommentBlock)
+            lexer.setFont(self._editorFont, QsciLexerPython.CommentBlock)
             lexer.setColor(QColor('#6A8759'), QsciLexerPython.CommentBlock)
 
             lexer.setFont(self._editorFont, QsciLexerPython.Keyword)
-            lexer.setColor(QColor('#C586C0'), QsciLexerPython.Keyword)
+            lexer.setColor(QColor('#569CD6'), QsciLexerPython.Keyword)
 
             lexer.setFont(self._editorFont, QsciLexerPython.ClassName)
-            lexer.setColor(QColor('#569CD6'), QsciLexerPython.ClassName)
+            lexer.setColor(QColor('#4EC9B0'), QsciLexerPython.ClassName)
             lexer.setFont(self._editorFont, QsciLexerPython.FunctionMethodName)
-            lexer.setColor(QColor('#4EC9B0'), QsciLexerPython.FunctionMethodName)
+            lexer.setColor(QColor('#C586C0'), QsciLexerPython.FunctionMethodName)
             lexer.setFont(self._editorFont, QsciLexerPython.Number)
-            lexer.setColor(QColor('#4EC9B0'), QsciLexerPython.Number)
+            lexer.setColor(QColor('#B5CEA8'), QsciLexerPython.Number)
 
             lexer.setFont(self._editorFont, QsciLexerPython.SingleQuotedString)
-            lexer.setColor(QColor('#D69D85'), QsciLexerPython.SingleQuotedString)
+            lexer.setColor(QColor('#CE9178'), QsciLexerPython.SingleQuotedString)
             lexer.setFont(self._editorFont, QsciLexerPython.DoubleQuotedString)
-            lexer.setColor(QColor('#D69D85'), QsciLexerPython.DoubleQuotedString)
+            lexer.setColor(QColor('#CE9178'), QsciLexerPython.DoubleQuotedString)
 
             lexer.setFont(self._editorFont, QsciLexerPython.TripleSingleQuotedString)
-            lexer.setColor(QColor('#D69D85'), QsciLexerPython.TripleSingleQuotedString)
+            lexer.setColor(QColor('#CE9178'), QsciLexerPython.TripleSingleQuotedString)
             lexer.setFont(self._editorFont, QsciLexerPython.TripleDoubleQuotedString)
-            lexer.setColor(QColor('#D69D85'), QsciLexerPython.TripleDoubleQuotedString)
+            lexer.setColor(QColor('#CE9178'), QsciLexerPython.TripleDoubleQuotedString)
 
             lexer.setFont(self._editorFont, QsciLexerPython.SingleQuotedFString)
-            lexer.setColor(QColor('#D69D85'), QsciLexerPython.SingleQuotedFString)
+            lexer.setColor(QColor('#CE9178'), QsciLexerPython.SingleQuotedFString)
             lexer.setFont(self._editorFont, QsciLexerPython.DoubleQuotedFString)
-            lexer.setColor(QColor('#D69D85'), QsciLexerPython.DoubleQuotedFString)
+            lexer.setColor(QColor('#CE9178'), QsciLexerPython.DoubleQuotedFString)
 
             lexer.setFont(self._editorFont, QsciLexerPython.TripleSingleQuotedFString)
-            lexer.setColor(QColor('#D69D85'), QsciLexerPython.TripleSingleQuotedFString)
+            lexer.setColor(QColor('#CE9178'), QsciLexerPython.TripleSingleQuotedFString)
             lexer.setFont(self._editorFont, QsciLexerPython.TripleDoubleQuotedFString)
-            lexer.setColor(QColor('#D69D85'), QsciLexerPython.TripleDoubleQuotedFString)
+            lexer.setColor(QColor('#CE9178'), QsciLexerPython.TripleDoubleQuotedFString)
 
         elif file_ext in [".h", ".hpp", ".hxx", ".c", ".cc", ".cpp"]:
             lexer = QsciLexerCPP()
@@ -211,11 +218,11 @@ class TextEditorWindow(QMainWindow):
         default_filter = "Python Files (*.py)"
         startupDir = os.path.dirname(__file__)
         response = QFileDialog.getOpenFileName(
-            parent = self,
-            caption = "Select a file to load",
-            directory = startupDir,
-            filter = file_filters,
-            initialFilter = default_filter
+            parent=self,
+            caption="Select a file to load",
+            directory=startupDir,
+            filter=file_filters,
+            initialFilter=default_filter
         )
         if response[0] != "":
             self.loadTextFile(response[0])
@@ -234,8 +241,8 @@ class TextEditorWindow(QMainWindow):
 
 def main():
     ap = ArgumentParser()
-    ap.add_argument("-f", "--file", required = False,
-                    help = "Full path of text file to edit")
+    ap.add_argument("-f", "--file", required=False,
+                    help="Full path of text file to edit")
     args = vars(ap.parse_args())
 
     chocolaf.enable_hi_dpi()
@@ -257,7 +264,7 @@ def main():
     #     #w._editor.setText("Hello World! Welcome to QScintilla based text editing!\n\tThis illustrates\n\tindentation")
     #     w.loadTextFile(os.path.join(os.path.dirname(__file__), "TextEditor.py"))
     w.loadTextFile(
-        '/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/summerfield/spreadsheet/mainwindow.cpp')
+        r'C:\Dev\Code\git-projects\ChocolafStyle\examples\Python\MyProjects\Database\createDatabase.py')
     w.show()
 
     sys.exit(app.exec())

@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/QtQuick/Studio/EventSimulator">C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/qml/QtQuick/Studio/EventSimulator</file>
+
+  </qresource>
+</RCC>

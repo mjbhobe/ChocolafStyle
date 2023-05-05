@@ -1,0 +1,14 @@
+# Target labels
+ ds-populate
+# Source files and their labels
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/CMakeFiles/ds-populate
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/CMakeFiles/ds-populate.rule
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/CMakeFiles/ds-populate-complete.rule
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-build.rule
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-configure.rule
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-download.rule
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-install.rule
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-mkdir.rule
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-patch.rule
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-test.rule
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-update.rule

@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/FlowView">C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/qml/FlowView</file>
+
+  </qresource>
+</RCC>

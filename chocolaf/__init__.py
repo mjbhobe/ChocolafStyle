@@ -68,7 +68,7 @@ def loadStyleSheet() -> str:
 
 
 # local imports
-from .utilities import seed_all, enable_hi_dpi, pixelsToPoints, pointsToPixels, get_logger
+from .utilities import seed_all, enable_hi_dpi, pixelsToPoints, pointsToPixels, get_logger, centerOnScreenWithSize
 from .app import ChocolafApp
 from .palettes import ChocolafPalette, WinDarkPalette
 from .styles.chocolaf import chocolaf_rc

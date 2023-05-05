@@ -1,0 +1,119 @@
+{
+	"backtrace" : 3,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"_qt_internal_qml_type_registration",
+			"qt6_add_qml_module"
+		],
+		"files" : 
+		[
+			"C:/Dev/Qt/6.5.0/mingw_64/lib/cmake/Qt6Qml/Qt6QmlMacros.cmake",
+			"imports/TaskMaster/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 10,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 532,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 2564,
+				"parent" : 2
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "TaskMaster_autogen_timestamp_deps::@e831895d8706aebc9ba0"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "QtInternalTargets"
+	},
+	"id" : "TaskMaster_qmltyperegistration::@e831895d8706aebc9ba0",
+	"name" : "TaskMaster_qmltyperegistration",
+	"paths" : 
+	{
+		"build" : "imports/TaskMaster",
+		"source" : "imports/TaskMaster"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 3,
+			"isGenerated" : true,
+			"path" : "imports/TaskMaster/CMakeFiles/TaskMaster_qmltyperegistration",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "imports/TaskMaster/CMakeFiles/TaskMaster_qmltyperegistration.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "imports/TaskMaster/taskmaster_qmltyperegistrations.cpp.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "imports/TaskMaster/meta_types/qt6taskmaster_debug_metatypes.json.gen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "imports/TaskMaster/meta_types/TaskMaster_json_file_list.txt.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "imports/TaskMaster/TaskMaster_autogen/timestamp.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

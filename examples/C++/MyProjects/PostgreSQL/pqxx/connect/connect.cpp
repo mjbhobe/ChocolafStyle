@@ -26,9 +26,9 @@ int main(int argc, char **argv)
          for (auto [version] : txn.stream<string_view>("SELECT version()")) {
             cout << " (PostgreSQL version " << version << ")" << endl;
          }
-         //pqxx::result res{txn.exec(sql.c_str())};
          cout << "Results of SQL: \'" << sql << "\'" << endl;
          // display the result
+         //pqxx::result res{txn.exec(sql.c_str())};
          //for (auto row : res) {
          for (auto [id, first_name, last_name] :
               txn.stream<int, std::string_view, std::string_view>(sql)) {
@@ -37,9 +37,6 @@ int main(int argc, char **argv)
             //std::string last_name = row["last_name"].as<string>();
             //std::printf("%6d: %s, %s\n", actor_id, first_name.c_str(), last_name.c_str());
             std::string outstr = fmt::format("{:6d} {}, {}", id, last_name, first_name);
-            //                                             row["actor_id"].as<int>(),
-            //                                             row["last_name"].as<string>(),
-            //                                             row["first_name"].as<string>());
             cout << outstr << endl;
          }
          txn.commit();

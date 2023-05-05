@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/QtQuick/Studio/LogicHelper">
+    <file alias="qmldir">C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/qml/QtQuick/Studio/LogicHelper/qmldir</file>
+  </qresource>
+</RCC>
+

@@ -1,0 +1,62 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"imports/TaskMaster/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"folder" : 
+	{
+		"name" : "QtInternalTargets"
+	},
+	"id" : "TaskMasterplugin_autogen_timestamp_deps::@e831895d8706aebc9ba0",
+	"isGeneratorProvided" : true,
+	"name" : "TaskMasterplugin_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "imports/TaskMaster",
+		"source" : "imports/TaskMaster"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "imports/TaskMaster/CMakeFiles/TaskMasterplugin_autogen_timestamp_deps",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "imports/TaskMaster/CMakeFiles/TaskMasterplugin_autogen_timestamp_deps.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

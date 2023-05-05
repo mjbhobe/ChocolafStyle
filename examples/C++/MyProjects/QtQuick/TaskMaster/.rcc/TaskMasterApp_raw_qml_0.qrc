@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/Main/">
+    <file alias="main.qml">C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/main.qml</file>
+  </qresource>
+</RCC>
+

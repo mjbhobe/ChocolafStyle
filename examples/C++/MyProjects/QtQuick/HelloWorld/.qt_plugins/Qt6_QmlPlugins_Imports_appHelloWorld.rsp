@@ -1,0 +1,14 @@
+-rootPath
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/HelloWorld
+-cmake-output
+-output-file
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/HelloWorld/.qt_plugins/Qt6_QmlPlugins_Imports_appHelloWorld.cmake
+-importPath
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/HelloWorld/HelloWorld
+-importPath
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/HelloWorld
+-importPath
+C:/Dev/Qt/6.5.0/mingw_64/./qml
+-qrcFiles
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/HelloWorld/.rcc/qmake_HelloWorld.qrc
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/HelloWorld/.rcc/appHelloWorld_raw_qml_0.qrc

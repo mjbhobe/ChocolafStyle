@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/HelloWorld/">
+    <file alias="Main.qml">C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/HelloWorld/Main.qml</file>
+  </qresource>
+</RCC>
+

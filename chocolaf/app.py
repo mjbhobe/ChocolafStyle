@@ -120,12 +120,12 @@ class ChocolafApp(QApplication):
             from qdarkstyle.dark.palette import DarkPalette
             from qdarkstyle.light.palette import LightPalette
 
-            qdarkstyle_darkss = qdarkstyle.load_stylesheet(palette = DarkPalette)
+            qdarkstyle_darkss = qdarkstyle.load_stylesheet(palette=DarkPalette)
             _logger.info(f"QDarkStyle - dark stylesheet loaded successfully")
             qdarkstyle_darkss += "\nQPushButton{min-height:1.2em; min-width:3em}"
             self.styles["QDarkStyle-dark"] = qdarkstyle_darkss
 
-            qdarkstyle_lightss = qdarkstyle.load_stylesheet(palette = LightPalette)
+            qdarkstyle_lightss = qdarkstyle.load_stylesheet(palette=LightPalette)
             _logger.info(f"QDarkStyle - light stylesheet loaded successfully")
             qdarkstyle_lightss += "\nQPushButton{min-height:1.2em; min-width:3em}"
             self.styles["QDarkStyle-light"] = qdarkstyle_lightss
@@ -141,7 +141,7 @@ class ChocolafApp(QApplication):
             )
             pass
 
-    def availableStyles(self, subset = 'all') -> list:
+    def availableStyles(self, subset='all') -> list:
         assert subset in ['all', 'mine']
         availableStyles = []
         for key in self.styles.keys():
@@ -265,6 +265,7 @@ class ChocolafApp(QApplication):
             self.setStyleSheet(stylesheet)
             if style == "Chocolaf":
                 self.setPalette(self.getPalette())
+                # self.setStyle("Fusion")
         elif style == "WindowsDark":
             self.setWindowsDarkStyle()
         elif style in QStyleFactory.keys():

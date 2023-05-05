@@ -1,0 +1,21 @@
+# ninja log v5
+0	101	7046656902760460	ds-populate-prefix/src/ds-populate-stamp/ds-populate-mkdir	6cec0af6defd4b05
+0	101	7046656902760460	C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-mkdir	6cec0af6defd4b05
+102	7955	7046656981291304	ds-populate-prefix/src/ds-populate-stamp/ds-populate-download	11492b081d428918
+102	7955	7046656981291304	C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-download	11492b081d428918
+7956	13990	0	ds-populate-prefix/src/ds-populate-stamp/ds-populate-update	d94dd35e63a2ed3b
+7956	13990	0	C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-update	d94dd35e63a2ed3b
+13991	14136	7046657043124858	ds-populate-prefix/src/ds-populate-stamp/ds-populate-patch	65bb7787fdebd77b
+13991	14136	7046657043124858	C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-patch	65bb7787fdebd77b
+14136	14236	7046657044180307	ds-populate-prefix/src/ds-populate-stamp/ds-populate-configure	71180bb2fe177e6f
+14136	14236	7046657044180307	C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-configure	71180bb2fe177e6f
+14237	14332	7046657045142058	ds-populate-prefix/src/ds-populate-stamp/ds-populate-build	4f9abe90a8c4d056
+14237	14332	7046657045142058	C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-build	4f9abe90a8c4d056
+14332	14430	7046657046079564	ds-populate-prefix/src/ds-populate-stamp/ds-populate-install	d6d2ad4d3960436a
+14332	14430	7046657046079564	C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-install	d6d2ad4d3960436a
+14430	14530	7046657047017010	ds-populate-prefix/src/ds-populate-stamp/ds-populate-test	677b6d526815460d
+14430	14530	7046657047017010	C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-test	677b6d526815460d
+14530	14662	7046657048423212	CMakeFiles/ds-populate-complete	c250a85552fdb8c0
+14530	14662	7046657048423212	ds-populate-prefix/src/ds-populate-stamp/ds-populate-done	c250a85552fdb8c0
+14530	14662	7046657048423212	C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/CMakeFiles/ds-populate-complete	c250a85552fdb8c0
+14530	14662	7046657048423212	C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/_deps/ds-subbuild/ds-populate-prefix/src/ds-populate-stamp/ds-populate-done	c250a85552fdb8c0

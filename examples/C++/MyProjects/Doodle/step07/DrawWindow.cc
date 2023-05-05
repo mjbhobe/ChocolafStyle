@@ -2,6 +2,7 @@
 #include "DrawWindow.h"
 #include "Doodle.h"
 #include "Line.h"
+#include "QtAwesome.h"
 #include "chocolaf.h"
 #include <QAction>
 #include <QApplication>
@@ -48,21 +49,35 @@ DrawWindow::~DrawWindow()
 
 void DrawWindow::createActions()
 {
-   fileNewAction = new QAction(QIcon(":/icons/fileNew.png"), tr("&New"), this);
+   fa::QtAwesome *awesome = new fa::QtAwesome(this);
+   awesome->initFontAwesome();
+
+   QVariantMap options;
+   options.insert("color", QColor(qRgb(255, 255, 255)));
+   options.insert("color-off", QColor(qRgb(200, 200, 200)));
+
+   auto file_new_icon = awesome->icon(fa::fa_regular, fa::fa_file, options);
+   // fileNewAction = new QAction(QIcon(":/icons/fileNew.png"), tr("&New"), this);
+   fileNewAction = new QAction(file_new_icon, tr("&New"), this);
    fileNewAction->setShortcut(tr("Ctrl+N"));
    fileNewAction->setStatusTip(tr("Create a new scribble document."));
    QObject::connect(fileNewAction, SIGNAL(triggered()), this, SLOT(fileNew()));
 
-   fileOpenAction = new QAction(QIcon(":/icons/fileOpen.png"), tr("&Open..."), this);
+   auto file_open_icon = awesome->icon(fa::fa_regular, fa::fa_folder_open, options);
+   // fileOpenAction = new QAction(QIcon(":/icons/fileOpen.png"), tr("&Open..."), this);
+   fileOpenAction = new QAction(file_open_icon, tr("&Open..."), this);
    fileOpenAction->setShortcut(tr("Ctrl+O"));
    fileOpenAction->setStatusTip(tr("Open scribble document from disk file."));
    QObject::connect(fileOpenAction, SIGNAL(triggered()), this, SLOT(fileOpen()));
 
-   fileSaveAction = new QAction(QIcon(":/icons/fileSave.png"), tr("&Save"), this);
+   auto file_save_icon = awesome->icon(fa::fa_regular, fa::fa_floppy_disk, options);
+   // fileSaveAction = new QAction(QIcon(":/icons/fileSave.png"), tr("&Save"), this);
+   fileSaveAction = new QAction(file_save_icon, tr("&Save"), this);
    fileSaveAction->setShortcut(tr("Ctrl+S"));
    fileSaveAction->setStatusTip(tr("Save scribble document to disk file."));
    QObject::connect(fileSaveAction, SIGNAL(triggered()), this, SLOT(fileSave()));
 
+   // auto file_saveas_icon = awesome->icon(fa::fa_regular, fa::floppy_disk_pen, options);
    fileSaveAsAction = new QAction(QIcon(":/icons/fileSaveAs.png"), tr("Save &as..."),
                                   this);
    fileSaveAsAction->setStatusTip(
@@ -73,8 +88,9 @@ void DrawWindow::createActions()
    exitAction->setStatusTip(tr("Save all pending changes and quit application."));
    QObject::connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
-   penWidthAction = new QAction(QIcon(":/icons/penWidth.png"), tr("Change pen &width..."),
-                                this);
+   auto pen_icon = awesome->icon(fa::fa_regular, fa::fa_pen, options);
+   // penWidthAction = new QAction(QIcon(":/icons/penWidth.png"), tr("Change pen &width..."), this);
+   penWidthAction = new QAction(pen_icon, tr("Change pen &width..."), this);
    penWidthAction->setStatusTip(tr("Change the width of default pen."));
    QObject::connect(penWidthAction, SIGNAL(triggered()), this, SLOT(changePenWidth()));
 

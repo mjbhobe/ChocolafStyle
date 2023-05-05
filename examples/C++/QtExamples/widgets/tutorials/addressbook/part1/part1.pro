@@ -4,9 +4,9 @@ INCLUDEPATH += .
 
 include(../../../../../../../chocolaf/common_files/common.pro)
 
-SOURCES   = addressbook.cpp \
+SOURCES   += addressbook.cpp \
             main.cpp
-HEADERS   = addressbook.h
+HEADERS   += addressbook.h
 
 QMAKE_PROJECT_NAME = ab_part1
 

@@ -5,6 +5,8 @@
 DEPENDPATH += .
 INCLUDEPATH += .
 
+#message($$PWD)
+
 # The following define makes your compiler warn you if you use any
 # feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -17,7 +19,9 @@ win32 {
 unix {
     COMMON_FILES_HOME = /home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf
 }
-INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
+# INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
+# INCLUDEPATH += $$PWD/common_files
+INCLUDEPATH += $$PWD
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -52,16 +56,16 @@ win32 {
          -LC:/Dev/GNULibs/fmt/bin/lib -LC:/Dev/GNULibs/libpqxx/bin/lib -LC:/Dev/PostgreSQL/15/lib -L$${FMT_LIB_HOME}
        OPENCV_LIBS = -lopencv_core451 -lopencv_imgproc451 -lopencv_highgui451 -lopencv_ml451 -lopencv_video451 \
          -lopencv_features2d451 -lopencv_calib3d451 -lopencv_objdetect451 -lopencv_videoio451 -lopencv_imgcodecs451 -lopencv_flann451
-      STD_LIBS = -lm -lstdc++ -lpqxx -lpq -lwsock32 -lws2_32
+      # STD_LIBS = -lm -lstdc++ -lpqxx -lpq -lwsock32 -lws2_32
     }
     STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq -lwsock32 -lws2_32
     # STD_LIBS = -lm -lstdc++ -lfmt -lwsock32 -lws2_32
 }
 unix {
    message("Settings for Linux build")
-# include for gmp.h & gmpxx.h
-    INCLUDEPATH += /usr/local/include
-# for opencv includes
+    # include for gmp.h & gmpxx.h
+   INCLUDEPATH += /usr/local/include
+    # for opencv includes
    INCLUDEPATH += /usr/include/opencv4
    OPENCV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video \
          -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_videoio -lopencv_imgcodecs -lopencv_flann
@@ -79,9 +83,24 @@ CONFIG(release, debug|release): DEFINES += QT_NO_DEBUG_OUTPUT
 
 # SOURCES += $${COMMON_FILES_HOME}/common_funcs.cpp $${COMMON_FILES_HOME}/winDark.cpp
 # HEADERS += $${COMMON_FILES_HOME}/common_funcs.h $${COMMON_FILES_HOME}/winDark.h
-SOURCES += $${COMMON_FILES_HOME}/common_files/common_funcs.cpp
-SOURCES += $${COMMON_FILES_HOME}/common_files/chocolaf.cpp
-HEADERS += $${COMMON_FILES_HOME}/common_files/common_funcs.h
-HEADERS += $${COMMON_FILES_HOME}/common_files/chocolaf.h
-HEADERS += $${COMMON_FILES_HOME}/common_files/argparse/argparse.hpp
-RESOURCES += $${COMMON_FILES_HOME}/styles/chocolaf/chocolaf.qrc
+#SOURCES += $${COMMON_FILES_HOME}/common_files/common_funcs.cpp
+#SOURCES += $${COMMON_FILES_HOME}/common_files/chocolaf.cpp
+#HEADERS += $${COMMON_FILES_HOME}/common_files/common_funcs.h
+#HEADERS += $${COMMON_FILES_HOME}/common_files/chocolaf.h
+#HEADERS += $${COMMON_FILES_HOME}/common_files/argparse/argparse.hpp
+#RESOURCES += $${COMMON_FILES_HOME}/styles/chocolaf/chocolaf.qrc
+
+SOURCES += $$PWD/common_funcs.cpp
+SOURCES += $$PWD/chocolaf.cpp
+HEADERS += $$PWD/common_funcs.h
+HEADERS += $$PWD/chocolaf.h
+HEADERS += $$PWD/argparse/argparse.hpp
+RESOURCES += $$PWD/../styles/chocolaf/chocolaf.qrc
+
+# add QtAwesome
+CONFIG += fontAwesomeFree
+include(QtAwesome/QtAwesome.pri)
+
+#message($${SOURCES})
+#message($${HEADERS})
+#message($${RESOURCES})

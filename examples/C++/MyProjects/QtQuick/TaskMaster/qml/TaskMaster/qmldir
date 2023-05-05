@@ -1,0 +1,11 @@
+module TaskMaster
+linktarget TaskMasterplugin
+optional plugin TaskMasterplugin
+classname TaskMasterPlugin
+typeinfo TaskMaster.qmltypes
+prefer :/TaskMaster/
+singleton Constants 1.0 Constants.qml
+DirectoryFontLoader 1.0 DirectoryFontLoader.qml
+EventListModel 1.0 EventListModel.qml
+EventListSimulator 1.0 EventListSimulator.qml
+

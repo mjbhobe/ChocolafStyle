@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/HelloWorld">
+    <file alias="qmldir">C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/HelloWorld/HelloWorld/qmldir</file>
+  </qresource>
+</RCC>
+

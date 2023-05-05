@@ -4,6 +4,10 @@ import logging
 
 import numpy as np
 
+from qtpy.QtCore import *
+from qtpy.QtWidgets import *
+from qtpy.QtGui import *
+
 
 def seed_all(seed=None):
     # to ensure that you get consistent results across runs & machines
@@ -90,3 +94,15 @@ def get_logger(logger_name: str) -> logging.Logger:
     ch.setFormatter(logging.Formatter("[%(name)s] [%(levelname)s] [%(asctime)s] %(message)s"))
     logger.addHandler(ch)
     return logger
+
+
+def centerOnScreenWithSize(widget: QWidget, widthProp: float, heightProp: float) -> None:
+    # center the widget on screen with size adjusted to widthProp & heightProp fraction of screem
+    screenGeom: QRect = QGuiApplication.primaryScreen().geometry()
+    widgetWidth: int = int(widthProp * screenGeom.width())
+    widgetHeight: int = int(heightProp * screenGeom.height())
+    widget.resize(QSize(widgetWidth, widgetHeight))
+
+    x: int = int((screenGeom.width() - widget.width()) / 2)
+    y: int = int((screenGeom.height() - widget.height()) / 2)
+    widget.move(x, y)

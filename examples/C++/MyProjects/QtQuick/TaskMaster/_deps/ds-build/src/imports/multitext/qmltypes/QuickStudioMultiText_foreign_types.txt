@@ -1,0 +1,1 @@
+--foreign-types=C:/Dev/Qt/6.5.0/mingw_64/./metatypes/qt6qml_relwithdebinfo_metatypes.json,C:/Dev/Qt/6.5.0/mingw_64/./metatypes/qt6core_relwithdebinfo_metatypes.json,C:/Dev/Qt/6.5.0/mingw_64/./metatypes/qt6network_relwithdebinfo_metatypes.json

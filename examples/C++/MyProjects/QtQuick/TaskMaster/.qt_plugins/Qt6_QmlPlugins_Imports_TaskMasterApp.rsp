@@ -1,0 +1,15 @@
+-rootPath
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster
+-cmake-output
+-output-file
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/.qt_plugins/Qt6_QmlPlugins_Imports_TaskMasterApp.cmake
+-importPath
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/qml/Main
+-importPath
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/qml
+-importPath
+C:/Dev/Qt/6.5.0/mingw_64/./qml
+-qrcFiles
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/.rcc/configuration.qrc
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/.rcc/qmake_Main.qrc
+C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/.rcc/TaskMasterApp_raw_qml_0.qrc

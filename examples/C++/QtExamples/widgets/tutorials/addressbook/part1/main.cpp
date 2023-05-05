@@ -50,12 +50,16 @@
 
 #include "addressbook.h"
 #include <QtWidgets>
+#include "chocolaf.h"
 
 //! [main function]
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    // QApplication app(argc, argv);
+    Chocolaf::ChocolafApp app(argc, argv);
+    app.setStyle("Fusion");
 
+    /*
     // apply Chocolaf styling
     QFile f(":chocolaf/chocolaf.css");
     if (!f.exists()) {
@@ -64,7 +68,7 @@ int main(int argc, char *argv[])
         f.open(QFile::ReadOnly | QFile::Text);
         QTextStream ts(&f);
         app.setStyleSheet(ts.readAll());
-    }
+    } */
 
     AddressBook addressBook;
     addressBook.show();

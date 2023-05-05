@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="/TaskMaster/">
+    <file alias="Constants.qml">C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/imports/TaskMaster/Constants.qml</file>
+    <file alias="DirectoryFontLoader.qml">C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/imports/TaskMaster/DirectoryFontLoader.qml</file>
+    <file alias="EventListModel.qml">C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/imports/TaskMaster/EventListModel.qml</file>
+    <file alias="EventListSimulator.qml">C:/Dev/Code/git-projects/ChocolafStyle/examples/C++/MyProjects/QtQuick/TaskMaster/imports/TaskMaster/EventListSimulator.qml</file>
+  </qresource>
+</RCC>
+
