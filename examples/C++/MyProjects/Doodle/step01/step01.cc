@@ -16,8 +16,8 @@
 int main(int argc, char **argv) {
   Chocolaf::ChocolafApp::setupForHighDpiScreens();
   Chocolaf::ChocolafApp app(argc, argv);
-  Chocolaf::setStyle(app, "Chocolaf");
-  // app.setStyle("Chocolaf");
+  //Chocolaf::setStyle(app, "Chocolaf");
+  app.setStyle("Chocolaf");
   //   QApplication app(argc, argv);
   //   app.setStyle("Fusion");
 

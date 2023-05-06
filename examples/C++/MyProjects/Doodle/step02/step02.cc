@@ -17,20 +17,20 @@
 
 QTextStream cout(stdout, QIODeviceBase::WriteOnly);
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
-    //  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-    Chocolaf::ChocolafApp app(argc, argv);
-    //  app.setStyle("Chocolaf");
-    // QApplication app(argc, argv);
-    app.setStyle("Fusion");
+   //  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+   Chocolaf::ChocolafApp app(argc, argv);
+   //  app.setStyle("Chocolaf");
+   // QApplication app(argc, argv);
+   app.setStyle("WindowsDark");
 
-    QStringList args = QCoreApplication::arguments();
-    foreach (auto arg, args)
-        cout << arg << " ";
-    cout << Qt::endl;
+   QStringList args = QCoreApplication::arguments();
+   foreach (auto arg, args)
+      cout << arg << " ";
+   cout << Qt::endl;
 
-    /*
+   /*
     QApplication app(argc, argv);
 
     // use Chocolaf style
@@ -43,12 +43,12 @@ int main(int argc, char** argv)
       app.setStyleSheet(ts.readAll());
     }
     */
-    app.setApplicationName(app.translate("main", "Qt Scribble"));
+   app.setApplicationName(app.translate("main", "Qt Scribble"));
 
-    // create the GUI
-    DrawWindow mainWindow;
-    Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
-    mainWindow.show();
+   // create the GUI
+   DrawWindow mainWindow;
+   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
+   mainWindow.show();
 
-    return app.exec();
+   return app.exec();
 }

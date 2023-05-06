@@ -3,22 +3,15 @@
 
 #include <QtCore>
 
-class ImageSpinner : public QObject
-{
+class ImageSpinner : public QObject {
 public:
    ImageSpinner(const QString &imagePath);
    QString nextImage();
    QString prevImage();
    bool atFirst() const;
    bool atLast() const;
-   qsizetype currIndex() const
-   {
-      return m_currIndex;
-   }
-   qsizetype size() const
-   {
-      return m_fileNames.size();
-   }
+   qsizetype currIndex() const { return m_currIndex; }
+   qsizetype size() const { return m_fileNames.size(); }
 
 protected:
    qsizetype m_currIndex;

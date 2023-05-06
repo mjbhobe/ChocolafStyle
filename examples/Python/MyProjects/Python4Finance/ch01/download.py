@@ -7,7 +7,7 @@ import yfinance as yf
 # print(plt.style.available)
 # sys.exit(-1)
 
-START_DATE, END_DATE = '1990-01-01', '2023-02-28'
+START_DATE, END_DATE = '1990-01-01', '2023-04-30'
 
 
 def download_stock_prices(
@@ -16,15 +16,15 @@ def download_stock_prices(
     # download AAPL stock price
     stock_df = yf.download(
         symbol,  # one stock or list of stock symbols ['AAPL','MSFT','AMZN']
-        start = from_date,  # from date
-        end = to_date,  # to date
+        start=from_date,  # from date
+        end=to_date,  # to date
         # auto_adjust=True,     # adjust OHLC automatically?
         # actions=True,         # download dividends & stock splits
-        interval = interval,
+        interval=interval,
         # Valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo Intraday data cannot extend last 60 days
-        progress = False
+        progress=False
     )
-    stock_df.rename(columns = {'Adj Close': 'Adj_Close'}, inplace = True)
+    stock_df.rename(columns={'Adj Close': 'Adj_Close'}, inplace=True)
 
     # convert the price to returns
     """ 
@@ -67,15 +67,15 @@ def adjust_prices_for_inflation(
     config.read(config_path)
     quandl.ApiConfig.api_key = config["config_keys"]["quandl.ApiConfig.api_key"]
 
-    df_cpi = quandl.get("RATEINF/CPI_USA", start_date = from_date, end_date = to_date)
-    df_cpi.rename(columns = {'Value': 'cpi'}, inplace = True)
+    df_cpi = quandl.get("RATEINF/CPI_USA", start_date=from_date, end_date=to_date)
+    df_cpi.rename(columns={'Value': 'cpi'}, inplace=True)
     # print(df_cpi.head())
 
     # join the stock data with CPI
     # NOTE: CPI data is published monthly!
-    df_dates = pd.DataFrame(index = pd.date_range(start = from_date, end = to_date))
-    df2 = df_dates.join(stock_df['Adj_Close'], how = 'left').fillna(method = 'ffill').asfreq('M')
-    df2 = df2.join(df_cpi, how = 'left')
+    df_dates = pd.DataFrame(index=pd.date_range(start=from_date, end=to_date))
+    df2 = df_dates.join(stock_df['Adj_Close'], how='left').fillna(method='ffill').asfreq('M')
+    df2 = df2.join(df_cpi, how='left')
 
     # calculate returns on Adj_Close & CPI cols
     df2['Simple_Rtn'] = df2.Adj_Close.pct_change()
@@ -91,10 +91,10 @@ if __name__ == "__main__":
     print(df.tail())
     df2 = adjust_prices_for_inflation(df, START_DATE, END_DATE)
 
-    plt.figure(figsize = (10, 6))
-    plt.plot(df2['Simple_Rtn'], lw = 2, label = 'Simple Returns')
-    plt.plot(df2['Inflation_Rate'], lw = 2, label = 'Inflation Rate')
-    plt.plot(df2['Real_Rtn'], lw = 2, label = 'Real Returns')
+    plt.figure(figsize=(10, 6))
+    plt.plot(df2['Simple_Rtn'], lw=2, label='Simple Returns')
+    plt.plot(df2['Inflation_Rate'], lw=2, label='Inflation Rate')
+    plt.plot(df2['Real_Rtn'], lw=2, label='Real Returns')
     plt.title("AAPL Stock Returns")
     plt.legend()
     plt.show()
