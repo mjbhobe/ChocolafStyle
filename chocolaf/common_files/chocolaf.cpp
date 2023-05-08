@@ -243,6 +243,7 @@ ChocolafApp::ChocolafApp(int argc, char* argv[])
     // Nämostuté - sanskrit word tranlating to "May our minds meet"
     QApplication::setOrganizationName(__organization__);
     QApplication::setOrganizationDomain(__domain__);
+    // setupZFontIcons();
     // setPalette(*__palette);
     //_styleSheet = loadStyleSheet();
     //   for (auto a = 0; a < argc; ++a)

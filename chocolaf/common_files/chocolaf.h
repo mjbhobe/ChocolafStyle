@@ -7,6 +7,7 @@
 #ifndef __Chocolaf_Style_h__
 #define __Chocolaf_Style_h__
 
+#include "common_funcs.h"
 #include <QApplication>
 #include <QColor>
 #include <QPalette>

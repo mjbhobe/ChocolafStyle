@@ -100,6 +100,7 @@ RESOURCES += $$PWD/../styles/chocolaf/chocolaf.qrc
 # add QtAwesome
 CONFIG += fontAwesomeFree
 include(QtAwesome/QtAwesome.pri)
+# include("ZFontIcon/ZFontIcon.pri")
 
 #message($${SOURCES})
 #message($${HEADERS})

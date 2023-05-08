@@ -30,7 +30,11 @@ QDebug operator<<(QDebug debug, const mpz_class &c)
 // helper functions to read from console
 bool getline(QTextStream &in, std::string &ret, const QString &prompt /*=""*/)
 {
+#ifdef USING_QT6
    QTextStream out(stdout, QIODeviceBase::WriteOnly);
+#else
+   QTextStream out(stdout, QIODevice::WriteOnly);
+#endif
 
    if (prompt != "") {
       out << prompt << Qt::flush;
@@ -44,7 +48,11 @@ bool getline(QTextStream &in, std::string &ret, const QString &prompt /*=""*/)
 
 bool getline(QTextStream &in, QString &ret, const QString &prompt /*=""*/)
 {
+#ifdef USING_QT6
    QTextStream out(stdout, QIODeviceBase::WriteOnly);
+#else
+   QTextStream out(stdout, QIODevice::WriteOnly);
+#endif
 
    if (prompt != "") {
       out << prompt << Qt::flush;
@@ -63,7 +71,11 @@ bool readString(QTextStream &in, QString &ret, const QString &prompt /*= ""*/)
 
 bool readInt(QTextStream &in, int &ret, const QString &prompt /*= ""*/)
 {
+#ifdef USING_QT6
    QTextStream out(stdout, QIODeviceBase::WriteOnly);
+#else
+   QTextStream out(stdout, QIODevice::WriteOnly);
+#endif
    bool ok = false;
 
    if (prompt != "") {
@@ -76,7 +88,11 @@ bool readInt(QTextStream &in, int &ret, const QString &prompt /*= ""*/)
 
 bool readDouble(QTextStream &in, double &ret, const QString &prompt /*= ""*/)
 {
+#ifdef USING_QT6
    QTextStream out(stdout, QIODeviceBase::WriteOnly);
+#else
+   QTextStream out(stdout, QIODevice::WriteOnly);
+#endif
    bool ok = false;
 
    if (prompt != "") {

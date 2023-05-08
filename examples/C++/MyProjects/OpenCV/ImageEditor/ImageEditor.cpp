@@ -2,6 +2,7 @@
 #include "ImageSpinner.h"
 #include "MatOps.h" // cv::Mat specific image operations
 #include "common_funcs.h"
+#include "QtAwesome.h"
 #include "ui_ImageEditor.h"
 #include <QtCore>
 #include <QtGui>
@@ -66,15 +67,24 @@ QString getIconPath(QString baseName, bool darkTheme = false)
 
 void ImageEditor::createActions()
 {
+  // initialize FontAwesome for icons
+  fa::QtAwesome *awesome = new fa::QtAwesome(this);
+  awesome->initFontAwesome();
+
+  QVariantMap options{};
   openAction = new QAction("&Open...", this);
   openAction->setShortcut(QKeySequence::Open);
-  openAction->setIcon(QIcon(":/open.png"));
+  auto open_icon = awesome->icon(fa::fa_solid, fa::fa_folder_open, options);
+  openAction->setIcon(open_icon);
+  //openAction->setIcon(QIcon(":/open.png"));
   openAction->setStatusTip("Open a new image file to view");
   QObject::connect(openAction, SIGNAL(triggered()), this, SLOT(open()));
 
   printAction = new QAction("&Print...", this);
   printAction->setShortcut(QKeySequence::Print);
-  printAction->setIcon(QIcon(":/print.png"));
+  auto print_icon = awesome->icon(fa::fa_solid, fa::fa_print, options);
+  printAction->setIcon(print_icon);
+  // printAction->setIcon(QIcon(":/print.png"));
   printAction->setStatusTip("Print the current image");
   QObject::connect(printAction, SIGNAL(triggered()), this, SLOT(print()));
   printAction->setEnabled(false);
@@ -111,37 +121,46 @@ void ImageEditor::createActions()
 
   zoomInAction = new QAction("Zoom &in (25%)", this);
   zoomInAction->setShortcut(QKeySequence("Ctrl++"));
+  auto zoom_in_icon = awesome->icon(fa::fa_solid, fa::fa_search_plus, options);
+  zoomInAction->setIcon(zoom_in_icon);
   // zoomInAction->setIcon(QIcon(":/zoom_in.png"));
-  zoomInAction->setIcon(QIcon(":/zoom_in.png"));
   zoomInAction->setStatusTip("Zoom into the image by 25%");
   QObject::connect(zoomInAction, SIGNAL(triggered()), this, SLOT(zoomIn()));
   zoomInAction->setEnabled(false);
 
   zoomOutAction = new QAction("Zoom &out (25%)", this);
   zoomOutAction->setShortcut(QKeySequence("Ctrl+-"));
-  zoomOutAction->setIcon(QIcon(":/zoom_out.png"));
+  auto zoom_out_icon = awesome->icon(fa::fa_solid, fa::fa_search_minus, options);
+  zoomOutAction->setIcon(zoom_out_icon);
+  //zoomOutAction->setIcon(QIcon(":/zoom_out.png"));
   zoomOutAction->setStatusTip("Zoom out of the image by 25%");
   QObject::connect(zoomOutAction, SIGNAL(triggered()), this, SLOT(zoomOut()));
   zoomOutAction->setEnabled(false);
 
   rotateLeftAction = new QAction("Rotate &left", this);
   rotateLeftAction->setShortcut(QKeySequence("Ctrl+<"));
-  rotateLeftAction->setIcon(QIcon(":/rotate_left.png"));
+  auto rotate_left_icon = awesome->icon(fa::fa_solid, fa::fa_rotate_left, options);
+  rotateLeftAction->setIcon(rotate_left_icon);
+  //rotateLeftAction->setIcon(QIcon(":/rotate_left.png"));
   rotateLeftAction->setStatusTip("Rotate image counter-clockwise by 90 degrees");
   QObject::connect(rotateLeftAction, SIGNAL(triggered()), this, SLOT(rotateLeft()));
   rotateLeftAction->setEnabled(false);
 
   rotateRightAction = new QAction("Rotate &right", this);
   rotateRightAction->setShortcut(QKeySequence("Ctrl+>"));
-  rotateRightAction->setIcon(QIcon(":/rotate_right.png"));
+  auto rotate_right_icon = awesome->icon(fa::fa_solid, fa::fa_rotate_right, options);
+  rotateRightAction->setIcon(rotate_right_icon);
+  // rotateRightAction->setIcon(QIcon(":/rotate_right.png"));
   rotateRightAction->setStatusTip("Rotate image clockwise by 90 degrees");
   QObject::connect(rotateRightAction, SIGNAL(triggered()), this, SLOT(rotateRight()));
   rotateRightAction->setEnabled(false);
 
   fitToWindowAction = new QAction("Fit to &window", this);
   fitToWindowAction->setShortcut(QKeySequence("Ctrl+1"));
+  auto fit_window_icon = awesome->icon(fa::fa_solid, fa::fa_arrows_alt, options);
+  fitToWindowAction->setIcon(fit_window_icon);
   // fitToWindowAction->setIcon(QIcon(":/fit_to_size.png"));
-  fitToWindowAction->setIcon(QIcon(":/zoom_fit.png"));
+  // fitToWindowAction->setIcon(QIcon(":/zoom_fit.png"));
   fitToWindowAction->setStatusTip("Fit the image to window");
   QObject::connect(fitToWindowAction, SIGNAL(triggered()), this, SLOT(fitToWindow()));
   fitToWindowAction->setEnabled(false);
@@ -149,7 +168,9 @@ void ImageEditor::createActions()
 
   prevImageAction = new QAction("&Previous image", this);
   prevImageAction->setShortcut(QKeySequence::MoveToPreviousChar); // left arrow (usually)
-  prevImageAction->setIcon(QIcon(":/go_prev.png"));
+  auto prev_image_icon = awesome->icon(fa::fa_solid, fa::fa_arrow_left, options);
+  prevImageAction->setIcon(prev_image_icon);
+  // prevImageAction->setIcon(QIcon(":/go_prev.png"));
   prevImageAction->setStatusTip("View previous image in folder");
   QObject::connect(prevImageAction, SIGNAL(triggered()), this, SLOT(prevImage()));
   prevImageAction->setEnabled(false);
@@ -157,7 +178,9 @@ void ImageEditor::createActions()
   nextImageAction = new QAction("&Next image", this);
   nextImageAction->setShortcut(QKeySequence::MoveToNextChar); // right arrow (usually)
   // nextImageAction->setIcon(QIcon(":/next.png"));
-  nextImageAction->setIcon(QIcon(":/go_next.png"));
+  auto next_image_icon = awesome->icon(fa::fa_solid, fa::fa_arrow_right, options);
+  nextImageAction->setIcon(next_image_icon);
+  // nextImageAction->setIcon(QIcon(":/go_next.png"));
   nextImageAction->setStatusTip("View next image in folder");
   QObject::connect(nextImageAction, SIGNAL(triggered()), this, SLOT(nextImage()));
   nextImageAction->setEnabled(false);
