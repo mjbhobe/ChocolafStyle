@@ -62,7 +62,7 @@ from chocolaf import ChocolafPalette
 
 def overrides(interface_class):
     def overrider(method):
-        assert (method.__name__ in dir(interface_class))
+        assert method.__name__ in dir(interface_class)
         return method
 
     return overrider
@@ -71,7 +71,7 @@ def overrides(interface_class):
 class CharacterWidget(QWidget):
     characterSelected = pyqtSignal(str)
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(CharacterWidget, self).__init__(parent)
 
         self.displayFont = QFont()
@@ -79,7 +79,7 @@ class CharacterWidget(QWidget):
         self.squareSize = int(
             max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5)
         )  # height() * 3)
-        print(f"(C) -> self.squareSize() = {self.squareSize}", flush = True)
+        print(f"(C) -> self.squareSize() = {self.squareSize}", flush=True)
         self.columns = 64
         self.lastKey = -1
         self.setMouseTracking(True)
@@ -89,7 +89,7 @@ class CharacterWidget(QWidget):
         self.squareSize = int(
             max(24, QFontMetrics(self.displayFont).lineSpacing() * 1.5)
         )  # height() * 3)
-        print(f"self.squareSize() = {self.squareSize}", flush = True)
+        print(f"self.squareSize() = {self.squareSize}", flush=True)
         # self.squareSize = max(self.squareSize, QFontMetrics(self.displayFont).xWidth * 3)
         self.adjustSize()
         self.update()
@@ -107,8 +107,7 @@ class CharacterWidget(QWidget):
         fontDatabase = QFontDatabase()
         oldStrategy = self.displayFont.styleStrategy()
         self.displayFont = fontDatabase.font(
-            self.displayFont.family(),
-            fontStyle, self.displayFont.pointSize()
+            self.displayFont.family(), fontStyle, self.displayFont.pointSize()
         )
         self.displayFont.setStyleStrategy(oldStrategy)
         self.squareSize = int(
@@ -127,25 +126,29 @@ class CharacterWidget(QWidget):
 
     def sizeHint(self):
         return QSize(
-            self.columns * self.squareSize,
-            (65536 // self.columns) * self.squareSize
-            )
+            self.columns * self.squareSize, (65536 // self.columns) * self.squareSize
+        )
 
     def mouseMoveEvent(self, event):
         widgetPosition = self.mapFromGlobal(event.globalPos())
         key = (
-                      widgetPosition.y() // self.squareSize) * self.columns + widgetPosition.x() // self.squareSize
+            widgetPosition.y() // self.squareSize
+        ) * self.columns + widgetPosition.x() // self.squareSize
 
-        text = '<p>Character: <span style="font-size: 24pt; font-family: %s">%s</span><p>Value: 0x%x' % (
-            self.displayFont.family(), self._chr(key), key)
+        text = (
+            '<p>Character: <span style="font-size: 24pt; font-family: %s">%s</span><p>Value: 0x%x'
+            % (self.displayFont.family(), self._chr(key), key)
+        )
         QToolTip.showText(event.globalPos(), text, self)
 
-    def mousePressEvent(self, event):
-        if event.clostBtn() == Qt.LeftButton:
-            self.lastKey = (event.y() // self.squareSize) * self.columns + event.x() // self.squareSize
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.lastKey = (
+                event.y() // self.squareSize
+            ) * self.columns + event.x() // self.squareSize
             key_ch = self._chr(self.lastKey)
 
-            if unicodedata.category(key_ch) != 'Cn':
+            if unicodedata.category(key_ch) != "Cn":
                 self.characterSelected.emit(key_ch)
             self.update()
         else:
@@ -153,7 +156,9 @@ class CharacterWidget(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        painter.fillRect(event.rect(), ChocolafPalette.Window_Color)  # QColor(42, 42, 42))  # Qt.white)
+        painter.fillRect(
+            event.rect(), ChocolafPalette.Window_Color
+        )  # QColor(42, 42, 42))  # Qt.white)
         painter.setFont(self.displayFont)
 
         redrawRect = event.rect()
@@ -162,39 +167,49 @@ class CharacterWidget(QWidget):
         beginColumn = redrawRect.left() // self.squareSize
         endColumn = redrawRect.right() // self.squareSize
 
-        painter.setPen(ChocolafPalette.Disabled_Light_Color)  # QColor(102, 102, 102))  # Qt.gray)
+        painter.setPen(
+            ChocolafPalette.Disabled_Light_Color
+        )  # QColor(102, 102, 102))  # Qt.gray)
         for row in range(beginRow, endRow + 1):
             for column in range(beginColumn, endColumn + 1):
                 painter.drawRect(
                     column * self.squareSize,
-                    row * self.squareSize, self.squareSize,
-                    self.squareSize
-                    )
+                    row * self.squareSize,
+                    self.squareSize,
+                    self.squareSize,
+                )
 
         fontMetrics = QFontMetrics(self.displayFont)
-        painter.setPen(ChocolafPalette.WindowText_Color)  # QColor(220, 220, 220))  # Qt.black)
+        painter.setPen(
+            ChocolafPalette.WindowText_Color
+        )  # QColor(220, 220, 220))  # Qt.black)
         for row in range(beginRow, endRow + 1):
             for column in range(beginColumn, endColumn + 1):
                 key = row * self.columns + column
                 painter.setClipRect(
                     column * self.squareSize,
-                    row * self.squareSize, self.squareSize,
-                    self.squareSize
-                    )
+                    row * self.squareSize,
+                    self.squareSize,
+                    self.squareSize,
+                )
 
                 if key == self.lastKey:
                     painter.fillRect(
                         column * self.squareSize + 1,
-                        row * self.squareSize + 1, self.squareSize,
-                        self.squareSize, Qt.red
-                        )
+                        row * self.squareSize + 1,
+                        self.squareSize,
+                        self.squareSize,
+                        Qt.red,
+                    )
 
                 key_ch = self._chr(key)
                 painter.drawText(
-                    column * self.squareSize + (self.squareSize // 2) - fontMetrics.width(key_ch) // 2,
+                    column * self.squareSize
+                    + (self.squareSize // 2)
+                    - fontMetrics.width(key_ch) // 2,
                     row * self.squareSize + 4 + fontMetrics.ascent(),
-                    key_ch
-                    )
+                    key_ch,
+                )
 
     @staticmethod
     def _chr(codepoint):
@@ -283,8 +298,9 @@ class Window(QWidget):
         self.setLayout(centralLayout)
 
     def filterChanged(self, index):
-        filter: QFontComboBox.FontFilter = \
-            QFontComboBox.FontFilter(self.filterCombo.itemData(index))
+        filter: QFontComboBox.FontFilter = QFontComboBox.FontFilter(
+            self.filterCombo.itemData(index)
+        )
         self.fontCombo.setFontFilters(filter)
 
     def findStyles(self, font: QFont):
@@ -310,19 +326,23 @@ class Window(QWidget):
         blocker = QSignalBlocker(self.sizeCombo)
         self.sizeCombo.clear()
 
-        if fontDatabase.isSmoothlyScalable(font.family(), fontDatabase.styleString(font)):
+        if fontDatabase.isSmoothlyScalable(
+            font.family(), fontDatabase.styleString(font)
+        ):
             sizes = QFontDatabase.standardSizes()
             for size in sizes:
                 self.sizeCombo.addItem(str(size))
                 self.sizeCombo.setEditable(True)
         else:
-            sizes = fontDatabase.smoothSizes(font.family(), fontDatabase.styleString(font))
+            sizes = fontDatabase.smoothSizes(
+                font.family(), fontDatabase.styleString(font)
+            )
             for size in sizes:
                 self.sizeCombo.addItem(str(size))
                 self.sizeCombo.setEditable(True)
 
         sizeIndex = self.sizeCombo.findText(currentSize)
-        if (sizeIndex == -1):
+        if sizeIndex == -1:
             self.sizeCombo.setCurrentIndex(max(0, self.sizeCombo.count() // 3))
         else:
             self.sizeCombo.setCurrentIndex(sizeIndex)
@@ -338,7 +358,7 @@ class Window(QWidget):
 def main():
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     win = Window()
     win.move(100, 100)

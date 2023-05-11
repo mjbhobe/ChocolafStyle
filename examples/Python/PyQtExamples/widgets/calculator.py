@@ -355,7 +355,7 @@ class Calculator(QWidget):
 if __name__ == '__main__':
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
     # app.setStyle("QDarkStyle-dark")
 
     calc = Calculator()

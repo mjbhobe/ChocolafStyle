@@ -243,11 +243,11 @@ class ImageEditor(QMainWindow):
                 else f"Zoom: {int(self.scaleFactor * 100)} %"
             self.scaleFactorLabel.setText(scaleFactorText)
 
-    def openCV2QImage(self, cv2image):
+    def openCV2QImage(self, cv2image, image_format=QImage.Format_RGB888):
         """ convert an OpenCV2 image read using cv2.imread to QImage """
         height, width, channels = cv2image.shape
         bytes_per_line = width * channels
-        qimage = QImage(cv2image, width, height, bytes_per_line, QImage.Format_RGB888)
+        qimage = QImage(cv2image, width, height, bytes_per_line, image_format)
         return qimage
 
     def displayImageInfo(self) -> None:

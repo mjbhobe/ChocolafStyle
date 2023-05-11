@@ -59,7 +59,7 @@ import chocolaf
 
 
 class Window(QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(Window, self).__init__(parent)
 
         grid = QGridLayout()
@@ -173,7 +173,7 @@ class Window(QWidget):
 def main():
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     win = Window()
     # win.setStyleSheet(app.getStyleSheet("Chocolaf"))

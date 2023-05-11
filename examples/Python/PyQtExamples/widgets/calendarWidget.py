@@ -136,13 +136,17 @@ class Window(QWidget):
         currLocaleIndex, index = -1, 0
         for i in range(int(QLocale.Language.C), int(QLocale.Language.LastLanguage)):
             lang: QLocale.Language = QLocale.Language(i)
-            langLocales = QLocale.matchingLocales(lang, QLocale.AnyScript, QLocale.AnyCountry)
+            langLocales = QLocale.matchingLocales(
+                lang, QLocale.AnyScript, QLocale.AnyCountry
+            )
             for langLocale in langLocales:
                 label = QLocale.languageToString(lang)
-                label = label + '/'
+                label = label + "/"
                 label = label + QLocale.countryToString(langLocale.country())
                 locale: QLocale = QLocale(lang, langLocale.country())
-                if (self.locale().language() == lang) and (self.locale().country() == langLocale.country()):
+                if (self.locale().language() == lang) and (
+                    self.locale().country() == langLocale.country()
+                ):
                     currLocaleIndex = index
                 self.localeCombo.addItem(label, locale)
                 index += 1
@@ -150,21 +154,45 @@ class Window(QWidget):
             self.localeCombo.setCurrentIndex(currLocaleIndex)
 
         # Issue: these should come from self.locale()
-        weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-        weekdays_code = [Qt.Sunday, Qt.Monday, Qt.Tuesday, Qt.Wednesday, Qt.Thursday, Qt.Friday, Qt.Saturday]
+        weekdays = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+        ]
+        weekdays_code = [
+            Qt.Sunday,
+            Qt.Monday,
+            Qt.Tuesday,
+            Qt.Wednesday,
+            Qt.Thursday,
+            Qt.Friday,
+            Qt.Saturday,
+        ]
 
         for w, wc in zip(weekdays, weekdays_code):
             self.firstDayCombo.addItem(w, wc)
 
-        self.selectionModeCombo.addItem("Single Selection", QCalendarWidget.SingleSelection)
+        self.selectionModeCombo.addItem(
+            "Single Selection", QCalendarWidget.SingleSelection
+        )
         self.selectionModeCombo.addItem("None", QCalendarWidget.NoSelection)
 
-        self.horizontalHeaderCombo.addItem("Single letter day names", QCalendarWidget.SingleLetterDayNames)
-        self.horizontalHeaderCombo.addItem("Short day names", QCalendarWidget.ShortDayNames)
+        self.horizontalHeaderCombo.addItem(
+            "Single letter day names", QCalendarWidget.SingleLetterDayNames
+        )
+        self.horizontalHeaderCombo.addItem(
+            "Short day names", QCalendarWidget.ShortDayNames
+        )
         self.horizontalHeaderCombo.addItem("None", QCalendarWidget.NoHorizontalHeader)
         self.horizontalHeaderCombo.setCurrentIndex(1)
 
-        self.verticalHeaderCombo.addItem("ISO week numbers", QCalendarWidget.ISOWeekNumbers)
+        self.verticalHeaderCombo.addItem(
+            "ISO week numbers", QCalendarWidget.ISOWeekNumbers
+        )
         self.verticalHeaderCombo.addItem("None", QCalendarWidget.NoVerticalHeader)
 
         self.localeCombo.currentIndexChanged.connect(self.localeChanged)
@@ -172,7 +200,9 @@ class Window(QWidget):
         self.selectionModeCombo.currentIndexChanged.connect(self.selectionModeChanged)
         self.gridCheckBox.toggled.connect(self.calendar.setGridVisible)
         self.navigationCheckBox.toggled.connect(self.calendar.setNavigationBarVisible)
-        self.horizontalHeaderCombo.currentIndexChanged.connect(self.horizontalHeaderChanged)
+        self.horizontalHeaderCombo.currentIndexChanged.connect(
+            self.horizontalHeaderChanged
+        )
         self.verticalHeaderCombo.currentIndexChanged.connect(self.verticalHeaderChanged)
 
         # layout the controls
@@ -216,7 +246,9 @@ class Window(QWidget):
 
         self.minimumDateEdit = QDateEdit()
         self.minimumDateEdit.setDisplayFormat("MMM d yyyy")
-        self.minimumDateEdit.setDateRange(self.calendar.minimumDate(), self.calendar.maximumDate())
+        self.minimumDateEdit.setDateRange(
+            self.calendar.minimumDate(), self.calendar.maximumDate()
+        )
         self.minimumDateEdit.setDate(self.calendar.minimumDate())
 
         self.minimumDateLabel = QLabel("&Minimum Date:")
@@ -225,14 +257,18 @@ class Window(QWidget):
         self.currentDateEdit = QDateEdit()
         self.currentDateEdit.setDisplayFormat("MMM d yyyy")
         self.currentDateEdit.setDate(self.calendar.selectedDate())
-        self.currentDateEdit.setDateRange(self.calendar.minimumDate(), self.calendar.maximumDate())
+        self.currentDateEdit.setDateRange(
+            self.calendar.minimumDate(), self.calendar.maximumDate()
+        )
 
         self.currentDateLabel = QLabel("&Current Date:")
         self.currentDateLabel.setBuddy(self.currentDateEdit)
 
         self.maximumDateEdit = QDateEdit()
         self.maximumDateEdit.setDisplayFormat("MMM d yyyy")
-        self.maximumDateEdit.setDateRange(self.calendar.minimumDate(), self.calendar.maximumDate())
+        self.maximumDateEdit.setDateRange(
+            self.calendar.minimumDate(), self.calendar.maximumDate()
+        )
         self.maximumDateEdit.setDate(self.calendar.maximumDate())
 
         self.maximumDateLabel = QLabel("Ma&ximum Date:")
@@ -298,7 +334,11 @@ class Window(QWidget):
 
     def weekdayFormatChanged(self):
         format = QTextCharFormat()
-        format.setForeground(QColor(self.weekdayColorCombo.itemData(self.weekdayColorCombo.currentIndex())))
+        format.setForeground(
+            QColor(
+                self.weekdayColorCombo.itemData(self.weekdayColorCombo.currentIndex())
+            )
+        )
         self.calendar.setWeekdayTextFormat(Qt.Monday, format)
         self.calendar.setWeekdayTextFormat(Qt.Tuesday, format)
         self.calendar.setWeekdayTextFormat(Qt.Wednesday, format)
@@ -307,7 +347,11 @@ class Window(QWidget):
 
     def weekendFormatChanged(self):
         format = QTextCharFormat()
-        format.setForeground(QColor(self.weekendColorCombo.itemData(self.weekendColorCombo.currentIndex())))
+        format.setForeground(
+            QColor(
+                self.weekendColorCombo.itemData(self.weekendColorCombo.currentIndex())
+            )
+        )
         self.calendar.setWeekdayTextFormat(Qt.Saturday, format)
         self.calendar.setWeekdayTextFormat(Qt.Sunday, format)
 
@@ -315,18 +359,22 @@ class Window(QWidget):
         text = self.headerTextFormatCombo.currentText()
         format = QTextCharFormat()
 
-        if (text == "Bold"):
+        if text == "Bold":
             format.setFontWeight(QFont.Bold)
-        elif (text == "Italic"):
+        elif text == "Italic":
             format.setFontItalic(True)
         self.calendar.setHeaderTextFormat(format)
 
     def reformatCalendarPage(self):
-        defaultForeground: QColor = QColor(self.weekdayColorCombo.itemData(self.weekdayColorCombo.currentIndex()))
+        defaultForeground: QColor = QColor(
+            self.weekdayColorCombo.itemData(self.weekdayColorCombo.currentIndex())
+        )
 
         firstFridayFormat = QTextCharFormat()
-        firstFriday: QDate = QDate(self.calendar.yearShown(), self.calendar.monthShown(), 1)
-        while (firstFriday.dayOfWeek() != Qt.Friday):
+        firstFriday: QDate = QDate(
+            self.calendar.yearShown(), self.calendar.monthShown(), 1
+        )
+        while firstFriday.dayOfWeek() != Qt.Friday:
             firstFriday = firstFriday.addDays(1)
 
         if self.firstFridayCheckBox.isChecked():
@@ -342,30 +390,44 @@ class Window(QWidget):
 
         if self.mayFirstCheckBox.isChecked():
             mayFirstFormat.setForeground(QColor(180, 142, 173))
-        elif ((not self.firstFridayCheckBox.isChecked()) or (firstFriday != mayFirst)):
+        elif (not self.firstFridayCheckBox.isChecked()) or (firstFriday != mayFirst):
             dayOfWeek = mayFirst.dayOfWeek()
-            self.calendar.setDateTextFormat(mayFirst, self.calendar.weekdayTextFormat(dayOfWeek))
+            self.calendar.setDateTextFormat(
+                mayFirst, self.calendar.weekdayTextFormat(dayOfWeek)
+            )
 
     def localeChanged(self, index: int):
         itemLocale: QLocale = self.localeCombo.itemData(index)
-        newLocale: QLocale = QLocale(itemLocale.language(), itemLocale.script(), itemLocale.country())
+        newLocale: QLocale = QLocale(
+            itemLocale.language(), itemLocale.script(), itemLocale.country()
+        )
         self.calendar.setLocale(newLocale)
         newLocaleFirstDayIndex = self.firstDayCombo.findData(newLocale.firstDayOfWeek())
         self.firstDayCombo.setCurrentIndex(newLocaleFirstDayIndex)
 
     def firstDayChanged(self, index: int):
-        self.calendar.setFirstDayOfWeek(Qt.DayOfWeek(int(self.firstDayCombo.itemData(index))))
+        self.calendar.setFirstDayOfWeek(
+            Qt.DayOfWeek(int(self.firstDayCombo.itemData(index)))
+        )
 
     def selectionModeChanged(self, index: int):
-        self.calendar.setSelectionMode(QCalendarWidget.SelectionMode(int(self.selectionModeCombo.itemData(index))))
+        self.calendar.setSelectionMode(
+            QCalendarWidget.SelectionMode(int(self.selectionModeCombo.itemData(index)))
+        )
 
     def horizontalHeaderChanged(self, index: int):
         self.calendar.setHorizontalHeaderFormat(
-            QCalendarWidget.HorizontalHeaderFormat(int(self.horizontalHeaderCombo.itemData(index))))
+            QCalendarWidget.HorizontalHeaderFormat(
+                int(self.horizontalHeaderCombo.itemData(index))
+            )
+        )
 
     def verticalHeaderChanged(self, index: int):
         self.calendar.setVerticalHeaderFormat(
-            QCalendarWidget.VerticalHeaderFormat(int(self.verticalHeaderCombo.itemData(index))))
+            QCalendarWidget.VerticalHeaderFormat(
+                int(self.verticalHeaderCombo.itemData(index))
+            )
+        )
 
 
 def loadStyleSheet() -> str:
@@ -387,18 +449,18 @@ def loadStyleSheet() -> str:
 def main():
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     win = Window()
-    win.setStyleSheet(app.getStyleSheet("Chocolaf"))
+    # win.setStyleSheet(app.getStyleSheet("Chocolaf"))
     win.move(100, 100)
     win.show()
 
-    rect = win.geometry()
-    win1 = Window()
-    win1.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
-    win1.move(rect.left() + rect.width() // 4 + 20, rect.top() + rect.height() + 10)
-    win1.show()
+    # rect = win.geometry()
+    # win1 = Window()
+    # win1.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
+    # win1.move(rect.left() + rect.width() // 4 + 20, rect.top() + rect.height() + 10)
+    # win1.show()
 
     return app.exec()
 

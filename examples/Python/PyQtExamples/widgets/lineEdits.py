@@ -249,10 +249,11 @@ class Window(QWidget):
 def main():
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
+    app.setStyle("WindowsDark")
 
     win = Window()
-    win.setStyleSheet(app.getStyleSheet("Chocolaf"))
-    win.setWindowTitle(f'PyQt {PYQT_VERSION_STR} LineEdits - Chocolaf Theme')
+    # win.setStyleSheet(app.getStyleSheet("WindowsDark"))
+    win.setWindowTitle(f'PyQt {PYQT_VERSION_STR} LineEdits - WindowsDark Theme')
     win.move(100, 100)
     win.show()
 
@@ -262,13 +263,13 @@ def main():
     win1.setWindowTitle(f'PyQt {PYQT_VERSION_STR} LineEdits - QDarkStyle(dark) Theme')
     win1.move(rect.left() + rect.width() + 50, rect.top() + 50)
     win1.show()
-
-    rect = win1.geometry()
-    win2 = Window()
-    win2.setStyleSheet(app.getStyleSheet("QDarkStyle-light"))
-    win2.setWindowTitle(f'PyQt {PYQT_VERSION_STR} LineEdits - QDarkStyle(light) Theme')
-    win2.move(rect.left() + rect.width() + 50, rect.top() + 50)
-    win2.show()
+    #
+    # rect = win1.geometry()
+    # win2 = Window()
+    # win2.setStyleSheet(app.getStyleSheet("QDarkStyle-light"))
+    # win2.setWindowTitle(f'PyQt {PYQT_VERSION_STR} LineEdits - QDarkStyle(light) Theme')
+    # win2.move(rect.left() + rect.width() + 50, rect.top() + 50)
+    # win2.show()
 
     return app.exec()
 
