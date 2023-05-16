@@ -22,6 +22,7 @@ import yfinance
 import numpy as np
 import pandas as pd
 import datetime
+import locale
 
 import chocolaf
 from chocolaf import ChocolafPalette
@@ -31,44 +32,52 @@ logger = chocolaf.get_logger(pathlib.Path(__file__).name)
 # some pandas tweaks
 pd.set_option("display.max_rows", 80)
 pd.set_option("display.max_columns", 50)
-pd.options.display.float_format = '{:,.2f}'.format
+pd.options.display.float_format = "{:,.2f}".format
 # pd.options.display.max_columns = 25
 pd.options.display.width = 1024
 
 # some global constants
 HOLDINGS = {
     "PFOLIO": [
-        'BAJAJ-AUTO.NS', 'BAJAJFINSV.NS', 'COLPAL.NS', 'DIXON.NS', 'HDFCBANK.NS', 'HEROMOTOCO.NS',
-        'HDFC.NS',
-        'INFY.NS', 'ITC.NS', 'KANSAINER.NS', 'LT.NS', 'M&M.NS', 'NESTLEIND.NS', 'PIDILITIND.NS',
-        'PGHH.NS',
-        'RELIANCE.NS', 'TCS.NS', 'TATASTEEL.NS', 'TITAN.NS', 'ULTRACEMCO.NS'],
+        "BAJAJ-AUTO.NS", "BAJAJFINSV.NS", "COLPAL.NS", "DIXON.NS",
+        "HDFCBANK.NS", "HEROMOTOCO.NS", "HDFC.NS", "INFY.NS",
+        "ITC.NS", "KANSAINER.NS", "LT.NS", "M&M.NS",
+        "NESTLEIND.NS", "PIDILITIND.NS", "PGHH.NS", "RELIANCE.NS",
+        "TCS.NS", "TATASTEEL.NS", "TITAN.NS", "ULTRACEMCO.NS",
+    ],
     "NUM_SHARES": [
-        166, 530, 220, 25, 100, 25, 50,
-        832, 5000, 9900, 1080, 1440, 25, 7900, 50,
-        402, 408, 2500, 50, 62]
+        166, 530, 220, 25, 100, 25,
+        50, 832, 5000, 9900, 1080,
+        1440, 25, 7900, 50, 402,
+        408, 2500, 50, 62,
+    ],
 }
 
 todays_date = datetime.datetime.now()
 year, month, day = todays_date.year, todays_date.month, todays_date.day
 # adjust for financial year - if today() in Jan, Feb or Mar, decrease year by 1
-year = (year - 1 if month in range(1, 4) else year)
+year = year - 1 if month in range(1, 4) else year
 
 START_DATE = datetime.datetime(year, 4, 1)  # 01-Apr of current financial year
 END_DATE = datetime.datetime.now()
 print(
     f"START_DATE = {START_DATE.strftime('%d-%b-%Y')} - END_DATE = "
-    f"{END_DATE.strftime('%d-%b-%Y')}")
+    f"{END_DATE.strftime('%d-%b-%Y')}"
+)
+locale.setlocale(locale.LC_MONETARY, "en_IN")
 
 
 def download_stock_prices(
-        holdings=HOLDINGS, start_date=START_DATE, end_date=END_DATE, save_path=None,
-        force_download=False
+    holdings = HOLDINGS,
+    start_date = START_DATE,
+    end_date = END_DATE,
+    save_path = None,
+    force_download = False,
 ):
     if (save_path is not None) and (os.path.exists(save_path)) and (not force_download):
         # if portfolio was saved before, load from save_path (if exists) unless force_download
         # is True
-        pfolio_df = pd.read_csv(save_path, index_col=0)
+        pfolio_df = pd.read_csv(save_path, index_col = 0)
         logger.info(f"Portfolio loaded from {save_path}")
     else:
         # download stock prices
@@ -76,9 +85,9 @@ def download_stock_prices(
         pfolio_df = pd.DataFrame()
         for symbol in holdings["PFOLIO"]:
             logger.info(f"Downloading {symbol} data from {start_date} to {end_date}...")
-            stock_df = yfinance.download(symbol, start=start_date, end=end_date, progress=False)
+            stock_df = yfinance.download(symbol, start = start_date, end = end_date, progress = False)
             if len(stock_df) != 0:
-                pfolio_df[symbol] = stock_df['Close']
+                pfolio_df[symbol] = stock_df["Close"]
         pfolio_df.index = pd.to_datetime(pfolio_df.index)
         pfolio_df.index = pfolio_df.index.date
         # transpose so that stock names form the index
@@ -86,20 +95,20 @@ def download_stock_prices(
         # add qty column
         pfolio_df.insert(0, "Qty", holdings["NUM_SHARES"])
         # save portfilio
-        pfolio_df.to_csv(f"{save_path}", header=True, index=True)
+        pfolio_df.to_csv(f"{save_path}", header = True, index = True)
         print(f"Portfolio saved to {save_path}")
     return pfolio_df
 
 
-def calculate_values(df, num_days=5):
+def calculate_values(df, num_days = 5):
     cols = df.columns
 
-    df_new = df[['Qty']]
+    df_new = df[["Qty"]]
 
     # calculate value of stocks for each day
     for col in cols[-num_days:]:
         df_new[col] = df[col]
-        df_new[f"{col}_Value"] = df[col] * df['Qty']
+        df_new[f"{col}_Value"] = df[col] * df["Qty"]
 
     # new_col_order = ['Qty']
     # for col in cols[1:]:
@@ -113,8 +122,7 @@ def calculate_values(df, num_days=5):
 def build_output(entry: Path, long: bool = False):
     if long:
         size = entry.stat().st_size
-        date = datetime.datetime.fromtimestamp(entry.stat().st_mtime).strftime(
-            "%d-%b-%Y %H:%M:%S")
+        date = datetime.datetime.fromtimestamp(entry.stat().st_mtime).strftime("%d-%b-%Y %H:%M:%S")
         type = "d" if entry.is_dir() else "f"
         return f"{type} {size:>10d} {date} {entry.name}"
     return entry.name
@@ -134,8 +142,11 @@ class PandasTableModel(QAbstractTableModel):
                 # display as YYYY-MM-DD
                 return value.strftime("%Y-%m-%d")
             if isinstance(value, float) or (value.dtype == np.float64):
-                # format with comma & 2 decimal places
-                return f"{value:,.2f}"
+                # display in India currency format - all floats in
+                # dataframe are currency amounts
+                # @see: https://stackoverflow.com/questions/40951552/convert-an-amount-to-indian-notation-in-python
+                return locale.currency(value, grouping = True)
+                # return f"{value:,.2f}"
             if isinstance(value, int) or (value.dtype == np.int64):
                 # format with ,
                 val = f"{value:,}"
@@ -147,9 +158,12 @@ class PandasTableModel(QAbstractTableModel):
         elif role == Qt.ItemDataRole.TextAlignmentRole:
             # right align ints & floats
             # or isinstance(value, int):
-            if isinstance(value, float) or (value.dtype == np.float64) or isinstance(value,
-                                                                                     int) or (
-                    value.dtype == np.int64):
+            if (
+                isinstance(value, float)
+                or (value.dtype == np.float64)
+                or isinstance(value, int)
+                or (value.dtype == np.int64)
+            ):
                 return Qt.AlignmentFlag.AlignVCenter + Qt.AlignmentFlag.AlignRight
             else:
                 return Qt.AlignmentFlag.AlignVCenter + Qt.AlignmentFlag.AlignLeft
@@ -170,6 +184,7 @@ class PandasTableModel(QAbstractTableModel):
                 return "%s" % str(self._data.index[section]).strip()
 
         # elif role == Qt.ItemDataRole.TextAlignmentRole:
+
     # if orientation == Qt.Orientation.Horizontal:
     #     return Qt.AlignmentFlag.AlignVCenter + Qt.AlignmentFlag.AlignRight
     # if orientation == Qt.Orientation.Vertical:
@@ -181,8 +196,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.dataframe = dataframe
         self.tableView = QTableView()
-        self.tableView.horizontalHeader().setDefaultAlignment(
-            Qt.AlignmentFlag.AlignHCenter)
+        self.tableView.horizontalHeader().setDefaultAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.model = PandasTableModel(self.dataframe)
         self.tableView.setModel(self.model)
         self.setCentralWidget(self.tableView)
@@ -204,14 +218,15 @@ if __name__ == "__main__":
     save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}.csv"
 
     # pfolio_df = download_stock_prices().T
-    pfolio_df = download_stock_prices(start_date=START_DATE, end_date=END_DATE,
-                                      save_path=save_path)
+    pfolio_df = download_stock_prices(
+        start_date = START_DATE, end_date = END_DATE, save_path = save_path
+    )
     # pfolio_df['Qty'] = HOLDINGS["NUM_SHARES"]
     print(pfolio_df.iloc[:, -5:].head())
     df_values = calculate_values(pfolio_df, 5)
     print(df_values)
     save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}_vals.csv"
-    df_values.to_csv(save_path, index=True, header=True)
+    df_values.to_csv(save_path, index = True, header = True)
 
     title = f"Portfolio Performance for past 5 days"
     window = MainWindow(df_values)
