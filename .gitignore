@@ -38,6 +38,7 @@ qrc_*.cpp
 *.qtc_clang
 *.pro.user
 *.user
+*.csvx
 PROJECT
 
 # Windows & Mac specific files
