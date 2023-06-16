@@ -23,7 +23,7 @@ HOME_DIR = str(pathlib.Path.home())
 
 # app = QApplication(sys.argv)
 app = chocolaf.ChocolafApp(sys.argv)
-app.setStyle("WindowsDark")
+# app.setStyle("WindowsDark")
 
 # here is the window
 win = QWidget()

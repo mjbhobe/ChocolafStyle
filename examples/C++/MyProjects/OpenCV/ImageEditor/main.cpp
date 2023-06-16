@@ -30,9 +30,9 @@ int main(int argc, char **argv)
     qputenv("QT_FONT_DPI", "96");
   } */
   //  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-  //  Chocolaf::ChocolafApp app(argc, argv);
+  Chocolaf::ChocolafApp app(argc, argv);
   //  app.setStyle("Chocolaf");
-  QApplication app(argc, argv);
+  //QApplication app(argc, argv);
   app.setStyle("Fusion");
 
   // parse out the command line arguments

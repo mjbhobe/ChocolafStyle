@@ -24,12 +24,12 @@ HOME_DIR = str(pathlib.Path.home())
 
 MESSAGES = [
     "You clicked me once",
-    "You clicked me again",
-    "You clicked me once again",
+    "You clicked me twice",
+    "You clicked me thrice - three times lucky?",
     "Hey, what's up with the clicking man?",
     "Stop it! This is getting on my nerves",
     "Last warning - one more & we are done",
-    "You did not listen. Now you die!"
+    "You did not listen. Now you die!",
 ]
 
 
@@ -38,7 +38,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.icon = qta.icon("fa.check")
         self.button = QPushButton(self.icon, "Click Me")
-        self.label = QLabel("Click the button to see a new message")
+        self.label = QLabel("Keep clicking the button to see a new message")
         self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.index = 0
         self.setupUi()

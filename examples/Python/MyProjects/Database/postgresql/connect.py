@@ -29,8 +29,7 @@ def connect2():
 
 def getConfigParams(config_file_path, section):
     parser = ConfigParser()
-    assert os.path.exists(config_file_path), \
-        f"FATAL: Configuration file {config_file_path} does not exist!"
+    assert os.path.exists(config_file_path), f"FATAL: Configuration file {config_file_path} does not exist!"
     parser.read(config_file_path)
 
     # read params from section
@@ -46,11 +45,11 @@ def getConfigParams(config_file_path, section):
 
 
 def connect3():
-    """ this is a good method, connection params are read
-        from a configuration file.
-        Create a configuration file with ini extension in same
-        folder where this file is saved - see connect.ini for
-        example 
+    """this is a good method, connection params are read
+    from a configuration file.
+    Create a configuration file with ini extension in same
+    folder where this file is saved - see connect.ini for
+    example
     """
     config_file_path = pathlib.Path(__file__).parent / "connect.ini"
     connect_params = getConfigParams(config_file_path, "postgres")
@@ -62,17 +61,17 @@ def main():
     try:
         conn1 = connect1()
         curr1 = conn1.cursor()
-        curr1.execute('select version()')
+        curr1.execute("select version()")
         print(f"#1 > connected to PostgreSQL {curr1.fetchone()}")
 
         conn2 = connect2()
         curr2 = conn2.cursor()
-        curr2.execute('select version()')
+        curr2.execute("select version()")
         print(f"#2 > connected to PostgreSQL {curr2.fetchone()}")
 
         conn3 = connect3()
         curr3 = conn3.cursor()
-        curr3.execute('select version()')
+        curr3.execute("select version()")
         print(f"#3 > connected to PostgreSQL {curr3.fetchone()}")
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)

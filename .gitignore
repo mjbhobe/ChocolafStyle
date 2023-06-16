@@ -39,6 +39,7 @@ qrc_*.cpp
 *.pro.user
 *.user
 *.csvx
+*.csv
 PROJECT
 
 # Windows & Mac specific files
