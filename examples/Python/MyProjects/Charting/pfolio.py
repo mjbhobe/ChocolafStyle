@@ -234,10 +234,10 @@ if __name__ == "__main__":
     # sys.exit(-1)
 
     # app = QCoreApplication(sys.argv)
-    app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("WindowsDark")
-    # app = QApplication(sys.argv)
-    # app.setStyle("Fusion")
+    # app = chocolaf.ChocolafApp(sys.argv)
+    # app.setStyle("WindowsDark")
+    app = QApplication(sys.argv)
+    app.setStyle("Fusion")
 
     today = QDateTime.currentDateTime().toString("dd-MMM-yyyy")
 

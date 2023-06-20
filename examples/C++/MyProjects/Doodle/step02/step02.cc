@@ -19,11 +19,11 @@ QTextStream cout(stdout, QIODeviceBase::WriteOnly);
 
 int main(int argc, char **argv)
 {
-   //  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-   Chocolaf::ChocolafApp app(argc, argv);
-   //  app.setStyle("Chocolaf");
-   // QApplication app(argc, argv);
-   app.setStyle("WindowsDark");
+    //  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+    //Chocolaf::ChocolafApp app(argc, argv);
+    //  app.setStyle("WindowsDark");
+    QApplication app(argc, argv);
+    app.setStyle("Fusion");
 
    QStringList args = QCoreApplication::arguments();
    foreach (auto arg, args)
