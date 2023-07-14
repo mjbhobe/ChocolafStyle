@@ -34,33 +34,6 @@ pd.options.display.float_format = "{:,.2f}".format
 # pd.options.display.max_columns = 25
 pd.options.display.width = 1024
 
-# some global constants
-HOLDINGS = {
-    "PFOLIO": [
-        "BAJAJ-AUTO.NS",
-        "BAJAJFINSV.NS",
-        "COLPAL.NS",
-        "DIXON.NS",
-        "HDFCBANK.NS",
-        "HEROMOTOCO.NS",
-        "HDFC.NS",
-        "INFY.NS",
-        "ITC.NS",
-        "KANSAINER.NS",
-        "LT.NS",
-        "M&M.NS",
-        "NESTLEIND.NS",
-        "PIDILITIND.NS",
-        "PGHH.NS",
-        "RELIANCE.NS",
-        "TCS.NS",
-        "TATASTEEL.NS",
-        "TITAN.NS",
-        "ULTRACEMCO.NS",
-    ],
-    "NUM_SHARES": [166, 530, 220, 25, 100, 25, 50, 832, 5000, 9900, 1080, 1440, 25, 7900, 50, 402, 408, 2500, 50, 62],
-}
-
 todays_date = datetime.datetime.now()
 year, month, day = todays_date.year, todays_date.month, todays_date.day
 # adjust for financial year - if today() in Jan, Feb or Mar, decrease year by 1
@@ -75,7 +48,7 @@ locale.setlocale(locale.LC_ALL, "en_IN.utf8")
 
 
 def download_stock_prices(
-    holdings=HOLDINGS,
+    holdings,
     start_date=START_DATE,
     end_date=END_DATE,
     save_path=None,
@@ -100,7 +73,7 @@ def download_stock_prices(
         # transpose so that stock names form the index
         pfolio_df = pfolio_df.T
         # add qty column
-        pfolio_df.insert(0, "Qty", holdings["NUM_SHARES"])
+        pfolio_df.insert(0, "Qty", list(holdings["NUM_SHARES"]))
         # save portfilio
         pfolio_df.to_csv(f"{save_path}", header=True, index=True)
         print(f"Portfolio saved to {save_path}")
@@ -243,8 +216,12 @@ if __name__ == "__main__":
 
     save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}.csvx"
 
+    # open holdings
+    holdings = pd.read_csv(pathlib.Path(__file__).parent / "holdings.csv")
     # pfolio_df = download_stock_prices().T
-    pfolio_df = download_stock_prices(start_date=START_DATE, end_date=END_DATE, save_path=save_path)
+    pfolio_df = download_stock_prices(
+        holdings, start_date=START_DATE, end_date=END_DATE, save_path=save_path, force_download=True
+    )
     # pfolio_df['Qty'] = HOLDINGS["NUM_SHARES"]
     logger.info(pfolio_df.iloc[:, -5:].head())
     df_values = calculate_values(pfolio_df, 5)
