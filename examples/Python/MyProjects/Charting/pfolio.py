@@ -31,7 +31,6 @@ logger = chocolaf.get_logger(pathlib.Path(__file__).name)
 pd.set_option("display.max_rows", 80)
 pd.set_option("display.max_columns", 50)
 pd.options.display.float_format = "{:,.2f}".format
-# pd.options.display.max_columns = 25
 pd.options.display.width = 1024
 
 todays_date = datetime.datetime.now()
@@ -55,8 +54,7 @@ def download_stock_prices(
     force_download=False,
 ) -> pd.DataFrame:
     if (save_path is not None) and (os.path.exists(save_path)) and (not force_download):
-        # if portfolio was saved before, load from save_path (if exists) unless force_download
-        # is True
+        # if portfolio was saved before, load from save_path (if exists) unless force_download = True
         pfolio_df = pd.read_csv(save_path, index_col=0)
         logger.info(f"Portfolio loaded from {save_path}")
     else:
@@ -89,13 +87,6 @@ def calculate_values(df, num_days=5):
     for col in cols[-num_days:]:
         df_new[col] = df[col]
         df_new[f"{col}_Value"] = df[col] * df["Qty"]
-
-    # new_col_order = ['Qty']
-    # for col in cols[1:]:
-    #     new_col_order.append(col)
-    #     new_col_order.append(f"{col}_Value")
-
-    # df_new = df.loc[:, new_col_order]
     return df_new
 
 
@@ -134,7 +125,7 @@ class PandasTableModel(QAbstractTableModel):
             if isinstance(value, str):
                 return "%s" % value
             if isinstance(value, datetime.datetime):
-                # display as YYYY-MM-DD
+                # display dates as YYYY-MM-DD
                 return value.strftime("%Y-%m-%d")
             if isinstance(value, float) or (value.dtype == np.float64):
                 # format as currency using locale specific format
@@ -180,13 +171,6 @@ class PandasTableModel(QAbstractTableModel):
                     else "%s" % str(self._data.index[section]).strip()
                 )
 
-        # elif role == Qt.ItemDataRole.TextAlignmentRole:
-
-    # if orientation == Qt.Orientation.Horizontal:
-    #     return Qt.AlignmentFlag.AlignVCenter + Qt.AlignmentFlag.AlignRight
-    # if orientation == Qt.Orientation.Vertical:
-    #     return Qt.AlignmentFlag.AlignVCenter + Qt.AlignmentFlag.AlignLeft
-
 
 class MainWindow(QMainWindow):
     def __init__(self, dataframe: pd.DataFrame):
@@ -202,13 +186,6 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-    # re-run the following line if you want to download stocks data
-    # download_datasets(start_date=START_DATE, end_date=END_DATE)
-    # sys.exit(-1)
-
-    # app = QCoreApplication(sys.argv)
-    # app = chocolaf.ChocolafApp(sys.argv)
-    # app.setStyle("WindowsDark")
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
 
@@ -216,14 +193,12 @@ if __name__ == "__main__":
 
     save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}.csvx"
 
-    # open holdings
+    # open holdings CSV (update this when holdings change)
     holdings = pd.read_csv(pathlib.Path(__file__).parent / "holdings.csv")
-    # pfolio_df = download_stock_prices().T
-    pfolio_df = download_stock_prices(
-        holdings, start_date=START_DATE, end_date=END_DATE, save_path=save_path, force_download=True
-    )
-    # pfolio_df['Qty'] = HOLDINGS["NUM_SHARES"]
+    # download holdings, if not done already
+    pfolio_df = download_stock_prices(holdings, start_date=START_DATE, end_date=END_DATE, save_path=save_path)
     logger.info(pfolio_df.iloc[:, -5:].head())
+    # calculate totals by day
     df_values = calculate_values(pfolio_df, 5)
     logger.info(df_values)
     save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}_vals.csv"
