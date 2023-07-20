@@ -4,24 +4,24 @@ import pandas as pd
 import yfinance as yf
 import matplotlib.pyplot as plt
 
-plt.style.use('seaborn-v0_8')
+plt.style.use("seaborn-v0_8")
 # print(plt.style.available)
 # sys.exit(-1)
 
-START_DATE, END_DATE = '2000-01-01', '2022-12-31'
-SYMBOLS = ['AAPL']
+START_DATE, END_DATE = "2000-01-01", "2023-03-31"
+SYMBOLS = ["AAPL"]
 
 # download AAPL stock price
 msft_df = yf.download(
-    'MSFT',                 # one stock or list of stock symbols ['AAPL','MSFT','AMZN']
-    start=START_DATE,       # from date
-    end=END_DATE,           # to date
+    "MSFT",  # one stock or list of stock symbols ['AAPL','MSFT','AMZN']
+    start=START_DATE,  # from date
+    end=END_DATE,  # to date
     # auto_adjust=True,     # adjust OHLC automatically?
     # actions=True,         # download dividends & stock splits
     # interval="1d",        # Valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo Intraday data cannot extend last 60 days
-    progress=False
+    progress=False,
 )
-msft_df.rename(columns={'Adj Close': 'Adj_Close'}, inplace=True)
+msft_df.rename(columns={"Adj Close": "Adj_Close"}, inplace=True)
 print(msft_df.tail())
 
 # convert the price to returns
@@ -42,10 +42,10 @@ account variations due to stock-split, dividends etc. (also called Corporate Act
 """
 
 # calculate the returns on Adj close price
-df = msft_df.loc[:, ['Adj_Close']]
+df = msft_df.loc[:, ["Adj_Close"]]
 # pandas has the formula for simple returns as below
-df['Simple_Rtn'] = df.Adj_Close.pct_change()
-df['Log_Rtn'] = np.log(df.Adj_Close / df.Adj_Close.shift(1))
+df["Simple_Rtn"] = df.Adj_Close.pct_change()
+df["Log_Rtn"] = np.log(df.Adj_Close / df.Adj_Close.shift(1))
 print(df.head())
 
 # plot the data using traditional Matplotlib calls

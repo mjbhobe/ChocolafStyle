@@ -124,10 +124,7 @@ class MainWindow(QWidget):
         self.setupMainWindow()
 
     def setupMainWindow(self):
-        header_label = QLabel(
-            "Which shifts can you work?"
-            "(Please check all that apply)", self
-        )
+        header_label = QLabel("Which shifts can you work?\n(Please check all that apply)", self)
         header_label.setWordWrap(True)
         header_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         header_label.move(10, 10)
@@ -145,9 +142,9 @@ class MainWindow(QWidget):
         night_cb.toggled.connect(self.printSelected)
 
     def printSelected(self, checked):
-        """ print the text that teh sender is sending"""
+        """print the text that teh sender is sending"""
         sender = self.sender()
-        if (checked):
+        if checked:
             print(f"{sender.text()} selected")
         else:
             print(f"{sender.text()} de-selected")

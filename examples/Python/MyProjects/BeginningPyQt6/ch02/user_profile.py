@@ -44,8 +44,7 @@ class MainWindow(QWidget):
         bio_label.move(10, 170)
 
         about_label = QLabel(self)
-        about_label.setText("I'm a software developer with over 10 years "
-                            "experience creating awesome code")
+        about_label.setText("Software developer with over 10 years " "experience creating awesome code")
         about_label.setWordWrap(True)
         about_label.move(10, 200)
 

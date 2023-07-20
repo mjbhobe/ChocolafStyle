@@ -21,8 +21,8 @@ class MainWindow(QWidget):
 
     def setupMainWindow(self):
         hello_label = QLabel(self)
-        hello_label.setText("Hello")
-        hello_label.move(105, 15)
+        hello_label.setText("Hello World!")
+        hello_label.move(85, 15)
 
         image_path = os.path.join(AppDir, "images/world.png")
         if os.path.exists(image_path):

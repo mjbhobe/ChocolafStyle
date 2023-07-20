@@ -21,7 +21,7 @@ class MainWindow(QWidget):
         self.name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.name_label.move(60, 30)
 
-        self.button = QPushButton("Push Me", self)
+        self.button = QPushButton("Click me!", self)
         self.button.move(80, 70)
         self.button.clicked.connect(self.buttonClicked)
 

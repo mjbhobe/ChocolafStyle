@@ -12,9 +12,9 @@
 import sys
 import cv2
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 
 # from chocolaf.palettes import ChocolafPalette
 # from chocolaf.cv2_utils.chocolafapp import ChocolafApp
@@ -43,14 +43,14 @@ class DisplayImageWindow(QMainWindow):
         self.setStyleSheet(style_sheet)
 
     def initializeUi(self):
-        """ initialize all UI elements of window """
+        """initialize all UI elements of window"""
         self.setMinimumSize(850, 500)
         self.setWindowTitle(Window_Title)
         self.setupWindow()
         self.setupMenu()
 
     def setupWindow(self) -> None:
-        """ setup the widgets in the main window """
+        """setup the widgets in the main window"""
         original_image_header = QLabel("Original Image")
         self.original_label = QLabel()
         self.original_label.setObjectName("ImageLabel")
@@ -85,7 +85,7 @@ class DisplayImageWindow(QMainWindow):
         exitAction = QAction(QIcon(":/on-off.png"), "E&xit", self)
         exitAction.setShortcut("Ctrl+Q")
         exitAction.setStatusTip("Quit the application")
-        exitAction.triggered.connect(qApp.quit)
+        exitAction.triggered.connect(QApplication.instance().quit)
 
         menuBar = self.menuBar()
         fileMenu = menuBar.addMenu("&File")
@@ -97,8 +97,7 @@ class DisplayImageWindow(QMainWindow):
         picsLoc = QStandardPaths.standardLocations(QStandardPaths.PicturesLocation)
         print(f"{picsLoc[-1]}")
         image_file, _ = QFileDialog.getOpenFileName(
-            self, "Open Image", picsLoc[-1],
-            "Image files (*.png, *.tiff. *.jpg *.jpeg *.bmp)"
+            self, "Open Image", picsLoc[-1], "Image files (*.png, *.tiff. *.jpg *.jpeg *.bmp)"
         )
         if image_file:
             image = QImage()
@@ -107,8 +106,7 @@ class DisplayImageWindow(QMainWindow):
             # show original
             self.original_label.setPixmap(
                 QPixmap.fromImage(image).scaled(
-                    self.original_label.width(), self.original_label.height(),
-                    Qt.KeepAspectRatioByExpanding
+                    self.original_label.width(), self.original_label.height(), Qt.KeepAspectRatioByExpanding
                 )
             )
 
@@ -116,8 +114,7 @@ class DisplayImageWindow(QMainWindow):
             converted_image = self.convertCV2QImage(image_file)
             self.opencv_label.setPixmap(
                 QPixmap.fromImage(converted_image).scaled(
-                    self.opencv_label.width(), self.opencv_label.height(),
-                    Qt.KeepAspectRatioByExpanding
+                    self.opencv_label.width(), self.opencv_label.height(), Qt.KeepAspectRatioByExpanding
                 )
             )
             # and adjust size of main window to better accommodate images
@@ -127,17 +124,14 @@ class DisplayImageWindow(QMainWindow):
             QMessageBox.information(self, "Error", "No image was loaded", QMessageBox.Ok)
 
     def convertCV2QImage(self, image_file):
-        """ converts a OpenCV loaded image to QImage"""
+        """converts a OpenCV loaded image to QImage"""
         cv_image = cv2.imread(image_file)
         # un-comment the following line to convert image to RGB colorspace
         # cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
         # get dimensions of image
         height, width, channels = cv_image.shape
         bytes_per_line = width * channels
-        converted_QImage = QImage(
-            cv_image, width, height, bytes_per_line,
-            QImage.Format_RGB888
-        )
+        converted_QImage = QImage(cv_image, width, height, bytes_per_line, QImage.Format_RGB888)
         return converted_QImage
 
 

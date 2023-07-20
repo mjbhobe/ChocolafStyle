@@ -11,12 +11,12 @@ class MainWindow(QWidget):
         self.initializeUi()
 
     def initializeUi(self):
-        self.setGeometry(200, 100, 400, 300)
+        # self.setGeometry(200, 100, 400, 300)
         self.setWindowTitle(f"Welcome to PyQt {PYQT_VERSION_STR}")
         self.setupMainWindow()
 
     def setupMainWindow(self):
-        """ setup widgets & connect signals/slots """
+        """setup widgets & connect signals/slots"""
         pass
 
 

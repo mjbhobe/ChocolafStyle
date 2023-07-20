@@ -1,8 +1,8 @@
 """ test.py - create the basic PyQt6 application """
 import sys
 
-from PyQt5.QtCore import PYQT_VERSION_STR
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QMessageBox
+from PyQt6.QtCore import PYQT_VERSION_STR
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QMessageBox
 
 
 class MainWindow(QWidget):
@@ -15,7 +15,7 @@ class MainWindow(QWidget):
         self.setupMainWindow()
 
     def setupMainWindow(self):
-        """ setup widgets & connect signals/slots """
+        """setup widgets & connect signals/slots"""
         hello_label = QLabel("Click the clostBtn below for important message")
         hello = QPushButton("Click me!")
         hello.clicked.connect(self.sayHello)

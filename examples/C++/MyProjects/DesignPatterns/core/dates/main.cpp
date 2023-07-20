@@ -20,11 +20,12 @@ int main(int argc, char *argv[])
    // default format
    cout << "Today is " << today.toString() << Qt::endl;
    // my favourite format
-   cout << "Today is " << today.toString("dd-MMM-yy") << Qt::endl;
+   cout << "Expressed differently, it's " << today.toString("dd-MMM-yy");
    // here is the default format
-   cout << "Today is " << today.toString("ddd MMM dd yyyy") << Qt::endl;
+   cout << " OR " << today.toString("ddd MMM dd yyyy");
    // really long format
-   cout << "Today is " << today.toString("dddd MMMM dd yyyy") << Qt::endl;
+   cout << " OR " << today.toString("dddd MMMM dd yyyy")
+        << " if you want all details" << Qt::endl;
 
    QDate bday(1969, 6, 22); // yeah, I'm really old :(
    cout << "I was born on " << bday.toString("dd-MMM-yy")
@@ -40,7 +41,7 @@ int main(int argc, char *argv[])
         << nextBday.toString("dd-MMM-yy") << ")" << Qt::endl;
    auto yearsOld{today.year() - bday.year()};
    cout << "Another " << RETIREMENT_AGE - yearsOld << " years till retirement, and "
-        << PLATINUM_JUBLEE - yearsOld << " years to go to celebrate my platinum jublee!!"
+        << PLATINUM_JUBLEE - yearsOld << " years to go and celebrate my platinum jublee!!"
         << Qt::endl;
    auto wifeys_bday = QDate(1976, 1, 22);
    year = (today.month() > wifeys_bday.month()) ? today.year() + 1 : today.year();

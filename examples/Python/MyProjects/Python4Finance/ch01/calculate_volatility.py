@@ -15,7 +15,7 @@ print(plt.style.available)
 plt.style.use("seaborn-v0_8-dark-palette")
 
 
-START_DATE, END_DATE = "2000-01-01", "2022-12-31"
+START_DATE, END_DATE = "2000-01-01", "2023-03-31"
 
 
 def realized_volatility(x):
@@ -26,11 +26,7 @@ if __name__ == "__main__":
     df = download_stock_prices("AAPL", START_DATE, END_DATE)
     print(df.tail())
 
-    df_rv = (
-        df.groupby(pd.Grouper(freq="M"))
-        .apply(realized_volatility)
-        .rename(columns={"Log_Rtn": "rv"})
-    )
+    df_rv = df.groupby(pd.Grouper(freq="M")).apply(realized_volatility).rename(columns={"Log_Rtn": "rv"})
     # annualize returns
     df_rv.rv = df_rv["rv"] * np.sqrt(12)
 
