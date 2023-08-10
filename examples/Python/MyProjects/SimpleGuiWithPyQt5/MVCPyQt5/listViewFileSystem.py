@@ -22,6 +22,13 @@ APP_PATH = os.path.dirname(__file__)
 Window_Title = f"PyQt {PYQT_VERSION_STR} MVC - 2 views of same file system"
 HOME_DIR = str(pathlib.Path.home())
 
+style_sheet = """
+    QTreeView#FileSystemTreeView {
+        background: transparent;
+        selection-color: #ffffff;
+    }
+"""
+
 if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
@@ -35,6 +42,7 @@ if __name__ == "__main__":
 
     # set splitter views
     tree = QTreeView(splitter)
+    tree.setObjectName("FileSystemTreeView")
     tree.setModel(model)
     tree.setRootIndex(model.index(HOME_DIR))
 
@@ -46,6 +54,7 @@ if __name__ == "__main__":
     w = splitter.size().width()
     # splitter.setSizes([0.6 * splitter.width(), 0.4 * splitter.width()])
     splitter.setSizes([int(0.7 * w), int(0.3 * w)])
+    splitter.setStyleSheet(style_sheet)
     splitter.show()
 
     sys.exit(app.exec())

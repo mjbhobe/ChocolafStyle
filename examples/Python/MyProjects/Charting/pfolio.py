@@ -72,7 +72,7 @@ def download_stock_prices(
         pfolio_df = pfolio_df.T
         # add qty column
         pfolio_df.insert(0, "Qty", list(holdings["NUM_SHARES"]))
-        # save portfilio
+        # save portfolio
         pfolio_df.to_csv(f"{save_path}", header=True, index=True)
         print(f"Portfolio saved to {save_path}")
     return pfolio_df
@@ -104,7 +104,7 @@ class PandasTableModel(QAbstractTableModel):
         super(PandasTableModel, self).__init__()
         self._data = data
 
-    def data(self, index, role):
+    def data(self, index : QModelIndex, role: int):
         numRows = self.rowCount(0)  # any value for index is ok
         if index.row() == (numRows - 1):
             value = ""

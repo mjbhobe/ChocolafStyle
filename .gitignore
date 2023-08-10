@@ -12,6 +12,7 @@ Makefile.Release
 
 # ignore configuration files
 *.ini
+*.key
 
 # ignore .vscode folder (Visual Studio code settings)
 .vscode
