@@ -1,6 +1,5 @@
 QT -= gui
 
-CONFIG += c++17 console
 CONFIG -= app_bundle
 
 include (../../../../../../chocolaf/common_files/common_console.pro)
