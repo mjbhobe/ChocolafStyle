@@ -26,7 +26,9 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.setWindowTitle(Window_Title)
         self.label = QLabel("QCheckbox example")
-        self.label.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.label.setAlignment(
+            Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter
+        )
         self.checkbox = QCheckBox("This is a checkbox")
         self.checkbox.stateChanged.connect(self.show_checkbox_state)
         self.setupUi()
@@ -41,12 +43,14 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(win)
 
     def show_checkbox_state(self, s):
-        self.label.setText(f"The checkbox is {'checked' if Qt.CheckState(s) == Qt.CheckState.Checked else 'unchecked'}")
+        self.label.setText(
+            f"The checkbox is {'checked' if Qt.CheckState(s) == Qt.CheckState.Checked else 'unchecked'}"
+        )
 
 
 # app = QApplication(sys.argv)
 app = chocolaf.ChocolafApp(sys.argv)
-app.setStyle("Chocolaf")
+app.setStyle("WindowsDark")
 
 # here is the window
 win = MainWindow()

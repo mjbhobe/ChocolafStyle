@@ -41,7 +41,7 @@ class ImageProcessingWindow(QMainWindow):
         self.setStyleSheet(style_sheet)
 
     def initializeUi(self):
-        """ initialize all UI elements of window """
+        """initialize all UI elements of window"""
         self.setMinimumSize(900, 600)
         self.setWindowTitle(Window_Title)
         self.contrastAdjusted = False
@@ -53,12 +53,16 @@ class ImageProcessingWindow(QMainWindow):
         self.setupMenu()
 
     def setupWindow(self):
-        """ setup the widgets in the main window """
+        """setup the widgets in the main window"""
         self.imageLabel = QLabel()
         self.imageLabel.setObjectName("ImageLabel")
         # self.imageLabel.setStyleSheet(style_sheet)
 
         # create the widgets in the image effects panel
+        self.loadImageBtn = QPushButton("Load Image...")
+        self.loadImageBtn.setDefault(True)
+        self.loadImageBtn.clicked.connect(self.openImage)
+
         contrastLabel = QLabel("Contrast [Range: 0.0:4.0]")
         self.contrastSpinBox = QDoubleSpinBox()
         self.contrastSpinBox.setMinimumWidth(100)
@@ -93,6 +97,7 @@ class ImageProcessingWindow(QMainWindow):
         # layout the widgets in 2 QVBoxLayout columns
         sidePanelVBox = QVBoxLayout()
         sidePanelVBox.setAlignment(Qt.AlignTop)
+        sidePanelVBox.addWidget(self.loadImageBtn)
         sidePanelVBox.addWidget(contrastLabel)
         sidePanelVBox.addWidget(self.contrastSpinBox)
         sidePanelVBox.addWidget(brightnessLabel)
@@ -171,8 +176,9 @@ class ImageProcessingWindow(QMainWindow):
         if self.contrastAdjusted == True or self.brightnessAdjusted == True:
             contrast = self.contrastSpinBox.value()
             brightness = self.brightnessSpinBox.value()
-            self.cv_image = cv2.convertScaleAbs(self.cv_image, self.processed_cv_image,
-                                                contrast, brightness)
+            self.cv_image = cv2.convertScaleAbs(
+                self.cv_image, self.processed_cv_image, contrast, brightness
+            )
         if self.imageSmoothingChecked == True:
             kernel = np.ones((5, 5), np.float32) / 25
             self.cv_image = cv2.filter2D(self.cv_image, -1, kernel)
@@ -184,9 +190,13 @@ class ImageProcessingWindow(QMainWindow):
     def resetImageAndSettings(self):
         """Reset the displayed image and widgets used for image
         processing."""
-        answer = QMessageBox.information(self, "Reset Image",
-                                         "Are you sure you want to reset the image settings?",
-                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        answer = QMessageBox.information(
+            self,
+            "Reset Image",
+            "Are you sure you want to reset the image settings?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No,
+        )
         if answer == QMessageBox.No:
             pass
         elif answer == QMessageBox.Yes and self.imageLabel.pixmap() != None:
@@ -202,8 +212,12 @@ class ImageProcessingWindow(QMainWindow):
 
     def openImage(self):
         picsLoc = QStandardPaths.standardLocations(QStandardPaths.PicturesLocation)
-        image_file, _ = QFileDialog.getOpenFileName(self, "Open Image", picsLoc[-1],
-                                                    "Image files (*.png, *.tiff. *.jpg *.jpeg *.bmp)")
+        image_file, _ = QFileDialog.getOpenFileName(
+            self,
+            "Open Image",
+            picsLoc[-1],
+            "Image files (*.png, *.tiff. *.jpg *.jpeg *.bmp)",
+        )
         if image_file:
             self.resetWidgetValues()
             self.applyButton.setEnabled(True)
@@ -213,36 +227,50 @@ class ImageProcessingWindow(QMainWindow):
             self.processed_cv_image = np.zeros(self.cv_image.shape, self.cv_image.dtype)
             self.convertCV2QImage(self.cv_image)
         else:
-            QMessageBox.information(self, "Error", "No image was loaded", QMessageBox.Ok)
+            QMessageBox.information(
+                self, "Error", "No image was loaded", QMessageBox.Ok
+            )
 
     def saveImage(self):
         picsLoc = QStandardPaths.standardLocations(QStandardPaths.PicturesLocation)
-        image_file, _ = QFileDialog.getSaveFileName(self, "Open Image", picsLoc[-1],
-                                                    "Image files (*.png, *.tiff. *.jpg *.jpeg *.bmp)")
+        image_file, _ = QFileDialog.getSaveFileName(
+            self,
+            "Open Image",
+            picsLoc[-1],
+            "Image files (*.png, *.tiff. *.jpg *.jpeg *.bmp)",
+        )
         if image_file and self.imageLabel.pixmap() != None:
             cv2.imwrite(image_file, self.cv_image)
         else:
-            QMessageBox.information(self, "Error", "Unable to save image", QMessageBox.Ok)
+            QMessageBox.information(
+                self, "Error", "Unable to save image", QMessageBox.Ok
+            )
 
     def convertCV2QImage(self, image_file):
-        """ converts a OpenCV loaded image to QImage"""
+        """converts a OpenCV loaded image to QImage"""
         cv_image = cv2.cvtColor(image_file, cv2.COLOR_BGR2RGB)
         # get dimensions of image
         height, width, channels = cv_image.shape
         bytes_per_line = width * channels
-        converted_QImage = QImage(cv_image, width, height, bytes_per_line,
-                                  QImage.Format_RGB888)
-        self.imageLabel.setPixmap(QPixmap.fromImage(converted_QImage.scaled(
-            self.imageLabel.width(), self.imageLabel.height(),
-            Qt.KeepAspectRatio
-        )))
+        converted_QImage = QImage(
+            cv_image, width, height, bytes_per_line, QImage.Format_RGB888
+        )
+        self.imageLabel.setPixmap(
+            QPixmap.fromImage(
+                converted_QImage.scaled(
+                    self.imageLabel.width(),
+                    self.imageLabel.height(),
+                    Qt.KeepAspectRatio,
+                )
+            )
+        )
         return converted_QImage
 
 
 if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     win = ImageProcessingWindow()
     win.imageLabel.setStyleSheet(style_sheet)

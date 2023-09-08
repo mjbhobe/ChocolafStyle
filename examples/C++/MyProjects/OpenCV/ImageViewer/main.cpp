@@ -1,9 +1,9 @@
 #include "argparse/argparse.hpp"
-#include <filesystem>
-#include <fmt/core.h>
 #include <QtCore>
 #include <QtGui>
 #include <QtWidgets>
+#include <filesystem>
+#include <fmt/core.h>
 
 #include "ImageViewer.h"
 #include "chocolaf.h"
@@ -16,51 +16,58 @@ static QTextStream cerr(stderr, QIODevice::WriteOnly);
 // define expected command line args
 // @see: https://github.com/morrisfranken/argparse
 struct MyArgs : public argparse::Args {
-   // -i | --image <image_path>
-   std::string &image_path = kwarg("i,image", "Full path to image file to display.")
-                                .set_default("");
+    // -i | --image <image_path>
+    std::string& image_path = kwarg("i,image", "Full path to image file to display.")
+                                  .set_default("");
 };
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-   Chocolaf::ChocolafApp::setupForHighDpiScreens();
-   Chocolaf::ChocolafApp app(argc, argv);
 #ifdef Q_OS_WIN
-   app.setStyle("WindowsDark");
-#else
-   app.setStyle("Chocolaf");
+    // set dark mode on Windows
+    // @see: https://www.qt.io/blog/dark-mode-on-windows-11-with-qt-6.5
+    qputenv("QT_QPA_PLATFORM", "windows:darkmode=2");
 #endif
+    Chocolaf::ChocolafApp::setupForHighDpiScreens();
+    Chocolaf::ChocolafApp app(argc, argv);
+    app.setStyle("Fusion");
+    /*
+    #ifdef Q_OS_WIN
+       app.setStyle("WindowsDark");
+    #else
+       app.setStyle("Chocolaf");
+    #endif
+    */
 
-   /*
-  QApplication app(argc, argv);
+    /*
+   QApplication app(argc, argv);
 
-  QFile f(":chocolaf/chocolaf.css");
+   QFile f(":chocolaf/chocolaf.css");
 
-  if (!f.exists()) {
-    printf("Unable to open stylesheet!");
-  } else {
-    f.open(QFile::ReadOnly | QFile::Text);
-    QTextStream ts(&f);
-    app.setStyleSheet(ts.readAll());
-  }
-  */
-   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
-
-   // parse the command line params
-   MyArgs args = argparse::parse<MyArgs>(argc, argv, /* raise_on_error */ true);
-
-   ImageViewer w;
-   if ((args.image_path != "")) {
-      if (fs::exists(args.image_path)) {
-         w.loadImage(QString(args.image_path.c_str()));
-         w.updateActions();
-      }
-      else {
-         cerr << "WARNING: " << args.image_path.c_str() << " - path does not exist!"
-              << Qt::endl;
-      }
+   if (!f.exists()) {
+     printf("Unable to open stylesheet!");
+   } else {
+     f.open(QFile::ReadOnly | QFile::Text);
+     QTextStream ts(&f);
+     app.setStyleSheet(ts.readAll());
    }
-   w.show();
+   */
+    app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
-   return app.exec();
+    // parse the command line params
+    MyArgs args = argparse::parse<MyArgs>(argc, argv, /* raise_on_error */ true);
+
+    ImageViewer w;
+    if ((args.image_path != "")) {
+        if (fs::exists(args.image_path)) {
+            w.loadImage(QString(args.image_path.c_str()));
+            w.updateActions();
+        } else {
+            cerr << "WARNING: " << args.image_path.c_str() << " - path does not exist!"
+                 << Qt::endl;
+        }
+    }
+    w.show();
+
+    return app.exec();
 }

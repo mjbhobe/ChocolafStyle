@@ -40,7 +40,10 @@ year = year - 1 if month in range(1, 4) else year
 
 START_DATE = datetime.datetime(year, 4, 1)  # 01-Apr of current financial year
 END_DATE = datetime.datetime.now()
-logger.info(f"START_DATE = {START_DATE.strftime('%d-%b-%Y')} - END_DATE = " f"{END_DATE.strftime('%d-%b-%Y')}")
+logger.info(
+    f"START_DATE = {START_DATE.strftime('%d-%b-%Y')} - END_DATE = "
+    f"{END_DATE.strftime('%d-%b-%Y')}"
+)
 
 # set to India locale
 locale.setlocale(locale.LC_ALL, "en_IN.utf8")
@@ -63,7 +66,9 @@ def download_stock_prices(
         pfolio_df = pd.DataFrame()
         for symbol in holdings["PFOLIO"]:
             logger.info(f"Downloading {symbol} data from {start_date} to {end_date}...")
-            stock_df = yfinance.download(symbol, start=start_date, end=end_date, progress=False)
+            stock_df = yfinance.download(
+                symbol, start=start_date, end=end_date, progress=False
+            )
             if len(stock_df) != 0:
                 pfolio_df[symbol] = stock_df["Close"]
         pfolio_df.index = pd.to_datetime(pfolio_df.index)
@@ -93,7 +98,9 @@ def calculate_values(df, num_days=5):
 def build_output(entry: Path, long: bool = False):
     if long:
         size = entry.stat().st_size
-        date = datetime.datetime.fromtimestamp(entry.stat().st_mtime).strftime("%d-%b-%Y %H:%M:%S")
+        date = datetime.datetime.fromtimestamp(entry.stat().st_mtime).strftime(
+            "%d-%b-%Y %H:%M:%S"
+        )
         type = "d" if entry.is_dir() else "f"
         return f"{type} {size:>10d} {date} {entry.name}"
     return entry.name
@@ -104,7 +111,7 @@ class PandasTableModel(QAbstractTableModel):
         super(PandasTableModel, self).__init__()
         self._data = data
 
-    def data(self, index : QModelIndex, role: int):
+    def data(self, index: QModelIndex, role: int):
         numRows = self.rowCount(0)  # any value for index is ok
         if index.row() == (numRows - 1):
             value = ""
@@ -177,31 +184,40 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.dataframe = dataframe
         self.tableView = QTableView()
-        self.tableView.horizontalHeader().setDefaultAlignment(Qt.AlignmentFlag.AlignHCenter)
+        self.tableView.horizontalHeader().setDefaultAlignment(
+            Qt.AlignmentFlag.AlignHCenter
+        )
         self.model = PandasTableModel(self.dataframe)
         self.tableView.setModel(self.model)
-        self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+        self.tableView.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.ResizeToContents
+        )
 
         self.setCentralWidget(self.tableView)
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    app.setStyle("Fusion")
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
+    app.setStyle("WindowsDark")
 
     today = QDateTime.currentDateTime().toString("dd-MMM-yyyy")
 
-    save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}.csvx"
+    save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}.csv"
 
     # open holdings CSV (update this when holdings change)
     holdings = pd.read_csv(pathlib.Path(__file__).parent / "holdings.csv")
     # download holdings, if not done already
-    pfolio_df = download_stock_prices(holdings, start_date=START_DATE, end_date=END_DATE, save_path=save_path)
+    pfolio_df = download_stock_prices(
+        holdings, start_date=START_DATE, end_date=END_DATE, save_path=save_path
+    )
     logger.info(pfolio_df.iloc[:, -5:].head())
     # calculate totals by day
     df_values = calculate_values(pfolio_df, 5)
     logger.info(df_values)
-    save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}_vals.csv"
+    save_path = (
+        Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}_vals.csv"
+    )
     df_values.to_csv(save_path, index=True, header=True)
 
     title = f"Portfolio Performance for past 5 days"

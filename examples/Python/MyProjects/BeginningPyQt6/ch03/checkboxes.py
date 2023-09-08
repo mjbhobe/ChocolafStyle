@@ -124,7 +124,9 @@ class MainWindow(QWidget):
         self.setupMainWindow()
 
     def setupMainWindow(self):
-        header_label = QLabel("Which shifts can you work?\n(Please check all that apply)", self)
+        header_label = QLabel(
+            "Which shifts can you work?\n(Please check all that apply)", self
+        )
         header_label.setWordWrap(True)
         header_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         header_label.move(10, 10)
@@ -156,7 +158,7 @@ def main():
     # app.setStyle("Chocolaf")
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
-    app.setStyleSheet(STYLE_SHEET)
+    # app.setStyleSheet(STYLE_SHEET)
 
     # create the main window
     win = MainWindow()
