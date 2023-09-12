@@ -49,6 +49,30 @@ logger.info(
 locale.setlocale(locale.LC_ALL, "en_IN.utf8")
 
 
+def show_plot(
+    symbol: str,
+):
+    import matplotlib.pyplot as plt
+
+    today = QDateTime.currentDateTime().toString("dd-MMM-yyyy")
+    save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}.csv"
+    plot_df = pd.read_csv(save_path, index_col=0)
+
+    dates = pd.date_range(
+        f"{year}-04-01",
+        datetime.date.today().strftime("%Y-%m-%d"),  # freq="BM"
+    )
+    last_date = plot_df.columns[-1]
+    if last_date not in dates:
+        dates.append(last_date)
+    plot_values = plot_df.loc[symbol, dates]
+    plot_values.plot()
+    plt.title(
+        f"{stock} - closing price from 01-Apr-{year} - {datetime.date.today().strftime('%d-%M-%Y')}"
+    )
+    plt.show()
+
+
 def download_stock_prices(
     holdings,
     start_date=START_DATE,
@@ -199,7 +223,7 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("WindowsDark")
+    app.setStyle("Chocolaf")
 
     today = QDateTime.currentDateTime().toString("dd-MMM-yyyy")
 
@@ -225,5 +249,7 @@ if __name__ == "__main__":
     window.setWindowTitle(title)
     chocolaf.centerOnScreenWithSize(window, 0.75, 0.65)
     window.show()
+
+    show_plot("KANSAINER.NS")
 
     sys.exit(app.exec())
