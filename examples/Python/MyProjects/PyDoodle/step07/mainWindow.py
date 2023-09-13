@@ -27,11 +27,15 @@ class MainWindow(QMainWindow):
 
     # operating system Events
     def closeEvent(self, e):
-        """ called just before the main window closes """
+        """called just before the main window closes"""
         if self.drawWindow.doodle.modified:
-            resp = QMessageBox.question(self, "Confirm Close",
-                                        "This will close the application.\nOk to quit?",
-                                        QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            resp = QMessageBox.question(
+                self,
+                "Confirm Close",
+                "This will close the application.\nOk to quit?",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No,
+            )
             if resp == QMessageBox.Yes:
                 e.accept()
             else:

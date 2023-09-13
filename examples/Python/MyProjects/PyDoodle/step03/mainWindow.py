@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         super(QMainWindow, self).__init__()
         self.setWindowTitle("PyQt5 Doodle - Step03: Drawing points")
         labelText = "Left click anywhere in client area to see position. Right click to clear"
-        self.messageLabel = QLabel(labelText, parent = self)
+        self.messageLabel = QLabel(labelText, parent=self)
         self.messageLabel.setGeometry(10, 5, 500, 50)
         self.resize(QGuiApplication.primaryScreen().availableSize() * 4 / 5)
         self.modified = False
@@ -29,10 +29,12 @@ class MainWindow(QMainWindow):
     def closeEvent(self, e):
         if self.modified:
             resp = QMessageBox.question(
-                self, "Confirm Close",
+                self,
+                "Confirm Close",
                 "This will close the application.\nOk to quit?",
-                QMessageBox.Yes | QMessageBox.No, QMessageBox.No
-                )
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No,
+            )
             if resp == QMessageBox.Yes:
                 e.accept()
             else:

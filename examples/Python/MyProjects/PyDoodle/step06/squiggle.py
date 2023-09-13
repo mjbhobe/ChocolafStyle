@@ -17,7 +17,7 @@ class Squiggle(QObject):
     class for a Squiggle in the doodle
     """
 
-    def __init__(self, penWidth = 3, penColor = QColor(qRgb(0, 65, 255))):
+    def __init__(self, penWidth=3, penColor=QColor(qRgb(0, 65, 255))):
         super(QObject, self).__init__()
         self.__penWidth = 1
         self.__penColor = qRgb(0, 0, 0)
@@ -35,7 +35,8 @@ class Squiggle(QObject):
         newWidth = min(max(2, penWidth), 12)
         if (penWidth < 2) or (penWidth > 12):
             qDebug(
-                f"WARNING: incorrect value for penWidth ({penWidth}). Expecting value between 2 & 12. Set to {newWidth}")
+                f"WARNING: incorrect value for penWidth ({penWidth}). Expecting value between 2 & 12. Set to {newWidth}"
+            )
         if self.penWidth != newWidth:
             self.__penWidth = newWidth
 

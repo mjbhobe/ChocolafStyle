@@ -39,13 +39,15 @@ class MainWindow(QMainWindow):
 
     # operating system Events
     def closeEvent(self, e):
-        """ called just before the main window closes """
+        """called just before the main window closes"""
         if self.modified:
             resp = QMessageBox.question(
-                self, "Confirm Close",
+                self,
+                "Confirm Close",
                 "This will close the application.\nOk to quit?",
-                QMessageBox.Yes | QMessageBox.No, QMessageBox.No
-                )
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No,
+            )
             if resp == QMessageBox.Yes:
                 e.accept()
             else:
@@ -54,7 +56,7 @@ class MainWindow(QMainWindow):
             e.accept()
 
     def paintEvent(self, e: QPaintEvent) -> None:
-        """ handler for paint events """
+        """handler for paint events"""
         painter = QPainter()
         try:
             painter.begin(self)
@@ -70,15 +72,13 @@ class MainWindow(QMainWindow):
         return (ctrlPressed, altPressed, shiftPressed)
 
     def mousePressEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse press (left or right clostBtn) events """
+        """handler for mouse press (left or right clostBtn) events"""
         if e.button() == Qt.LeftButton:
-            if (e.modifiers() & Qt.ControlModifier):
+            if e.modifiers() & Qt.ControlModifier:
                 # if Ctrl key is also pressed with mouse press, display
                 # dialog to change pen thickness
                 newWidth, ok = QInputDialog.getInt(
-                    self, "Pen Width",
-                    "Enter new pen width (2-12):",
-                    self.penWidth, 2, 12
+                    self, "Pen Width", "Enter new pen width (2-12):", self.penWidth, 2, 12
                 )
                 if ok:  # user clicked Ok on QInputDialog
                     self.penWidth = newWidth
@@ -92,7 +92,7 @@ class MainWindow(QMainWindow):
                 self.modified = True
                 self.dragging = True
         elif e.button() == Qt.RightButton:
-            if (e.modifiers() == Qt.ControlModifier):
+            if e.modifiers() == Qt.ControlModifier:
                 # if Ctrl key is also pressed with mouse press, display
                 # dialog to change pen color
                 newColor = QColorDialog.getColor(self.penColor, self)
@@ -104,8 +104,8 @@ class MainWindow(QMainWindow):
                 self.update()
 
     def mouseMoveEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse drag (left or right clostBtn) events
-            NOTE: you must call setMouseTracking(True) so window can receive mouse drag events
+        """handler for mouse drag (left or right clostBtn) events
+        NOTE: you must call setMouseTracking(True) so window can receive mouse drag events
         """
         if (e.buttons() == Qt.LeftButton) and (self.dragging):
             pt = QPoint(e.pos().x(), e.pos().y())
@@ -115,7 +115,7 @@ class MainWindow(QMainWindow):
             e.accept()
 
     def mouseReleaseEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse (left or right clostBtn) released events """
+        """handler for mouse (left or right clostBtn) released events"""
         if (e.button() == Qt.LeftButton) and (self.dragging):
             pt = QPoint(e.pos().x(), e.pos().y())
             self.points.append(pt)

@@ -131,23 +131,19 @@ class MainWindow(QMainWindow):
         self.addToolBar(toolBar)
 
     def fileNew(self):
-        QMessageBox.information(self, "File New",
-                                "You selected the New Doodle option", QMessageBox.Ok)
+        QMessageBox.information(self, "File New", "You selected the New Doodle option", QMessageBox.Ok)
 
     def fileOpen(self):
         currDir = os.path.dirname(pathlib.Path(__file__))
-        fname = QFileDialog.getOpenFileName(self, 'Open Doodle', currDir)
+        fname = QFileDialog.getOpenFileName(self, "Open Doodle", currDir)
         if fname[0]:
-            QMessageBox.information(self, "File Open",
-                                    f"You selected {fname[0]}", QMessageBox.Ok)
+            QMessageBox.information(self, "File Open", f"You selected {fname[0]}", QMessageBox.Ok)
 
     def fileSave(self):
-        QMessageBox.information(self, "File Save",
-                                "You selected the File Save option", QMessageBox.Ok)
+        QMessageBox.information(self, "File Save", "You selected the File Save option", QMessageBox.Ok)
 
     def fileSaveAs(self):
-        QMessageBox.information(self, "File Save As",
-                                "You selected the File Save As option", QMessageBox.Ok)
+        QMessageBox.information(self, "File Save As", "You selected the File Save As option", QMessageBox.Ok)
 
     def fileExit(self):
         qDebug("File + Exit selected....")
@@ -155,9 +151,9 @@ class MainWindow(QMainWindow):
         self.close()
 
     def changePenWidth(self):
-        newWidth, ok = QInputDialog.getInt(self, "Pen Width",
-                                           "Enter new pen width (2-12):",
-                                           self.drawWindow.doodle.defPenWidth, 2, 12)
+        newWidth, ok = QInputDialog.getInt(
+            self, "Pen Width", "Enter new pen width (2-12):", self.drawWindow.doodle.defPenWidth, 2, 12
+        )
         if ok:  # user clicked Ok on QInputDialog
             self.drawWindow.doodle.defPenWidth = newWidth
 
@@ -167,19 +163,27 @@ class MainWindow(QMainWindow):
             self.drawWindow.doodle.defPenColor = newColor
 
     def helpAbout(self):
-        QMessageBox.about(self, "About PyDoodle...",
-                          "PyQt Doodle - random doodles.\n" + "\n" +
-                          "Developed using PyQt5 GUI Library for Python\n" +
-                          "Created by Manish Bhobe")
+        QMessageBox.about(
+            self,
+            "About PyDoodle...",
+            "PyQt Doodle - random doodles.\n"
+            + "\n"
+            + "Developed using PyQt5 GUI Library for Python\n"
+            + "Created by Manish Bhobe",
+        )
 
     # operating system Events
     def closeEvent(self, e):
-        """ called just before the main window closes """
+        """called just before the main window closes"""
         qDebug("In mainWindow.closeEvent(...) handler")
         if self.drawWindow.doodle.modified:
-            resp = QMessageBox.question(self, "Confirm Close",
-                                        "This will close the application.\nOk to quit?",
-                                        QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            resp = QMessageBox.question(
+                self,
+                "Confirm Close",
+                "This will close the application.\nOk to quit?",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No,
+            )
             if resp == QMessageBox.Yes:
                 e.accept()
             else:

@@ -19,10 +19,12 @@ from mainWindow import *
 
 def main():
     chocolaf.enable_hi_dpi()
-    print(f"PyQt Doodle - running with Python {platform.python_version()}, " +
-          f"Qt {QT_VERSION_STR}, PyQt {PYQT_VERSION_STR} on {platform.system()}")
+    print(
+        f"PyQt Doodle - running with Python {platform.python_version()}, "
+        + f"Qt {QT_VERSION_STR}, PyQt {PYQT_VERSION_STR} on {platform.system()}"
+    )
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     mainWindow = MainWindow()
     mainWindow.show()

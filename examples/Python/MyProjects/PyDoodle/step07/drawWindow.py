@@ -41,7 +41,7 @@ class DrawWindow(QWidget):
                 utils.setDarkPalette(qApp, False)
 
     def paintEvent(self, e: QPaintEvent) -> None:
-        """ handler for paint events """
+        """handler for paint events"""
         painter = QPainter()
         try:
             width, height = self.width(), self.height()
@@ -56,15 +56,13 @@ class DrawWindow(QWidget):
             painter.end()
 
     def mousePressEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse press (left or right clostBtn) events """
+        """handler for mouse press (left or right clostBtn) events"""
         if e.button() == Qt.LeftButton:
-            if (e.modifiers() & Qt.ControlModifier):
+            if e.modifiers() & Qt.ControlModifier:
                 # if Ctrl key is also pressed with mouse press, display
                 # dialog to change pen thickness
                 newWidth, ok = QInputDialog.getInt(
-                    self, "Pen Width",
-                    "Enter new pen width (2-12):",
-                    self.doodle.defPenWidth, 2, 12
+                    self, "Pen Width", "Enter new pen width (2-12):", self.doodle.defPenWidth, 2, 12
                 )
                 if ok:  # user clicked Ok on QInputDialog
                     self.doodle.defPenWidth = newWidth
@@ -80,7 +78,7 @@ class DrawWindow(QWidget):
                 self.doodle.modified = True
                 self.__dragging = True
         elif e.button() == Qt.RightButton:
-            if (e.modifiers() & Qt.ControlModifier):
+            if e.modifiers() & Qt.ControlModifier:
                 # if Ctrl key is also pressed with mouse press, display
                 # dialog to change pen color
                 newColor = QColorDialog.getColor(self.doodle.defPenColor, self)
@@ -91,8 +89,8 @@ class DrawWindow(QWidget):
                 self.update()
 
     def mouseMoveEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse drag (left or right clostBtn) events
-            NOTE: you must call setMouseTracking(True) so window can receive mouse drag events
+        """handler for mouse drag (left or right clostBtn) events
+        NOTE: you must call setMouseTracking(True) so window can receive mouse drag events
         """
         if (e.buttons() == Qt.LeftButton) and (self.__dragging):
             assert self.__currSquiggle != None, "FATAL: self.currLine is None, when expecting valid!"
@@ -103,7 +101,7 @@ class DrawWindow(QWidget):
             e.accept()
 
     def mouseReleaseEvent(self, e: QMouseEvent) -> None:
-        """ handler for mouse (left or right clostBtn) released events """
+        """handler for mouse (left or right clostBtn) released events"""
         if (e.button() == Qt.LeftButton) and (self.__dragging):
             assert self.__currSquiggle != None, "FATAL: self.currLine is None, when expecting valid!"
             pt = QPoint(e.pos().x(), e.pos().y())
