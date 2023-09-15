@@ -16,7 +16,8 @@ def main():
     # app.setStyleSheet(stylesheet)
 
     icon_names = chocolaf.get_icon_names()
-    col_count = 5
+    print(icon_names)
+    col_count = 7
     row_count = len(icon_names) // col_count
     if len(icon_names) % row_count > 0:
         row_count += 1

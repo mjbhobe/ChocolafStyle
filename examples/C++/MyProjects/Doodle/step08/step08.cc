@@ -13,19 +13,22 @@
 
 const QString AppTitle("Qt Scribble");
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-   Chocolaf::ChocolafApp::setupForHighDpiScreens();
-   Chocolaf::ChocolafApp app(argc, argv);
-   app.setStyle("Fusion");
+    /* Chocolaf::ChocolafApp::setupForHighDpiScreens();
+    Chocolaf::ChocolafApp app(argc, argv);
+    app.setStyle("Fusion");*/
 
-   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
+    QApplication app(argc, argv);
+    app.setStyle("Fusion");
 
-   // create the GUI
-   MainWindow mainWindow;
-   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
-   // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
-   mainWindow.show();
+    app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
-   return app.exec();
+    // create the GUI
+    MainWindow mainWindow;
+    Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
+    // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+    mainWindow.show();
+
+    return app.exec();
 }

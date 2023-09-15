@@ -15,6 +15,8 @@ import pathlib
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+import qtawesome as qta
+import chocolaf
 
 from drawWindow import DrawWindow
 
@@ -50,42 +52,49 @@ class MainWindow(QMainWindow):
         raise FileNotFoundError(f"{icon_path} - file does not exist!")
 
     def setupActions(self):
-        self.fileNewAction = QAction(QIcon(":/file_new.png"), "&New Doodle", self)
+        # self.fileNewAction = QAction(QIcon(":/file_new.png"), "&New Doodle", self)
+        self.fileNewAction = QAction(chocolaf.get_icon("File_New"), "&New Doodle", self)
         self.fileNewAction.setShortcut(QKeySequence.New)
         self.fileNewAction.setToolTip("New Doodle")
         self.fileNewAction.setStatusTip("Create a new doodle")
         self.fileNewAction.triggered.connect(self.fileNew)
 
-        self.fileOpenAction = QAction(QIcon(":/file_open.png"), "&Open Doodle...", self)
+        # self.fileOpenAction = QAction(QIcon(":/file_open.png"), "&Open Doodle...", self)
+        self.fileOpenAction = QAction(chocolaf.get_icon("File_Open"), "&Open Doodle...", self)
         self.fileOpenAction.setShortcut(QKeySequence.Open)
         self.fileOpenAction.setToolTip("Open Doodle")
         self.fileOpenAction.setStatusTip("Open existing doodle file")
         self.fileOpenAction.triggered.connect(self.fileOpen)
 
-        self.fileSaveAction = QAction(QIcon(":/file_save.png"), "&Save Doodle", self)
+        # self.fileSaveAction = QAction(QIcon(":/file_save.png"), "&Save Doodle", self)
+        self.fileSaveAction = QAction(chocolaf.get_icon("File_Save"), "&Save Doodle", self)
         self.fileSaveAction.setShortcut(QKeySequence.Save)
         self.fileSaveAction.setToolTip("Save Doodle")
         self.fileSaveAction.setStatusTip("Save existing doodle file")
         self.fileSaveAction.triggered.connect(self.fileSave)
 
-        self.fileSaveAsAction = QAction("Save Doodle &as...", self)
+        # self.fileSaveAsAction = QAction("Save Doodle &as...", self)
+        self.fileSaveAsAction = QAction(chocolaf.get_icon("File_SaveAs"), "Save Doodle &as...", self)
         self.fileSaveAsAction.setShortcut(QKeySequence.SaveAs)
         self.fileSaveAsAction.setToolTip("Save Doodle As")
         self.fileSaveAsAction.setStatusTip("Save Doodle to another file")
         self.fileSaveAsAction.triggered.connect(self.fileSaveAs)
 
-        self.exitAction = QAction(QIcon(":/on-off.png"), "E&xit", self)
+        # self.exitAction = QAction(QIcon(":/on-off.png"), "E&xit", self)
+        self.exitAction = QAction(chocolaf.get_icon("File_Exit"), "E&xit", self)
         self.exitAction.setToolTip("Exit Application")
         self.exitAction.setStatusTip("Save any pending changes & exit application")
         self.exitAction.triggered.connect(self.fileExit)
 
-        self.penWidthAction = QAction(QIcon(":/pen.png"), "&Choose Pen Thickness...", self)
+        # self.penWidthAction = QAction(QIcon(":/pen.png"), "&Choose Pen Thickness...", self)
+        self.penWidthAction = QAction(chocolaf.get_icon("Tools_Pencil"), "&Choose Pen Thickness...", self)
         self.penWidthAction.setShortcut("Ctrl+T")
         self.penWidthAction.setToolTip("Pen Thickness")
         self.penWidthAction.setStatusTip("Choose Pen Thickness")
         self.penWidthAction.triggered.connect(self.changePenWidth)
 
-        self.penColorAction = QAction(QIcon(":/palette.png"), "&Choose Pen Color...", self)
+        # self.penColorAction = QAction(QIcon(":/palette.png"), "&Choose Pen Color...", self)
+        self.penColorAction = QAction(chocolaf.get_icon("Tools_Palette"), "&Choose Pen Color...", self)
         self.penColorAction.setShortcut("Ctrl+L")
         self.penColorAction.setToolTip("Pen Color")
         self.penColorAction.setStatusTip("Choose Pen Color")

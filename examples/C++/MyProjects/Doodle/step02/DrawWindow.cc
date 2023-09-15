@@ -21,6 +21,15 @@ DrawWindow::DrawWindow()
     resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
 }
 
+void DrawWindow::paintEvent(QPaintEvent* event)
+{
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    QString msg("Click the left or right mouse button anywhere in the client area");
+    // display a message asking user what to do
+    painter.drawText(20, 20, msg);
+}
+
 void DrawWindow::closeEvent(QCloseEvent* event)
 {
     // window is about to close, prompt user & decide if ok to quit or not

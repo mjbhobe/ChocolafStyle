@@ -10,7 +10,7 @@
 // Code is provided for illustration purposes only! Use at your own risk.
 // =============================================================================
 #include "DrawWindow.h"
-//#include "chocolaf.h"
+// #include "chocolaf.h"
 #include "chocolaf.h"
 #include <QApplication>
 #include <QMainWindow>
@@ -19,64 +19,38 @@
 
 const QString AppTitle("Qt Scribble");
 const QString WinTitle = QString("Qt %1 Doodle - Step03: Handling mouse clicks")
-                            .arg(QT_VERSION_STR);
+                             .arg(QT_VERSION_STR);
 
-void DrawMainWindow::closeEvent(QCloseEvent *event)
+int main(int argc, char** argv)
 {
-   // window is about to close, prompt user & decide
-   // if ok to quit based on user's response.
-   qDebug() << "DrawMainWindow::closeEvent() called. _modified = "
-            << (_drawWindow->isModified() ? "True" : "False");
+    //    Chocolaf::ChocolafApp::setupForHighDpiScreens();
+    //    Chocolaf::ChocolafApp app(argc, argv);
+    QApplication app(argc, argv);
+    app.setStyle("Fusion");
 
-   if (_drawWindow->isModified()) {
-      switch (QMessageBox::question(
-         this, tr("Qt Scribble Tutorial"),
-         tr("Contents of the doodle have changed.\nDo you want to quit without saving?"),
-         QMessageBox::Yes | QMessageBox::No, QMessageBox::No)) {
-      case QMessageBox::Yes:
-         // ok to quit
-         qDebug() << "User chose to quit without saving...";
-         event->accept();
-         break;
-      default:
-         // don't quit yet
-         event->ignore();
-      }
-   }
-   else {
-      event->accept();
-   }
-}
+    /*
+    QApplication app(argc, argv);
 
-int main(int argc, char **argv)
-{
-   Chocolaf::ChocolafApp::setupForHighDpiScreens();
-   Chocolaf::ChocolafApp app(argc, argv);
-   app.setStyle("Fusion");
+    QFile f(":chocolaf/chocolaf.css");
 
-   /*
-   QApplication app(argc, argv);
+    if (!f.exists()) {
+       printf("Unable to open stylesheet!");
+    } else {
+       f.open(QFile::ReadOnly | QFile::Text);
+       QTextStream ts(&f);
+       app.setStyleSheet(ts.readAll());
+    }
+   */
+    app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
-   QFile f(":chocolaf/chocolaf.css");
+    // create the GUI
+    DrawWindow* drawWidget = new DrawWindow;
+    DrawMainWindow mainWindow(drawWidget);
+    mainWindow.setWindowTitle(WinTitle);
+    mainWindow.setCentralWidget(drawWidget);
+    // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+    Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
+    mainWindow.show();
 
-   if (!f.exists()) {
-      printf("Unable to open stylesheet!");
-   } else {
-      f.open(QFile::ReadOnly | QFile::Text);
-      QTextStream ts(&f);
-      app.setStyleSheet(ts.readAll());
-   }
-  */
-   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
-
-   // create the GUI
-   DrawWindow *drawWidget = new DrawWindow;
-   DrawMainWindow mainWindow(drawWidget);
-   mainWindow.setWindowTitle(WinTitle);
-   mainWindow.setCentralWidget(drawWidget);
-   // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
-   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
-   mainWindow.show();
-
-   return app.exec();
+    return app.exec();
 }

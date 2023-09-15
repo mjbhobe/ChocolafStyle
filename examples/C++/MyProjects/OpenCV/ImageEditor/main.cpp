@@ -29,22 +29,24 @@ int main(int argc, char** argv)
       qputenv("QT_FONT_DPI", "96");
     } */
     //  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-    Chocolaf::ChocolafApp app(argc, argv);
+    // Chocolaf::ChocolafApp app(argc, argv);
     //  app.setStyle("Chocolaf");
-    // QApplication app(argc, argv);
+    QApplication app(argc, argv);
     app.setStyle("Fusion");
     app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
     // parse out the command line arguments
     bool hasImageToOpen = false;
     QString imagePath { "" };
-    /* MyArgs args = argparse::parse<MyArgs>(argc, argv);
+    // check if any command line parameter is passed &
+    // open that image
+    MyArgs args = argparse::parse<MyArgs>(argc, argv);
     fs::path p = args.image_path;
     if ((args.image_path != "") && fs::exists(p)) {
         hasImageToOpen = true;
         imagePath = QString::fromStdString(p.string());
         qDebug() << "Will open image " << imagePath << " at start!";
-    }*/
+    }
 
     /* QFile f(":chocolaf/chocolaf.css");
 

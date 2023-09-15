@@ -24,12 +24,14 @@ class _ChocolafIconsCache(QObject):
         self.File_SaveAs_Icon = qta.icon("mdi6.content-save-edit-outline")
         self.File_SaveAll_Icon = qta.icon("mdi6.content-save-all-outline")
         self.File_Print_Icon = qta.icon("mdi6.printer")
+        self.File_Exit_Icon = qta.icon("mdi6.location-exit")
         self.icons_map["File_New"] = self.File_New_Icon
         self.icons_map["File_Open"] = self.File_Open_Icon
         self.icons_map["File_Save"] = self.File_Save_Icon
         self.icons_map["File_SaveAs"] = self.File_SaveAs_Icon
         self.icons_map["File_SaveAll"] = self.File_SaveAll_Icon
         self.icons_map["File_Print"] = self.File_Print_Icon
+        self.icons_map["File_Exit"] = self.File_Exit_Icon
 
         # edit menu standard SVG icons from Material theme
         self.Edit_Undo_Icon = qta.icon("mdi6.undo")
@@ -50,11 +52,13 @@ class _ChocolafIconsCache(QObject):
         self.Ok_Icon = qta.icon("fa5s.check")
         self.Cancel_Icon = qta.icon("mdi6.close-thick")
         self.Exclamation_Icon = qta.icon("fa5s.exclamation")
-        self.Information_Icon = qta.icon("fa5s.question")
-        self.icons_map["Ok"] = self.Ok_Icon
-        self.icons_map["Cancel"] = self.Cancel_Icon
-        self.icons_map["Exclamation"] = self.Exclamation_Icon
-        self.icons_map["Information"] = self.Information_Icon
+        self.Information_Icon = qta.icon("mdi6.information-variant")
+        self.Help_Icon = qta.icon("mdi6.help-circle-outline")
+        self.icons_map["MsgBox_Ok"] = self.Ok_Icon
+        self.icons_map["MsgBox_Cancel"] = self.Cancel_Icon
+        self.icons_map["MsgBox_Exclamation"] = self.Exclamation_Icon
+        self.icons_map["MsgBox_Information"] = self.Information_Icon
+        self.icons_map["MsgBox_Help"] = self.Help_Icon
 
         # alignment
         self.Align_Left_Icon = qta.icon("mdi6.align-horizontal-left")
@@ -149,6 +153,15 @@ class _ChocolafIconsCache(QObject):
         self.icons_map["Rotate_Right"] = self.Rotate_Right_Icon
         self.icons_map["Flip_Left"] = self.Flip_Left_Icon
         self.icons_map["Flip_Right"] = self.Flip_Right_Icon
+
+        # tools
+        self.Tools_Pencil_Icon = qta.icon("mdi.pencil")
+        self.Tools_Brush_Icon = qta.icon("ph.paint-brush")
+        self.Tools_Palette_Icon = qta.icon("mdi6.palette")
+
+        self.icons_map["Tools_Pencil"] = self.Tools_Pencil_Icon
+        self.icons_map["Tools_Brush"] = self.Tools_Brush_Icon
+        self.icons_map["Tools_Palette"] = self.Tools_Palette_Icon
 
     def get_icon(self, icon_key: str) -> qta.icon:
         if icon_key not in self.icons_map.keys():
