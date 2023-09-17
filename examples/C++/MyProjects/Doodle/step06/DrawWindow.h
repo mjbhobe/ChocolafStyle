@@ -10,36 +10,35 @@ class QColor;
 class Line;
 class Doodle;
 
-class DrawWindow : public QMainWindow
-{
-  Q_OBJECT
+class DrawWindow : public QMainWindow {
+    Q_OBJECT
 public:
-  DrawWindow();
-  ~DrawWindow();
+    DrawWindow();
+    ~DrawWindow();
 
 protected:
-  // operating system events
-  void closeEvent(QCloseEvent *event);
-  void paintEvent(QPaintEvent *event);
-  void resizeEvent(QResizeEvent *event);
+    // operating system events
+    void closeEvent(QCloseEvent* event);
+    void paintEvent(QPaintEvent* event);
+    void resizeEvent(QResizeEvent* event);
 
-  void mousePressEvent(QMouseEvent *event);
-  void mouseMoveEvent(QMouseEvent *event);
-  void mouseReleaseEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent* event);
+    void mouseMoveEvent(QMouseEvent* event);
+    void mouseReleaseEvent(QMouseEvent* event);
 
 private:
-  void drawLineTo(const QPoint &pt);
-  void clearImage();
-  void resizeImage(const QSize &size);
-  void changePenWidth();
-  void changePenColor();
+    void drawLineTo(const QPoint& pt);
+    void clearImage();
+    void resizeImage(const QSize& size);
+    void changePenWidth();
+    void changePenColor();
 
-  QImage _image;
+    QImage _image;
 
-  QPoint _lastPt;
-  bool _dragging;
-  Doodle *_doodle;
-  Line *_currLine;
+    QPoint _lastPt;
+    bool _dragging;
+    Doodle* _doodle;
+    Line* _currLine;
 };
 
 #endif // __DrawWindow_h__

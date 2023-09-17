@@ -10,7 +10,6 @@
 // Code is provided for illustration purposes only! Use at your own risk.
 // =============================================================================
 #include "DrawWindow.h"
-// #include "chocolaf.h"
 #include "chocolaf.h"
 #include <QApplication>
 #include <QMainWindow>
@@ -23,24 +22,11 @@ const QString WinTitle = QString("Qt %1 Doodle - Step03: Handling mouse clicks")
 
 int main(int argc, char** argv)
 {
-    //    Chocolaf::ChocolafApp::setupForHighDpiScreens();
+    Chocolaf::ChocolafApp::setupForHighDpiScreens();
     //    Chocolaf::ChocolafApp app(argc, argv);
     QApplication app(argc, argv);
     app.setStyle("Fusion");
 
-    /*
-    QApplication app(argc, argv);
-
-    QFile f(":chocolaf/chocolaf.css");
-
-    if (!f.exists()) {
-       printf("Unable to open stylesheet!");
-    } else {
-       f.open(QFile::ReadOnly | QFile::Text);
-       QTextStream ts(&f);
-       app.setStyleSheet(ts.readAll());
-    }
-   */
     app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
     // create the GUI

@@ -114,10 +114,12 @@ void DrawMainWindow::closeEvent(QCloseEvent* event)
              << (_drawWindow->isModified() ? "True" : "False");
 
     if (_drawWindow->isModified()) {
-        switch (QMessageBox::question(
-            this, tr("Qt Scribble Tutorial"),
-            tr("Contents of the doodle have changed.\nDo you want to quit without saving?"),
-            QMessageBox::Yes | QMessageBox::No, QMessageBox::No)) {
+        switch (QMessageBox::question(this,
+            tr("Qt Scribble Tutorial"),
+            tr("Contents of the doodle have changed.\nDo "
+               "you want to quit without saving?"),
+            QMessageBox::Yes | QMessageBox::No,
+            QMessageBox::No)) {
         case QMessageBox::Yes:
             // ok to quit
             qDebug() << "User chose to quit without saving...";

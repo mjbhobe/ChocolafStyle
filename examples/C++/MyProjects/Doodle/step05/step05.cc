@@ -21,32 +21,33 @@
 
 const QString AppTitle("Qt Scribble");
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-   Chocolaf::ChocolafApp::setupForHighDpiScreens();
-   Chocolaf::ChocolafApp app(argc, argv);
-   app.setStyle("Fusion");
+    Chocolaf::ChocolafApp::setupForHighDpiScreens();
+    // Chocolaf::ChocolafApp app(argc, argv);
+    QApplication app(argc, argv);
+    app.setStyle("Fusion");
 
-   /*
-   QApplication app(argc, argv);
+    /*
+    QApplication app(argc, argv);
 
-   QFile f(":chocolaf/chocolaf.css");
+    QFile f(":chocolaf/chocolaf.css");
 
-   if (!f.exists()) {
-      printf("Unable to open stylesheet!");
-   } else {
-      f.open(QFile::ReadOnly | QFile::Text);
-      QTextStream ts(&f);
-      app.setStyleSheet(ts.readAll());
-   }
-    */
-   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
+    if (!f.exists()) {
+       printf("Unable to open stylesheet!");
+    } else {
+       f.open(QFile::ReadOnly | QFile::Text);
+       QTextStream ts(&f);
+       app.setStyleSheet(ts.readAll());
+    }
+     */
+    app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
-   // create the GUI
-   DrawWindow mainWindow;
-   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
-   // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
-   mainWindow.show();
+    // create the GUI
+    DrawWindow mainWindow;
+    Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
+    // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+    mainWindow.show();
 
-   return app.exec();
+    return app.exec();
 }
