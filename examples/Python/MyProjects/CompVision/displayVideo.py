@@ -201,7 +201,7 @@ class DisplayVideoWindow(QMainWindow):
 if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
     # # add custom styling
     # app.setStyleSheet(style_sheet)
 

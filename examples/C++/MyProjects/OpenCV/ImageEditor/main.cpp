@@ -23,15 +23,13 @@ struct MyArgs : public argparse::Args {
 
 int main(int argc, char** argv)
 {
-    /* QApplication app(argc, argv);
-    QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
-    if (qgetenv("QT_FONT_DPI").isEmpty()) {
-      qputenv("QT_FONT_DPI", "96");
-    } */
-    //  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-    // Chocolaf::ChocolafApp app(argc, argv);
-    //  app.setStyle("Chocolaf");
-    QApplication app(argc, argv);
+#ifdef Q_OS_WIN
+    // set dark mode on Windows
+    // @see: https://www.qt.io/blog/dark-mode-on-windows-11-with-qt-6.5
+    qputenv("QT_QPA_PLATFORM", "windows:darkmode=2");
+#endif
+    Chocolaf::ChocolafApp::setupForHighDpiScreens();
+    Chocolaf::ChocolafApp app(argc, argv);
     app.setStyle("Fusion");
     app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
