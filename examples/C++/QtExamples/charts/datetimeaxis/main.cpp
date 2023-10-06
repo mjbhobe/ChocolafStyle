@@ -27,25 +27,28 @@
 **
 ****************************************************************************/
 
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QMainWindow>
 #include <QtCharts/QChartView>
-#include <QtCharts/QLineSeries>
-#include <QtCore/QDateTime>
 #include <QtCharts/QDateTimeAxis>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QValueAxis>
+#include <QtCore/QDateTime>
+#include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
-#include <QtCore/QDebug>
-#include <QtCharts/QValueAxis>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
+#include <memory>
 
-QT_CHARTS_USE_NAMESPACE
+// QT_CHARTS_USE_NAMESPACE
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
+    app.setStyle("Fusion");
 
     //![1]
-    QLineSeries *series = new QLineSeries();
+    QLineSeries* series = new QLineSeries();
+    // std::unique_ptr<QLineSeries> series(new QLineSeries());
     //![1]
 
     //![2]
@@ -54,6 +57,7 @@ int main(int argc, char *argv[])
     // http://www.weather.gov/disclaimer
     QFile sunSpots(":sun");
     if (!sunSpots.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        delete series;
         return 1;
     }
 
@@ -64,28 +68,28 @@ int main(int argc, char *argv[])
             continue;
         QStringList values = line.split(QLatin1Char(' '), Qt::SkipEmptyParts);
         QDateTime momentInTime;
-        momentInTime.setDate(QDate(values[0].toInt(), values[1].toInt() , 15));
+        momentInTime.setDate(QDate(values[0].toInt(), values[1].toInt(), 15));
         series->append(momentInTime.toMSecsSinceEpoch(), values[2].toDouble());
     }
     sunSpots.close();
     //![2]
 
     //![3]
-    QChart *chart = new QChart();
+    QChart* chart = new QChart();
     chart->addSeries(series);
     chart->legend()->hide();
     chart->setTitle("Sunspots count (by Space Weather Prediction Center)");
     //![3]
 
     //![4]
-    QDateTimeAxis *axisX = new QDateTimeAxis;
+    QDateTimeAxis* axisX = new QDateTimeAxis;
     axisX->setTickCount(10);
     axisX->setFormat("MMM yyyy");
     axisX->setTitleText("Date");
     chart->addAxis(axisX, Qt::AlignBottom);
     series->attachAxis(axisX);
 
-    QValueAxis *axisY = new QValueAxis;
+    QValueAxis* axisY = new QValueAxis;
     axisY->setLabelFormat("%i");
     axisY->setTitleText("Sunspots count");
     chart->addAxis(axisY, Qt::AlignLeft);
@@ -93,7 +97,7 @@ int main(int argc, char *argv[])
     //![4]
 
     //![5]
-    QChartView *chartView = new QChartView(chart);
+    QChartView* chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
     //![5]
 
@@ -104,5 +108,5 @@ int main(int argc, char *argv[])
     window.show();
     //![6]
 
-    return a.exec();
+    return app.exec();
 }

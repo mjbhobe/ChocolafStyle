@@ -8,7 +8,7 @@ from configparser import ConfigParser
 def connect1():
     # this is a very very bad practice!
     # NEVER EMBED connection strings into code
-    connect_str = "host=localhost dbname=dvdrental user=postgres"
+    connect_str = "host=localhost dbname=dvdrental user=postgres password=M@ster$#"
     conn = psycopg2.connect(connect_str)
     return conn
 
@@ -21,7 +21,7 @@ def connect2():
         database="dvdrental",
         user="postgres",
         # and password if set
-        # password="mypass"
+        password="M@ster$#",
     )
     conn = psycopg2.connect(**connect_params)
     return conn
@@ -29,7 +29,9 @@ def connect2():
 
 def getConfigParams(config_file_path, section):
     parser = ConfigParser()
-    assert os.path.exists(config_file_path), f"FATAL: Configuration file {config_file_path} does not exist!"
+    assert os.path.exists(
+        config_file_path
+    ), f"FATAL: Configuration file {config_file_path} does not exist!"
     parser.read(config_file_path)
 
     # read params from section
@@ -48,10 +50,10 @@ def connect3():
     """this is a good method, connection params are read
     from a configuration file.
     Create a configuration file with ini extension in same
-    folder where this file is saved - see connect.ini for
+    folder where this file is saved - see config.ini for
     example
     """
-    config_file_path = pathlib.Path(__file__).parent / "connect.ini"
+    config_file_path = pathlib.Path(__file__).parent / "config.ini"
     connect_params = getConfigParams(config_file_path, "postgres")
     conn = psycopg2.connect(**connect_params)
     return conn

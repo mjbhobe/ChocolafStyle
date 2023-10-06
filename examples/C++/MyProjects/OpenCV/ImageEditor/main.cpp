@@ -28,8 +28,10 @@ int main(int argc, char** argv)
     // @see: https://www.qt.io/blog/dark-mode-on-windows-11-with-qt-6.5
     qputenv("QT_QPA_PLATFORM", "windows:darkmode=2");
 #endif
-    Chocolaf::ChocolafApp::setupForHighDpiScreens();
-    Chocolaf::ChocolafApp app(argc, argv);
+    //    Chocolaf::ChocolafApp::setupForHighDpiScreens();
+    //    Chocolaf::ChocolafApp app(argc, argv);
+    //    app.setStyle("Fusion");
+    QApplication app(argc, argv);
     app.setStyle("Fusion");
     app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 

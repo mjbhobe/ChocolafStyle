@@ -9,7 +9,7 @@ from typing import Union
 
 
 def createTables(conn):
-    """ create tables in the new database """
+    """create tables in the new database"""
     commands = (
         """
         DROP TABLE IF EXISTS vendors CASCADE;
@@ -57,10 +57,11 @@ def createTables(conn):
                 REFERENCES parts (part_id)
                 ON UPDATE CASCADE ON DELETE CASCADE
         )
-        """
+        """,
     )
-    assert conn is not None, \
-        f"FATAL: createTables() requires valid database connection!"
+    assert (
+        conn is not None
+    ), f"FATAL: createTables() requires valid database connection!"
     cursor = None
     try:
         cursor = conn.cursor()
@@ -76,7 +77,7 @@ def createTables(conn):
 
 
 def insertVendors(conn, vendor_name_or_list: Union[str, list]):
-    """ populate tables created in function above """
+    """populate tables created in function above"""
     sql = """
         INSERT INTO vendors(vendor_name)
         VALUES(%s)
@@ -84,21 +85,31 @@ def insertVendors(conn, vendor_name_or_list: Union[str, list]):
     if type(vendor_name_or_list) is str:
         sql = sql + " RETURNING vendor_id"
     sql = sql + ";"
-    assert conn is not None, \
-        f"FATAL: insertVendor() requires valid database connection!"
+    assert (
+        conn is not None
+    ), f"FATAL: insertVendor() requires valid database connection!"
     cursor = None
     try:
         # create a cursor
         cursor = conn.cursor()
         # execute a single SQL
         if type(vendor_name_or_list) is str:
-            cursor.execute(sql, [vendor_name_or_list, ])
+            cursor.execute(
+                sql,
+                [
+                    vendor_name_or_list,
+                ],
+            )
             # get inserted vendor_id
             vendor_id = cursor.fetchone()[0]
-            print(f"insertVendor(): Inserted vendor {vendor_name_or_list} with id {vendor_id}")
+            print(
+                f"insertVendor(): Inserted vendor {vendor_name_or_list} with id {vendor_id}"
+            )
         else:
             cursor.executemany(sql, vendor_name_or_list)
-            print(f"insertVendor(): Inserted {len(vendor_name_or_list)} vendors into db")
+            print(
+                f"insertVendor(): Inserted {len(vendor_name_or_list)} vendors into db"
+            )
     except (Exception, psycopg2.DatabaseError) as error:
         print(f"ERROR in insertVendor() -> {error}")
     finally:
@@ -110,7 +121,7 @@ def insertVendors(conn, vendor_name_or_list: Union[str, list]):
 def main():
     try:
         # connect to database
-        config_file_path = pathlib.Path(__file__).parent / "connect.ini"
+        config_file_path = pathlib.Path(__file__).parent / "config.ini"
         conn = connect(config_file_path, "postgres_vendors")
         curr = conn.cursor()
         curr.execute("SELECT current_database()")
@@ -120,20 +131,23 @@ def main():
         # insert a single vendor
         insertVendors(conn, "3M Co.")
         # insert multiple vendors
-        insertVendors(conn, [
-            ('AKM Semiconductor Inc.',),
-            ('Asahi Glass Co Ltd.',),
-            ('Daikin Industries Ltd.',),
-            ('Dynacast International Inc.',),
-            ('Foster Electric Co. Ltd.',),
-            ('Murata Manufacturing Co. Ltd.',)
-        ])
+        insertVendors(
+            conn,
+            [
+                ("AKM Semiconductor Inc.",),
+                ("Asahi Glass Co Ltd.",),
+                ("Daikin Industries Ltd.",),
+                ("Dynacast International Inc.",),
+                ("Foster Electric Co. Ltd.",),
+                ("Murata Manufacturing Co. Ltd.",),
+            ],
+        )
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
         if conn is not None:
             conn.close()
-            print('Database connection closed.')
+            print("Database connection closed.")
 
 
 if __name__ == "__main__":

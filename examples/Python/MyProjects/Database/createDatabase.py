@@ -10,8 +10,8 @@
 import sys
 import os
 
-from PyQt5.QtCore import *
-from PyQt5.QtSql import *
+from PyQt6.QtCore import *
+from PyQt6.QtSql import *
 
 # print(f"os.environ['QT_DEBUG_PLUGINS'] = {os.environ['QT_DEBUG_PLUGINS']}")
 THIS_DIR = os.path.dirname(__file__)
