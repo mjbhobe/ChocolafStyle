@@ -2,6 +2,8 @@
 """
 * icons.py - collects all standard icons into 1 class, so all GUI apps can be
 *   standardised to a consistent L&F. Provides most commonly used icons.
+*   Uses qtawesome package for the icons - please install it first
+*       $> pip install qtawesome
 * @author: Manish Bhobe
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
