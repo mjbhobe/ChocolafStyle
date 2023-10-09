@@ -16,3 +16,6 @@ include (../../../../../../chocolaf/common_files/common_console.pro)
 
 # Input
 SOURCES += connect.cpp
+
+DISTFILES += \
+    config.ini
