@@ -24,19 +24,17 @@ QPixmap MatOp::blur(cv::Size ksize /*= cv::Size(8,8)*/,
 }
 
 QPixmap MatOp::sharpen(int intensity /*= 2*/, cv::Size ksize /*= cv::Size(9, 9)*/,
-    double sigmaX /*= 0.0*/, double sigmaY /*= 0.0*/,
-    int borderType /*= 4*/)
+    double sigmaX /*= 0.0*/, double sigmaY /*= 0.0*/, int borderType /*= 4*/)
 {
     cv::Mat conv;
     cv::GaussianBlur(m_srcMat, conv, ksize, sigmaX, sigmaY, borderType);
+    conv = m_srcMat + (m_srcMat - conv) * intensity;
     QImage sharpImage(conv.data, conv.cols, conv.rows, conv.step, QImage::Format_RGB888);
     return QPixmap::fromImage(sharpImage);
 }
 
-QPixmap
-MatOp::erode(cv::Point anchor /*= cv::Point(-1, -1)*/, int iterations /*= 1*/,
-    int borderType /*= 0*/,
-    const cv::Scalar& borderValue /*= cv::morphologyDefaultBorderValue()*/)
+QPixmap MatOp::erode(cv::Point anchor /*= cv::Point(-1, -1)*/, int iterations /*= 1*/,
+    int borderType /*= 0*/, const cv::Scalar& borderValue /*= cv::morphologyDefaultBorderValue()*/)
 {
     cv::erode(m_srcMat, m_srcMat, cv::Mat(), anchor, iterations, borderType, borderValue);
     QImage erodeImage(m_srcMat.data, m_srcMat.cols, m_srcMat.rows, m_srcMat.step,
