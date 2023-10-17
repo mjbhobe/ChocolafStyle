@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 #endif
     //    Chocolaf::ChocolafApp::setupForHighDpiScreens();
     //    Chocolaf::ChocolafApp app(argc, argv);
-    //    app.setStyle("Fusion");
+    //    app.setStyle("Chocolaf");
     QApplication app(argc, argv);
     app.setStyle("Fusion");
     app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
