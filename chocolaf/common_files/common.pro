@@ -95,6 +95,7 @@ SOURCES += $$PWD/chocolaf.cpp
 HEADERS += $$PWD/common_funcs.h
 HEADERS += $$PWD/chocolaf.h
 HEADERS += $$PWD/argparse/argparse.hpp
+HEADERS += $$PWD/rapidcsv.h
 RESOURCES += $$PWD/../styles/chocolaf/chocolaf.qrc
 
 # add QtAwesome

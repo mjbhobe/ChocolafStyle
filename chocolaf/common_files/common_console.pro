@@ -80,6 +80,11 @@ QMAKE_LIBS += $${QMAKE_LIB_DIRS} $${STD_LIBS} $${GMP_LIBS} $${OPENCV_LIBS}
 # disable qDebug() output in release builds
 CONFIG(release, debug|release): DEFINES += QT_NO_DEBUG_OUTPUT
 
-SOURCES += $${COMMON_FILES_HOME}/common_files/common_funcs.cpp
-HEADERS += $${COMMON_FILES_HOME}/common_files/common_funcs.h
-HEADERS += $${COMMON_FILES_HOME}/common_files/argparse/argparse.hpp
+# SOURCES += $${COMMON_FILES_HOME}/common_files/common_funcs.cpp
+# HEADERS += $${COMMON_FILES_HOME}/common_files/common_funcs.h
+# HEADERS += $${COMMON_FILES_HOME}/common_files/argparse/argparse.hpp
+
+SOURCES += $$PWD/common_funcs.cpp
+HEADERS += $$PWD/common_funcs.h
+HEADERS += $$PWD/rapidcsv.h
+HEADERS += $$PWD/argparse/argparse.hpp
