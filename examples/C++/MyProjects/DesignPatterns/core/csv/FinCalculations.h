@@ -3,6 +3,7 @@
 
 // #include <bits/stdc++.h>
 #include <algorithm>
+#include <concepts>
 #include <vector>
 
 namespace fincalc {
@@ -14,7 +15,12 @@ namespace fincalc {
  * Oliveira (APress)
  */
 
-template <typename T> class Equities {
+template <typename T>
+concept Numeric = std::integral<T> || std::floating_point<T>;
+
+template <typename T>
+  requires Numeric<T>
+class Equities {
 public:
   static std::vector<T> ma(const std::vector<T> &prices, size_t num_periods) {
     /**
@@ -71,9 +77,11 @@ public:
      * @param prices (std::vector<float>) - the price series
      * @return range (= max(prices) - min(prices)) across series
      */
-    T min_val = *min_element(prices.begin(), prices.end());
-    T max_val = *max_element(prices.begin(), prices.end());
-    return max_val - min_val;
+    //    T min_val = *min_element(prices.begin(), prices.end());
+    //    T max_val = *max_element(prices.begin(), prices.end());
+    //    return max_val - min_val;
+    auto min_max_pair = std::minmax_element(prices.begin(), prices.end());
+    return *(min_max_pair.second) - *(min_max_pair.first);
   }
 
   static T avgDailyRange(const std::vector<T> &prices) {
@@ -92,7 +100,7 @@ public:
     T prev = prices[0];
 
     for (size_t i = 1; i < prices.size(); ++i) {
-      T range = abs(prices[i] - prev);
+      T range = std::abs(prices[i] - prev);
       sum += range;
     }
     return sum / (prices.size() - 1);

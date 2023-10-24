@@ -31,7 +31,7 @@ INCLUDEPATH += $$PWD
 CONFIG += c++20 console
 QT += core gui xml sql network svg
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-QMAKE_CXXFLAGS += -std=c++20 -Wno-deprecated-enum-enum-conversion
+QMAKE_CXXFLAGS += -std=c++20 -Wno-deprecated-enum-enum-conversion -std=c++20
 QMAKE_CXXFLAGS_DEBUG += -O0 -g2 -pedantic -Wall
 QMAKE_CXXFLAGS_RELEASE += -O2 -g0 -Wall
 

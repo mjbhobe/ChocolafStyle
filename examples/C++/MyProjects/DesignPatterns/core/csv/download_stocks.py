@@ -17,13 +17,14 @@ end_date = datetime.datetime.now()
 
 holdings = pd.read_csv(str(holdings_path))
 for symbol in holdings["PFOLIO"]:
-    print(f"Downloading prices for {symbol}")
+    print(f"Downloading prices for {symbol}...", flush=True, end="")
     stock_df = yfinance.download(
         symbol, start=start_date, end=end_date, progress=False
     )
 
     if len(stock_df) != 0:
         stock_df.to_csv(f"{symbol}.csv", header=True, index=True)
+        print(f"{len(stock_df)} records saved")
     else:
         print(f"WARNING -> no stock data for {symbol}!")
 

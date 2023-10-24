@@ -24,13 +24,13 @@ INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++20 console
+CONFIG += c++23 console
 QT += core xml sql network
 QT -= gui
 greaterThan(QT_MAJOR_VERSION, 4): QT -= widgets
 CONFIG -= app_bundle
 QMAKE_CXXFLAGS += -Wno-c11-extensions -Wno-deprecated-anon-enum-enum-conversion -Wno-unused-variable \
-    -Wno-unused-parameter -DCONSOLE_MODE
+    -Wno-unused-parameter -DCONSOLE_MODE -std=c++20
 QMAKE_CXXFLAGS_DEBUG += -O0 -g2 -Wall -pedantic
 QMAKE_CXXFLAGS_RELEASE += -O2 -g0 -Wall
 

@@ -13,7 +13,8 @@
 typedef std::map<std::string, std::vector<float>> PricesMap;
 
 template <typename T>
-void display_vector(const std::vector<T> &vec, const std::string prompt = "") {
+void display_vector(const std::vector<T> &vec,
+                    const std::string_view prompt = "") {
   if (prompt.length() > 0)
     std::cout << prompt << std::endl;
   for (auto iter = vec.cbegin(); iter != vec.cend(); ++iter)
@@ -21,7 +22,24 @@ void display_vector(const std::vector<T> &vec, const std::string prompt = "") {
   std::cout << std::endl;
 }
 
-PricesMap loadPrices() {
+bool cmp(std::pair<std::string, float> &one,
+         std::pair<std::string, float> &two) {
+  if (one.second == two.second)
+    // if corr is same, sort asc by symbol
+    return one.first < two.first;
+  return one.second > two.second;
+}
+
+std::vector<std::pair<std::string, float>>
+sort_on_corr_desc(std::map<std::string, float> &corr_map) {
+  std::vector<std::pair<std::string, float>> A;
+  for (auto &it : corr_map)
+    A.push_back(std::make_pair(it.first, it.second));
+  std::sort(A.begin(), A.end(), cmp);
+  return A;
+}
+
+PricesMap loadPrices(const std::string field = "Adj Close") {
   // load prices
   PricesMap prices;
 
@@ -31,7 +49,7 @@ PricesMap loadPrices() {
   for (auto iter = symbols.begin(); iter != symbols.end(); ++iter) {
     std::string prices_file = fmt::format("{}.csv", *iter);
     rapidcsv::Document prices_data(prices_file);
-    std::vector<float> adj_close = prices_data.GetColumn<float>("Adj Close");
+    std::vector<float> adj_close = prices_data.GetColumn<float>(field);
     prices[*iter] = adj_close;
   }
   return prices;
@@ -104,6 +122,8 @@ int main() {
   //                                rapidcsv::LabelParams(0, 0));
   std::vector<float> adj_close_tcs = prices["TCS.NS"];
   std::vector<float> adj_close_persistent = prices["PERSISTENT.NS"];
+  std::vector<float> adj_close_kansai = prices["KANSAINER.NS"];
+  std::vector<float> adj_close_pidilite = prices["PIDILITIND.NS"];
   // should be 1.0
   double corr_tcs_tcs =
       fincalc::Equities<float>::corr(adj_close_tcs, adj_close_tcs);
@@ -119,6 +139,40 @@ int main() {
   std::cout << fmt::format("Correl (TCS & Reliance Systems): {:.3f}",
                            corr_tcs_reliance)
             << std::endl;
+  double corr_kansai_pidilite =
+      fincalc::Equities<float>::corr(adj_close_kansai, adj_close_pidilite);
+  std::cout << fmt::format("Correl (Kansai & Pidilite): {:.3f}",
+                           corr_kansai_pidilite)
+            << std::endl;
+
+  // find corr of Nifty50 with other stocks in my portfolio
+  std::vector<float> adj_close_nifty = prices["^NSEI"];
+
+  std::map<std::string, float> corr_map;
+
+  for (auto iter = prices.begin(); iter != prices.end(); ++iter) {
+    if (iter->first != "^NSEI") {
+      try {
+        std::vector<float> adj_close = prices[iter->first];
+        double corr =
+            fincalc::Equities<float>::corr(adj_close_nifty, adj_close);
+        corr_map[fmt::format("NIFTY-{}", iter->first)] = corr;
+      } catch (const char *msg) {
+        std::cerr << fmt::format("ERROR: {} - ignoring pair NIFTY-{}", msg,
+                                 iter->first)
+                  << std::endl;
+      }
+    }
+  }
+
+  // now display the corr-map sorted descending by corr
+  std::cout << std::endl
+            << "Corelation of NIFTY to portfolio stocks" << std::endl;
+  std::cout << "---------------------------------------" << std::endl;
+  std::vector<std::pair<std::string, float>> sorted_on_corr =
+      sort_on_corr_desc(corr_map);
+  for (auto &iter : sorted_on_corr)
+    std::cout << fmt::format("{:<25} = {:.3f}\n", iter.first, iter.second);
 
   // if TCS & Reliance are co-related
 }
