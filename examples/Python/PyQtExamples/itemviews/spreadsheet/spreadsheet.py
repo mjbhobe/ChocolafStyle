@@ -69,7 +69,7 @@ class SpreadSheet(QMainWindow):
 
     currentDateFormat = dateFormats[0]
 
-    def __init__(self, rows, cols, parent = None):
+    def __init__(self, rows, cols, parent=None):
         super(SpreadSheet, self).__init__(parent)
 
         self.toolBar = QToolBar()
@@ -81,7 +81,7 @@ class SpreadSheet(QMainWindow):
         self.toolBar.addWidget(self.formulaInput)
         self.table = QTableWidget(rows, cols, self)
         for c in range(cols):
-            character = chr(ord('A') + c)
+            character = chr(ord("A") + c)
             self.table.setHorizontalHeaderItem(c, QTableWidgetItem(character))
 
         self.table.setItemPrototype(self.table.item(rows - 1, cols - 1))
@@ -154,8 +154,7 @@ class SpreadSheet(QMainWindow):
         self.dateFormatMenu = self.fileMenu.addMenu("&Date format")
         self.dateFormatGroup = QActionGroup(self)
         for f in self.dateFormats:
-            action = QAction(f, self, checkable = True,
-                             triggered = self.changeDateFormat)
+            action = QAction(f, self, checkable=True, triggered=self.changeDateFormat)
             self.dateFormatGroup.addAction(action)
             self.dateFormatMenu.addAction(action)
             if f == self.currentDateFormat:
@@ -188,8 +187,9 @@ class SpreadSheet(QMainWindow):
     def updateStatus(self, item):
         if item and item == self.table.currentItem():
             self.statusBar().showMessage(item.data(Qt.StatusTipRole), 1000)
-            self.cellLabel.setText("Cell: (%s)" % encode_pos(self.table.row(item),
-                                                             self.table.column(item)))
+            self.cellLabel.setText(
+                "Cell: (%s)" % encode_pos(self.table.row(item), self.table.column(item))
+            )
 
     def updateColor(self, item):
         pixmap = QPixmap(16, 16)
@@ -231,7 +231,9 @@ class SpreadSheet(QMainWindow):
 
     def selectColor(self):
         item = self.table.currentItem()
-        color = item and QColor(item.background()) or self.table.palette().base().color()
+        color = (
+            item and QColor(item.background()) or self.table.palette().base().color()
+        )
         color = QColorDialog.getColor(color, self)
         if not color.isValid():
             return
@@ -252,14 +254,15 @@ class SpreadSheet(QMainWindow):
         for i in selected:
             i and i.setFont(font)
 
-    def runInputDialog(self, title, c1Text, c2Text, opText,
-                       outText, cell1, cell2, outCell):
+    def runInputDialog(
+        self, title, c1Text, c2Text, opText, outText, cell1, cell2, outCell
+    ):
         rows = []
         cols = []
         for r in range(self.table.rowCount()):
             rows.append(str(r + 1))
         for c in range(self.table.columnCount()):
-            cols.append(chr(ord('A') + c))
+            cols.append(chr(ord("A") + c))
         addDialog = QDialog(self)
         addDialog.setWindowTitle(title)
         group = QGroupBox(title, addDialog)
@@ -367,9 +370,16 @@ class SpreadSheet(QMainWindow):
         cell1 = encode_pos(row_first, col_first)
         cell2 = encode_pos(row_last, col_last)
         out = encode_pos(row_cur, col_cur)
-        ok, cell1, cell2, out = self.runInputDialog("Sum cells", "First cell:",
-                                                    "Last cell:", u"\N{GREEK CAPITAL LETTER SIGMA}", "Output to:",
-                                                    cell1, cell2, out)
+        ok, cell1, cell2, out = self.runInputDialog(
+            "Sum cells",
+            "First cell:",
+            "Last cell:",
+            "\N{GREEK CAPITAL LETTER SIGMA}",
+            "Output to:",
+            cell1,
+            cell2,
+            out,
+        )
         if ok:
             row, col = decode_pos(out)
             self.table.item(row, col).setText("sum %s %s" % (cell1, cell2))
@@ -381,8 +391,9 @@ class SpreadSheet(QMainWindow):
         current = self.table.currentItem()
         if current:
             out = encode_pos(self.table.currentRow(), self.table.currentColumn())
-        ok, cell1, cell2, out = self.runInputDialog(title, "Cell 1", "Cell 2",
-                                                    op, "Output to:", cell1, cell2, out)
+        ok, cell1, cell2, out = self.runInputDialog(
+            title, "Cell 1", "Cell 2", op, "Output to:", cell1, cell2, out
+        )
         if ok:
             row, col = decode_pos(out)
             self.table.item(row, col).setText("%s %s %s" % (op, cell1, cell2))
@@ -439,7 +450,9 @@ class SpreadSheet(QMainWindow):
         # column 1
         self.table.setItem(0, 1, SpreadSheetItem("Date"))
         self.table.item(0, 1).setBackground(titleBackground)
-        self.table.item(0, 1).setToolTip("This column shows the purchase date, double click to change")
+        self.table.item(0, 1).setToolTip(
+            "This column shows the purchase date, double click to change"
+        )
         self.table.item(0, 1).setFont(titleFont)
         self.table.setItem(1, 1, SpreadSheetItem("15/6/2006"))
         self.table.setItem(2, 1, SpreadSheetItem("15/6/2006"))
@@ -513,7 +526,10 @@ class SpreadSheet(QMainWindow):
         self.table.item(9, 5).setBackground(Qt.lightGray)
 
     def showAbout(self):
-        QMessageBox.about(self, "About Spreadsheet", """
+        QMessageBox.about(
+            self,
+            "About Spreadsheet",
+            """
             <HTML>
             <p><b>This demo shows use of <c>QTableWidget</c> with custom handling for
              individual cells.</b></p>
@@ -527,7 +543,8 @@ class SpreadSheet(QMainWindow):
             <li>Dividing one cell with another.</li>
             <li>Summing the contents of an arbitrary number of cells.</li>
             </HTML>
-        """)
+        """,
+        )
 
     def print_(self):
         printer = QPrinter(QPrinter.ScreenResolution)
@@ -538,9 +555,10 @@ class SpreadSheet(QMainWindow):
         dlg.exec_()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
-    app = chocolaf.ChocolafApp(sys.argv)
+    # app = chocolaf.ChocolafApp(sys.argv)
+    app = QApplication(sys.argv)
     app.setStyle("Fusion")
     sheet = SpreadSheet(10, 6)
     sheet.setWindowIcon(QIcon(QPixmap(":/images/interview.png")))

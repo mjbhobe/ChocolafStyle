@@ -59,8 +59,10 @@ from PyQt5.QtXml import *
 import chocolaf
 
 chocolaf.enable_hi_dpi()
-app = chocolaf.ChocolafApp(sys.argv)
-app.setStyle("Chocolaf")
+# app = chocolaf.ChocolafApp(sys.argv)
+# app.setStyle("Chocolaf")
+app = QApplication(sys.argv)
+app.setStyle("Fusion")
 
 QCoreApplication.setApplicationVersion(QT_VERSION_STR)
 parser = QCommandLineParser()
@@ -68,10 +70,11 @@ parser.setApplicationDescription("Qt Directory View Example")
 parser.addHelpOption()
 parser.addVersionOption()
 
-dontUseCustomDirectoryIconsOption = QCommandLineOption('c',
-                                                       "Set QFileIconProvider.DontUseCustomDirectoryIcons")
+dontUseCustomDirectoryIconsOption = QCommandLineOption(
+    "c", "Set QFileIconProvider.DontUseCustomDirectoryIcons"
+)
 parser.addOption(dontUseCustomDirectoryIconsOption)
-parser.addPositionalArgument('directory', "The directory to start in.")
+parser.addPositionalArgument("directory", "The directory to start in.")
 parser.process(app)
 try:
     rootPath = parser.positionalArguments().pop(0)
@@ -79,10 +82,9 @@ except IndexError:
     rootPath = None
 
 model = QFileSystemModel()
-model.setRootPath('')
+model.setRootPath("")
 if parser.isSet(dontUseCustomDirectoryIconsOption):
-    model.iconProvider().setOptions(
-        QFileIconProvider.DontUseCustomDirectoryIcons)
+    model.iconProvider().setOptions(QFileIconProvider.DontUseCustomDirectoryIcons)
 tree = QTreeView()
 tree.setModel(model)
 if rootPath is not None:

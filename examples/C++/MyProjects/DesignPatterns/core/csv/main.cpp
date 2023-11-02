@@ -116,10 +116,6 @@ int main() {
                    fincalc::Equities<float>::stdDev(adj_close_reliance))
             << std::endl;
 
-  // let's check if closing prices of TCS & Persistent Systems are co-related
-  //  rapidcsv::Document tcs("TCS.NS.csv", rapidcsv::LabelParams(0, 0));
-  //  rapidcsv::Document persistent("PERSISTENT.NS.csv",
-  //                                rapidcsv::LabelParams(0, 0));
   std::vector<float> adj_close_tcs = prices["TCS.NS"];
   std::vector<float> adj_close_persistent = prices["PERSISTENT.NS"];
   std::vector<float> adj_close_kansai = prices["KANSAINER.NS"];
