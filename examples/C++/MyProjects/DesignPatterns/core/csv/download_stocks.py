@@ -12,7 +12,7 @@ todays_date = datetime.datetime.now()
 year, month, day = todays_date.year, todays_date.month, todays_date.day
 # adjust for financial year - if today() in Jan, Feb or Mar, decrease year by 1
 # year = year - 1 if month in range(1, 4) else year
-start_date = datetime.datetime(year, 4, 1)  # 01-Apr of current financial year
+start_date = datetime.datetime(year-10, 4, 1)  # 01-Apr of current financial year
 end_date = datetime.datetime.now()
 print(f"Downloading data from {start_date:%d-%b-%Y} - {end_date:%d-%b-%Y}")
 # sys.exit(-1)
@@ -36,3 +36,6 @@ for symbol in holdings["PFOLIO"]:
 
 all_holdings.to_csv("all_holdings.csv", header=True, index=True)
 print("Finished downloading prices")
+
+print(all_holdings.head())
+print(all_holdings.isna().sum())
