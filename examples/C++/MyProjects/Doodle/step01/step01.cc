@@ -8,28 +8,23 @@
 // My experiments with C++,Qt, Python & PyQt.
 // Code is provided for illustration purposes only! Use at your own risk.
 // =============================================================================
-#include "chocolaf.h"
 #include <QApplication>
 #include <QMainWindow>
 #include <QtGui>
 
-int main(int argc, char** argv)
-{
-    //  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-    //  Chocolaf::ChocolafApp app(argc, argv);
-    //  //Chocolaf::setStyle(app, "Chocolaf");
-    //  app.setStyle("Chocolaf");
-    QApplication app(argc, argv);
-    app.setStyle("Fusion");
+#include "chocolaf.h"
 
-    // create the GUI
-    QMainWindow mainWindow;
-    QString title = QString("Qt %1 Doodle with Chocolaf - Step01: Basic Window")
-                        .arg(QT_VERSION_STR);
-    mainWindow.setWindowTitle(title);
-    // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
-    Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
-    mainWindow.show();
+int main(int argc, char **argv) {
+  QApplication app(argc, argv);
+  Chocolaf::setChocolafStyle(app, "Chocolaf");
 
-    return app.exec();
+  // create the GUI
+  QMainWindow mainWindow;
+  QString title = QString("Qt %1 Doodle with Chocolaf - Step01: Basic Window")
+                      .arg(QT_VERSION_STR);
+  mainWindow.setWindowTitle(title);
+  Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
+  mainWindow.show();
+
+  return app.exec();
 }

@@ -8,6 +8,9 @@ INCLUDEPATH += .
 
 include (../../../../../../chocolaf/common_files/common.pro)
 
+QMAKE_CXXFLAGS -= -std=c++20
+QMAKE_CXXFLAGS += -std=c++17
+
 
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.

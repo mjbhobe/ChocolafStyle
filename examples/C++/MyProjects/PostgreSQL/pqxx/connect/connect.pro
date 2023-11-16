@@ -7,6 +7,10 @@ TARGET = connect
 
 include (../../../../../../chocolaf/common_files/common_console.pro)
 
+# pqxx 7.x does not support C++20 standard yet!
+QMAKE_CXXFLAGS -= -std=c++20
+QMAKE_CXXFLAGS += -std=c++17
+
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # Please consult the documentation of the deprecated API in order to know

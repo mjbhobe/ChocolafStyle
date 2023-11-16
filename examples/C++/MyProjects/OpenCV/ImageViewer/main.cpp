@@ -28,31 +28,8 @@ int main(int argc, char **argv) {
   qputenv("QT_QPA_PLATFORM", "windows:darkmode=2");
 #endif
   QApplication app(argc, argv);
-  app.setStyle("Fusion");
-  /*
-  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-  Chocolaf::ChocolafApp app(argc, argv);
-  app.setStyle("Fusion");
-  #ifdef Q_OS_WIN
-     app.setStyle("WindowsDark");
-  #else
-     app.setStyle("Chocolaf");
-  #endif
-  */
-
-  /*
- QApplication app(argc, argv);
-
- QFile f(":chocolaf/chocolaf.css");
-
- if (!f.exists()) {
-   printf("Unable to open stylesheet!");
- } else {
-   f.open(QFile::ReadOnly | QFile::Text);
-   QTextStream ts(&f);
-   app.setStyleSheet(ts.readAll());
- }
- */
+  // app.setStyle("Fusion");
+  Chocolaf::setChocolafStyle(app, "WindowsDark");
   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
   // parse the command line params

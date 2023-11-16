@@ -28,10 +28,10 @@ INCLUDEPATH += $$PWD
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++20 console
+CONFIG += console
 QT += core gui xml sql network svg
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-QMAKE_CXXFLAGS += -std=c++20 -Wno-deprecated-enum-enum-conversion -std=c++20
+QMAKE_CXXFLAGS += -std=c++20 -Wno-deprecated-enum-enum-conversion
 QMAKE_CXXFLAGS_DEBUG += -O0 -g2 -pedantic -Wall
 QMAKE_CXXFLAGS_RELEASE += -O2 -g0 -Wall
 
@@ -69,8 +69,7 @@ unix {
    INCLUDEPATH += /usr/include/opencv4
    OPENCV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video \
          -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_videoio -lopencv_imgcodecs -lopencv_flann
-   STD_LIBS = -lm -lstdc++ -lfmt
-   # -lpqxx -lpq
+   STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq
 }
 
 GMP_LIBS = -lgmp -lgmpxx

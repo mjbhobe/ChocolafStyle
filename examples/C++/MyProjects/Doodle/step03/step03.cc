@@ -9,34 +9,36 @@
 // My experiments with C++,Qt, Python & PyQt.
 // Code is provided for illustration purposes only! Use at your own risk.
 // =============================================================================
-#include "DrawWindow.h"
-#include "chocolaf.h"
 #include <QApplication>
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QtGui>
 
+#include "DrawWindow.h"
+#include "chocolaf.h"
+
 const QString AppTitle("Qt Scribble");
-const QString WinTitle = QString("Qt %1 Doodle - Step03: Handling mouse clicks")
-                             .arg(QT_VERSION_STR);
+const QString WinTitle =
+    QString("Qt %1 Doodle - Step03: Handling mouse clicks").arg(QT_VERSION_STR);
 
-int main(int argc, char** argv)
-{
-    Chocolaf::ChocolafApp::setupForHighDpiScreens();
-    //    Chocolaf::ChocolafApp app(argc, argv);
-    QApplication app(argc, argv);
-    app.setStyle("Fusion");
+int main(int argc, char **argv) {
+  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  //    Chocolaf::ChocolafApp app(argc, argv);
+  QApplication app(argc, argv);
+  // app.setStyle("Fusion");
+  Chocolaf::setChocolafStyle(app, "Fusion");
 
-    app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
+  app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
-    // create the GUI
-    DrawWindow* drawWidget = new DrawWindow;
-    DrawMainWindow mainWindow(drawWidget);
-    mainWindow.setWindowTitle(WinTitle);
-    mainWindow.setCentralWidget(drawWidget);
-    // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
-    Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
-    mainWindow.show();
+  // create the GUI
+  DrawWindow *drawWidget = new DrawWindow;
+  DrawMainWindow mainWindow(drawWidget);
+  mainWindow.setWindowTitle(WinTitle);
+  mainWindow.setCentralWidget(drawWidget);
+  // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 /
+  // 5);
+  Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
+  mainWindow.show();
 
-    return app.exec();
+  return app.exec();
 }
