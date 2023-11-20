@@ -7,42 +7,44 @@
 
 class QImage;
 
-class DrawWindow : public QWidget {
-    Q_OBJECT
+class DrawWindow : public QWidget
+{
+  Q_OBJECT
 public:
-    DrawWindow();
-    bool isModified() const { return _modified; }
+  DrawWindow();
+  bool isModified() const { return _modified; }
 
 protected:
-    // operating system events
-    // void closeEvent(QCloseEvent *event);
-    void mousePressEvent(QMouseEvent* event);
-    void paintEvent(QPaintEvent* event);
-    void resizeEvent(QResizeEvent* event);
+  // operating system events
+  // void closeEvent(QCloseEvent *event);
+  void mousePressEvent(QMouseEvent* event);
+  void paintEvent(QPaintEvent* event);
+  void resizeEvent(QResizeEvent* event);
 
 private:
-    // our custom functions
-    void drawPoint(const QPoint& pt);
-    void clearImage();
-    void resizeImage(const QSize& size);
+  // our custom functions
+  void drawPoint(const QPoint& pt);
+  void clearImage();
+  void resizeImage(const QSize& size);
 
-    QImage _image;
-    bool _modified;
+  QImage _image;
+  bool _modified;
 };
 
-class DrawMainWindow : public QMainWindow {
+class DrawMainWindow : public QMainWindow
+{
 private:
-    DrawWindow* _drawWindow;
+  DrawWindow* _drawWindow;
 
 public:
-    DrawMainWindow(DrawWindow* win)
-        : _drawWindow(win)
-    {
-    }
+  DrawMainWindow(DrawWindow* win)
+    : _drawWindow(win)
+  {
+  }
 
 protected:
-    // OS events
-    void closeEvent(QCloseEvent* event);
+  // OS events
+  void closeEvent(QCloseEvent* event);
 };
 
 #endif // __DrawWindow_h__

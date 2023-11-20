@@ -18,12 +18,14 @@
 #include <QtGlobal>
 #include <QtGui>
 
-DrawWindow::DrawWindow() {
+DrawWindow::DrawWindow()
+{
   setAttribute(Qt::WA_StaticContents);
   _modified = false;
 }
 
-void DrawWindow::drawPoint(const QPoint &pt) {
+void DrawWindow::drawPoint(const QPoint &pt)
+{
   // display position where the mouse was clicked
   QString str;
   QTextStream ostr(&str); // like a string stream
@@ -40,7 +42,8 @@ void DrawWindow::drawPoint(const QPoint &pt) {
   update();
 }
 
-void DrawWindow::clearImage() {
+void DrawWindow::clearImage()
+{
   //_image.fill(qRgb(255, 255, 255));
   // QColor color = getPaletteColor(QPalette::Window);
   // QColor color = Chocolaf::ChocolafPalette::Window_Color;
@@ -50,7 +53,8 @@ void DrawWindow::clearImage() {
   update();
 }
 
-void DrawWindow::mousePressEvent(QMouseEvent *event) {
+void DrawWindow::mousePressEvent(QMouseEvent *event)
+{
   // if user clicks the left mouse button, then display position
   // where mouse was clicked. If right button pressed, clear the
   // entire drawing canvas
@@ -58,14 +62,16 @@ void DrawWindow::mousePressEvent(QMouseEvent *event) {
     drawPoint(QPoint(event->pos().x(), event->pos().y()));
     _modified = true;
     qDebug() << "DrawWindow::mousePressEvent() - _modified = True";
-  } else if (event->button() == Qt::RightButton) {
+  }
+  else if (event->button() == Qt::RightButton) {
     clearImage();
     _modified = false;
     qDebug() << "DrawWindow::mousePressEvent() - _modified = False";
   }
 }
 
-void DrawWindow::resizeEvent(QResizeEvent *event) {
+void DrawWindow::resizeEvent(QResizeEvent *event)
+{
   if (width() > _image.width() || height() > _image.height()) {
     // need to expand image
     int newWidth = qMax(width(), _image.width());
@@ -76,7 +82,8 @@ void DrawWindow::resizeEvent(QResizeEvent *event) {
   QWidget::resizeEvent(event);
 }
 
-void DrawWindow::paintEvent(QPaintEvent *event) {
+void DrawWindow::paintEvent(QPaintEvent *event)
+{
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing);
   QString msg("Click the left mouse to show point & right mouse to clear");
@@ -85,7 +92,8 @@ void DrawWindow::paintEvent(QPaintEvent *event) {
   painter.drawImage(dirtyRect, _image, dirtyRect);
 }
 
-void DrawWindow::resizeImage(const QSize &newSize) {
+void DrawWindow::resizeImage(const QSize &newSize)
+{
   if (_image.size() == newSize)
     return;
   // create a  new image matching the new size
@@ -102,7 +110,8 @@ void DrawWindow::resizeImage(const QSize &newSize) {
   _image = newImage;
 }
 
-void DrawMainWindow::closeEvent(QCloseEvent *event) {
+void DrawMainWindow::closeEvent(QCloseEvent *event)
+{
   // window is about to close, prompt user & decide
   // if ok to quit based on user's response.
   qDebug() << "DrawMainWindow::closeEvent() called. _modified = "
@@ -112,8 +121,8 @@ void DrawMainWindow::closeEvent(QCloseEvent *event) {
     switch (QMessageBox::question(this, tr("Qt Scribble Tutorial"),
                                   tr("Contents of the doodle have changed.\nDo "
                                      "you want to quit without saving?"),
-                                  QMessageBox::Yes | QMessageBox::No,
-                                  QMessageBox::No)) {
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No))
+    {
     case QMessageBox::Yes:
       // ok to quit
       qDebug() << "User chose to quit without saving...";
@@ -123,7 +132,8 @@ void DrawMainWindow::closeEvent(QCloseEvent *event) {
       // don't quit yet
       event->ignore();
     }
-  } else {
+  }
+  else {
     event->accept();
   }
 }

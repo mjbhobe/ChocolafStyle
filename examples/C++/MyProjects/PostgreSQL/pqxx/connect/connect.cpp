@@ -38,8 +38,7 @@ const QString getConnectionString() {
   return connString;
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char **argv) {
   QCoreApplication app(argc, argv);
 
   try {
@@ -55,7 +54,7 @@ int main(int argc, char** argv)
       pqxx::work txn{conn};
       // query for a single value from database
       for (auto [version] : txn.stream<std::string_view>("SELECT version()")) {
-          std::cout << " (PostgreSQL version " << version << ")" << std::endl;
+        std::cout << " (PostgreSQL version " << version << ")" << std::endl;
       }
       std::cout << "Results of SQL: \'" << sql << "\'" << std::endl;
       // display the result
@@ -70,12 +69,10 @@ int main(int argc, char** argv)
       std::cerr << "Can't open database dvdrental!" << std::endl;
       return -1;
     }
-  }
-  catch (pqxx::sql_error const& e) {
+  } catch (pqxx::sql_error const &e) {
     std::cerr << "Database error: " << e.what() << std::endl
               << "Query was: " << e.query() << std::endl;
-  }
-  catch (const std::exception& e) {
+  } catch (const std::exception &e) {
     std::cerr << e.what() << std::endl;
     return -2;
   }
