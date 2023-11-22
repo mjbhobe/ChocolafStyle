@@ -12,10 +12,10 @@ import os
 import argparse
 import qtawesome as qta
 
-from PyQt6.QtCore import *
-from PyQt6.QtGui import *
-from PyQt6.QtWidgets import *
-from PyQt6.QtSql import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtSql import *
 
 import chocolaf
 import toolbarIcons_rc
@@ -46,10 +46,10 @@ class SQLManager(QMainWindow):
         self.initializeUi()
 
     def initializeUi(self):
-        """ initialize the Ui """
+        """initialize the Ui"""
         self.setMinimumSize(800, 550)
         # center on screen
-        self.move(QApplication.desktop().screen().rect().center() - self.rect().center())
+        # self.move(QApplication.desktop().screen().rect().center() - self.rect().center())
         self.setWindowTitle(f"PyQt {PYQT_VERSION_STR}: SQLManager")
         self.model = QSqlQueryModel()
         self.setupWindow()
@@ -59,8 +59,10 @@ class SQLManager(QMainWindow):
     def setupWindow(self):
         self.queryField = QTextEdit()
         points = chocolaf.pixelsToPoints(14)
-        self.queryField.setFont(QFont("Consolas, SF Mono, Monospace", points))
-        self.queryField.setPlaceholderText("Enter your SQL query here and press Ctrl+R to run...")
+        self.queryField.setFont(QFont("Monospace", points))
+        self.queryField.setPlaceholderText(
+            "Enter your SQL query here and press Ctrl+R to run..."
+        )
         self.queryField.textChanged.connect(self.queryTextChanged)
 
         self.results = QTableView()
@@ -113,7 +115,7 @@ class SQLManager(QMainWindow):
         # quitAction = QAction(QIcon(":/on-off.png"), "Quit Application", toolbar)
         quitAction = QAction(quit_icon, "Quit Application", toolbar)
         quitAction.setToolTip("Quit the application")
-        quitAction.triggered.connect(qApp.exit)
+        quitAction.triggered.connect(QApplication.instance().exit)
 
         toolbar.addAction(self.runQueryAction)
         toolbar.addAction(self.clearTextAction)
@@ -122,12 +124,14 @@ class SQLManager(QMainWindow):
 
     def queryTextChanged(self):
         query_text = self.queryField.toPlainText()
-        has_text: bool = (len(query_text) > 0)
+        has_text: bool = len(query_text) > 0
         self.clearTextAction.setEnabled(has_text)
         self.runQueryAction.setEnabled(has_text)
 
     def executeQueries(self):
-        sqlQueryTexts = self.queryField.toPlainText().strip()  # str(self.queryField.textCursor().selectedText())
+        sqlQueryTexts = (
+            self.queryField.toPlainText().strip()
+        )  # str(self.queryField.textCursor().selectedText())
         sqlQueryTexts = sqlQueryTexts.split(";")
 
         if sqlQueryTexts != "":
@@ -141,8 +145,8 @@ class SQLManager(QMainWindow):
                     print(f"Exec: {sqlQueryText}")
                     query = QSqlQuery(sqlQueryText, self.conn)
                     self.model.setQuery(query)
-                    # self.results.setModel(self.model)
-                    # self.results.hideColumn(0)
+                    self.results.setModel(self.model)
+                    self.results.hideColumn(0)
 
     def clearText(self):
         self.queryField.clear()
@@ -150,14 +154,16 @@ class SQLManager(QMainWindow):
 
 if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
-    app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # app = chocolaf.ChocolafApp(sys.argv)
+    # app.setStyle("Chocolaf")
     # app.setStyle("WindowsDark")
     # app = QApplication(sys.argv)
+    app = QApplication(sys.argv)
+    app.setStyle("Fusion")
 
     try:
         conn = connectToDatabase()
-        if (conn and conn.isOpen()):
+        if conn and conn.isOpen():
             window = SQLManager(conn)
             window.show()
             app.exec()

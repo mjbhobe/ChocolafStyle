@@ -7,12 +7,15 @@
 #include <iostream>
 #include <pqxx/except>
 #include <pqxx/pqxx>
+#include <stdexcept>
 #include <string>
 
 const QString getConnectionString() {
   QFile file("config.ini");
   if (!file.exists())
-    throw QString("FATAL: could not find config file %1").arg("config.ini");
+    throw std::runtime_error(fmt::format(
+        "FATAL: could not find config file {}. Cannot connect to database!",
+        "config.ini"));
 
   /*
    * program expects a database connection settings file named config.ini
