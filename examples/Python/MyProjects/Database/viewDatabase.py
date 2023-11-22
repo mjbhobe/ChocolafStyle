@@ -35,14 +35,25 @@ def connectToDatabase() -> QSqlDatabase:
 
 
 def parseCommandLine():
-    """ use argparse to parse out options from command line """
+    """use argparse to parse out options from command line"""
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--data-model", type = str,
-                        choices = ["read-only", "read-write"], default = "read-only",
-                        help = "Select the type of data model to view SQL data: " +
-                               "read-only = QSqlQueryModel; read-write = QSqlTableModel")
-    parser.add_argument("-q", "--query", type = str, default = ["SELECT * FROM products"],
-                        nargs = "*", help = "Pass a SQL query on the command line")
+    parser.add_argument(
+        "-d",
+        "--data-model",
+        type=str,
+        choices=["read-only", "read-write"],
+        default="read-only",
+        help="Select the type of data model to view SQL data: "
+        + "read-only = QSqlQueryModel; read-write = QSqlTableModel",
+    )
+    parser.add_argument(
+        "-q",
+        "--query",
+        type=str,
+        default=["SELECT * FROM products"],
+        nargs="*",
+        help="Pass a SQL query on the command line",
+    )
     args = vars(parser.parse_args())
     return args
 
@@ -51,17 +62,20 @@ class DisplayDatabase(QMainWindow):
     def __init__(self, dbConn: QSqlDatabase, parent: QWidget = None):
         super(DisplayDatabase, self).__init__(parent)
         self.conn = dbConn
-        tables_needed = {'customers', 'stores', 'products', 'orders', 'order_products'}
+        tables_needed = {"customers", "stores", "products", "orders", "order_products"}
         # get intersection of sets - must find at least some of the tables
         tables_not_found = tables_needed - set(self.conn.tables())
         if tables_not_found:
-            QMessageBox.critical(self, "FATAL ERROR",
-                                 f"Following tables are missing from database {tables_not_found}")
+            QMessageBox.critical(
+                self,
+                "FATAL ERROR",
+                f"Following tables are missing from database {tables_not_found}",
+            )
             sys.exit(-1)
         self.initializeUi()
 
     def initializeUi(self):
-        """ initialize the Ui """
+        """initialize the Ui"""
         self.setMinimumSize(800, 500)
         self.setWindowTitle(f"PyQt {PYQT_VERSION_STR}: Displaying SQL Data in Tables")
         self.setupTable(args["data_model"], args["query"])
@@ -90,7 +104,7 @@ if __name__ == "__main__":
     args = parseCommandLine()
     try:
         conn = connectToDatabase()
-        if (conn and conn.isOpen()):
+        if conn and conn.isOpen():
             window = DisplayDatabase(conn)
             window.show()
             app.exec()
