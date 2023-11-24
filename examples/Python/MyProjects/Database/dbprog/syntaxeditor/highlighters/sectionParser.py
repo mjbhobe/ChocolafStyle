@@ -9,7 +9,7 @@ from PyQt6.QtGui import *
 
 
 def parseSection(section: str, subkey: str) -> (str, QTextCharFormat):
-    """parses subkeys in a section of the syntax.ini file
+    """parses subkeys in a section of the syntax.cfg file
     @params:
         section: the section to look under
         subkey: the subkey whose values are to be parsed
@@ -19,7 +19,7 @@ def parseSection(section: str, subkey: str) -> (str, QTextCharFormat):
             NOTE: this could be a NULL if subkey is not found
         tuple(1) - a QTextFormatObject
     """
-    config_file_path = pathlib.Path(__file__).parent / "syntax.ini"
+    config_file_path = pathlib.Path(__file__).parent / "syntax.cfg"
     assert os.path.exists(
         str(config_file_path)
     ), f"FATAL ERROR: unable to locate syntax configuration file (syntax.ini)"

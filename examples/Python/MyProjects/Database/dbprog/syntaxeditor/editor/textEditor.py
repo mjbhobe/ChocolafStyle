@@ -8,7 +8,7 @@ class TextEditor(QTextEdit):
 
     def __init__(self):
         super(QTextEdit, self).__init__()
-        self.editor_font = QFont("SF Mono, Consolas, Monospace", 10)
+        self.editor_font = QFont("The Sans Mono-, SF Mono, Consolas, Monospace", 10)
         self.setFont(self.editor_font)
         # self tabstops to 4 spaces
         self.tabstops = 4
