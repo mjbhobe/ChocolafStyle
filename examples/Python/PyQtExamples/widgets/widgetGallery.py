@@ -203,9 +203,24 @@ class WidgetGallery(QWidget):
         dial.setValue(30)
         dial.setNotchesVisible(True)
         combo = QComboBox()
-        items = ['Apple iPhone', 'OnePlus 9T', 'Dell XPS', 'Apple MacBook Pro',
-                 'Python', 'Java', 'Spring', 'C/C++', 'Visual Studio Code', 'GNU C/C++',
-                 'Vim', 'Tensorflow', 'Keras', 'Pytorch', 'Keras', 'Coffee']
+        items = [
+            "Apple iPhone",
+            "OnePlus 9T",
+            "Dell XPS",
+            "Apple MacBook Pro",
+            "Python",
+            "Java",
+            "Spring",
+            "C/C++",
+            "Visual Studio Code",
+            "GNU C/C++",
+            "Vim",
+            "Tensorflow",
+            "Keras",
+            "Pytorch",
+            "Keras",
+            "Coffee",
+        ]
         combo.addItems(items)
 
         layout = QGridLayout()
@@ -243,8 +258,12 @@ class WidgetGallery(QWidget):
         tableWidget.setColumnCount(10)
 
         listModel = QStandardItemModel(0, 1, result)
-        dirOpenIcon = QIcon(":/qt-project.org/styles/commonstyle/images/diropen-128.png")
-        computerIcon = QIcon(":/qt-project.org/styles/commonstyle/images/computer-32.png")
+        dirOpenIcon = QIcon(
+            ":/qt-project.org/styles/commonstyle/images/diropen-128.png"
+        )
+        computerIcon = QIcon(
+            ":/qt-project.org/styles/commonstyle/images/computer-32.png"
+        )
 
         listModel.appendRow(QStandardItem(dirOpenIcon, "Directory"))
         listModel.appendRow(QStandardItem(computerIcon, "Compute"))
@@ -265,12 +284,14 @@ class WidgetGallery(QWidget):
     def createTextToolBox(self) -> QToolBox:
         textToolBox = QToolBox()
 
-        plainText: str = ("Twinkle, twinkle, little star,\n" +
-                          "How I wonder what you are.\n" +
-                          "Up above the world so high,\n" +
-                          "Like a diamond in the sky.\n" +
-                          "Twinkle, twinkle, little star,\n" +
-                          "How I wonder what you are!\n")
+        plainText: str = (
+            "Twinkle, twinkle, little star,\n"
+            + "How I wonder what you are.\n"
+            + "Up above the world so high,\n"
+            + "Like a diamond in the sky.\n"
+            + "Twinkle, twinkle, little star,\n"
+            + "How I wonder what you are!\n"
+        )
 
         richText = "<html><head/><body><i>"
         for line in plainText.split("\n"):
@@ -285,17 +306,19 @@ class WidgetGallery(QWidget):
 
         textToolBox.addItem(self.embedIntoHBoxLayout(plainTextEdit), "Plain Text Edit")
         textToolBox.addItem(self.embedIntoHBoxLayout(textEdit), "Text Edit")
-        textToolBox.addItem(self.embedIntoHBoxLayout(self.systemInfoTextBrowser), "Text Browser")
+        textToolBox.addItem(
+            self.embedIntoHBoxLayout(self.systemInfoTextBrowser), "Text Browser"
+        )
         return textToolBox
 
     @staticmethod
     def highDpiScaleFactorRoundingPolicy():
         policy = QGuiApplication.highDpiScaleFactorRoundingPolicy()
-        if policy[-1] == ')':
+        if policy[-1] == ")":
             policy = policy[:-1]
         lastSep = policy.rfind("::")
         if lastSep != -1:
-            policy = policy[:lastSep + 2]
+            policy = policy[: lastSep + 2]
         return policy
 
     def updateSystemInfo(self):
