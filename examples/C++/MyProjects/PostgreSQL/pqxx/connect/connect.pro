@@ -22,4 +22,4 @@ QMAKE_CXXFLAGS += -std=c++17
 SOURCES += connect.cpp
 
 DISTFILES += \
-    config.ini
+    config.cfg

@@ -11,11 +11,12 @@
 #include <string>
 
 const QString getConnectionString() {
-  QFile file("config.ini");
+  const QString config_file{"config.cfg"};
+  QFile file(config_file);
   if (!file.exists())
     throw std::runtime_error(fmt::format(
         "FATAL: could not find config file {}. Cannot connect to database!",
-        "config.ini"));
+          config_file.toStdString().c_str()));
 
   /*
    * program expects a database connection settings file named config.ini
@@ -30,7 +31,7 @@ const QString getConnectionString() {
    * password=<<password>>
    */
 
-  QSettings config("config.ini", QSettings::IniFormat);
+  QSettings config("config.cfg", QSettings::IniFormat);
   QString host = config.value("postgres/host").toString();
   QString dbase = config.value("postgres/database").toString();
   QString user = config.value("postgres/user").toString();
