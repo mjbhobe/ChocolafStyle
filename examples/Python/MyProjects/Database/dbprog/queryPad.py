@@ -17,6 +17,14 @@ from PyQt6.QtSql import *
 from syntaxeditor import TextEditor, SqlSyntaxHighlighter
 
 
+class ActionBtn(QPushButton):
+    def __init__(self, action: QAction, parent: QWidget = None):
+        super().__init__(parent)
+        self.setIcon(action.icon())
+        self.setText(action.text())
+        self.clicked.connect(action.trigger)
+
+
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -25,6 +33,15 @@ class MainWindow(QWidget):
 
         self.setWindowTitle("PyQt6 SQL Query Viewer")
         self.resize(800, 600)
+        icon_path = pathlib.Path(__file__).parent / "database.png"
+        self.setWindowIcon(QIcon(str(icon_path)))
+
+        run_icon_path = pathlib.Path(__file__).parent / "play.png"
+        self.runAction = QAction(QIcon(str(run_icon_path)), "&Run Query", self)
+        self.runAction.setShortcut("Ctrl+R")
+        # # self.runAction.setIcon(QIcon(":/run.png"))
+        self.runAction.setStatusTip("Run Query")
+        self.runAction.triggered.connect(self.run_query)
 
         # self.query_edit = QTextEdit()  # QLineEdit()
         # editor_font = QFont("Monospace", 10)
@@ -41,10 +58,20 @@ class MainWindow(QWidget):
 
         self.highlighter = SqlSyntaxHighlighter(self.query_edit.document())
         # self.highlighter.set_parent(self.query_edit)
-        self.query_edit.setPlaceholderText("Enter a SQL query...")
+        self.query_edit.setPlaceholderText(
+            "Enter your SQL query here and press Ctrl+R to run..."
+        )
+        self.query_edit.textChanged.connect(self.queryTextChanged)
 
-        self.run_query_button = QPushButton("Run Query")
-        self.run_query_button.clicked.connect(self.run_query)
+        self.run_query_button = ActionBtn(self.runAction)  # QPushButton("Run Query")
+        self.run_query_button.setEnabled(False)
+        # self.run_query_button.setAction(self.runAction)
+        # self.run_query_button.clicked.connect(self.run_query)
+
+        # setup a shortcut
+        self.execQuery = QShortcut("Ctrl+R", self)
+        self.execQuery.setEnabled(False)
+        self.execQuery.activated.connect(self.run_query)
 
         self.topWidget = QWidget()
         topLayout = QVBoxLayout()
@@ -104,6 +131,13 @@ class MainWindow(QWidget):
                 f"Unable to locate {str(config_path)} to read db connection params!"
             )
 
+    def queryTextChanged(self):
+        query_text = self.query_edit.toPlainText()
+        has_text: bool = len(query_text) > 0
+        self.run_query_button.setEnabled(has_text)
+        self.runAction.setEnabled(has_text)
+        self.execQuery.setEnabled(has_text)
+
     def show_fatal_message(self, message):
         """Shows a fatal message using QMessageBox.
 
@@ -113,9 +147,9 @@ class MainWindow(QWidget):
         msgBox = QMessageBox(self)
         msgBox.setIcon(QMessageBox.Icon.Critical)
         msgBox.setText(message)
-        msgBox.setWindowTitle("Database Error")
+        msgBox.setWindowTitle("SQL Execution Error")
         msgBox.setStandardButtons(QMessageBox.StandardButton.Ok)
-        msgBox.exec()
+        return msgBox.exec()
 
     def run_query(self):
         # query_text = self.query_edit.text().strip()
@@ -136,12 +170,7 @@ class MainWindow(QWidget):
             # self.show_fatal_message(
             #     f"Could not execute query: {}"
             # )
-            msgBox = QMessageBox(self)
-            msgBox.setIcon(QMessageBox.Icon.Critical)
-            msgBox.setText(query.lastError().text())
-            msgBox.setWindowTitle("SQL Execution Error")
-            msgBox.setStandardButtons(QMessageBox.StandardButton.Ok)
-            return msgBox.exec()
+            return self.show_fatal_message(query.lastError().text())
 
         # Get the column names
         column_names = [
