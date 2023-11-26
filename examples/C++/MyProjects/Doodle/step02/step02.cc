@@ -19,7 +19,7 @@ QTextStream cout(stdout, QIODeviceBase::WriteOnly);
 
 int main(int argc, char **argv) {
   QApplication app(argc, argv);
-  Chocolaf::setChocolafStyle(app, "Chocolaf");
+  Chocolaf::setChocolafStyle(app, "WindowsDark");
 
   QStringList args = QCoreApplication::arguments();
   foreach (auto arg, args)

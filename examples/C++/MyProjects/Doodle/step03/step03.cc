@@ -18,15 +18,12 @@
 #include "chocolaf.h"
 
 const QString AppTitle("Qt Scribble");
-const QString WinTitle = QString("Qt %1 Doodle - Step03: Handling mouse clicks").arg(QT_VERSION_STR);
+const QString WinTitle =
+    QString("Qt %1 Doodle - Step03: Handling mouse clicks").arg(QT_VERSION_STR);
 
-int main(int argc, char **argv)
-{
-  Chocolaf::ChocolafApp::setupForHighDpiScreens();
-  //    Chocolaf::ChocolafApp app(argc, argv);
+int main(int argc, char **argv) {
   QApplication app(argc, argv);
-  // app.setStyle("Fusion");
-  Chocolaf::setChocolafStyle(app, "Fusion");
+  Chocolaf::setChocolafStyle(app, "WindowsDark");
 
   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
