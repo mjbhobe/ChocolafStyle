@@ -8,6 +8,7 @@ import sys
 import pathlib
 from configparser import ConfigParser
 import datetime
+import logging
 
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
@@ -15,6 +16,9 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtSql import *
 
 from syntaxeditor import TextEditor, SqlSyntaxHighlighter
+
+
+logger = logging.getLogger(__name__)
 
 
 class ActionBtn(QPushButton):
@@ -31,7 +35,7 @@ class MainWindow(QWidget):
 
         self.db_conn = None
 
-        self.setWindowTitle("PyQt6 SQL Query Viewer")
+        self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} SQL Query Viewer")
         self.resize(800, 600)
         icon_path = pathlib.Path(__file__).parent / "database.png"
         self.setWindowIcon(QIcon(str(icon_path)))
@@ -153,7 +157,15 @@ class MainWindow(QWidget):
 
     def run_query(self):
         # query_text = self.query_edit.text().strip()
-        query_text = self.query_edit.toPlainText().strip()
+
+        # if text is selected, execure selected text,
+        # else execute all the text in query_text widget
+        if self.query_edit.textCursor().hasSelection():
+            query_text = self.query_edit.textCursor().selection().toPlainText().strip()
+            # query_text = query_text.toPlainText().strip()
+        else:
+            query_text = self.query_edit.toPlainText().strip()
+        logger.info(f"Executing: {query_text}")
 
         # Connect to the database
         if self.db_conn is None:

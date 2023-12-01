@@ -2,6 +2,7 @@
 import sys
 import os
 import pathlib
+import darkdetect  # to detect if OS is using dark theme
 from configparser import ConfigParser
 
 from PyQt6.QtCore import Qt, QLocale, QRegularExpression
@@ -42,7 +43,13 @@ def parseSection(section: str, subkey: str) -> (str, QTextCharFormat):
             subkey_pat = subkey_pat[: len(subkey_pat) - 1]
 
     formatter = None
-    subkey_color_style = parser.get(section, f"{subkey}_color_style", fallback=None)
+    if darkdetect.isDark():
+        subkey_color_style = parser.get(
+            section, f"{subkey}_color_style_dark", fallback=None
+        )
+    else:
+        subkey_color_style = parser.get(section, f"{subkey}_color_style", fallback=None)
+
     if subkey_color_style is not None:
         subkey_color, subkey_bold, subkey_italic = subkey_color_style.split(",")
         font_bold = True if subkey_bold.strip() == "1" else False

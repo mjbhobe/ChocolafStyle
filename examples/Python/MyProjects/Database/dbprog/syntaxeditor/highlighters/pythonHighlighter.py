@@ -1,10 +1,5 @@
-import sys
-import os
-import pathlib
-from configparser import ConfigParser
-
 from PyQt6.QtCore import Qt, QLocale, QRegularExpression
-from PyQt6.QtGui import *
+from PyQt6.QtGui import QTextDocument, QSyntaxHighlighter
 
 from .sectionParser import parseSection
 
@@ -40,10 +35,7 @@ class PythonSyntaxHighlighter(QSyntaxHighlighter):
             "python_comment",
         )
 
-    def highlightBlock(self, text):
-        # formatters
-        # Define the rules for highlighting SQL and Python code
-        rules = [
+        self.rules = [
             (
                 # Python keywords
                 QRegularExpression(self.keywords_pat),
@@ -98,8 +90,12 @@ class PythonSyntaxHighlighter(QSyntaxHighlighter):
             ),
         ]
 
+    def highlightBlock(self, text):
+        # formatters
+        # Define the rules for highlighting SQL and Python code
+
         # Highlight the text in the document
-        for rule in rules:
+        for rule in self.rules:
             matches = rule[0].globalMatch(text)
             while matches.hasNext():
                 match = matches.next()
@@ -110,18 +106,43 @@ class PythonSyntaxHighlighter(QSyntaxHighlighter):
 
 
 if __name__ == "__main__":
-    txt = """
-select c.first_name, c.last_name, c.email,
-    a.address, a.district, ci.city, ct.country, a.postal_code, a.phone
-from customer as c
-join address as a on c.address_id = a.address_id
-join city as ci on a.city_id = ci.city_id
-join country as ct on ci.country_id = ct.country_id
-where c.first_name like 'J%' and c.last_name like 'W%'
-"""
+    code = """
+import sys
+import pathlib
+
+this_path = pathlib.Path(__file__).parent
+
+@decorator(param=1)
+def nested_func(y):
+    print(y + 1)
+
+s = ("Test", 2+3, {'a': 'b'}, f'{x!s:{"^10"}}')   # Comment
+f(s[0].lower())
+nested_func(42)
+
+class Foo:
+    tags: List[str]
+
+    def __init__(self: Foo):
+        byte_string: bytes = b'newline:\n also newline:\x0a'
+        normal_string: str = "Hello World!"
+        self.make_sense(whatever=1)
+    
+    def make_sense[T](self, whatever: T):
+        self.sense = whatever
+
+x = len('abc')
+type my_int = int
+print(f.__doc__)
+    """
+
     from PyQt6.QtWidgets import QTextEdit, QApplication
+    import sys
 
     app = QApplication([])
     editor = QTextEdit()
-    hl = SqlSyntaxHighlighter(editor.document())
-    hl.highlightBlock(txt)
+    hl = PythonSyntaxHighlighter(editor.document())
+    hl.highlightBlock(code)
+    editor.setText(code)
+    editor.show()
+    sys.exit(app.exec())

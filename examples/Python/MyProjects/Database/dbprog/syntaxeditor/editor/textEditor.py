@@ -8,7 +8,10 @@ class TextEditor(QTextEdit):
 
     def __init__(self):
         super(QTextEdit, self).__init__()
-        self.editor_font = QFont("The Sans Mono-, SF Mono, Consolas, Monospace", 10)
+        self.editor_font = QFont(
+            "The Sans Mono-, SF Mono, Consolas, Monospace",
+            10,
+        )
         self.setFont(self.editor_font)
         # self tabstops to 4 spaces
         self.tabstops = 4
@@ -16,8 +19,9 @@ class TextEditor(QTextEdit):
         font = self.font()
         fontMetrics = QFontMetrics(font)
         spaceWidth = fontMetrics.averageCharWidth()
+        # lineHeight = fontMetrics.lineSpacing() * 1.5
         self.setTabStopDistance(spaceWidth * 4)
-        # set linespacing to 1.5 times
+        # set line spacing to 1.5 times
         self.setStyleSheet("line-height: 150%;")
         self.setMinimumSize(100, 100)
 
@@ -32,15 +36,13 @@ class TextEditor(QTextEdit):
                 indentation += self.tabstops if current_line[i] == "\t" else 0
                 spacesText += current_line[i]
                 i += 1
-            # spaces = " " * indentation
-            # self.insertPlainText(f"\n{spaces}")
-            self.insertPlainText(f"\n{spacesText}")
-            # move the cursor by indentation
-            # cursor.movePosition(
-            #     QTextCursor.MoveOperation.Right,
-            #     QTextCursor.MoveMode.MoveAnchor,
-            #     indentation,
-            # )
+        self.insertPlainText(f"\n{spacesText}")
+        # move the cursor by indentation
+        # cursor.movePosition(
+        #     QTextCursor.MoveOperation.Right,
+        #     QTextCursor.MoveMode.MoveAnchor,
+        #     indentation,
+        # )
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_Return:
