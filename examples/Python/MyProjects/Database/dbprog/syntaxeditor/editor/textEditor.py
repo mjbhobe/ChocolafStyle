@@ -18,9 +18,9 @@ class TextEditor(QTextEdit):
         self.autoindent = True
         font = self.font()
         fontMetrics = QFontMetrics(font)
-        spaceWidth = fontMetrics.averageCharWidth()
+        self.spaceWidth = fontMetrics.averageCharWidth()
         # lineHeight = fontMetrics.lineSpacing() * 1.5
-        self.setTabStopDistance(spaceWidth * 4)
+        self.setTabStopDistance(self.spaceWidth * self.tabstops)
         # set line spacing to 1.5 times
         self.setStyleSheet("line-height: 150%;")
         self.setMinimumSize(100, 100)
@@ -37,12 +37,6 @@ class TextEditor(QTextEdit):
                 spacesText += current_line[i]
                 i += 1
         self.insertPlainText(f"\n{spacesText}")
-        # move the cursor by indentation
-        # cursor.movePosition(
-        #     QTextCursor.MoveOperation.Right,
-        #     QTextCursor.MoveMode.MoveAnchor,
-        #     indentation,
-        # )
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_Return:

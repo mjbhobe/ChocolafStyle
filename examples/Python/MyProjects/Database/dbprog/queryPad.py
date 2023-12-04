@@ -1,5 +1,6 @@
 """
-queryPad: a PostgreSQL query application with a SQL syntax editor (very basic)
+queryPad: a PostgreSQL query application with a very basic SQL syntax editor.
+
 @author: Manish Bhobe
 This code is released for research purposed only. Please use at your own risk!
 """
@@ -14,6 +15,8 @@ from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtSql import *
+
+import chocolaf
 
 from syntaxeditor import TextEditor, SqlSyntaxHighlighter
 
@@ -43,25 +46,12 @@ class MainWindow(QWidget):
         run_icon_path = pathlib.Path(__file__).parent / "play.png"
         self.runAction = QAction(QIcon(str(run_icon_path)), "&Run Query", self)
         self.runAction.setShortcut("Ctrl+R")
-        # # self.runAction.setIcon(QIcon(":/run.png"))
         self.runAction.setStatusTip("Run Query")
         self.runAction.triggered.connect(self.run_query)
 
-        # self.query_edit = QTextEdit()  # QLineEdit()
-        # editor_font = QFont("Monospace", 10)
-        # editor_font.setHintingPreference(QFont.HintingPreference.PreferFullHinting)
-        # self.query_edit.setFont(editor_font)
-        # # set tabstops to 4 spaces
-        # font = self.query_edit.font()
-        # fontMetrics = QFontMetrics(font)
-        # spaceWidth = fontMetrics.averageCharWidth()
-        # self.query_edit.setTabStopDistance(spaceWidth * 4)
-        # # set linespacing to 1.5 times
-        # self.query_edit.setStyleSheet("line-height: 200%;")
         self.query_edit = TextEditor()
 
         self.highlighter = SqlSyntaxHighlighter(self.query_edit.document())
-        # self.highlighter.set_parent(self.query_edit)
         self.query_edit.setPlaceholderText(
             "Enter your SQL query here and press Ctrl+R to run..."
         )
@@ -69,8 +59,6 @@ class MainWindow(QWidget):
 
         self.run_query_button = ActionBtn(self.runAction)  # QPushButton("Run Query")
         self.run_query_button.setEnabled(False)
-        # self.run_query_button.setAction(self.runAction)
-        # self.run_query_button.clicked.connect(self.run_query)
 
         # setup a shortcut
         self.execQuery = QShortcut("Ctrl+R", self)
@@ -101,12 +89,6 @@ class MainWindow(QWidget):
 
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.splitter)
-        # self.addWidget(self.splitter)
-
-        # self.layout = QGridLayout()
-        # self.layout.addWidget(self.query_edit, 0, 0, 1, 2)
-        # self.layout.addWidget(self.run_query_button, 1, 0)
-        # self.layout.addWidget(self.results_table, 2, 0, 1, 2)
 
         self.setLayout(self.layout)
 
@@ -115,7 +97,7 @@ class MainWindow(QWidget):
         if config_path.exists():
             parser = ConfigParser()
             parser.read(str(config_path))
-            # connection_params = {}
+            # read connection params from config file
             section_name = "postgres_dvdrental"
             if parser.has_section(section_name):
                 conn = QSqlDatabase.addDatabase("QPSQL", "postgres_dvdrental")
@@ -156,7 +138,10 @@ class MainWindow(QWidget):
         return msgBox.exec()
 
     def run_query(self):
-        # query_text = self.query_edit.text().strip()
+        """
+        run query entered in the text box - if there is a selection,
+        execute the selection else run entire content
+        """
 
         # if text is selected, execure selected text,
         # else execute all the text in query_text widget
@@ -179,9 +164,6 @@ class MainWindow(QWidget):
 
         # Execute the query
         if not query.exec(query_text):
-            # self.show_fatal_message(
-            #     f"Could not execute query: {}"
-            # )
             return self.show_fatal_message(query.lastError().text())
 
         # Get the column names
@@ -231,8 +213,10 @@ class MainWindow(QWidget):
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    app.setStyle("Fusion")
+    chocolaf.enable_hi_dpi()
+    app = chocolaf.ChocolafApp(sys.argv)
+    # app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     window = MainWindow()
     window.show()

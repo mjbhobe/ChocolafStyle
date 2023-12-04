@@ -15,11 +15,28 @@ from PyQt5.QtWidgets import *
 import chocolaf
 from chocolaf.utils.chocolafapp import ChocolafApp
 
-FRUITS = ["Banana", "Apple", "Elderberry", "Clementine", "Fig",
-          "Guava", "Mango", "Honeydew Melon", "Date", "Watermelon",
-          "Tangerine", "Ugli Fruit", "Juniperberry", "Kiwi",
-          "Lemon", "Nectarine", "Plum", "Raspberry", "Strawberry",
-          "Orange"]
+FRUITS = [
+    "Banana",
+    "Apple",
+    "Elderberry",
+    "Clementine",
+    "Fig",
+    "Guava",
+    "Mango",
+    "Honeydew Melon",
+    "Date",
+    "Watermelon",
+    "Tangerine",
+    "Ugli Fruit",
+    "Juniperberry",
+    "Kiwi",
+    "Lemon",
+    "Nectarine",
+    "Plum",
+    "Raspberry",
+    "Strawberry",
+    "Orange",
+]
 
 
 class Form(QWidget):

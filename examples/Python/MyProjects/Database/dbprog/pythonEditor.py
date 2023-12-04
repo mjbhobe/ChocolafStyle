@@ -1,14 +1,17 @@
+"""
+pythonEditor.py: simple syntax highlighting Python text editor that implements
+    auto-indentation, smart-indentation
+@author: Manish Bhobe
+My Experiments with Python, Machine Learning, and Deep Learning
+Code is distributed as-is for learning purposed only. Please use at your own risk.
+"""
 import sys
 import pathlib
-from configparser import ConfigParser
-import datetime
 
-from PyQt6.QtCore import Qt, QLocale, QRegularExpression
-from PyQt6.QtGui import *
+from PyQt6.QtGui import QPalette
 from PyQt6.QtWidgets import *
-from PyQt6.QtSql import *
 
-from syntaxeditor import TextEditor, PythonSyntaxHighlighter
+from syntaxeditor import PythonTextEditor, PythonSyntaxHighlighter
 
 
 class MainWindow(QMainWindow):
@@ -18,7 +21,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Python Syntax Editor")
         self.resize(800, 600)
 
-        self.pythonEditor = TextEditor()
+        self.pythonEditor = PythonTextEditor()
         self.highlighter = PythonSyntaxHighlighter(self.pythonEditor.document())
 
         self.setCentralWidget(self.pythonEditor)

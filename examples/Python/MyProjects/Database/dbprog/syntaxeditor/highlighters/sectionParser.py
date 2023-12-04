@@ -1,12 +1,28 @@
 """ sectionParser.py: utility class to parse a section of the syntax.ini """
-import sys
 import os
 import pathlib
-import darkdetect  # to detect if OS is using dark theme
 from configparser import ConfigParser
+import math
 
-from PyQt6.QtCore import Qt, QLocale, QRegularExpression
 from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+
+
+def osIsUsingDarkTheme():
+    """
+    utility function to determine if current OS theme is light or dark
+    @see: https://stackoverflow.com/questions/65294987/detect-os-dark-mode-in-python
+    """
+    color = QApplication.instance().palette().base().color()
+    theme: str = ""
+    r, g, b, a = color.getRgb()
+    hsp = math.sqrt((0.241 * r * r) + (0.691 * g * g) + (0.068 * b * b))
+    if hsp > 127.5:
+        theme = "light"
+    else:
+        theme = "dark"
+
+    return theme == "dark"
 
 
 def parseSection(section: str, subkey: str) -> (str, QTextCharFormat):
@@ -43,7 +59,7 @@ def parseSection(section: str, subkey: str) -> (str, QTextCharFormat):
             subkey_pat = subkey_pat[: len(subkey_pat) - 1]
 
     formatter = None
-    if darkdetect.isDark():
+    if osIsUsingDarkTheme():
         subkey_color_style = parser.get(
             section, f"{subkey}_color_style_dark", fallback=None
         )
