@@ -73,8 +73,9 @@ class PythonSyntaxHighlighter(QSyntaxHighlighter):
                 # triple quoted strings
                 # NOTE: these can span multiple lines
                 QRegularExpression(
-                    r'\'\'\'(.*?)\'\'\'|"""(.*?)"""',
-                    QRegularExpression.PatternOption.DotMatchesEverythingOption,
+                    r"(\'\'\'|\"\"\")[\s\S]*?\1",
+                    QRegularExpression.PatternOption.DotMatchesEverythingOption
+                    | QRegularExpression.PatternOption.MultilineOption,
                 ),
                 self.string_format,
             ),

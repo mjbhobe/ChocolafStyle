@@ -28,6 +28,7 @@ class MainWindow(QMainWindow):
 
         # open this file & show
         this_file_path = pathlib.Path(__file__)
+        this_file_path = "/tmp/scratch.py"
         with open(str(this_file_path)) as f:
             text = f.read()
             self.pythonEditor.setText(text)
