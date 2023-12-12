@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-* randomPoints.py - random points in client area of window
+* mouseDraw1.py - draw squiggles in a window with mouse
 * 
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
@@ -58,7 +58,7 @@ class MainWindow(QMainWindow):
         e.accept()
 
     def mouseMoveEvent(self, e: QMouseEvent):
-        if ((e.buttons() == Qt.LeftButton) and (self.dragging)):
+        if (e.buttons() == Qt.LeftButton) and (self.dragging):
             painter = QPainter(self.label.pixmap())
             try:
                 painter.setRenderHint(QPainter.Antialiasing, True)

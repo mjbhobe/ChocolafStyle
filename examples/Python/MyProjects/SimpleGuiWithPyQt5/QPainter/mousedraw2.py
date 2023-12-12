@@ -32,9 +32,25 @@ STYLE_SHEET = """
 
 COLORS = [
     # 17 undertones https://lospec.com/palette-list/17undertones
-    '#000000', '#141923', '#414168', '#3a7fa7', '#35e3e3', '#8fd970', '#5ebb49',
-    '#458352', '#dcd37b', '#fffee5', '#ffd035', '#cc9245', '#a15c3e', '#a42f3b',
-    '#f45b7a', '#c24998', '#81588d', '#bcb0c2', '#ffffff',
+    "#000000",
+    "#141923",
+    "#414168",
+    "#3a7fa7",
+    "#35e3e3",
+    "#8fd970",
+    "#5ebb49",
+    "#458352",
+    "#dcd37b",
+    "#fffee5",
+    "#ffd035",
+    "#cc9245",
+    "#a15c3e",
+    "#a42f3b",
+    "#f45b7a",
+    "#c24998",
+    "#81588d",
+    "#bcb0c2",
+    "#ffffff",
 ]
 
 
@@ -72,7 +88,7 @@ class Canvas(QLabel):
         e.accept()
 
     def mouseMoveEvent(self, e: QMouseEvent):
-        if ((e.buttons() == Qt.LeftButton) and (self.dragging)):
+        if (e.buttons() == Qt.LeftButton) and (self.dragging):
             painter = QPainter(self.pixmap())
             try:
                 painter.setRenderHint(QPainter.Antialiasing, True)

@@ -8,7 +8,7 @@ from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 
 
-def osIsUsingDarkTheme():
+def usingDarkTheme() -> bool:
     """
     utility function to determine if current OS theme is light or dark
     @see: https://stackoverflow.com/questions/65294987/detect-os-dark-mode-in-python
@@ -17,16 +17,14 @@ def osIsUsingDarkTheme():
     theme: str = ""
     r, g, b, a = color.getRgb()
     hsp = math.sqrt((0.241 * r * r) + (0.691 * g * g) + (0.068 * b * b))
-    if hsp > 127.5:
-        theme = "light"
-    else:
-        theme = "dark"
-
-    return theme == "dark"
+    # theme = "light" if hsp > 127.5 else "dark"
+    # return theme == "dark"
+    return hsp <= 127.5
 
 
 def parseSection(section: str, subkey: str) -> (str, QTextCharFormat):
-    """parses subkeys in a section of the syntax.cfg file
+    """parses entries under 'subkey' of a 'section' of the syntax.cfg file,
+        which follows the INI file format
     @params:
         section: the section to look under
         subkey: the subkey whose values are to be parsed
@@ -59,7 +57,7 @@ def parseSection(section: str, subkey: str) -> (str, QTextCharFormat):
             subkey_pat = subkey_pat[: len(subkey_pat) - 1]
 
     formatter = None
-    if osIsUsingDarkTheme():
+    if usingDarkTheme():
         subkey_color_style = parser.get(
             section, f"{subkey}_color_style_dark", fallback=None
         )

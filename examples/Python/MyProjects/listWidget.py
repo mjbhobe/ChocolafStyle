@@ -46,7 +46,8 @@ class ListWidgetWindow(QWidget):
 if __name__ == "__main__":
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # app.setStyle("Chocolaf")
+    app.setStyle("Fusion")
 
     win = ListWidgetWindow()
     win.show()

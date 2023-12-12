@@ -49,7 +49,7 @@ class ToDoModel(QAbstractListModel):
         if role == Qt.DecorationRole:
             # what decorations/annotations to add during display
             if status:
-                return TICK_IMAGE # show tick is status = True (or To Do is complete)
+                return TICK_IMAGE  # show tick is status = True (or To Do is complete)
 
     def rowCount(self, index):
         return len(self.todos)
@@ -60,7 +60,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.ui = uic.loadUi(os.path.join(APP_PATH, "mainwindow.ui"))
         self.model = ToDoModel()
-        self.load() # load the ToDos
+        self.load()  # load the ToDos
         self.ui.todoView.setModel(self.model)
         self.ui.addButton.clicked.connect(self.addToDo)
         self.ui.deleteButton.clicked.connect(self.deleteToDo)
@@ -114,15 +114,14 @@ class MainWindow(QMainWindow):
             self.ui.todoView.clearSelection()
             self.save()
 
-
     def show(self):
         self.ui.show()
 
 
 if __name__ == "__main__":
     app = ChocolafApp(sys.argv)
-    #app.setStyle("Fusion")
-    app.setStyle("Chocolaf")
+    app.setStyle("Fusion")
+    # app.setStyle("Chocolaf")
 
     win = MainWindow()
     win.show()

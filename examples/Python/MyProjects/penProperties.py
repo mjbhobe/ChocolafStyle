@@ -27,8 +27,9 @@ class PenPropertiesDlg(QDialog):
         self.styleLabel = QLabel("&Style:")
         self.styleComboBox = QComboBox()
         self.styleLabel.setBuddy(self.styleComboBox)
-        self.styleComboBox.addItems(["Solid", "Dashed", "Dotted",
-                                     "DashDotted", "DashDotDotted"])
+        self.styleComboBox.addItems(
+            ["Solid", "Dashed", "Dotted", "DashDotted", "DashDotDotted"]
+        )
         # self.okButton = QPushButton("&OK")
         # self.cancelButton = QPushButton("Cancel")
         self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -47,7 +48,7 @@ class PenPropertiesDlg(QDialog):
         layout.addWidget(self.beveledCheckBox, 0, 2)
         layout.addWidget(self.styleLabel, 1, 0)
         layout.addWidget(self.styleComboBox, 1, 1, 1, 2)
-        #layout.addLayout(buttonLayout, 2, 0, 1, 3)
+        # layout.addLayout(buttonLayout, 2, 0, 1, 3)
         layout.addWidget(self.buttonBox, 3, 0, 1, 3)
 
         self.setLayout(layout)
@@ -77,16 +78,19 @@ def loadStyleSheet() -> str:
 def main():
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # app.setStyle("Chocolaf")
+    app.setStyle("Fusion")
 
     dialog = PenPropertiesDlg(None)
     dialog.widthSpinBox.setValue(2)
     dialog.beveledCheckBox.setChecked(True)
     dialog.styleComboBox.setCurrentIndex(4)
     if dialog.exec() == QDialog.Accepted:
-        print(f"Pen properties -> width: {dialog.widthSpinBox.value()} - " +
-              f"beveled? : {'Yes' if dialog.beveledCheckBox.isChecked() else 'No'} - " +
-              f"style: {dialog.styleComboBox.currentText()}")
+        print(
+            f"Pen properties -> width: {dialog.widthSpinBox.value()} - "
+            + f"beveled? : {'Yes' if dialog.beveledCheckBox.isChecked() else 'No'} - "
+            + f"style: {dialog.styleComboBox.currentText()}"
+        )
     else:
         print("You CANCELLED the dialog")
 

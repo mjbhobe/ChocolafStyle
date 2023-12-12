@@ -98,6 +98,14 @@ def main():
     win1.move(rect.left() + rect.width() + 20, rect.top())
     win1.show()
 
+    rect = win1.geometry()
+    app.setStyle("Fusion")
+    win2 = Window()
+    # win1.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
+    win2.setWindowTitle("Fusion style")
+    win2.move(rect.left() + rect.width() + 20, rect.top())
+    win2.show()
+
     return app.exec()
 
 

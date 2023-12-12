@@ -7,11 +7,14 @@ import yfinance as yf
 # print(plt.style.available)
 # sys.exit(-1)
 
-START_DATE, END_DATE = "1990-01-01", "2023-07-14"
+START_DATE, END_DATE = "1990-01-01", "2023-12-11"
 
 
 def download_stock_prices(
-    symbol: str, from_date: str = START_DATE, to_date: str = END_DATE, interval: str = "1d"
+    symbol: str,
+    from_date: str = START_DATE,
+    to_date: str = END_DATE,
+    interval: str = "1d",
 ) -> pd.DataFrame:
     # download AAPL stock price
     stock_df = yf.download(
@@ -75,7 +78,11 @@ def adjust_prices_for_inflation(
     # join the stock data with CPI
     # NOTE: CPI data is published monthly!
     df_dates = pd.DataFrame(index=pd.date_range(start=from_date, end=to_date))
-    df2 = df_dates.join(stock_df["Adj_Close"], how="left").fillna(method="ffill").asfreq("M")
+    df2 = (
+        df_dates.join(stock_df["Adj_Close"], how="left")
+        .fillna(method="ffill")
+        .asfreq("M")
+    )
     df2 = df2.join(df_cpi, how="left")
 
     # calculate returns on Adj_Close & CPI cols

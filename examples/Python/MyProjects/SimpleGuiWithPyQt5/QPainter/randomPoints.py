@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
         # get center of client area
         rc = self.rect()
         x0, y0 = rc.width() // 2, rc.height() // 2
-        colors = ['#FFD141', '#376F9F', '#0D1F2D', '#E9EBEF', '#EB5160']
+        colors = ["#FFD141", "#376F9F", "#0D1F2D", "#E9EBEF", "#EB5160"]
         pen = QPen()
         pen.setWidth(3)
         painter.setPen(pen)

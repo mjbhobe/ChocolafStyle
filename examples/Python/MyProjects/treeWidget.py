@@ -18,8 +18,9 @@ from PyQt5.QtWidgets import *
 import chocolaf
 from chocolaf.utils.chocolafapp import ChocolafApp
 
+
 class TreeWidgetWindow(QWidget):
-    def __init__(self, parent: QWidget=None):
+    def __init__(self, parent: QWidget = None):
         super(TreeWidgetWindow, self).__init__(parent)
         self.treeWidget = QTreeWidget()
         self.setupUi()
@@ -47,14 +48,14 @@ class TreeWidgetWindow(QWidget):
         treeItem.setText(1, description)
         parent.addChild(treeItem)
 
+
 if __name__ == "__main__":
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    # app.setStyle("Fusion")
-    app.setStyle("Chocolaf")
+    app.setStyle("Fusion")
+    # app.setStyle("Chocolaf")
 
     win = TreeWidgetWindow()
     win.show()
 
     sys.exit(app.exec())
-        

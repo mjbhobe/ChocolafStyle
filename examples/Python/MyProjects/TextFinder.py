@@ -17,15 +17,15 @@ import TextFinderForm
 class TextFinder(QWidget):
     def __init__(self):
         super(TextFinder, self).__init__()
-        self.setWindowTitle(f'Text Finder Demo: PyQt {PYQT_VERSION_STR}')
+        self.setWindowTitle(f"Text Finder Demo: PyQt {PYQT_VERSION_STR}")
         p = pathlib.Path(__file__)
         uiFilePath = os.path.join(os.path.split(str(p))[0], "TextFinder.ui")
         self.ui = uic.loadUi(uiFilePath, self)
         self.loadTextFile()
         # self.ui.textEdit.setEnabled(False)
         self.ui.textEdit.setReadOnly(True)
-        editorFontPointSize = ChocolafApp.pixelsToPoints(15)
-        editorFont = QFont("Consolas, Monospace", editorFontPointSize)
+        editorFontPointSize = ChocolafApp.pixelsToPoints(14)
+        editorFont = QFont("Monospace", editorFontPointSize)
         editorFont.setStyleHint(QFont.TypeWriter)
         # self.ui.textEdit.setFont(QFont("Noto Mono, Source Code Pro, Consolas, SF Mono, Monospace", 10))
         self.ui.textEdit.setFont(editorFont)
@@ -38,16 +38,19 @@ class TextFinder(QWidget):
         if filePath is None:
             p = pathlib.Path(__file__)
             filePath = os.path.join(os.path.split(str(p))[0], "input.txt")
-        with open(filePath, 'r') as f:
-            lines = ''.join(f.readlines())  # convert list to str
+        with open(filePath, "r") as f:
+            lines = "".join(f.readlines())  # convert list to str
             # lines = ''.join(lines)
             self.ui.textEdit.setText(lines)
 
     def openButtonClicked(self):
         docsPath = QStandardPaths.standardLocations(QStandardPaths.DocumentsLocation)
-        filePath = QFileDialog.getOpenFileName(self, "Open File",
-                                               docsPath[-1],
-                                               "Text Files (*.txt *.c *.cpp *.h *.hxx *.py *.java *.bat *.sh)")
+        filePath = QFileDialog.getOpenFileName(
+            self,
+            "Open File",
+            docsPath[-1],
+            "Text Files (*.txt *.c *.cpp *.h *.hxx *.py *.java *.bat *.sh)",
+        )
         if filePath:
             self.loadTextFile(filePath[0])
 
@@ -65,10 +68,14 @@ class TextFinder(QWidget):
         elif (not caseSensitive) and wholeWordsOnly:
             findFlags = QTextDocument.FindWholeWords
         elif caseSensitive and wholeWordsOnly:
-            findFlags = QTextDocument.FindCaseSensitively or QTextDocument.FindWholeWords
+            findFlags = (
+                QTextDocument.FindCaseSensitively or QTextDocument.FindWholeWords
+            )
 
         if not (self.ui.textEdit.find(searchString, findFlags)):
-            QMessageBox.information(self, "Search", f"No more occurances of <b>{searchString}</b>")
+            QMessageBox.information(
+                self, "Search", f"No more occurances of <b>{searchString}</b>"
+            )
 
 
 def loadStyleSheet() -> str:

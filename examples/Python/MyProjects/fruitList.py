@@ -98,7 +98,8 @@ def loadStyleSheet() -> str:
 def main():
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # app.setStyle("Chocolaf")
+    app.setStyle("Fusion")
 
     form = Form()
     form.move(100, 100)
