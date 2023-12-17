@@ -1,18 +1,18 @@
 #ifndef FISHINGSTORESETUPDB_H
 #define FISHINGSTORESETUPDB_H
 
-#include <pqxx/pqxx>
 #include <QObject>
+#include <pqxx/pqxx>
 
 class FishingStoreSetupDb : public QObject {
-   Q_OBJECT
+  Q_OBJECT
 public:
-   static void createDbObjects(pqxx::connection &conn);
-   static void populateDb(pqxx::connection &conn);
+  static void createDbObjects(pqxx::connection &conn);
+  static void populateDb(pqxx::connection &conn);
 
 protected:
-   static void dropTables(pqxx::connection &conn);
-   static void createTables(pqxx::connection &conn);
+  static void dropTables(pqxx::connection &conn);
+  static void createTables(pqxx::connection &conn);
 
 signals:
 };

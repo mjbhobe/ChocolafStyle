@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'listDialog.ui'
 **
-** Created by: Qt User Interface Compiler version 6.4.0
+** Created by: Qt User Interface Compiler version 5.15.11
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -35,31 +35,31 @@ public:
     void setupUi(QDialog *ListDialog)
     {
         if (ListDialog->objectName().isEmpty())
-            ListDialog->setObjectName("ListDialog");
+            ListDialog->setObjectName(QString::fromUtf8("ListDialog"));
         ListDialog->resize(400, 300);
         gridLayout = new QGridLayout(ListDialog);
-        gridLayout->setObjectName("gridLayout");
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         list = new QListWidget(ListDialog);
-        list->setObjectName("list");
+        list->setObjectName(QString::fromUtf8("list"));
         list->setFrameShape(QFrame::StyledPanel);
         list->setFrameShadow(QFrame::Sunken);
 
         gridLayout->addWidget(list, 0, 0, 1, 1);
 
         verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName("verticalLayout");
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         addButton = new QPushButton(ListDialog);
-        addButton->setObjectName("addButton");
+        addButton->setObjectName(QString::fromUtf8("addButton"));
 
         verticalLayout->addWidget(addButton);
 
         editButton = new QPushButton(ListDialog);
-        editButton->setObjectName("editButton");
+        editButton->setObjectName(QString::fromUtf8("editButton"));
 
         verticalLayout->addWidget(editButton);
 
         deleteButton = new QPushButton(ListDialog);
-        deleteButton->setObjectName("deleteButton");
+        deleteButton->setObjectName(QString::fromUtf8("deleteButton"));
 
         verticalLayout->addWidget(deleteButton);
 
@@ -68,7 +68,7 @@ public:
         verticalLayout->addItem(verticalSpacer);
 
         clearButton = new QPushButton(ListDialog);
-        clearButton->setObjectName("clearButton");
+        clearButton->setObjectName(QString::fromUtf8("clearButton"));
 
         verticalLayout->addWidget(clearButton);
 
@@ -81,7 +81,7 @@ public:
         QWidget::setTabOrder(deleteButton, clearButton);
 
         retranslateUi(ListDialog);
-        QObject::connect(clearButton, &QPushButton::clicked, list, qOverload<>(&QListWidget::clear));
+        QObject::connect(clearButton, SIGNAL(clicked()), list, SLOT(clear()));
 
         QMetaObject::connectSlotsByName(ListDialog);
     } // setupUi

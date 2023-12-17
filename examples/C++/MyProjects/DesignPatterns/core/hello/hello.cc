@@ -2,6 +2,7 @@
 #include <QtCore>
 #include <cstdlib>
 
+// NOTE: DO NOT include <iostream> header!!
 static QTextStream cout(stdout, QIODevice::WriteOnly);
 
 int main(int argc, char **argv) {

@@ -17,7 +17,7 @@
 
 const QString AppTitle("Qt Scribble");
 
-int main(int argc, char** argv)
+int main(int argc, char** argv) 
 {
     Chocolaf::ChocolafApp::setupForHighDpiScreens();
     // Chocolaf::ChocolafApp app(argc, argv);

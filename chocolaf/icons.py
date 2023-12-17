@@ -51,6 +51,7 @@ class _ChocolafIconsCache(QObject):
         self.icons_map["Edit_Delete"] = self.Edit_Delete_Icon
         self.icons_map["Edit_SelectAll"] = self.Edit_SelectAll_Icon
 
+        # message box related icons
         self.Ok_Icon = qta.icon("fa5s.check")
         self.Cancel_Icon = qta.icon("mdi6.close-thick")
         self.Exclamation_Icon = qta.icon("fa5s.exclamation")
@@ -62,7 +63,7 @@ class _ChocolafIconsCache(QObject):
         self.icons_map["MsgBox_Information"] = self.Information_Icon
         self.icons_map["MsgBox_Help"] = self.Help_Icon
 
-        # alignment
+        # alignment icons (used for shapes)
         self.Align_Left_Icon = qta.icon("mdi6.align-horizontal-left")
         self.Align_Right_Icon = qta.icon("mdi6.align-horizontal-right")
         self.Align_Top_Icon = qta.icon("mdi6.align-vertical-top")
@@ -80,6 +81,7 @@ class _ChocolafIconsCache(QObject):
         self.icons_map["Align_HDistribute"] = self.Align_HDistribute_Icon
         self.icons_map["Align_VDistrubute"] = self.Align_VDistribute_Icon
 
+        # format alignment (align text left, right, centered etc.)
         self.Format_AlignLeft_Icon = qta.icon("mdi6.format-align-left")
         self.Format_AlignCenter_Icon = qta.icon("mdi6.format-align-center")
         self.Format_AlignRight_Icon = qta.icon("mdi6.format-align-right")
@@ -89,7 +91,7 @@ class _ChocolafIconsCache(QObject):
         self.icons_map["Format_AlignRight"] = self.Format_AlignRight_Icon
         self.icons_map["Format_AlignJustify"] = self.Format_AlignJustify_Icon
 
-        # search
+        # search & replace
         self.Search_Find_Icon = qta.icon("mdi6.magnify")
         self.Search_FindFile_Icon = qta.icon("mdi6.file-find-outline")
         self.Search_Replace_Icon = qta.icon("mdi6.find-replace")
@@ -146,7 +148,7 @@ class _ChocolafIconsCache(QObject):
         self.icons_map["Chevron_Down"] = self.Navig_ChevronDown_Icon
         self.icons_map["ChevronDouble_Down"] = self.Navig_ChevronDoubleDown_Icon
 
-        # rotation
+        # rotation (usually for shapes)
         self.Rotate_Left_Icon = qta.icon("mdi6.rotate-left")
         self.Rotate_Right_Icon = qta.icon("mdi6.rotate-right")
         self.Flip_Left_Icon = qta.icon("mdi6.rotate-left-variant")
@@ -156,7 +158,7 @@ class _ChocolafIconsCache(QObject):
         self.icons_map["Flip_Left"] = self.Flip_Left_Icon
         self.icons_map["Flip_Right"] = self.Flip_Right_Icon
 
-        # tools
+        # tools (miscellaneous tools for drawing apps)
         self.Tools_Pencil_Icon = qta.icon("mdi.pencil")
         self.Tools_Brush_Icon = qta.icon("ph.paint-brush")
         self.Tools_Palette_Icon = qta.icon("mdi6.palette")
@@ -164,6 +166,61 @@ class _ChocolafIconsCache(QObject):
         self.icons_map["Tools_Pencil"] = self.Tools_Pencil_Icon
         self.icons_map["Tools_Brush"] = self.Tools_Brush_Icon
         self.icons_map["Tools_Palette"] = self.Tools_Palette_Icon
+
+        # shapes (for drawing apps)
+        self.Shapes_Rectangle_Icon = qta.icon("mdi6.rectangle")
+        self.Shapes_Empty_Rectangle_Icon = qta.icon("mdi6.rectangle-outline")
+        self.Shapes_Rounded_Rectangle_Icon = qta.icon("mdi6.square-rounded")
+        self.Shapes_Empty_Rounded_Rectangle_Icon = qta.icon(
+            "mdi6.square-rounded-outline"
+        )
+        self.Shapes_Circle_Icon = qta.icon("fa5s.circle")
+        self.Shapes_Empty_Circle_Icon = qta.icon("fa5.circle")
+        self.Shapes_Ellipse_Icon = qta.icon("mdi6.ellipse")
+        self.Shapes_Empty_Ellipse_Icon = qta.icon("mdi6.ellipse-outline")
+
+        self.icons_map["Shapes_Rectangle"] = self.Shapes_Rectangle_Icon
+        self.icons_map["Shapes_Empty_Rectangle"] = self.Shapes_Empty_Rectangle_Icon
+        self.icons_map["Shapes_Rounded_Rectangle"] = self.Shapes_Rounded_Rectangle_Icon
+        self.icons_map[
+            "Shapes_Empty_Rounded_Rectangle"
+        ] = self.Shapes_Empty_Rounded_Rectangle_Icon
+        self.icons_map["Shapes_Circle"] = self.Shapes_Circle_Icon
+        self.icons_map["Shapes_Empty_Circle"] = self.Shapes_Empty_Circle_Icon
+        self.icons_map["Shapes_Ellipse"] = self.Shapes_Ellipse_Icon
+        self.icons_map["Shapes_Empty_Ellipse"] = self.Shapes_Empty_Ellipse_Icon
+
+        # Database related
+        self.Db_Connect_Icon = qta.icon("mdi6.database-plus")
+        self.Db_Disconnect_Icon = qta.icon("mdi6.database-minus")
+        self.Db_Import_Icon = qta.icon("mdi6.database-import-outline")
+        self.Db_Export_Icon = qta.icon("mdi6.database-export-outline")
+        self.Db_Record_First_Icon = qta.icon("ei.fast-backward")
+        self.Db_Record_Prev_Icon = qta.icon("ei.chevron-left")
+        self.Db_Record_Next_Icon = qta.icon("ei.chevron-right")
+        self.Db_Record_Last_Icon = qta.icon("ei.fast-forward")
+        self.Db_Record_Add_Icon = qta.icon("ei.plus")
+        self.Db_Record_Delete_Icon = qta.icon("ei.minus")
+        self.Db_Record_Edit_Icon = qta.icon("ei.chevron-up")
+        self.Db_Record_Commit_Icon = qta.icon("ei.ok")
+        self.Db_Record_Rollback_Icon = qta.icon("fa5s.undo-alt")
+
+        self.icons_map["Db_Connect"] = self.Db_Connect_Icon
+        self.icons_map["Db_Disconnect"] = self.Db_Disconnect_Icon
+        self.icons_map["Db_Import"] = self.Db_Import_Icon
+        self.icons_map["Db_Export"] = self.Db_Export_Icon
+        self.icons_map["Db_Record_First"] = self.Db_Record_First_Icon
+        self.icons_map["Db_Record_Prev"] = self.Db_Record_Prev_Icon
+        self.icons_map["Db_Record_Next"] = self.Db_Record_Next_Icon
+        self.icons_map["Db_Record_Last"] = self.Db_Record_Last_Icon
+        self.icons_map["Db_Record_Add"] = self.Db_Record_Add_Icon
+        self.icons_map["Db_Record_Delete"] = self.Db_Record_Delete_Icon
+        self.icons_map["Db_Record_Edit"] = self.Db_Record_Edit_Icon
+        self.icons_map["Db_Record_Commit"] = self.Db_Record_Commit_Icon
+        self.icons_map["Db_Record_Rollback"] = self.Db_Record_Rollback_Icon
+
+    def __len__(self):
+        return len(self.icons_map)
 
     def get_icon(self, icon_key: str) -> qta.icon:
         if icon_key not in self.icons_map.keys():

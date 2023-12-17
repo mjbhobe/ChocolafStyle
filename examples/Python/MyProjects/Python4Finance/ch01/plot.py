@@ -4,11 +4,11 @@ import pandas as pd
 import yfinance as yf
 import matplotlib.pyplot as plt
 
-plt.style.use("seaborn-v0_8")
+plt.style.use("seaborn-v0_8-dark-palette")
 # print(plt.style.available)
 # sys.exit(-1)
 
-START_DATE, END_DATE = "2000-01-01", "2023-03-31"
+START_DATE, END_DATE = "2000-01-01", "2023-12-15"
 SYMBOLS = ["AAPL"]
 
 # download AAPL stock price
@@ -31,7 +31,7 @@ over time. For any time-series analysis, stock data series must be stationary. H
 convert the stock prices to returns, which have constant mean & variance over time.
 We have various types of returns
     Simple returns: aggregate over assets; simple returns of a portfolio is the weighted 
-      sum of returns ofindividual assets in the portfolio. 
+      sum of returns of individual assets in the portfolio. 
       It is calculated using formula below
             R[t] = (P[t] - P[t-1]) / P[t-1] = (P[t] / P[t-1]) - 1
     Log returns: aggregate over time & is calculated using formula below
@@ -51,7 +51,9 @@ print(df.head())
 # plot the data using traditional Matplotlib calls
 fig, ax = plt.subplots(3, 1, figsize=(24, 20), sharex=True)
 df.Adj_Close.plot(ax=ax[0])
-ax[0].set(title=f"MSFT time series: {START_DATE} - {END_DATE}", ylabel="Stock Price ($)")
+ax[0].set(
+    title=f"MSFT time series: {START_DATE} - {END_DATE}", ylabel="Stock Price ($)"
+)
 df.Simple_Rtn.plot(ax=ax[1])
 ax[1].set(ylabel="Simple Returns (%)")
 df.Log_Rtn.plot(ax=ax[2])
@@ -64,5 +66,10 @@ from plotly.offline import iplot, init_notebook_mode
 
 # set up configuration (run it once)
 # cf.set_config_file(world_readable=True, theme='pearl', offline=True)
-df.iplot(subplots=True, shape=(3, 1), shared_xaxes=True, title=f"MSFT time series: {START_DATE} - {END_DATE}")
+df.iplot(
+    subplots=True,
+    shape=(3, 1),
+    shared_xaxes=True,
+    title=f"MSFT time series: {START_DATE} - {END_DATE}",
+)
 # nit_notebook_mode()

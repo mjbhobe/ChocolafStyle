@@ -1,9 +1,9 @@
 """ hello.py - illustrates use of icons inside PyQt widgets """
 import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 import qtawesome as qta
 import chocolaf
 
@@ -29,27 +29,29 @@ class MainWindow(QMainWindow):
         self.setupUi()
 
     def createActions(self):
-        self.color_options = [{
-            'color': QColor(180, 180, 180),
-            'color_active': QColor(180, 180, 180),
-            'color_disabled': QColor(127, 127, 127),
-            'color_selected': QColor(220, 220, 220)
-        }]
-        self.cut_icon = qta.icon("mdi6.content-cut", options = self.color_options)
+        self.color_options = [
+            {
+                "color": QColor(180, 180, 180),
+                "color_active": QColor(180, 180, 180),
+                "color_disabled": QColor(127, 127, 127),
+                "color_selected": QColor(220, 220, 220),
+            }
+        ]
+        self.cut_icon = qta.icon("mdi6.content-cut", options=self.color_options)
         self.cut_action = QAction(self.cut_icon, "&Cut", self)
         self.cut_action.triggered.connect(self.edit_cut)
         self.cut_action.setShortcut(QKeySequence.StandardKey.Cut)
         self.cut_action.setStatusTip("Cut selection to clipboard")
         self.cut_action.setToolTip("Cut")
 
-        self.copy_icon = qta.icon("mdi6.content-copy", options = self.color_options)
+        self.copy_icon = qta.icon("mdi6.content-copy", options=self.color_options)
         self.copy_action = QAction(self.copy_icon, "C&opy", self)
         self.copy_action.triggered.connect(self.edit_copy)
         self.copy_action.setShortcut(QKeySequence.StandardKey.Copy)
         self.copy_action.setStatusTip("Copy selection to clipboard")
         self.copy_action.setToolTip("Copy")
 
-        self.paste_icon = qta.icon("mdi6.content-paste", options = self.color_options)
+        self.paste_icon = qta.icon("mdi6.content-paste", options=self.color_options)
         self.paste_action = QAction(self.paste_icon, "&Paste", self)
         self.paste_action.triggered.connect(self.edit_paste)
         self.paste_action.setShortcut(QKeySequence.StandardKey.Paste)
@@ -71,13 +73,13 @@ class MainWindow(QMainWindow):
         # self.editToolbar.setStyleSheet(STYLE_SHEET)
 
     def edit_cut(self):
-        self.label.setText("You selected the \'Cut\' option")
+        self.label.setText("You selected the 'Cut' option")
 
     def edit_copy(self):
-        self.label.setText("You selected the \'Copy\' option")
+        self.label.setText("You selected the 'Copy' option")
 
     def edit_paste(self):
-        self.label.setText("You selected the \'Paste\' option")
+        self.label.setText("You selected the 'Paste' option")
 
     def setupUi(self):
         self.createActions()
@@ -90,8 +92,8 @@ class MainWindow(QMainWindow):
         self.label = QLabel(f"Welcome to PyQt {PYQT_VERSION_STR}")
         self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        enable_icon = qta.icon("mdi6.check", color = "#25AD6B")
-        close_icon = qta.icon("mdi6.close-thick", color = "red")
+        enable_icon = qta.icon("mdi6.check", color="#25AD6B")
+        close_icon = qta.icon("mdi6.close-thick", color="red")
         self.enabledBtn = QPushButton(enable_icon, "Enabled")
         self.disabledBtn = QPushButton("Disabled")
         self.disabledBtn.setEnabled(False)

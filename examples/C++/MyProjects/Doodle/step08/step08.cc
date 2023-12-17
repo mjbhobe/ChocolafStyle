@@ -15,15 +15,15 @@ const QString AppTitle("Qt Scribble");
 
 int main(int argc, char **argv)
 {
-  QApplication app(argc, argv);
-  Chocolaf::setChocolafStyle(app, "Chocolaf");
+   QApplication app(argc, argv);
+   Chocolaf::setChocolafStyle(app, "Chocolaf");
 
-  app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
+   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
-  // create the GUI
-  MainWindow mainWindow;
-  Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
-  mainWindow.show();
+   // create the GUI
+   MainWindow mainWindow;
+   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
+   mainWindow.show();
 
-  return app.exec();
+   return app.exec();
 }

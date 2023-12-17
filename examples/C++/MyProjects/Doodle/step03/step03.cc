@@ -32,8 +32,6 @@ int main(int argc, char **argv) {
   DrawMainWindow mainWindow(drawWidget);
   mainWindow.setWindowTitle(WinTitle);
   mainWindow.setCentralWidget(drawWidget);
-  // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 /
-  // 5);
   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
   mainWindow.show();
 

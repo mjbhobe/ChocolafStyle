@@ -35,8 +35,7 @@ void DrawWindow::drawPoint(const QPoint &pt) {
   ostr << "(" << pt.x() << ", " << pt.y() << ")";
 
   QPainter painter(&_image);
-  QFont font("The Sans Mono-,Consolas, SF Mono, Source Code Pro, Monospace",
-             10);
+  QFont font("Monospace", 10);
   painter.setFont(font);
   // painter.setPen(getPaletteColor(QPalette::WindowText));
   // painter.setPen(Chocolaf::ChocolafPalette::WindowText_Color);

@@ -1,5 +1,6 @@
 // editDialog.cpp - EditDialog class implementation
 #include <QObject>
+#include <QString>
 #include "editDialog.h"
 
 EditDialog::EditDialog(QWidget* parent /*= nullptr*/) : QDialog(parent)

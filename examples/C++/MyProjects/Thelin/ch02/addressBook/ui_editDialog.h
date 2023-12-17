@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'editDialog.ui'
 **
-** Created by: Qt User Interface Compiler version 6.4.0
+** Created by: Qt User Interface Compiler version 5.15.11
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,7 +10,6 @@
 #define UI_EDITDIALOG_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAbstractButton>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QDialogButtonBox>
@@ -37,29 +36,29 @@ public:
     void setupUi(QDialog *EditDialog)
     {
         if (EditDialog->objectName().isEmpty())
-            EditDialog->setObjectName("EditDialog");
+            EditDialog->setObjectName(QString::fromUtf8("EditDialog"));
         EditDialog->resize(391, 117);
         verticalLayout = new QVBoxLayout(EditDialog);
-        verticalLayout->setObjectName("verticalLayout");
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         gridLayout = new QGridLayout();
-        gridLayout->setObjectName("gridLayout");
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         label = new QLabel(EditDialog);
-        label->setObjectName("label");
+        label->setObjectName(QString::fromUtf8("label"));
 
         gridLayout->addWidget(label, 0, 0, 1, 1);
 
         nameEdit = new QLineEdit(EditDialog);
-        nameEdit->setObjectName("nameEdit");
+        nameEdit->setObjectName(QString::fromUtf8("nameEdit"));
 
         gridLayout->addWidget(nameEdit, 0, 1, 1, 1);
 
         label_2 = new QLabel(EditDialog);
-        label_2->setObjectName("label_2");
+        label_2->setObjectName(QString::fromUtf8("label_2"));
 
         gridLayout->addWidget(label_2, 1, 0, 1, 1);
 
         numberEdit = new QLineEdit(EditDialog);
-        numberEdit->setObjectName("numberEdit");
+        numberEdit->setObjectName(QString::fromUtf8("numberEdit"));
 
         gridLayout->addWidget(numberEdit, 1, 1, 1, 1);
 
@@ -71,7 +70,7 @@ public:
         verticalLayout->addItem(verticalSpacer);
 
         buttonBox = new QDialogButtonBox(EditDialog);
-        buttonBox->setObjectName("buttonBox");
+        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
@@ -83,8 +82,8 @@ public:
 #endif // QT_CONFIG(shortcut)
 
         retranslateUi(EditDialog);
-        QObject::connect(buttonBox, &QDialogButtonBox::accepted, EditDialog, qOverload<>(&QDialog::accept));
-        QObject::connect(buttonBox, &QDialogButtonBox::rejected, EditDialog, qOverload<>(&QDialog::reject));
+        QObject::connect(buttonBox, SIGNAL(accepted()), EditDialog, SLOT(accept()));
+        QObject::connect(buttonBox, SIGNAL(rejected()), EditDialog, SLOT(reject()));
 
         QMetaObject::connectSlotsByName(EditDialog);
     } // setupUi
