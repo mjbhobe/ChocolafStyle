@@ -7,7 +7,8 @@ import chocolaf
 def main():
     # app = QApplication(sys.argv)
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("WindowsDark")
+    # app.setStyle("WindowsDark")
+    # app.setStyle("Fusion")
     # stylesheet = """
     #     QPushButton {
     #         min-height: 2em;

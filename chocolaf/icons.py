@@ -62,6 +62,10 @@ class _ChocolafIconsCache(QObject):
         self.icons_map["MsgBox_Exclamation"] = self.Exclamation_Icon
         self.icons_map["MsgBox_Information"] = self.Information_Icon
         self.icons_map["MsgBox_Help"] = self.Help_Icon
+        self.icons_map["Ok"] = self.Ok_Icon
+        self.icons_map["Cancel"] = self.Cancel_Icon
+        self.icons_map["Help"] = self.Help_Icon
+        self.icons_map["Exclamation"] = self.Exclamation_Icon
 
         # alignment icons (used for shapes)
         self.Align_Left_Icon = qta.icon("mdi6.align-horizontal-left")

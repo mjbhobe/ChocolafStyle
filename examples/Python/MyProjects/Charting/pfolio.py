@@ -223,7 +223,8 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # app.setStyle("Chocolaf")
+    app.setStyle("Fusion")
 
     today = QDateTime.currentDateTime().toString("dd-MMM-yyyy")
 
