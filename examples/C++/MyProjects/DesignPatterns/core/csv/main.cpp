@@ -30,7 +30,9 @@ bool cmp(std::pair<std::string, float> &one, std::pair<std::string, float> &two)
    return one.second > two.second;
 }
 
-std::vector<std::pair<std::string, float>> sort_on_corr_desc(std::map<std::string, float> &corr_map)
+std::vector<std::pair<std::string, float>> sort_on_corr_desc(
+      std::map<std::string, float> &corr_map
+)
 {
    std::vector<std::pair<std::string, float>> A;
    for (auto &it : corr_map)
@@ -100,7 +102,9 @@ int main()
   display_vector(volume2, "Values of Volume");
   */
 
-   double sum = std::accumulate(adj_close_reliance.cbegin(), adj_close_reliance.cend(), 0.0);
+   double sum = std::accumulate(
+         adj_close_reliance.cbegin(), adj_close_reliance.cend(), 0.0
+   );
    auto mean_adj_close = sum / adj_close_reliance.size();
    std::cout << fmt::format("Mean Adj Close: {:.3f}", mean_adj_close) << std::endl;
    std::vector<float> ma_20 = fincalc::Equities<float>::ma(adj_close_reliance, 20);
@@ -124,13 +128,17 @@ int main()
    // should be 1.0
    double corr_tcs_tcs = fincalc::Equities<float>::corr(adj_close_tcs, adj_close_tcs);
    std::cout << fmt::format("Correl (TCS & TCS): {:.3f}", corr_tcs_tcs) << std::endl;
-   double corr_tcs_persistent = fincalc::Equities<float>::corr(adj_close_tcs, adj_close_persistent);
-   std::cout << fmt::format("Correl (TCS & Persistent Systems): {:.3f}", corr_tcs_persistent)
-             << std::endl;
-   double corr_tcs_reliance = fincalc::Equities<float>::corr(adj_close_tcs, adj_close_reliance);
+   double corr_tcs_persistent
+         = fincalc::Equities<float>::corr(adj_close_tcs, adj_close_persistent);
+   std::cout << fmt::format(
+         "Correl (TCS & Persistent Systems): {:.3f}", corr_tcs_persistent
+   ) << std::endl;
+   double corr_tcs_reliance
+         = fincalc::Equities<float>::corr(adj_close_tcs, adj_close_reliance);
    std::cout << fmt::format("Correl (TCS & Reliance Systems): {:.3f}", corr_tcs_reliance)
              << std::endl;
-   double corr_kansai_pidilite = fincalc::Equities<float>::corr(adj_close_kansai, adj_close_pidilite);
+   double corr_kansai_pidilite
+         = fincalc::Equities<float>::corr(adj_close_kansai, adj_close_pidilite);
    std::cout << fmt::format("Correl (Kansai & Pidilite): {:.3f}", corr_kansai_pidilite)
              << std::endl;
 
@@ -147,8 +155,9 @@ int main()
             corr_map[fmt::format("NIFTY-{}", iter->first)] = corr;
          }
          catch (const char *msg) {
-            std::cerr << fmt::format("ERROR: {} - ignoring pair NIFTY-{}", msg, iter->first)
-                      << std::endl;
+            std::cerr << fmt::format(
+                  "ERROR: {} - ignoring pair NIFTY-{}", msg, iter->first
+            ) << std::endl;
          }
       }
    }
@@ -156,7 +165,9 @@ int main()
    // now display the corr-map sorted descending by corr
    std::cout << std::endl << "Corelation of NIFTY to portfolio stocks" << std::endl;
    std::cout << "---------------------------------------" << std::endl;
-   std::vector<std::pair<std::string, float>> sorted_on_corr = sort_on_corr_desc(corr_map);
+   std::vector<std::pair<std::string, float>> sorted_on_corr = sort_on_corr_desc(
+         corr_map
+   );
    for (auto &iter : sorted_on_corr)
       std::cout << fmt::format("{:<25} = {:.3f}\n", iter.first, iter.second);
 
