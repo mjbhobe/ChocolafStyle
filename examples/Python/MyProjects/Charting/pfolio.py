@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-* pfolio.py: dowload closing prices of stock portfolio
+* pfolio.py: dowload closing prices of stock portfolio and display in a QTableView
 * @author (Chocolaf): Manish Bhobe
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
@@ -49,23 +49,35 @@ logger.info(
 locale.setlocale(locale.LC_ALL, "en_IN.utf8")
 
 
-def show_plot(symbol: str, fig_size=(16, 8)):
+def show_plot(symbol: str, fig_size=(10, 6)):
+    import matplotlib.pyplot as mpl
     import matplotlib.pyplot as plt
+
+    # @see: https://matplotlib.org/stable/gallery/event_handling/coords_demo.html
+    from matplotlib.backend_bases import MouseButton
+
+    def on_move(event):
+        if event.inaxes:
+            # print(f"data coords {event.xdata} {event.ydata}")
+            xdata, ydata = event.xdata, event.ydata
+            xdata2 = datetime.datetime.strftime(
+                datetime.date.fromtimestamp(xdata), "%Y-%m-%d"
+            )
+            # ydata = f"{ydata:,.3f}"
+            ydata = locale.currency(ydata, grouping=True)
+            # tooltip.set_text(f"({xdata},{ydata})")
+            print(f"({xdata},{xdata2},{ydata})")
+
+    mpl.rcParams["font.family"] = "SF Pro Rounded, Calibri, DejaVu Sans, Sans"
+    mpl.rcParams["font.weight"] = 500
 
     today = QDateTime.currentDateTime().toString("dd-MMM-yyyy")
     save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}.csv"
     plot_df = pd.read_csv(save_path, index_col=0)
     plot_df = plot_df.drop(["Qty"], axis=1)
 
-    # dates = pd.date_range(
-    #     f"{year}-04-01",
-    #     datetime.date.today().strftime("%Y-%m-%d"),  # freq="BM"
-    # )
-    # last_date = plot_df.columns[-1]
-    # if last_date not in dates:
-    #     dates.append(last_date)
-
     plt.figure(figsize=fig_size)
+    binding_id = plt.connect("motion_notify_event", on_move)
     plot_values = plot_df.loc[symbol, :]
     plot_values.plot()
 
@@ -74,12 +86,31 @@ def show_plot(symbol: str, fig_size=(16, 8)):
 
 
 def download_stock_prices(
-    holdings,
-    start_date=START_DATE,
-    end_date=END_DATE,
-    save_path=None,
-    force_download=False,
+    holdings: pd.DataFrame,
+    start_date: datetime.datetime = START_DATE,
+    end_date: datetime.datetime = END_DATE,
+    save_path: str = None,
+    force_download: bool = False,
 ) -> pd.DataFrame:
+    """
+    downloads stock prices read from holdings dataframe from START_DATE to END_DATE
+    into a dataframe, which is saved to save_path (if specified)
+    @param: holdings (pd.DataFrame): the dataframe with your stock holdings (symbol & qty)
+    @param: start_date (datatime.datetime): start date to download stock prices
+    @param: end_date (datatime.datetime): end date to download stock prices
+    @param: save_path (str; optional - default = None): valid full path where downloaded
+        stock prices should be saved (e.g. ~/stock_data/stock_prices.csv)
+    @param: force_download (bool, optional - default = False): forces download if True
+        (otherwise it assumes that stock prices are to be loaded from save_path)
+    @return: (pd.DataFrame) - dataframe of prices for each stock in holdings
+        (rows = number of stocks in your holdings dataframe, cols = qty + end_date - start_date
+         index = symbol name)
+        Example of output dataframe: if today is 2020-10-09
+                          |  Qty | start_date | start_date+1 | ... | end_date-1 | end_date
+            ASIANPAINT.NS |  25  |  1024.56   | 1025.67      | ... | 1028.32    | 1024.79
+            ...
+            RELIANCE.NS   |  50  | 2256.78    | 2250.25      | ... | 2260.29    | 2251.12
+    """
     if (save_path is not None) and (os.path.exists(save_path)) and (not force_download):
         # if portfolio was saved before, load from save_path (if exists) unless force_download = True
         pfolio_df = pd.read_csv(save_path, index_col=0)
@@ -107,7 +138,22 @@ def download_stock_prices(
     return pfolio_df
 
 
-def calculate_values(df, num_days=5):
+def calculate_values(df, num_days=5) -> pd.DataFrame:
+    """
+    calculate value (= qty * price) for each stock for last num_days
+    @param: df - the dataframe with downloaded values
+    @param: num_days - for how may days before today should values be calculated
+        (optional, default = 5 [values will be calculated for last 5 days])
+    @returns: dataframe having quantity, price and value for last num_days
+        (rows = number of stocks in your portfolio, cols = qty + num_days * 2
+         index = symbol name)
+        Example of output dataframe: if today is 2020-10-09
+                          |  Qty | 2020-10-05 | 2020-10-05_Value | ... | 2020-10-05 | 2020-10-05_Value
+            ASIANPAINT.NS |  25  |  1024.56   | 25614            | ... | 1028.32    | 25708
+            ...
+            RELIANCE.NS   |  50  | 2256.78    | 112839           | ... | 2260.29    | 113014.50
+
+    """
     cols = df.columns
 
     df_new = df[["Qty"]]
@@ -131,16 +177,17 @@ def build_output(entry: Path, long: bool = False):
 
 
 class PandasTableModel(QAbstractTableModel):
-    def __init__(self, data):
+    def __init__(self, data: pd.DataFrame):
         super(PandasTableModel, self).__init__()
-        self._data = data
+        self._data: pd.DataFrame = data
 
     def data(self, index: QModelIndex, role: int):
         numRows = self.rowCount(0)  # any value for index is ok
+        prevValue = None
         if index.row() == (numRows - 1):
             value = ""
             # I am on the Totals row, which does not exist in the dataset!
-            # if column() is a "_Value" column, then calculate tota & display it
+            # if column() is a "_Value" column, then calculate total & display it
             colName = str(self._data.columns[index.column()]).strip()
             if colName.endswith("_Value"):
                 value = self._data[colName].sum()
@@ -148,6 +195,9 @@ class PandasTableModel(QAbstractTableModel):
         else:
             # get value from dataframe
             value = self._data.iloc[index.row(), index.column()]
+            # note: Odd column numbers have stock values
+            if (index.column() % 2 != 0) and (index.column() != 1):
+                prevValue = self._data.iloc[index.row(), index.column() - 2]
 
         # value = self._data.iloc[index.row(), index.column()]
 
@@ -181,6 +231,13 @@ class PandasTableModel(QAbstractTableModel):
                 return Qt.AlignmentFlag.AlignVCenter + Qt.AlignmentFlag.AlignRight
             else:
                 return Qt.AlignmentFlag.AlignVCenter + Qt.AlignmentFlag.AlignLeft
+        elif role == Qt.ItemDataRole.ForegroundRole:
+            # set foreground color
+            green = QColor("#50a14f")
+            red = QColor("#b22222")
+            if prevValue is not None:
+                brushColor = green if prevValue < value else red
+                return QBrush(brushColor)
 
     def rowCount(self, index):
         # NOTE: we specify 1 more than the number of data rows to accomodate Totals
@@ -203,11 +260,33 @@ class PandasTableModel(QAbstractTableModel):
                 )
 
 
+class MyTableView(QTableView):
+    def __init__(self):
+        super(MyTableView, self).__init__()
+        self.doubleClicked.connect(self.on_double_clicked)
+
+    def on_double_clicked(self, index):
+        model = self.model()
+        try:
+            symbol = model._data.index[index.row()]
+        except IndexError:
+            # most likely double clicked on "Total" row
+            symbol = "Unk"
+        print(
+            f"You double clicked in cell {index.row()}-{index.column()} with symbol {symbol}"
+        )
+        if symbol != "Unk":
+            show_plot(symbol)
+
+
 class MainWindow(QMainWindow):
+    """the main window of the application"""
+
     def __init__(self, dataframe: pd.DataFrame):
         super(MainWindow, self).__init__()
         self.dataframe = dataframe
-        self.tableView = QTableView()
+        # self.tableView = QTableView()
+        self.tableView = MyTableView()
         self.tableView.horizontalHeader().setDefaultAlignment(
             Qt.AlignmentFlag.AlignHCenter
         )
@@ -220,11 +299,13 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.tableView)
 
 
+DAY_WINDOW = 10
+
 if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     # app.setStyle("Chocolaf")
-    # app.setStyle("Fusion")
+    app.setStyle("Fusion")
 
     today = QDateTime.currentDateTime().toString("dd-MMM-yyyy")
 
@@ -234,18 +315,22 @@ if __name__ == "__main__":
     holdings = pd.read_csv(pathlib.Path(__file__).parent / "holdings.csv")
     # download holdings, if not done already
     pfolio_df = download_stock_prices(
-        holdings, start_date=START_DATE, end_date=END_DATE, save_path=save_path
+        holdings,
+        start_date=START_DATE,
+        end_date=END_DATE,
+        save_path=save_path,
+        force_download=True,
     )
-    logger.info(pfolio_df.iloc[:, -5:].head())
+    logger.info(pfolio_df.iloc[:, -DAY_WINDOW:].head())
     # calculate totals by day
-    df_values = calculate_values(pfolio_df, 5)
+    df_values = calculate_values(pfolio_df, DAY_WINDOW)
     logger.info(df_values)
     save_path = (
         Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}_vals.csv"
     )
     df_values.to_csv(save_path, index=True, header=True)
 
-    title = f"Portfolio Performance for past 5 days"
+    title = f"Portfolio Performance for past {DAY_WINDOW} days"
     window = MainWindow(df_values)
     window.setWindowTitle(title)
     chocolaf.centerOnScreenWithSize(window, 0.75, 0.65)

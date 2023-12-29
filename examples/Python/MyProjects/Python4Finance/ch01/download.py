@@ -16,7 +16,7 @@ def download_stock_prices(
     to_date: str = END_DATE,
     interval: str = "1d",
 ) -> pd.DataFrame:
-    # download AAPL stock price
+    # download stock data from Yahoo! Finance
     stock_df = yf.download(
         symbol,  # one stock or list of stock symbols ['AAPL','MSFT','AMZN']
         start=from_date,  # from date
@@ -95,7 +95,7 @@ def adjust_prices_for_inflation(
 # tester code
 if __name__ == "__main__":
     plt.style.use("seaborn-v0_8")
-    df = download_stock_prices("AAPL", START_DATE, END_DATE)
+    df = download_stock_prices("RELIANCE.NS", START_DATE, END_DATE)
     print(df.tail())
     df2 = adjust_prices_for_inflation(df, START_DATE, END_DATE)
 

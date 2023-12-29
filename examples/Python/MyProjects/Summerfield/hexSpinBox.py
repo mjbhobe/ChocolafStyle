@@ -47,7 +47,7 @@ def main():
     # app.setStyle("Chocolaf")
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    app.setStyle("Fusion")
 
     # create & show GUI
     win = QWidget()
