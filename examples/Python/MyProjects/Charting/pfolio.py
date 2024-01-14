@@ -38,8 +38,9 @@ year, month, day = todays_date.year, todays_date.month, todays_date.day
 # adjust for financial year - if today() in Jan, Feb or Mar, decrease year by 1
 year = year - 1 if month in range(1, 4) else year
 
-START_DATE = datetime.datetime(year, 4, 1)  # 01-Apr of current financial year
-END_DATE = datetime.datetime.now()
+# NOTE: start date is 01-Apr of current financial year
+START_DATE: datetime.datetime = datetime.datetime(year, 4, 1)
+END_DATE: datetime.datetime = datetime.datetime.now()
 logger.info(
     f"START_DATE = {START_DATE.strftime('%d-%b-%Y')} - END_DATE = "
     f"{END_DATE.strftime('%d-%b-%Y')}"
@@ -47,6 +48,36 @@ logger.info(
 
 # set to India locale
 locale.setlocale(locale.LC_ALL, "en_IN.utf8")
+
+
+def show_candlestick(
+    symbol: str,
+    start_date: datetime.datetime = START_DATE,
+    end_date: datetime.datetime = END_DATE,
+    style="yahoo",
+    show_volume=True,
+    fig_size=(18, 10),
+):
+    import mplfinance as mpf
+
+    df = yfinance.download(symbol, start=start_date, end=end_date, progress=False)
+    df = df.reset_index()
+    df["Date"] = pd.to_datetime(df["Date"])
+    df = df.set_index("Date")
+
+    # use mplfinance to plot the candlestick
+    # mpf.figure(figsize=fig_size)
+    title = f"{symbol} chart from {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
+    mpf.plot(
+        df,
+        type="candle",
+        style=style,
+        volume=show_volume,
+        title=title,
+        figratio=fig_size,
+    )
+
+    # plt.show()
 
 
 def show_plot(symbol: str, fig_size=(10, 6)):
@@ -192,6 +223,11 @@ class PandasTableModel(QAbstractTableModel):
             if colName.endswith("_Value"):
                 value = self._data[colName].sum()
                 logger.info(f"Sum of column {colName} is {value:,.2f}")
+                # NOTE: the _Value columns are even columns
+                if (index.column() % 2 == 0) and (index.column() != 2):
+                    prevColName = str(self._data.columns[index.column() - 2]).strip()
+                    prevValue = self._data[prevColName].sum()
+                #     prevValue = self._data.iloc[index.row(), index.column() - 2]
         else:
             # get value from dataframe
             value = self._data.iloc[index.row(), index.column()]
@@ -231,11 +267,18 @@ class PandasTableModel(QAbstractTableModel):
                 return Qt.AlignmentFlag.AlignVCenter + Qt.AlignmentFlag.AlignRight
             else:
                 return Qt.AlignmentFlag.AlignVCenter + Qt.AlignmentFlag.AlignLeft
+        elif role == Qt.ItemDataRole.FontRole:
+            # allowa yo to set the font of individual cells
+            if index.row() == (numRows - 1):
+                # for Totals row, make font bold
+                font = QFont()
+                font.setBold(True)
+                return font
         elif role == Qt.ItemDataRole.ForegroundRole:
             # set foreground color
-            green = QColor("#50a14f")
-            red = QColor("#b22222")
             if prevValue is not None:
+                green = QColor("#089981")
+                red = QColor("#F23645")
                 brushColor = green if prevValue < value else red
                 return QBrush(brushColor)
 
@@ -276,7 +319,8 @@ class MyTableView(QTableView):
             f"You double clicked in cell {index.row()}-{index.column()} with symbol {symbol}"
         )
         if symbol != "Unk":
-            show_plot(symbol)
+            show_candlestick(symbol)
+            # show_plot(symbol)
 
 
 class MainWindow(QMainWindow):
