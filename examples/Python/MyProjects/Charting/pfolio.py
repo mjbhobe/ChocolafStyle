@@ -67,9 +67,10 @@ def show_candlestick(
 
     # use mplfinance to plot the candlestick
     # mpf.figure(figsize=fig_size)
-    title = f"{symbol} chart from {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
+    # title = f"{symbol} chart from {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
+    title = f"{symbol} chart for last 90 days"
     mpf.plot(
-        df,
+        df[-90:],
         type="candle",
         style=style,
         volume=show_volume,
