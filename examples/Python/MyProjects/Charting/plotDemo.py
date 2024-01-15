@@ -14,6 +14,16 @@ def download_stock(symbol, start_date=START_DATE, end_date=END_DATE) -> pd.DataF
     return df
 
 
+def BollingerBands(df, window=20, no_of_std=2):
+    bbands = pd.DataFrame()
+    bbands["rolling_mean"] = df["Close"].rolling(window).mean()
+    bbands["rolling_std"] = df["Close"].rolling(window).std()
+    bbands["rolling_volume"] = df["Volume"].rolling(window).mean()
+    bbands["bband_high"] = bbands["rolling_mean"] + (bbands["rolling_std"] * no_of_std)
+    bbands["bband_low"] = bbands["rolling_mean"] - (bbands["rolling_std"] * no_of_std)
+    return bbands
+
+
 def MACD(df, window_slow, window_fast, window_signal):
     macd = pd.DataFrame()
     macd["ema_slow"] = df["Close"].ewm(span=window_slow).mean()
@@ -27,22 +37,47 @@ def MACD(df, window_slow, window_fast, window_signal):
 
 
 if __name__ == "__main__":
+    green_color = "#089981"
+    red_color = "#F23645"
+    blue_color = "#2962ff"
+    bband_limits_color = "#1c6ba3"
+    bband_fill_color = "#eff7fe"
+    bband_mean_color = "#000000"
+
     df = download_stock("RELIANCE.NS")
+
+    bbands = BollingerBands(df, 20, 2)
     macd = MACD(df, 12, 26, 9)
-    macd_plot = [
+
+    indicator_plots = [
+        # for make_addplot additional keywords, see _valid_addplot_kwargs()
+        # on page https://github.com/matplotlib/mplfinance/blob/master/src/mplfinance/plotting.py
         mpf.make_addplot(
-            (macd["macd"]), color="#606060", panel=2, ylabel="MACD", secondary_y=False
+            bbands[["bband_high", "bband_low"]],
+            color=bband_limits_color,
+            linewidths=2,
+            panel=0,
         ),
-        mpf.make_addplot((macd["signal"]), color="#1f77b4", panel=2, secondary_y=False),
-        mpf.make_addplot((macd["bar_positive"]), type="bar", color="#4dc790", panel=2),
-        mpf.make_addplot((macd["bar_negative"]), type="bar", color="#fd6b6c", panel=2),
+        mpf.make_addplot(bbands["rolling_mean"], color=bband_mean_color, panel=0),
+        mpf.make_addplot(
+            (macd["macd"]), color=blue_color, panel=2, ylabel="MACD", secondary_y=False
+        ),
+        mpf.make_addplot((macd["signal"]), color=red_color, panel=2, secondary_y=False),
+        mpf.make_addplot(
+            (macd["bar_positive"]), type="bar", width=1, color=green_color, panel=2
+        ),
+        mpf.make_addplot(
+            (macd["bar_negative"]), type="bar", width=1, color=red_color, panel=2
+        ),
     ]
-    mpf.plot(
+    fig, ax = mpf.plot(
         df,
         type="candle",
         volume=True,
-        addplot=macd_plot,
+        addplot=indicator_plots,
         figscale=1.5,
         panel_ratios=(4, 1, 3),
         style="yahoo",
+        returnfig=True,
     )
+    # now draw fill between bollinger bands

@@ -4,12 +4,16 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 import matplotlib.pyplot as plt
+import seaborn as sns
 from download import download_stock_prices
 
 # print(plt.style.available)
 # sys.exit(-1)
 
-START_DATE, END_DATE = "2000-01-01", "2023-12-11"
+START_DATE, END_DATE = "2000-01-01", "2023-12-31"
+
+sns.set(context="notebook", style="whitegrid", font_scale=0.9)
+plt.style.use("seaborn-v0_8-dark-palette")
 
 
 def detect_outliers(row, n_sigmas=3):

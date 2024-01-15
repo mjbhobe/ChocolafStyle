@@ -18,28 +18,29 @@ namespace fincalc {
 template <typename T>
 concept Numeric = std::integral<T> || std::floating_point<T>;
 
-template <typename T>
-  requires Numeric<T>
-class Equities {
+template<typename T>
+   requires Numeric<T>
+class Equities
+{
 public:
   static std::vector<T> ma(const std::vector<T> &prices, size_t num_periods) {
-    /**
+     /**
      * @brief ma
      * Calculates the moving average (MA) of prices for a given num periods
-     * @param prices (std::vector<float>) - the prices series
+     * @param prices (std::vector<int|float>) - the prices series
      * @param num_periods (size_t) - number of periods for MA calculation
      * @returns ma series (std::vector<float>)
      */
-    std::vector<T> ma{};
-    double sum{0.0};
+     std::vector<T> ma{};
+     double sum{0.0};
 
-    // cycle over the prices
-    for (size_t i = 0; i < prices.size(); ++i) {
-      sum += prices[i];
-      if (i >= num_periods) {
-        ma.push_back(sum / num_periods);
-        sum -= prices[i - num_periods];
-      }
+     // cycle over the prices
+     for (size_t i = 0; i < prices.size(); ++i) {
+        sum += prices[i];
+        if (i >= num_periods) {
+           ma.push_back(sum / num_periods);
+           sum -= prices[i - num_periods];
+        }
     }
     return ma;
   }

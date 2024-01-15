@@ -9,6 +9,17 @@ import yfinance as yf
 
 START_DATE, END_DATE = "1990-01-01", "2023-12-11"
 
+TICKERS = {
+    "AAPL": "Apple",
+    "MSFT": "Microsoft",
+    "AMZN": "Amazon",
+    "RELIANCE.NS": "Reliance Industries",
+    "TCS.NS": "Tata Consultancy Services",
+    "PIDILITE.NS": "Pidilite Industries",
+    "DIXON.NS": "Dixon",
+    "PERSISTENT.NS": "Persistent Systems",
+}
+
 
 def download_stock_prices(
     symbol: str,

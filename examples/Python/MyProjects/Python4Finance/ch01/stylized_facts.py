@@ -9,14 +9,19 @@ import scipy.stats as scs
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
 from download import download_stock_prices
+from download import TICKERS
 
 # print(plt.style.available)
 # sys.exit(-1)
 
-START_DATE, END_DATE = "1985-01-01", "2023-11-30"
+sns.set(context="notebook", style="whitegrid", font_scale=0.9)
+plt.style.use("seaborn-v0_8-dark-palette")
+
+START_DATE, END_DATE = "1985-01-01", "2023-12-31"
+TICKER = "RELIANCE.NS"
 
 if __name__ == "__main__":
-    df = download_stock_prices("MSFT", START_DATE, END_DATE)
+    df = download_stock_prices(TICKER, START_DATE, END_DATE)
     print(df.head())
     # generate 1000 numbers between min & max of log returns
     r_range = np.linspace(np.min(df.Log_Rtn), np.max(df.Log_Rtn), num=1000)
@@ -28,7 +33,7 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(1, 2, figsize=(16, 8))
     # histogram with norm distribution
     sns.distplot(df.Log_Rtn, kde=False, norm_hist=True, ax=ax[0])
-    ax[0].set_title("Distribution of MSFT Returns", fontsize=12)
+    ax[0].set_title(f"Distribution of {TICKERS[TICKER]} Returns", fontsize=12)
     ax[0].plot(
         r_range, norm_pdf, color="firebrick", lw=2, label=f"N({mu:.2f}, {sigma**2:.4f})"
     )

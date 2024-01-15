@@ -3,17 +3,21 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set(font_scale=0.9)
 
 plt.style.use("seaborn-v0_8-dark-palette")
 # print(plt.style.available)
 # sys.exit(-1)
 
-START_DATE, END_DATE = "2000-01-01", "2023-12-15"
+START_DATE, END_DATE = "2000-01-01", "2024-01-12"
 SYMBOLS = ["AAPL"]
+TICKER = "RELIANCE.NS"
 
 # download AAPL stock price
 msft_df = yf.download(
-    "MSFT",  # one stock or list of stock symbols ['AAPL','MSFT','AMZN']
+    TICKER,  # one stock or list of stock symbols ['AAPL','MSFT','AMZN']
     start=START_DATE,  # from date
     end=END_DATE,  # to date
     # auto_adjust=True,     # adjust OHLC automatically?
@@ -52,7 +56,7 @@ print(df.head())
 fig, ax = plt.subplots(3, 1, figsize=(24, 20), sharex=True)
 df.Adj_Close.plot(ax=ax[0])
 ax[0].set(
-    title=f"MSFT time series: {START_DATE} - {END_DATE}", ylabel="Stock Price ($)"
+    title=f"{TICKER} time series: {START_DATE} - {END_DATE}", ylabel="Stock Price (INR)"
 )
 df.Simple_Rtn.plot(ax=ax[1])
 ax[1].set(ylabel="Simple Returns (%)")
@@ -66,10 +70,10 @@ from plotly.offline import iplot, init_notebook_mode
 
 # set up configuration (run it once)
 # cf.set_config_file(world_readable=True, theme='pearl', offline=True)
-df.iplot(
-    subplots=True,
-    shape=(3, 1),
-    shared_xaxes=True,
-    title=f"MSFT time series: {START_DATE} - {END_DATE}",
-)
+# df.iplot(
+#     subplots=True,
+#     shape=(3, 1),
+#     shared_xaxes=True,
+#     title=f"MSFT time series: {START_DATE} - {END_DATE}",
+# )
 # nit_notebook_mode()
