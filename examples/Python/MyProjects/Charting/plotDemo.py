@@ -81,3 +81,4 @@ if __name__ == "__main__":
         returnfig=True,
     )
     # now draw fill between bollinger bands
+    plt.show()

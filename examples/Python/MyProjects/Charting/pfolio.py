@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-* pfolio.py: dowload closing prices of stock portfolio and display in a QTableView
+* pfolio.py: download closing prices of stock portfolio and display in a QTableView
 * @author (Chocolaf): Manish Bhobe
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
@@ -34,24 +34,35 @@ pd.options.display.float_format = "{:,.2f}".format
 pd.options.display.width = 1024
 
 todays_date = datetime.datetime.now()
-year, month, day = todays_date.year, todays_date.month, todays_date.day
+year, month, day, hour = (
+    todays_date.year,
+    todays_date.month,
+    todays_date.day,
+    todays_date.hour,
+)
 # adjust for financial year - if today() in Jan, Feb or Mar, decrease year by 1
 year = year - 1 if month in range(1, 4) else year
+# adjust day - if todays_date returns hour in the IST trading time (9:15 AM - 3:15 PM)
+# then subtract 1 day. We'll use timedelta to auto-set year, month respectively.
+# Will take cut-off of 4 pm (hour >= 14)
+td = None if hour >= 16 else datetime.timedelta(days=-1)
 
 # NOTE: start date is 01-Apr of current financial year
 START_DATE: datetime.datetime = datetime.datetime(year, 4, 1)
 END_DATE: datetime.datetime = datetime.datetime.now()
+END_DATE = END_DATE if td is None else END_DATE + td
 logger.info(
     f"START_DATE = {START_DATE.strftime('%d-%b-%Y')} - END_DATE = "
     f"{END_DATE.strftime('%d-%b-%Y')}"
 )
 
-# set to India locale
+# set to India locale for correct number & currency formats
 locale.setlocale(locale.LC_ALL, "en_IN.utf8")
 
 
 def show_candlestick(
     symbol: str,
+    days_past: int = 90,
     start_date: datetime.datetime = START_DATE,
     end_date: datetime.datetime = END_DATE,
     style="yahoo",
@@ -68,9 +79,9 @@ def show_candlestick(
     # use mplfinance to plot the candlestick
     # mpf.figure(figsize=fig_size)
     # title = f"{symbol} chart from {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
-    title = f"{symbol} chart for last 90 days"
+    title = f"{symbol} chart for last {days_past} days"
     mpf.plot(
-        df[-90:],
+        df[-days_past:],
         type="candle",
         style=style,
         volume=show_volume,
