@@ -42,9 +42,8 @@ year, month, day, hour = (
 )
 # adjust for financial year - if today() in Jan, Feb or Mar, decrease year by 1
 year = year - 1 if month in range(1, 4) else year
-# adjust day - if todays_date returns hour in the IST trading time (9:15 AM - 3:15 PM)
+# adjust day - if todays_date returns hour in the IST less than 4 PM (trading day ends 3:15 PM)
 # then subtract 1 day. We'll use timedelta to auto-set year, month respectively.
-# Will take cut-off of 4 pm (hour >= 14)
 td = None if hour >= 16 else datetime.timedelta(days=-1)
 
 # NOTE: start date is 01-Apr of current financial year
