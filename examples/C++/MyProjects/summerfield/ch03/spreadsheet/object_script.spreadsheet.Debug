@@ -1,0 +1,11 @@
+debug/common_funcs.o
+debug/findDialog.o
+debug/gotocelldialog.o
+debug/spreadsheet.o
+debug/mainwindow.o
+debug/qrc_style.o
+debug/moc_common_funcs.o
+debug/moc_findDialog.o
+debug/moc_gotocelldialog.o
+debug/moc_spreadsheet.o
+debug/moc_mainwindow.o

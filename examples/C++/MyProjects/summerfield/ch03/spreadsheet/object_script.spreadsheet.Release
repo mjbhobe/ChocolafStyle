@@ -1,0 +1,11 @@
+release/common_funcs.o
+release/findDialog.o
+release/gotocelldialog.o
+release/spreadsheet.o
+release/mainwindow.o
+release/qrc_style.o
+release/moc_common_funcs.o
+release/moc_findDialog.o
+release/moc_gotocelldialog.o
+release/moc_spreadsheet.o
+release/moc_mainwindow.o
