@@ -10,6 +10,7 @@
 """
 import sys
 import os
+import argparse
 import pathlib
 from pathlib import Path
 
@@ -361,6 +362,20 @@ if __name__ == "__main__":
     app = chocolaf.ChocolafApp(sys.argv)
     # app.setStyle("Chocolaf")
     app.setStyle("Fusion")
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--zoom",
+        type=float,
+        default=1.0,
+        help="Zoom level for the font size (default=1.0, no zoom)",
+    )
+    args = parser.parse_args()
+    font = app.font()
+    print(f"Default font: {font.family()}, {font.pointSize()} points", flush=True)
+    font.setPointSize(int(font.pointSize() * args.zoom))
+    print(f"Zoomed font: {font.family()}, {font.pointSize()} points", flush=True)
+    app.setFont(font)
 
     today = QDateTime.currentDateTime().toString("dd-MMM-yyyy")
 
