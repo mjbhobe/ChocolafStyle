@@ -364,6 +364,7 @@ if __name__ == "__main__":
     app.setStyle("Fusion")
 
     parser = argparse.ArgumentParser()
+    # on command line pass --zoom 1.2 to increase font size by 20%
     parser.add_argument(
         "--zoom",
         type=float,
@@ -403,6 +404,7 @@ if __name__ == "__main__":
     title = f"Portfolio Performance for past {DAY_WINDOW} days"
     window = MainWindow(df_values)
     window.setWindowTitle(title)
+    window.setWindowIcon(QIcon(str(pathlib.Path(__file__).parent / "stocks.png")))
     chocolaf.centerOnScreenWithSize(window, 0.75, 0.65)
     window.show()
 
