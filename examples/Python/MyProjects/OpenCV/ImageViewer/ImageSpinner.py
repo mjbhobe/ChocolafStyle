@@ -11,12 +11,12 @@
 """
 import os
 
-from PyQt5.QtCore import *
+from PyQt6.QtCore import *
 
 
 class ImageSpinner(QObject):
     def __init__(self, imagePath: str):
-        assert (os.path.exists(imagePath)), f"ERROR: {imagePath} - invalid path!"
+        assert os.path.exists(imagePath), f"ERROR: {imagePath} - invalid path!"
         self.currIndex = -1
         fileInfo = QFileInfo(imagePath)
         self.dir = fileInfo.absoluteDir()
@@ -27,18 +27,20 @@ class ImageSpinner(QObject):
 
     def prevImagePath(self) -> str:
         self.currIndex = self.currIndex - 1
-        if (self.currIndex < 0):
+        if self.currIndex < 0:
             self.currIndex = 0
-        prevImagePath = self.dir.absolutePath() + QDir.separator() + \
-                        self.fileNames[self.currIndex]
+        prevImagePath = (
+            self.dir.absolutePath() + QDir.separator() + self.fileNames[self.currIndex]
+        )
         return prevImagePath
 
     def nextImagePath(self) -> str:
         self.currIndex = self.currIndex + 1
-        if (self.currIndex > len(self.fileNames) - 1):
+        if self.currIndex > len(self.fileNames) - 1:
             self.currIndex = len(self.fileNames) - 1
-        nextImagePath = self.dir.absolutePath() + QDir.separator() + \
-                        self.fileNames[self.currIndex]
+        nextImagePath = (
+            self.dir.absolutePath() + QDir.separator() + self.fileNames[self.currIndex]
+        )
         return nextImagePath
 
     def atFirstPath(self):

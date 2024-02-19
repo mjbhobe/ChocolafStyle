@@ -1,13 +1,17 @@
 """ download.py - download stock prices using yfinance """
+
+import os
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import yfinance as yf
+from dotenv import load_dotenv, find_dotenv
+
 
 # print(plt.style.available)
 # sys.exit(-1)
 
-START_DATE, END_DATE = "1990-01-01", "2023-12-11"
+START_DATE, END_DATE = "1990-01-01", "2024-02-19"
 
 TICKERS = {
     "AAPL": "Apple",
@@ -80,7 +84,9 @@ def adjust_prices_for_inflation(
     config_path = pathlib.Path(__file__).parent / "config.ini"
     config = configparser.ConfigParser()
     config.read(config_path)
-    quandl.ApiConfig.api_key = config["config_keys"]["quandl.ApiConfig.api_key"]
+    quandl.ApiConfig.api_key = os.environ[
+        "QUANDL_API_KEY"
+    ]  # config["config_keys"]["quandl.ApiConfig.api_key"]
 
     df_cpi = quandl.get("RATEINF/CPI_USA", start_date=from_date, end_date=to_date)
     df_cpi.rename(columns={"Value": "cpi"}, inplace=True)
@@ -105,6 +111,7 @@ def adjust_prices_for_inflation(
 
 # tester code
 if __name__ == "__main__":
+    _ = load_dotenv(find_dotenv())
     plt.style.use("seaborn-v0_8")
     df = download_stock_prices("RELIANCE.NS", START_DATE, END_DATE)
     print(df.tail())
