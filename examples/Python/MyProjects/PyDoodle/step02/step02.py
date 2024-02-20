@@ -23,8 +23,10 @@ def main():
         f"PyQt Doodle - running with Python {platform.python_version()}, "
         + f"Qt {QT_VERSION_STR}, PyQt {PYQT_VERSION_STR} on {platform.system()}"
     )
-    app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("WindowsDark")
+    # app = chocolaf.ChocolafApp(sys.argv)
+    # app.setStyle("WindowsDark")
+    app = QApplication(sys.argv)
+    app.setStyle("Fusion")
 
     mainWindow = MainWindow()
     mainWindow.show()

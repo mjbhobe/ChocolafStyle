@@ -97,7 +97,10 @@ class DisplayImageWindow(QMainWindow):
         picsLoc = QStandardPaths.standardLocations(QStandardPaths.PicturesLocation)
         print(f"{picsLoc[-1]}")
         image_file, _ = QFileDialog.getOpenFileName(
-            self, "Open Image", picsLoc[-1], "Image files (*.png, *.tiff. *.jpg *.jpeg *.bmp)"
+            self,
+            "Open Image",
+            picsLoc[-1],
+            "Image files (*.png, *.tiff. *.jpg *.jpeg *.bmp)",
         )
         if image_file:
             image = QImage()
@@ -106,7 +109,9 @@ class DisplayImageWindow(QMainWindow):
             # show original
             self.original_label.setPixmap(
                 QPixmap.fromImage(image).scaled(
-                    self.original_label.width(), self.original_label.height(), Qt.KeepAspectRatioByExpanding
+                    self.original_label.width(),
+                    self.original_label.height(),
+                    Qt.KeepAspectRatioByExpanding,
                 )
             )
 
@@ -114,14 +119,18 @@ class DisplayImageWindow(QMainWindow):
             converted_image = self.convertCV2QImage(image_file)
             self.opencv_label.setPixmap(
                 QPixmap.fromImage(converted_image).scaled(
-                    self.opencv_label.width(), self.opencv_label.height(), Qt.KeepAspectRatioByExpanding
+                    self.opencv_label.width(),
+                    self.opencv_label.height(),
+                    Qt.KeepAspectRatioByExpanding,
                 )
             )
             # and adjust size of main window to better accommodate images
             self.adjustSize()
             self.setWindowTitle(f"{Window_Title} - {image_file}")
         else:
-            QMessageBox.information(self, "Error", "No image was loaded", QMessageBox.Ok)
+            QMessageBox.information(
+                self, "Error", "No image was loaded", QMessageBox.Ok
+            )
 
     def convertCV2QImage(self, image_file):
         """converts a OpenCV loaded image to QImage"""
@@ -131,7 +140,9 @@ class DisplayImageWindow(QMainWindow):
         # get dimensions of image
         height, width, channels = cv_image.shape
         bytes_per_line = width * channels
-        converted_QImage = QImage(cv_image, width, height, bytes_per_line, QImage.Format_RGB888)
+        converted_QImage = QImage(
+            cv_image, width, height, bytes_per_line, QImage.Format_RGB888
+        )
         return converted_QImage
 
 
@@ -139,7 +150,7 @@ if __name__ == "__main__":
     # ChocolafApp.setupAppForHighDpiScreens()
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    app.setStyle("WindowsDark")
 
     win = DisplayImageWindow()
     win.show()
