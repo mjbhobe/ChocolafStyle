@@ -7,7 +7,7 @@
 
 //! [0]
 Screenshot::Screenshot()
-    :  screenshotLabel(new QLabel(this))
+    : screenshotLabel(new QLabel(this))
 {
     screenshotLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     screenshotLabel->setAlignment(Qt::AlignCenter);
@@ -23,8 +23,7 @@ Screenshot::Screenshot()
     delaySpinBox->setSuffix(tr(" s"));
     delaySpinBox->setMaximum(60);
 
-    connect(delaySpinBox, &QSpinBox::valueChanged,
-            this, &Screenshot::updateCheckBox);
+    connect(delaySpinBox, &QSpinBox::valueChanged, this, &Screenshot::updateCheckBox);
 
     hideThisWindowCheckBox = new QCheckBox(tr("Hide This Window"), optionsGroupBox);
 

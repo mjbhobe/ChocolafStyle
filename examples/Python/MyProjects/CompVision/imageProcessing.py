@@ -14,10 +14,10 @@ import os
 import cv2
 import numpy as np
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5 import uic
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+from PyQt6 import uic
 
 import chocolaf
 import textEditor_rc
@@ -139,7 +139,7 @@ class ImageProcessingWindow(QMainWindow):
         exitAction = QAction(QIcon(":/on-off.png"), "E&xit", self)
         exitAction.setShortcut("Ctrl+Q")
         exitAction.setStatusTip("Quit the application")
-        exitAction.triggered.connect(qApp.quit)
+        exitAction.triggered.connect(QApplication.instance().quit)
 
         menuBar = self.menuBar()
         menuBar.setNativeMenuBar(False)

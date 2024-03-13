@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxL
 
 def createGui():
     win: QWidget = QWidget()
-    label: QLabel = QLabel(f"Hello, welcome to PySide {qVersion()}")
+    label: QLabel = QLabel(f"Hello, welcome to PySide {PySide6.__version__}")
     layout: QVBoxLayout = QVBoxLayout()
     layout.addWidget(label)
     win.setLayout(layout)
@@ -17,7 +17,7 @@ def createGui():
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    app = QApplication([])
     app.setStyle("Fusion")
     # ...
     win = createGui()

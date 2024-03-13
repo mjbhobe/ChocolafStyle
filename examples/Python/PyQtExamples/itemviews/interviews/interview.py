@@ -54,19 +54,19 @@ from PyQt5.QtWidgets import *
 
 import chocolaf
 
-images_dir = QFileInfo(__file__).absolutePath() + '/images'
+images_dir = QFileInfo(__file__).absolutePath() + "/images"
 
 
 class Node(object):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         self.parent = parent
         self.children = []
 
 
 class Model(QAbstractItemModel):
-    def __init__(self, rows, columns, parent = None):
+    def __init__(self, rows, columns, parent=None):
         super(Model, self).__init__(parent)
-        self.services = QIcon(images_dir + '/services.png')
+        self.services = QIcon(images_dir + "/services.png")
         self.rc = rows
         self.cc = columns
         self.tree = [Node() for node in range(rows)]
@@ -148,7 +148,7 @@ class Model(QAbstractItemModel):
 def main(args):
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # app.setStyle("Fusion")
     page = QSplitter()
     data = Model(1000, 10, page)
     selections = QItemSelectionModel(data)
@@ -178,13 +178,13 @@ def main(args):
     list.viewport().setAttribute(Qt.WA_StaticContents)
     list.setAttribute(Qt.WA_MacShowFocusRect, False)
     page.addWidget(list)
-    page.setWindowIcon(QIcon(images_dir + '/interview.png'))
+    page.setWindowIcon(QIcon(images_dir + "/interview.png"))
     page.setWindowTitle("Interview")
     page.show()
     return app.exec()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
 
     sys.exit(main(sys.argv))

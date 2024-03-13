@@ -51,10 +51,10 @@
 
 import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtChart import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+from PyQt6.QtChart import *
 
 import chocolaf
 from chocolaf.utils.chocolafapp import ChocolafApp
@@ -74,7 +74,15 @@ class AreaChart(QWidget):
         series0: QLineSeries = QLineSeries()
         series1: QLineSeries = QLineSeries()
 
-        points0 = [QPointF(1, 5), QPointF(3, 7), QPointF(7, 6), QPointF(9, 7), QPointF(12, 6), QPointF(16, 7), QPointF(18, 5)]
+        points0 = [
+            QPointF(1, 5),
+            QPointF(3, 7),
+            QPointF(7, 6),
+            QPointF(9, 7),
+            QPointF(12, 6),
+            QPointF(16, 7),
+            QPointF(18, 5),
+        ]
         for point in points0:
             series0.append(point)
 
@@ -98,7 +106,7 @@ class AreaChart(QWidget):
         # setup chart
         chart: QChart = QChart()
         chart.addSeries(series)
-        chart.legend().hide()   # no legend
+        chart.legend().hide()  # no legend
         chart.setAnimationOptions(QChart.SeriesAnimations)
         chart.setTitle("Batman")
 
@@ -122,7 +130,7 @@ class AreaChart(QWidget):
         self.setLayout(layout)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
 

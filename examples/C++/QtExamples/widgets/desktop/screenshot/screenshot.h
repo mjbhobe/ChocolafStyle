@@ -30,10 +30,10 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private slots:
-    void newScreenshot();
-    void saveScreenshot();
-    void shootScreen();
-    void updateCheckBox();
+   void newScreenshot();
+   void saveScreenshot();
+   void shootScreen();
+   void updateCheckBox();
 
 private:
     void updateScreenshotLabel();

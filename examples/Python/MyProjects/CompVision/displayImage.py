@@ -46,8 +46,8 @@ class DisplayImageWindow(QMainWindow):
         """initialize all UI elements of window"""
         self.setMinimumSize(850, 500)
         self.setWindowTitle(Window_Title)
-        self.setupWindow()
         self.setupMenu()
+        self.setupWindow()
 
     def setupWindow(self) -> None:
         """setup the widgets in the main window"""

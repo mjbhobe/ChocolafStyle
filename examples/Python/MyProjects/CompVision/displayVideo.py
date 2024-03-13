@@ -13,9 +13,9 @@ import sys
 
 import cv2
 import numpy as np
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 
 # from chocolaf.cv2_utils.chocolafapp import ChocolafApp
 import chocolaf
@@ -36,14 +36,14 @@ class VideoWorkerThread(QThread):
     frame_data_updated = pyqtSignal(np.ndarray)
     invalid_video_file = pyqtSignal()
 
-    def __init__(self, parent, video_file = None, render_frames_per_sec = 60):
+    def __init__(self, parent, video_file=None, render_frames_per_sec=60):
         super().__init__()
         self.parent = parent
         self.video_file = video_file
         self.render_frames_per_sec = render_frames_per_sec
 
     def run(self):
-        """ actual thread code - capture video using openCV"""
+        """actual thread code - capture video using openCV"""
         capture = cv2.VideoCapture(self.video_file)  # open default camera
 
         if not capture.isOpened():
@@ -61,7 +61,7 @@ class VideoWorkerThread(QThread):
                     self.msleep(1000 // self.render_frames_per_sec)
 
     def stopThread(self):
-        """ process all pending events & stop thread """
+        """process all pending events & stop thread"""
         self.wait()
         QApplication.processEvents()
 
@@ -80,7 +80,7 @@ class DisplayVideoWindow(QMainWindow):
         self.setStyleSheet(style_sheet)
 
     def initializeUi(self):
-        """ initialize the window & display contents to the screen """
+        """initialize the window & display contents to the screen"""
         self.setMinimumSize(800, 500)
         self.setWindowTitle(Window_Title)
         self.thread_is_running = False
@@ -128,7 +128,7 @@ class DisplayVideoWindow(QMainWindow):
         exitAction = QAction(QIcon(":/on-off.png"), "E&xit", self)
         exitAction.setStatusTip("Quit the application")
         exitAction.setShortcut("Ctrl+Q")
-        exitAction.triggered.connect(qApp.exit)
+        exitAction.triggered.connect(QApplication.instance().quit)
 
         menuBar = self.menuBar()
         fileMenu = menuBar.addMenu("&File")
@@ -161,39 +161,43 @@ class DisplayVideoWindow(QMainWindow):
             self.startButton.setEnabled(True)
 
     def openVideo(self):
-        """ displays the standard file dialog so user can select video to view
-            Video path is captured to displayVideoPathLine edit control - video will
-            be displayed only when 'start video' clostBtn is clicked """
+        """displays the standard file dialog so user can select video to view
+        Video path is captured to displayVideoPathLine edit control - video will
+        be displayed only when 'start video' clostBtn is clicked"""
         videosLoc = QStandardPaths.standardLocations(QStandardPaths.MoviesLocation)
         videoFile, _ = QFileDialog.getOpenFileName(
-            self, "Open Video", videosLoc[-1],
-            "Videos (*.mp4 *.avi)"
+            self, "Open Video", videosLoc[-1], "Videos (*.mp4 *.avi)"
         )
         if videoFile:
             self.displayVideoPathLine.setText(videoFile)
         else:
-            QMessageBox.information(self, "Error", "No video was loaded", QMessageBox.Ok)
+            QMessageBox.information(
+                self, "Error", "No video was loaded", QMessageBox.Ok
+            )
 
     def updateVideoFrames(self, video_frame):
-        """ video is a collection of frames. For each frame, convert it to a QImage
-            and display it on the QLabel """
+        """video is a collection of frames. For each frame, convert it to a QImage
+        and display it on the QLabel"""
         height, width, channels = video_frame.shape
         bytes_per_line = width * channels
-        convertedQImage = QImage(video_frame, width, height, bytes_per_line, QImage.Format_RGB888)
+        convertedQImage = QImage(
+            video_frame, width, height, bytes_per_line, QImage.Format_RGB888
+        )
         self.videoDisplayLabel.setPixmap(
             QPixmap.fromImage(convertedQImage).scaled(
-                self.videoDisplayLabel.width(), self.videoDisplayLabel.height(),
-                Qt.KeepAspectRatioByExpanding
+                self.videoDisplayLabel.width(),
+                self.videoDisplayLabel.height(),
+                Qt.KeepAspectRatioByExpanding,
             )
         )
 
     def invalidVideoFile(self):
-        """ display messagebox to inform user that an error has occured """
+        """display messagebox to inform user that an error has occured"""
         QMessageBox.warning(self, "Error", "No video was loaded", QMessageBox.Ok)
         self.startButton.setEnabled(True)
 
     def closeEvent(self, event):
-        """ reimplement close event to ensure that thread closes """
+        """reimplement close event to ensure that thread closes"""
         if self.thread_is_running == True:
             self.video_thread_worker.quit()
 
