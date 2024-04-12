@@ -51,7 +51,22 @@ td = None if hour >= 16 else datetime.timedelta(days=-1)
 START_DATE: datetime.datetime = datetime.datetime(year, 4, 1)
 END_DATE: datetime.datetime = datetime.datetime.now()
 END_DATE = END_DATE if td is None else END_DATE + td
+
+# Start Modification (12-Apr-24):
+# I need a lookback of at least LOOKBACK_WINDOW days for plotting, so modify the start date
+# if days between start_date & end_date < 90. Push back start_date to before 01-Apr-YYYY
+LOOKBACK_WINDOW = 180
+
+# adjust START_DATE to date LOOKBACK_WINDOW days before END_DATE
+START_DATE = (
+    END_DATE - datetime.timedelta(days=LOOKBACK_WINDOW)
+    if (END_DATE - START_DATE).days < LOOKBACK_WINDOW
+    else START_DATE
+)
+# End Modification (12-Apr-24):
+
 logger.info(
+    # if start_date is not 01-Apr-YYYY, then it has been adjusted
     f"START_DATE = {START_DATE.strftime('%d-%b-%Y')} - END_DATE = "
     f"{END_DATE.strftime('%d-%b-%Y')}"
 )
@@ -62,7 +77,7 @@ locale.setlocale(locale.LC_ALL, "en_IN.utf8")
 
 def show_candlestick(
     symbol: str,
-    days_past: int = 90,
+    days_past: int = LOOKBACK_WINDOW,
     start_date: datetime.datetime = START_DATE,
     end_date: datetime.datetime = END_DATE,
     style="yahoo",
@@ -70,6 +85,12 @@ def show_candlestick(
     fig_size=(18, 10),
 ):
     import mplfinance as mpf
+
+    # Start Modification (12-Apr-24):
+    # modification - days_past must be in range (1, LOOKBACK_WINDOW)
+    days_past = max(1, days_past)  # make any -ve value == 1
+    days_past = min(days_past, LOOKBACK_WINDOW)  # can't be > LOOKBACK_WINDOW!
+    # End Modification (12-Apr-24):
 
     df = yfinance.download(symbol, start=start_date, end=end_date, progress=False)
     df = df.reset_index()
@@ -369,14 +390,28 @@ if __name__ == "__main__":
         "--zoom",
         type=float,
         default=1.0,
-        help="Zoom level for the font size (default=1.0, no zoom)",
+        help="Zoom level for the font size (optional, default=1.0, no zoom)",
     )
+    parser.add_argument(
+        "--lookback",
+        type=int,
+        default=LOOKBACK_WINDOW,
+        help=f"Lookback window (# of days) for plotting graphs (optional, default={LOOKBACK_WINDOW})",
+    )
+    # on command line pass --lookback 120 to change lookback window
     args = parser.parse_args()
     font = app.font()
-    print(f"Default font: {font.family()}, {font.pointSize()} points", flush=True)
+    logger.info(f"Default font: {font.family()}, {font.pointSize()} points")
     font.setPointSize(int(font.pointSize() * args.zoom))
-    print(f"Zoomed font: {font.family()}, {font.pointSize()} points", flush=True)
+    logger.info(
+        f"Zoomed font: {font.family()}, {font.pointSize()} points (zoom = {args.zoom})"
+    )
     app.setFont(font)
+    # Start Modification (12-Apr-24):
+    # lookback window set from command line argument
+    LOOKBACK_WINDOW = args.lookback
+    logger.info(f"Lookback window: {LOOKBACK_WINDOW} days")
+    # End Modification (12-Apr-24):
 
     today = QDateTime.currentDateTime().toString("dd-MMM-yyyy")
 
