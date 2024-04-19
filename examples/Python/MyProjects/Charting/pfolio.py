@@ -55,7 +55,7 @@ END_DATE = END_DATE if td is None else END_DATE + td
 # Start Modification (12-Apr-24):
 # I need a lookback of at least LOOKBACK_WINDOW days for plotting, so modify the start date
 # if days between start_date & end_date < 90. Push back start_date to before 01-Apr-YYYY
-LOOKBACK_WINDOW = 180
+LOOKBACK_WINDOW = 90
 
 # adjust START_DATE to date LOOKBACK_WINDOW days before END_DATE
 START_DATE = (
@@ -108,7 +108,9 @@ def show_candlestick(
         volume=show_volume,
         title=title,
         figratio=fig_size,
+        # returnfig=True,
     )
+    # fig.tight_layout()
 
     # plt.show()
 
@@ -183,13 +185,29 @@ def download_stock_prices(
         # download stock prices
         logger.info("Downloading stock prices...")
         pfolio_df = pd.DataFrame()
+        # Start Modification - 19-Apr-2024 --------------------
+
+        # for symbol in holdings["PFOLIO"]:
+        #     logger.info(f"Downloading {symbol} data from {start_date} to {end_date}...")
+        #     stock_df = yfinance.download(
+        #         symbol, start=start_date, end=end_date, progress=False
+        #     )
+        #     if len(stock_df) != 0:
+        #         pfolio_df[symbol] = stock_df["Close"]
+        # try downloading all in one shot
+        all_symbols = " ".join(symb for symb in list(holdings["PFOLIO"]))
+        logger.info(f"Portfolio symbols: {all_symbols}")
+        logger.info(
+            f"Downloading above symbols data from {start_date} to {end_date}..."
+        )
+        all_stocks_df = yfinance.download(all_symbols, start=start_date, end=end_date)
         for symbol in holdings["PFOLIO"]:
-            logger.info(f"Downloading {symbol} data from {start_date} to {end_date}...")
-            stock_df = yfinance.download(
-                symbol, start=start_date, end=end_date, progress=False
-            )
-            if len(stock_df) != 0:
-                pfolio_df[symbol] = stock_df["Close"]
+            if len(all_stocks_df["Close"][symbol]) != 0:
+                pfolio_df[symbol] = all_stocks_df["Close"][symbol]
+            else:
+                logger.warn(f"WARNING: unable to download data for {symbol}")
+
+        # End Modification - 19-Apr-2024 --------------------
         pfolio_df.index = pd.to_datetime(pfolio_df.index)
         pfolio_df.index = pfolio_df.index.date
         # transpose so that stock names form the index
@@ -255,7 +273,7 @@ class PandasTableModel(QAbstractTableModel):
             colName = str(self._data.columns[index.column()]).strip()
             if colName.endswith("_Value"):
                 value = self._data[colName].sum()
-                logger.info(f"Sum of column {colName} is {value:,.2f}")
+                # logger.info(f"Sum of column {colName} is {value:,.2f}")
                 # NOTE: the _Value columns are even columns
                 if (index.column() % 2 == 0) and (index.column() != 2):
                     prevColName = str(self._data.columns[index.column() - 2]).strip()
@@ -348,7 +366,7 @@ class MyTableView(QTableView):
         except IndexError:
             # most likely double clicked on "Total" row
             symbol = "Unk"
-        print(
+        logger.info(
             f"You double clicked in cell {index.row()}-{index.column()} with symbol {symbol}"
         )
         if symbol != "Unk":
@@ -392,13 +410,22 @@ if __name__ == "__main__":
         default=1.0,
         help="Zoom level for the font size (optional, default=1.0, no zoom)",
     )
+    # Start Modification (12-Apr-24):
+    # on command line pass --lookback 120 to change lookback window
     parser.add_argument(
         "--lookback",
         type=int,
         default=LOOKBACK_WINDOW,
         help=f"Lookback window (# of days) for plotting graphs (optional, default={LOOKBACK_WINDOW})",
     )
-    # on command line pass --lookback 120 to change lookback window
+    # on command line pass --force_download to force download
+    parser.add_argument(
+        "--force_download",
+        type=bool,
+        default=False,
+        help=f"Flag to force download (optiona, default=False)",
+    )
+    # End Modification (12-Apr-24):
     args = parser.parse_args()
     font = app.font()
     logger.info(f"Default font: {font.family()}, {font.pointSize()} points")
@@ -411,6 +438,7 @@ if __name__ == "__main__":
     # lookback window set from command line argument
     LOOKBACK_WINDOW = args.lookback
     logger.info(f"Lookback window: {LOOKBACK_WINDOW} days")
+    logger.info(f"Force download of stock data? {args.force_download}")
     # End Modification (12-Apr-24):
 
     today = QDateTime.currentDateTime().toString("dd-MMM-yyyy")
@@ -425,12 +453,14 @@ if __name__ == "__main__":
         start_date=START_DATE,
         end_date=END_DATE,
         save_path=save_path,
-        force_download=True,
+        # Start Modification (12-Apr-24): downloads based on command line param
+        force_download=args.force_download,
+        # End Modification (12-Apr-24): downloads based on command line param
     )
-    logger.info(pfolio_df.iloc[:, -DAY_WINDOW:].head())
-    # calculate totals by day
+    # logger.info(pfolio_df.iloc[:, -DAY_WINDOW:].head())
+    # calculate totals by day, only if required
     df_values = calculate_values(pfolio_df, DAY_WINDOW)
-    logger.info(df_values)
+    # logger.info(df_values)
     save_path = (
         Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}_vals.csv"
     )
