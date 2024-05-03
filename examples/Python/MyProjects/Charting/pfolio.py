@@ -266,6 +266,7 @@ class PandasTableModel(QAbstractTableModel):
     def data(self, index: QModelIndex, role: int):
         numRows = self.rowCount(0)  # any value for index is ok
         prevValue = None
+
         if index.row() == (numRows - 1):
             value = ""
             # I am on the Totals row, which does not exist in the dataset!
