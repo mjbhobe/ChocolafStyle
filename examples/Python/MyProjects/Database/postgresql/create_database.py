@@ -121,7 +121,7 @@ def insertVendors(conn, vendor_name_or_list: Union[str, list]):
 def main():
     try:
         # connect to database
-        config_file_path = pathlib.Path(__file__).parent / "config.ini"
+        config_file_path = pathlib.Path(__file__).parent / "connect.ini"
         conn = connect(config_file_path, "postgres_vendors")
         curr = conn.cursor()
         curr.execute("SELECT current_database()")

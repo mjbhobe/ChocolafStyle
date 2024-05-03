@@ -53,7 +53,7 @@ def connect3():
     folder where this file is saved - see config.ini for
     example
     """
-    config_file_path = pathlib.Path(__file__).parent / "config.ini"
+    config_file_path = pathlib.Path(__file__).parent / "connect.ini"
     connect_params = getConfigParams(config_file_path, "postgres")
     conn = psycopg2.connect(**connect_params)
     return conn
