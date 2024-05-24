@@ -8,11 +8,11 @@ def main():
     # app = QApplication(sys.argv)
     app = chocolaf.ChocolafApp(sys.argv)
     # app.setStyle("WindowsDark")
-    # app.setStyle("Fusion")
-    # stylesheet = """
-    #     QPushButton {
-    #         min-height: 2em;
-    #     }
+    app.setStyle("Fusion")
+    stylesheet = """
+        QPushButton {
+            min-height: 1.5em;
+        }
     # """
     # app.setStyleSheet(stylesheet)
 
@@ -32,6 +32,7 @@ def main():
                 break
             icon = chocolaf.get_icon(icon_names[index])
             button = QPushButton(icon, icon_names[index])
+            button.setStyleSheet(stylesheet)
             layout.addWidget(button, row, col)
     win.setLayout(layout)
     win.setWindowTitle("Chocolaf Icons Cache")
