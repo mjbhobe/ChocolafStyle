@@ -10,7 +10,7 @@ class VLine : public QFrame
 {
 public:
    VLine(QWidget *parent = nullptr)
-       : QFrame(parent)
+      : QFrame(parent)
    {
       setFrameShape(QFrame::VLine);
       setFrameShadow(QFrame::Sunken);
@@ -18,9 +18,9 @@ public:
 };
 
 ImageViewer::ImageViewer(QWidget *parent)
-    : QMainWindow(parent)
-    , image(nullptr)
-    , imageSpinner(nullptr)
+   : QMainWindow(parent)
+   , image(nullptr)
+   , imageSpinner(nullptr)
 {
    setWindowTitle("ImageViewer");
    scaleFactor = 1.0;
@@ -44,7 +44,7 @@ ImageViewer::ImageViewer(QWidget *parent)
    createMenus();
    createToolbar();
    statusBar()->showMessage(
-         QString("Qt %1 ImageViewer with Chocolaf theme").arg(QT_VERSION_STR)
+      QString("Qt %1 ImageViewer with Chocolaf theme").arg(QT_VERSION_STR)
    );
    setupStatusBar();
 
@@ -59,7 +59,7 @@ ImageViewer::~ImageViewer() {}
 QString getIconPath(QString baseName, bool darkTheme = false)
 {
    QString iconPath
-         = QString(":/%1_%2.png").arg(baseName).arg(darkTheme ? "dark" : "light");
+      = QString(":/%1_%2.png").arg(baseName).arg(darkTheme ? "dark" : "light");
    qDebug() << "Loading icon " << iconPath;
    return iconPath;
 }
@@ -85,7 +85,7 @@ void ImageViewer::createActions()
    exitAction->setShortcut(QKeySequence("Ctrl+Q"));
    exitAction->setStatusTip("Quit the application");
    QObject::connect(
-         exitAction, SIGNAL(triggered()), QApplication::instance(), SLOT(quit())
+      exitAction, SIGNAL(triggered()), QApplication::instance(), SLOT(quit())
    );
 
    zoomInAction = new QAction("Zoom &in (25%)", this);
@@ -158,7 +158,7 @@ void ImageViewer::createActions()
    aboutQtAction = new QAction("About &Qt...", this);
    aboutQtAction->setStatusTip("Display information about the Qt library");
    QObject::connect(
-         aboutQtAction, SIGNAL(triggered()), QApplication::instance(), SLOT(aboutQt())
+      aboutQtAction, SIGNAL(triggered()), QApplication::instance(), SLOT(aboutQt())
    );
 }
 
@@ -235,14 +235,14 @@ void ImageViewer::updateStatusBar()
       QImage image = imageLabel->pixmap()->toImage();
 #endif
       auto imageInfoText = QString("%1 x %2 %3")
-                                 .arg(image.width())
-                                 .arg(image.height())
-                                 .arg(image.isGrayscale() ? "grayscale" : "color");
+                              .arg(image.width())
+                              .arg(image.height())
+                              .arg(image.isGrayscale() ? "grayscale" : "color");
       imageInfoLabel->setText(imageInfoText);
       auto sizeWidth = QString("%1").arg(imageSpinner->size()).length();
       QString status = QString("%1 of %2 images")
-                             .arg(imageSpinner->currIndex() + 1, sizeWidth)
-                             .arg(imageSpinner->size(), sizeWidth);
+                          .arg(imageSpinner->currIndex() + 1, sizeWidth)
+                          .arg(imageSpinner->size(), sizeWidth);
       qDebug() << status;
       imageCountLabel->setText(status);
       if (fitToWindowAction->isChecked()) {
@@ -272,9 +272,9 @@ void ImageViewer::scaleImage(double factor /*= -1*/)
 
 void ImageViewer::adjustScrollBar(QScrollBar *scrollBar, double factor)
 {
-   scrollBar->setValue(int(
-         factor * scrollBar->value() + ((factor - 1) * scrollBar->pageStep() / 2)
-   ));
+   scrollBar->setValue(
+      int(factor * scrollBar->value() + ((factor - 1) * scrollBar->pageStep() / 2))
+   );
 }
 
 bool ImageViewer::loadImage(const QString &imagePath)
@@ -285,8 +285,7 @@ bool ImageViewer::loadImage(const QString &imagePath)
    if (newImage.isNull()) {
       imageLoaded = false;
       QMessageBox::information(
-            this, "ImageViewer",
-            QString("FATAL: could not load image %1").arg(imagePath)
+         this, "ImageViewer", QString("FATAL: could not load image %1").arg(imagePath)
       );
       return false;
    }
@@ -312,21 +311,20 @@ bool ImageViewer::loadImage(const QString &imagePath)
 }
 
 void ImageViewer::initializeFileDialog(
-      QFileDialog &dialog, QFileDialog::AcceptMode acceptMode
+   QFileDialog &dialog, QFileDialog::AcceptMode acceptMode
 )
 {
    const QStringList picsLocation = QStandardPaths::standardLocations(
-         QStandardPaths::PicturesLocation
+      QStandardPaths::PicturesLocation
    );
    dialog.setDirectory(
-         picsLocation.isEmpty() ? QDir::currentPath() : picsLocation.last()
+      picsLocation.isEmpty() ? QDir::currentPath() : picsLocation.last()
    );
 
    QStringList mimeTypeFilters;
-   const QByteArrayList supportedMimeTypes
-         = (acceptMode == QFileDialog::AcceptOpen)
-                 ? QImageReader::supportedMimeTypes()
-                 : QImageWriter::supportedMimeTypes();
+   const QByteArrayList supportedMimeTypes = (acceptMode == QFileDialog::AcceptOpen)
+                                                ? QImageReader::supportedMimeTypes()
+                                                : QImageWriter::supportedMimeTypes();
    for (const QByteArray &mimeTypeName : supportedMimeTypes)
       mimeTypeFilters.append(mimeTypeName);
    mimeTypeFilters.sort();
@@ -342,15 +340,14 @@ void ImageViewer::open()
    QFileDialog dialog(this, "Open Image");
    initializeFileDialog(dialog, QFileDialog::AcceptOpen);
 
-   if (dialog.exec() == QFileDialog::Accepted
-       && loadImage(dialog.selectedFiles().constFirst()))
+   if (dialog.exec() == QFileDialog::Accepted && loadImage(dialog.selectedFiles().constFirst()))
       updateActions();
 }
 
 void ImageViewer::print()
 {
    QMessageBox::information(
-         this, "ImageViewer", "TODO: Implementation for Print Image"
+      this, "ImageViewer", "TODO: Implementation for Print Image"
    );
 }
 
@@ -403,7 +400,7 @@ void ImageViewer::prevImage()
    else {
       if (imageSpinner->atFirst())
          QMessageBox::information(
-               this, "ImageViewer", "Displaying first image in folder!"
+            this, "ImageViewer", "Displaying first image in folder!"
          );
    }
 }
@@ -418,18 +415,19 @@ void ImageViewer::nextImage()
    else {
       if (imageSpinner->atLast())
          QMessageBox::information(
-               this, "ImageViewer", "Displaying last image in folder!"
+            this, "ImageViewer", "Displaying last image in folder!"
          );
    }
 }
 
 void ImageViewer::about()
 {
-   QString str
-         = QString("<b>Image Viewer</b> application to view images on desktop.<br/>"
-                   "Created with Qt %1 and Chocolaf theme<br/><br/>"
-                   "Developed by Manish Bhobe<br/>"
-                   "Free to use, but use at your own risk!!")
-                 .arg(QT_VERSION_STR);
+   QString str = QString(
+                    "<b>Image Viewer</b> application to view images on desktop.<br/>"
+                    "Created with Qt %1 and Chocolaf theme<br/><br/>"
+                    "Developed by Manish Bhobe<br/>"
+                    "Free to use, but use at your own risk!!"
+   )
+                    .arg(QT_VERSION_STR);
    QMessageBox::about(this, tr("About Image Viewer"), str);
 }
