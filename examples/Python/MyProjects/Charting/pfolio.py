@@ -45,7 +45,8 @@ year, month, day, hour = (
 year = year - 1 if month in range(1, 4) else year
 # adjust day - if todays_date returns hour in the IST less than 4 PM (trading day ends 3:15 PM)
 # then subtract 1 day. We'll use timedelta to auto-set year, month respectively.
-td = None if hour >= 16 else datetime.timedelta(days=-1)
+# td = None if hour >= 16 else datetime.timedelta(days=-1)
+td = None   # data downloads missing 1 day for some reason :(
 
 # NOTE: start date is 01-Apr of current financial year
 START_DATE: datetime.datetime = datetime.datetime(year, 4, 1)
@@ -73,6 +74,7 @@ logger.info(
 
 # set to India locale for correct number & currency formats
 locale.setlocale(locale.LC_ALL, "en_IN.utf8")
+# sys.exit(-1)
 
 
 def show_candlestick(
@@ -424,7 +426,7 @@ if __name__ == "__main__":
         "--force_download",
         type=bool,
         default=False,
-        help=f"Flag to force download (optiona, default=False)",
+        help=f"Flag to force download (optional, default=False)",
     )
     # End Modification (12-Apr-24):
     args = parser.parse_args()
