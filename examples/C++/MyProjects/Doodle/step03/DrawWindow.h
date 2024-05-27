@@ -7,7 +7,8 @@
 
 class QImage;
 
-class DrawWindow : public QWidget {
+class DrawWindow : public QWidget
+{
   Q_OBJECT
 public:
   DrawWindow();
@@ -30,12 +31,15 @@ private:
   bool _modified;
 };
 
-class DrawMainWindow : public QMainWindow {
+class DrawMainWindow : public QMainWindow
+{
 private:
   DrawWindow *_drawWindow;
 
 public:
-  DrawMainWindow(DrawWindow *win) : _drawWindow(win) {}
+  DrawMainWindow(DrawWindow *win)
+      : _drawWindow(win)
+  {}
 
 protected:
   // OS events

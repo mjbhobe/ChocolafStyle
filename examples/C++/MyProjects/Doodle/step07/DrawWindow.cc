@@ -19,11 +19,12 @@
 #include <QtGui>
 
 const QString AppTitle("Qt Scribble");
-const QString WindowTitle =
-    QString("Qt %1 Doodle - Step07: Adding Actions + Menus + handlers")
-        .arg(QT_VERSION_STR);
+const QString WindowTitle
+    = QString("Qt %1 Doodle - Step07: Adding Actions + Menus + handlers")
+          .arg(QT_VERSION_STR);
 
-DrawWindow::DrawWindow() {
+DrawWindow::DrawWindow()
+{
   setAttribute(Qt::WA_StaticContents);
   setWindowTitle(WindowTitle);
   setWindowIcon(QIcon(":/icons/appIcon.png"));
@@ -41,9 +42,13 @@ DrawWindow::DrawWindow() {
   _currLine = nullptr;
 }
 
-DrawWindow::~DrawWindow() { delete _doodle; }
+DrawWindow::~DrawWindow()
+{
+  delete _doodle;
+}
 
-void DrawWindow::createActions() {
+void DrawWindow::createActions()
+{
   fa::QtAwesome *awesome = new fa::QtAwesome(this);
   awesome->initFontAwesome();
 
@@ -61,8 +66,7 @@ void DrawWindow::createActions() {
   fileNewAction->setStatusTip(tr("Create a new scribble document."));
   QObject::connect(fileNewAction, SIGNAL(triggered()), this, SLOT(fileNew()));
 
-  auto file_open_icon =
-      awesome->icon(fa::fa_regular, fa::fa_folder_open, options);
+  auto file_open_icon = awesome->icon(fa::fa_regular, fa::fa_folder_open, options);
   fileOpenAction = new QAction(file_open_icon, tr("&Open..."), this);
   // fileOpenAction = new QAction(QIcon(":/icons/fileOpen.png"), tr("&Open..."),
   // this);
@@ -82,31 +86,30 @@ void DrawWindow::createActions() {
   // options); fileSaveAction = new QAction(file_saveas_icon, tr("&Save"),
   // this); auto file_saveas_icon = awesome->icon(fa::fa_regular,
   // fa::floppy_disk_pen, options);
-  fileSaveAsAction =
-      new QAction(QIcon(":/icons/fileSaveAs.png"), tr("Save &as..."), this);
+  fileSaveAsAction = new QAction(QIcon(":/icons/fileSaveAs.png"),
+                                 tr("Save &as..."),
+                                 this);
   fileSaveAsAction->setStatusTip(
       tr("Save scribble document to disk with different name."));
-  QObject::connect(fileSaveAsAction, SIGNAL(triggered()), this,
-                   SLOT(fileSaveAs()));
+  QObject::connect(fileSaveAsAction, SIGNAL(triggered()), this, SLOT(fileSaveAs()));
 
   exitAction = new QAction(tr("E&xit"), this);
-  exitAction->setStatusTip(
-      tr("Save all pending changes and quit application."));
+  exitAction->setStatusTip(tr("Save all pending changes and quit application."));
   QObject::connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
   // auto pen_icon = awesome->icon(fa::fa_regular, fa::fa_pen, options);
   // penWidthAction = new QAction(pen_icon, tr("Change pen &width..."), this);
   penWidthAction = new QAction(QIcon(":/icons/penWidth.png"),
-                               tr("Change pen &width..."), this);
+                               tr("Change pen &width..."),
+                               this);
   penWidthAction->setStatusTip(tr("Change the width of default pen."));
-  QObject::connect(penWidthAction, SIGNAL(triggered()), this,
-                   SLOT(changePenWidth()));
+  QObject::connect(penWidthAction, SIGNAL(triggered()), this, SLOT(changePenWidth()));
 
   penColorAction = new QAction(QIcon(":/icons/penColor.png"),
-                               tr("Change pen &color..."), this);
+                               tr("Change pen &color..."),
+                               this);
   penColorAction->setStatusTip(tr("Change the color of default pen."));
-  QObject::connect(penColorAction, SIGNAL(triggered()), this,
-                   SLOT(changePenColor()));
+  QObject::connect(penColorAction, SIGNAL(triggered()), this, SLOT(changePenColor()));
 
   aboutQtAction = new QAction(tr("&About Qt..."), this);
   aboutQtAction->setStatusTip(tr("Display information about Qt library."));
@@ -117,7 +120,8 @@ void DrawWindow::createActions() {
   QObject::connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
 }
 
-void DrawWindow::createMenus() {
+void DrawWindow::createMenus()
+{
   fileMenu = new QMenu(tr("&File"), this);
   fileMenu->addAction(fileNewAction);
   fileMenu->addAction(fileOpenAction);
@@ -139,7 +143,8 @@ void DrawWindow::createMenus() {
   menuBar()->addMenu(helpMenu);
 }
 
-void DrawWindow::createToolbar() {
+void DrawWindow::createToolbar()
+{
   this->toolbar = new QToolBar();
   this->toolbar->addAction(fileNewAction);
   this->toolbar->addAction(fileOpenAction);
@@ -151,36 +156,40 @@ void DrawWindow::createToolbar() {
   addToolBar(this->toolbar);
 }
 
-bool DrawWindow::canClose() {
+bool DrawWindow::canClose()
+{
   if (_doodle->modified()) {
     switch (QMessageBox::question(
-        this, tr("Qt Scribble Tutorial"),
+        this,
+        tr("Qt Scribble Tutorial"),
         tr("The doodle has changed. Save changes to doodle now?"),
         QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
         QMessageBox::No)) {
-    case QMessageBox::Yes:
-      // save doodle & quit
-      fileSave();
-      return true;
-    case QMessageBox::No:
-      // quit without saving
-      return true;
-    default:
-      // don't quit yet!
-      return false;
+      case QMessageBox::Yes:
+        // save doodle & quit
+        fileSave();
+        return true;
+      case QMessageBox::No:
+        // quit without saving
+        return true;
+      default:
+        // don't quit yet!
+        return false;
     }
   }
   return true; // doodle not modified. Ok to quit!
 }
 
-void DrawWindow::closeEvent(QCloseEvent *event) {
+void DrawWindow::closeEvent(QCloseEvent *event)
+{
   if (canClose())
     event->accept();
   else
     event->ignore();
 }
 
-void DrawWindow::drawLineTo(const QPoint &pt) {
+void DrawWindow::drawLineTo(const QPoint &pt)
+{
   Q_ASSERT(_currLine != nullptr);
   // draw line from _lastPt to pt
   QPainter painter(&_image);
@@ -192,7 +201,8 @@ void DrawWindow::drawLineTo(const QPoint &pt) {
   update();
 }
 
-void DrawWindow::clearImage() {
+void DrawWindow::clearImage()
+{
   Q_ASSERT(_doodle != nullptr);
   _doodle->clear();
 
@@ -201,7 +211,8 @@ void DrawWindow::clearImage() {
   update();
 }
 
-void DrawWindow::mousePressEvent(QMouseEvent *event) {
+void DrawWindow::mousePressEvent(QMouseEvent *event)
+{
   Q_ASSERT(_doodle != nullptr);
 
   // check if Ctrl key is held down as left/right mouse is clicked
@@ -232,14 +243,16 @@ void DrawWindow::mousePressEvent(QMouseEvent *event) {
   }
 }
 
-void DrawWindow::mouseMoveEvent(QMouseEvent *event) {
+void DrawWindow::mouseMoveEvent(QMouseEvent *event)
+{
   if ((event->buttons() == Qt::LeftButton) && _dragging) {
     drawLineTo(event->pos());
     _currLine->addPoint(event->pos());
   }
 }
 
-void DrawWindow::mouseReleaseEvent(QMouseEvent *event) {
+void DrawWindow::mouseReleaseEvent(QMouseEvent *event)
+{
   if ((event->button() == Qt::LeftButton) && _dragging) {
     drawLineTo(event->pos());
     _currLine->addPoint(event->pos());
@@ -247,20 +260,27 @@ void DrawWindow::mouseReleaseEvent(QMouseEvent *event) {
   }
 }
 
-void DrawWindow::changePenWidth() {
+void DrawWindow::changePenWidth()
+{
   Q_ASSERT(_doodle != nullptr);
   // display message box & get width of pen
   bool ok;
-  int newPenWidth =
-      QInputDialog::getInt(this, AppTitle, QString("Enter new pen width:"),
-                           _doodle->penWidth(), 2, 12, 1, &ok);
+  int newPenWidth = QInputDialog::getInt(this,
+                                         AppTitle,
+                                         QString("Enter new pen width:"),
+                                         _doodle->penWidth(),
+                                         2,
+                                         12,
+                                         1,
+                                         &ok);
   if (ok) {
     qDebug() << "New pen width selected: " << newPenWidth;
     _doodle->setPenWidth(newPenWidth);
   }
 }
 
-void DrawWindow::changePenColor() {
+void DrawWindow::changePenColor()
+{
   Q_ASSERT(_doodle != nullptr);
   // display standard color dialog & get new pen color
   QColor color = QColorDialog::getColor(_doodle->penColor(), this);
@@ -268,7 +288,8 @@ void DrawWindow::changePenColor() {
     _doodle->setPenColor(color);
 }
 
-void DrawWindow::resizeEvent(QResizeEvent *event) {
+void DrawWindow::resizeEvent(QResizeEvent *event)
+{
   if (width() > _image.width() || height() > _image.height()) {
     int newWidth = qMax(width(), _image.width());
     int newHeight = qMax(height(), _image.height());
@@ -278,7 +299,8 @@ void DrawWindow::resizeEvent(QResizeEvent *event) {
   QWidget::resizeEvent(event);
 }
 
-void DrawWindow::paintEvent(QPaintEvent *event) {
+void DrawWindow::paintEvent(QPaintEvent *event)
+{
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing);
   // we just blit the from image to device
@@ -286,7 +308,8 @@ void DrawWindow::paintEvent(QPaintEvent *event) {
   painter.drawImage(dirtyRect, _image, dirtyRect);
 }
 
-void DrawWindow::resizeImage(const QSize &newSize) {
+void DrawWindow::resizeImage(const QSize &newSize)
+{
   if (_image.size() == newSize)
     return;
   QImage newImage(newSize, QImage::Format_RGB32);
@@ -303,16 +326,19 @@ void DrawWindow::resizeImage(const QSize &newSize) {
 //
 // Action response functions
 //
-void DrawWindow::fileNew() {
+void DrawWindow::fileNew()
+{
   if (canClose())
     clearImage();
 }
 
-void DrawWindow::fileOpen() {
+void DrawWindow::fileOpen()
+{
   QMessageBox::information(this, AppTitle, tr("File|Open clicked!"));
 }
 
-void DrawWindow::fileSave() {
+void DrawWindow::fileSave()
+{
   Q_ASSERT(_doodle != 0);
   if (_doodle->isNew())
     fileSaveAs();
@@ -321,10 +347,10 @@ void DrawWindow::fileSave() {
   }
 }
 
-void DrawWindow::fileSaveAs() {
+void DrawWindow::fileSaveAs()
+{
   QString currFileName("");
-  QString fileName =
-      QFileDialog::getSaveFileName(this, tr("Save As"), currFileName);
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"), currFileName);
   if (!fileName.isEmpty()) {
     QString str;
     QTextStream ostr(&str);
@@ -333,11 +359,13 @@ void DrawWindow::fileSaveAs() {
   }
 }
 
-void DrawWindow::exitApp() {
+void DrawWindow::exitApp()
+{
   QMessageBox::information(this, AppTitle, tr("File|Exit clicked!"));
 }
 
-void DrawWindow::about() {
+void DrawWindow::about()
+{
   /*
  QString str;
  QTextStream ostr(&str);
@@ -351,19 +379,19 @@ void DrawWindow::about() {
  that "
       << "may result from the use of this program.</small></html>"; */
 
-  QString str =
-      QString("<html><b>Qt Scribble</b> - Doodling application<p/>Developed "
-              "with the Qt "
-              "%1 C++ framework.<p/><p/>Written by - %2.<p/>"
-              "Copyright(C) %3<p/>"
-              "<small>Program developed for illustration purposes only! Use at "
-              "your own  "
-              "risk! Author is not responsible for any damages (direct or "
-              "indirect) that "
-              "may result from the use of this program.</small></html>")
-          .arg(QT_VERSION_STR)
-          .arg(Chocolaf::__author__)
-          .arg(Chocolaf::__organization__);
+  QString str
+      = QString("<html><b>Qt Scribble</b> - Doodling application<p/>Developed "
+                "with the Qt "
+                "%1 C++ framework.<p/><p/>Written by - %2.<p/>"
+                "Copyright(C) %3<p/>"
+                "<small>Program developed for illustration purposes only! Use at "
+                "your own  "
+                "risk! Author is not responsible for any damages (direct or "
+                "indirect) that "
+                "may result from the use of this program.</small></html>")
+            .arg(QT_VERSION_STR)
+            .arg(Chocolaf::__author__)
+            .arg(Chocolaf::__organization__);
 
   QMessageBox::about(this, AppTitle, str);
 }

@@ -18,10 +18,11 @@
 #include "chocolaf.h"
 
 const QString AppTitle("Qt Scribble");
-const QString WinTitle =
-    QString("Qt %1 Doodle - Step03: Handling mouse clicks").arg(QT_VERSION_STR);
+const QString WinTitle = QString("Qt %1 Doodle - Step03: Handling mouse clicks")
+                             .arg(QT_VERSION_STR);
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   QApplication app(argc, argv);
   Chocolaf::setChocolafStyle(app, "WindowsDark");
 

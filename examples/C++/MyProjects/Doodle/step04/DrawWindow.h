@@ -9,33 +9,33 @@ class QColor;
 
 class DrawWindow : public QMainWindow
 {
-   Q_OBJECT
- public:
-   DrawWindow();
+  Q_OBJECT
+public:
+  DrawWindow();
 
- protected:
-   // operating system events
-   void closeEvent(QCloseEvent *event);
-   void paintEvent(QPaintEvent *event);
-   void resizeEvent(QResizeEvent *event);
+protected:
+  // operating system events
+  void closeEvent(QCloseEvent *event);
+  void paintEvent(QPaintEvent *event);
+  void resizeEvent(QResizeEvent *event);
 
-   // event messages
-   void mousePressEvent(QMouseEvent *event);
-   void mouseMoveEvent(QMouseEvent *event);
-   void mouseReleaseEvent(QMouseEvent *event);
+  // event messages
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
+  void mouseReleaseEvent(QMouseEvent *event);
 
- private:
-   void drawLineTo(const QPoint &pt);
-   void clearImage();
-   void resizeImage(const QSize &size);
+private:
+  void drawLineTo(const QPoint &pt);
+  void clearImage();
+  void resizeImage(const QSize &size);
 
-   QImage _image;
-   bool _modified;
+  QImage _image;
+  bool _modified;
 
-   QPoint _lastPt;
-   bool _dragging;
-   int _penWidth;
-   QColor _penColor;
+  QPoint _lastPt;
+  bool _dragging;
+  int _penWidth;
+  QColor _penColor;
 };
 
 #endif // __DrawWindow_h__

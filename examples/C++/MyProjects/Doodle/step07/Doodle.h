@@ -7,30 +7,31 @@
 
 class Line;
 
-class Doodle : public QObject {
-    Q_OBJECT
+class Doodle : public QObject
+{
+  Q_OBJECT
 public:
-    Doodle(int penWidth = 2, const QColor& penColor = qRgb(0, 0, 255));
-    ~Doodle();
+  Doodle(int penWidth = 2, const QColor &penColor = qRgb(0, 0, 255));
+  ~Doodle();
 
-    Line* newLine();
-    int numLines() const;
-    int penWidth() const { return _penWidth; }
-    void setPenWidth(int newWidth);
-    QColor penColor() const { return _penColor; }
-    void setPenColor(const QColor& color);
-    void draw(QPainter& painter);
-    bool modified() const { return _isModified; }
-    void setModified(bool modified = true);
-    void clear();
-    bool isNew() const { return _isNew; }
+  Line *newLine();
+  int numLines() const;
+  int penWidth() const { return _penWidth; }
+  void setPenWidth(int newWidth);
+  QColor penColor() const { return _penColor; }
+  void setPenColor(const QColor &color);
+  void draw(QPainter &painter);
+  bool modified() const { return _isModified; }
+  void setModified(bool modified = true);
+  void clear();
+  bool isNew() const { return _isNew; }
 
 private:
-    QList<Line*>* _lines;
-    int _penWidth, _defPenWidth;
-    QColor _penColor, _defPenColor;
-    bool _isModified;
-    bool _isNew;
+  QList<Line *> *_lines;
+  int _penWidth, _defPenWidth;
+  QColor _penColor, _defPenColor;
+  bool _isModified;
+  bool _isNew;
 };
 
 #endif // __Doodle_h__
