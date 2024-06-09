@@ -18,7 +18,7 @@ ImageSpinner::ImageSpinner(const QString& imagePath)
                  << "*.gif"
                  << "*.bmp"
                  << "*.png";
-    m_fileNames = m_dir.entryList(imageFilters, QDir::Files, QDir::Name);
+    /* QStringList */ m_fileNames = m_dir.entryList(imageFilters, QDir::Files, QDir::Name);
     // m_currIndex =
     // m_fileNames.indexOf(QRegExp(QRegExp::escape(current.fileName())));
     m_currIndex = m_fileNames.indexOf(
