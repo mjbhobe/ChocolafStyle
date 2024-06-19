@@ -48,7 +48,7 @@ private:
   void createActions();
   void createMenus();
   void createToolbar();
-  void scaleImage(double factor = -1);
+  void scaleImage(double factor = -1.0);
   void adjustScrollBar(QScrollBar *scrollBar, double factor);
   void setupStatusBar();
   void updateStatusBar();

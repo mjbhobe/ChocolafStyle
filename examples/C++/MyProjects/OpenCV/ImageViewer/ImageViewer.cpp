@@ -230,14 +230,14 @@ void ImageViewer::updateStatusBar()
 {
    if (imageSpinner) {
 #ifdef USING_QT6
-      QImage image = imageLabel->pixmap().toImage();
+      QImage _image = imageLabel->pixmap().toImage();
 #else
-      QImage image = imageLabel->pixmap()->toImage();
+      QImage _image = imageLabel->pixmap()->toImage();
 #endif
       auto imageInfoText = QString("%1 x %2 %3")
-                              .arg(image.width())
-                              .arg(image.height())
-                              .arg(image.isGrayscale() ? "grayscale" : "color");
+                              .arg(_image.width())
+                              .arg(_image.height())
+                              .arg(_image.isGrayscale() ? "grayscale" : "color");
       imageInfoLabel->setText(imageInfoText);
       auto sizeWidth = QString("%1").arg(imageSpinner->size()).length();
       QString status = QString("%1 of %2 images")
@@ -255,11 +255,11 @@ void ImageViewer::updateStatusBar()
    }
 }
 
-void ImageViewer::scaleImage(double factor /*= -1*/)
+void ImageViewer::scaleImage(double factor /*= -1.0*/)
 {
    // NOTE: factor == -1 is used to scale a newly loaded image to same
    // scaleFactor as last loaded image
-   if (factor != -1)
+   if (factor != -1.0)
       scaleFactor *= factor;
    imageLabel->resize(scaleFactor * imageLabel->pixmap(Qt::ReturnByValue).size());
 
