@@ -3,7 +3,8 @@
 
 #include <QtCore>
 
-class ImageSpinner : public QObject {
+class ImageSpinner : public QObject
+{
 public:
   ImageSpinner(const QString &imagePath);
   QString nextImage();
