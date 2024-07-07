@@ -15,11 +15,12 @@ class QFileDialog;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class ImageViewer;
+  class ImageViewer;
 }
 QT_END_NAMESPACE
 
-class ImageViewer : public QMainWindow {
+class ImageViewer : public QMainWindow
+{
   Q_OBJECT
 
 public:
@@ -28,8 +29,7 @@ public:
 
   bool loadImage(const QString &imagePath);
   void updateActions();
-  void initializeFileDialog(QFileDialog &dialog,
-                            QFileDialog::AcceptMode acceptMode);
+  void initializeFileDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
 private slots:
   void open();
@@ -48,7 +48,7 @@ private:
   void createActions();
   void createMenus();
   void createToolbar();
-  void scaleImage(double factor = -1);
+  void scaleImage(double factor = -1.0);
   void adjustScrollBar(QScrollBar *scrollBar, double factor);
   void setupStatusBar();
   void updateStatusBar();

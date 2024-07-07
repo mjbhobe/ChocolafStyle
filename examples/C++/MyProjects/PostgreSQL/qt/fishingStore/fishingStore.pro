@@ -8,6 +8,7 @@ INCLUDEPATH += .
 
 include (../../../../../../chocolaf/common_files/common.pro)
 
+# pqxx library does not support C++20 yet!
 QMAKE_CXXFLAGS -= -std=c++20
 QMAKE_CXXFLAGS += -std=c++17
 

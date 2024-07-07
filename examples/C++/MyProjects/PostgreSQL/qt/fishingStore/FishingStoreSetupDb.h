@@ -4,7 +4,8 @@
 #include <QObject>
 #include <pqxx/pqxx>
 
-class FishingStoreSetupDb : public QObject {
+class FishingStoreSetupDb : public QObject
+{
   Q_OBJECT
 public:
   static void createDbObjects(pqxx::connection &conn);
