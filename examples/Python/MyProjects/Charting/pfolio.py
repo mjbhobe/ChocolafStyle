@@ -46,7 +46,7 @@ year = year - 1 if month in range(1, 4) else year
 # adjust day - if todays_date returns hour in the IST less than 4 PM (trading day ends 3:15 PM)
 # then subtract 1 day. We'll use timedelta to auto-set year, month respectively.
 # td = None if hour >= 16 else datetime.timedelta(days=-1)
-td = None   # data downloads missing 1 day for some reason :(
+td = None  # data downloads missing 1 day for some reason :(
 
 # NOTE: start date is 01-Apr of current financial year
 START_DATE: datetime.datetime = datetime.datetime(year, 4, 1)
@@ -64,6 +64,7 @@ START_DATE = (
     if (END_DATE - START_DATE).days < LOOKBACK_WINDOW
     else START_DATE
 )
+
 # End Modification (12-Apr-24):
 
 logger.info(
