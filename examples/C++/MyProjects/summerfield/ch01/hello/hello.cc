@@ -5,7 +5,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-int main(int argc, char **argv)
+int main(int argc, char **argv) 
 {
     QApplication app(argc, argv);
     QApplication::setFont(QApplication::font("QMenu"));
@@ -13,10 +13,10 @@ int main(int argc, char **argv)
 
     // create & show our GUI
     QWidget window;
-    window.setWindowTitle("Hello Qt World");
+    window.setWindowTitle(QString("Hello Qt %1 World").arg(QT_VERSION_STR));
     QVBoxLayout *l = new QVBoxLayout();
     QHBoxLayout *w = new QHBoxLayout;
-    QLabel *hello = new QLabel("Welcome to Qt programming. Enjoy the ride!");
+    QLabel *hello = new QLabel("Welcome to Qt programming with C++. Enjoy the ride!");
     QPushButton *quit = new QPushButton("Quit!");
     quit->setToolTip("Quit Application");
     w->addWidget(hello);

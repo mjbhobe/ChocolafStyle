@@ -1,7 +1,7 @@
 import sys
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 
 # using qdarkstyle (@see: https://github.com/ColinDuquesnoy/QDarkStyleSheet)
 import qdarkstyle
@@ -16,7 +16,7 @@ class Hello(QWidget):
         self.initGui()
 
     def initGui(self):
-        self.setWindowTitle(f"Hello Qt World from PyQt {PYQT_VERSION_STR}")
+        self.setWindowTitle(f"Hello PyQt {PYQT_VERSION_STR} World")
         hello = QLabel("Welcome to PyQt programming. Enjoy the ride!")
         quitBtn = QPushButton("Quit!")
         quitBtn.setMinimumWidth(100)
@@ -44,7 +44,7 @@ def main():
     # w.setGeometry(100, 100, 640, 480)
     w.show()
 
-    return app.exec_()
+    return app.exec()
 
 
 if __name__ == "__main__":

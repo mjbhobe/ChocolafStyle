@@ -1,22 +1,24 @@
 # hello.py: signals & slots
 import sys
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+
 # using qdarkstyle (@see: https://github.com/ColinDuquesnoy/QDarkStyleSheet)
 import qdarkstyle
+
 # to detect dark themes (@see: https://pypi.org/project/darkdetect/)
 import darkdetect
 
 MIN_C, MAX_C = -100, 100
 
 app = QApplication(sys.argv)
-app.setStyle('Fusion')
+app.setStyle("Fusion")
 # font = QFont("SF UI Text", 11)
 app.setFont(QApplication.font("QMenu"))
 if darkdetect.isDark():
     # apply dark stylesheet
-    app.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt5'))
+    app.setStyleSheet(qdarkstyle.load_stylesheet(qt_api="pyqt6"))
 print(f"Available styles {QStyleFactory.keys()}")
 widget = QWidget()
 widget.setWindowTitle("Hello")
@@ -26,4 +28,4 @@ layout.addWidget(label)
 widget.setLayout(layout)
 widget.show()
 
-sys.exit(app.exec_())
+sys.exit(app.exec())
