@@ -1,4 +1,5 @@
 """ calculate_volatility.py - calculate monthly realized volatility on AAPL stock """
+
 import sys
 import numpy as np
 import pandas as pd
@@ -17,7 +18,7 @@ print(plt.style.available)
 plt.style.use("seaborn-v0_8-dark-palette")
 
 
-START_DATE, END_DATE = "2000-01-01", "2023-12-31"
+START_DATE, END_DATE = "2000-01-01", "2024-07-15"
 TICKER = "PERSISTENT.NS"
 
 

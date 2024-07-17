@@ -11,7 +11,7 @@ from dotenv import load_dotenv, find_dotenv
 # print(plt.style.available)
 # sys.exit(-1)
 
-START_DATE, END_DATE = "1990-01-01", "2024-02-19"
+START_DATE, END_DATE = "1990-01-01", "2024-07-15"
 
 TICKERS = {
     "AAPL": "Apple",
