@@ -5,7 +5,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import yfinance as yf
-from dotenv import load_dotenv, find_dotenv
+
+# from dotenv import load_dotenv, find_dotenv
+import argparse
+import datetime
 
 
 # print(plt.style.available)
@@ -23,6 +26,13 @@ TICKERS = {
     "DIXON.NS": "Dixon",
     "PERSISTENT.NS": "Persistent Systems",
 }
+
+
+def valid_date(s: str) -> datetime.datetime:
+    try:
+        return datetime.datetime.strptime(s, "%Y-%m-%d")
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"Not a valid date: {s!r}")
 
 
 def download_stock_prices(

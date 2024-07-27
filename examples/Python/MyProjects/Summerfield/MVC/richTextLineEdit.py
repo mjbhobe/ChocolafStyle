@@ -260,7 +260,7 @@ class RichTextLineEdit(QTextEdit):
 if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # app.setStyle("Chocolaf")
     # app = QApplication(sys.argv)
 
     lineedit = RichTextLineEdit()
@@ -269,7 +269,7 @@ if __name__ == "__main__":
     lineedit.show()
     lineedit.setWindowTitle("RichTextEdit")
 
-    app.exec_()
+    app.exec()
 
     print(lineedit.toHtml())
     print(lineedit.toPlainText())

@@ -33,21 +33,28 @@ int main(int argc, char **argv)
   //Chocolaf::setChocolafStyle(app, "WindowsDark");
   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
-  // parse the command line params
-  MyArgs args = argparse::parse<MyArgs>(argc, argv, /* raise_on_error */ true);
+  try {
+    // parse the command line params
+    MyArgs args = argparse::parse<MyArgs>(argc, argv, /* raise_on_error */ true);
 
-  ImageViewer w;
-  if ((args.image_path != "")) {
-    if (fs::exists(args.image_path)) {
-      w.loadImage(QString(args.image_path.c_str()));
-      w.updateActions();
+    ImageViewer w;
+    if ((args.image_path != "")) {
+      if (fs::exists(args.image_path)) {
+        w.loadImage(QString(args.image_path.c_str()));
+        w.updateActions();
+      }
+      else {
+        cerr << "WARNING: " << args.image_path.c_str() << " - path does not exist!"
+             << Qt::endl;
+      }
     }
-    else {
-      cerr << "WARNING: " << args.image_path.c_str() << " - path does not exist!"
-           << Qt::endl;
-    }
+    w.show();
+
+    return app.exec();
   }
-  w.show();
-
-  return app.exec();
+  catch (std::runtime_error &err) {
+    QString errMsg{err.what()};
+    QMessageBox::critical(nullptr, QString("Command line error!"), errMsg);
+    return -1;
+  }
 }

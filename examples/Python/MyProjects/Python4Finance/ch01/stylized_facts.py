@@ -1,4 +1,5 @@
 """ stylized_facts.py: get facts about an index """
+
 import sys
 import numpy as np
 import pandas as pd
@@ -8,8 +9,8 @@ import seaborn as sns
 import scipy.stats as scs
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
-from download import download_stock_prices
-from download import TICKERS
+from download import download_stock_prices, TICKERS, valid_date
+import argparse
 
 # print(plt.style.available)
 # sys.exit(-1)
@@ -21,7 +22,35 @@ START_DATE, END_DATE = "1985-01-01", "2023-12-31"
 TICKER = "RELIANCE.NS"
 
 if __name__ == "__main__":
-    df = download_stock_prices(TICKER, START_DATE, END_DATE)
+    # parse command line arguments
+    parser = argparse.ArgumentParser()
+    # on command line pass --zoom 1.2 to increase font size by 20%
+    parser.add_argument(
+        "--ticker",
+        type=str,
+        default=TICKER,
+        help="Stock symbol to download data for (e.g. RELIANCE.NS)",
+    )
+    parser.add_argument(
+        "--start_date",
+        default=START_DATE,
+        help="The Start Date - format YYYY-MM-DD",
+        type=valid_date,
+    )
+    parser.add_argument(
+        "--end_date",
+        default=END_DATE,
+        help="The End Date - format YYYY-MM-DD",
+        type=valid_date,
+    )
+    args = parser.parse_args()
+
+    print(
+        f"Downloading data for {args.ticker} from {args.start_date} to {args.end_date}"
+    )
+    df = download_stock_prices(
+        args.ticker, args.start_date, args.end_date
+    )  # START_DATE, END_DATE)
     print(df.head())
     # generate 1000 numbers between min & max of log returns
     r_range = np.linspace(np.min(df.Log_Rtn), np.max(df.Log_Rtn), num=1000)
@@ -33,7 +62,7 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(1, 2, figsize=(16, 8))
     # histogram with norm distribution
     sns.distplot(df.Log_Rtn, kde=False, norm_hist=True, ax=ax[0])
-    ax[0].set_title(f"Distribution of {TICKERS[TICKER]} Returns", fontsize=12)
+    ax[0].set_title(f"Distribution of {args.ticker} Returns", fontsize=12)
     ax[0].plot(
         r_range, norm_pdf, color="firebrick", lw=2, label=f"N({mu:.2f}, {sigma**2:.4f})"
     )

@@ -6,7 +6,8 @@ import pandas as pd
 import yfinance as yf
 import matplotlib.pyplot as plt
 import seaborn as sns
-from download import download_stock_prices
+from download import download_stock_prices, valid_date
+import argparse
 
 # print(plt.style.available)
 # sys.exit(-1)
@@ -29,6 +30,23 @@ def detect_outliers(row, n_sigmas=3):
 
 
 if __name__ == "__main__":
+    # parse command line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--start_date",
+        default=START_DATE,
+        help="The Start Date - format YYYY-MM-DD",
+        type=valid_date,
+    )
+    parser.add_argument(
+        "--end_date",
+        default=END_DATE,
+        help="The End Date - format YYYY-MM-DD",
+        type=valid_date,
+    )
+    args = parser.parse_args()
+
+    print(f"Downloading prices from {args.start_date} to {args.end_date}")
     # plt.style.use('seaborn')
     stocks = {
         "AAPL": "Apple",
@@ -39,7 +57,7 @@ if __name__ == "__main__":
     dataframes = []
     for symbol, stock in stocks.items():
         print(f"Downloading {symbol} prices", flush=True)
-        df = download_stock_prices(symbol, START_DATE, END_DATE)
+        df = download_stock_prices(symbol, args.start_date, args.end_date)
         # print(df.tail())
         df_rolling = df[["Simple_Rtn"]].rolling(window=21).agg(["mean", "std"])
         df_rolling.columns = df_rolling.columns.droplevel()
