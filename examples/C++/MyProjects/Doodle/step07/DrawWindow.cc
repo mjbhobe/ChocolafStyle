@@ -68,27 +68,21 @@ void DrawWindow::createActions()
 
   auto file_open_icon = awesome->icon(fa::fa_regular, fa::fa_folder_open, options);
   fileOpenAction = new QAction(file_open_icon, tr("&Open..."), this);
-  // fileOpenAction = new QAction(QIcon(":/icons/fileOpen.png"), tr("&Open..."),
-  // this);
   fileOpenAction->setShortcut(tr("Ctrl+O"));
   fileOpenAction->setStatusTip(tr("Open scribble document from disk file."));
   QObject::connect(fileOpenAction, SIGNAL(triggered()), this, SLOT(fileOpen()));
 
   auto file_save_icon = awesome->icon(fa::fa_regular, fa::fa_save, options);
   fileSaveAction = new QAction(file_save_icon, tr("&Save"), this);
-  // fileSaveAction = new QAction(QIcon(":/icons/fileSave.png"), tr("&Save"),
-  // this);
   fileSaveAction->setShortcut(tr("Ctrl+S"));
   fileSaveAction->setStatusTip(tr("Save scribble document to disk file."));
   QObject::connect(fileSaveAction, SIGNAL(triggered()), this, SLOT(fileSave()));
 
-  // auto file_saveas_icon = awesome->icon(fa::fa_regular, fa::fa_floppy_disk,
-  // options); fileSaveAction = new QAction(file_saveas_icon, tr("&Save"),
-  // this); auto file_saveas_icon = awesome->icon(fa::fa_regular,
+  //auto file_saveas_icon = awesome->icon(fa::fa_regular, fa::fa_floppy_disk, options);
+  //fileSaveAction = new QAction(file_saveas_icon, tr("&Save"), this);
+  // auto file_saveas_icon = awesome->icon(fa::fa_regular,
   // fa::floppy_disk_pen, options);
-  fileSaveAsAction = new QAction(QIcon(":/icons/fileSaveAs.png"),
-                                 tr("Save &as..."),
-                                 this);
+  fileSaveAsAction = new QAction(QIcon(":/icons/fileSaveAs.png"), tr("Save &as..."), this);
   fileSaveAsAction->setStatusTip(
       tr("Save scribble document to disk with different name."));
   QObject::connect(fileSaveAsAction, SIGNAL(triggered()), this, SLOT(fileSaveAs()));
