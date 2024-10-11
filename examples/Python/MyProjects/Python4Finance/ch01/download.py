@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 
-# from dotenv import load_dotenv, find_dotenv
+from dotenv import load_dotenv, find_dotenv
 import argparse
 import datetime
 
@@ -126,11 +126,12 @@ if __name__ == "__main__":
     df = download_stock_prices("RELIANCE.NS", START_DATE, END_DATE)
     print(df.tail())
     df2 = adjust_prices_for_inflation(df, START_DATE, END_DATE)
+    print(df2.tail())
 
     plt.figure(figsize=(10, 6))
     plt.plot(df2["Simple_Rtn"], lw=2, label="Simple Returns")
     plt.plot(df2["Inflation_Rate"], lw=2, label="Inflation Rate")
     plt.plot(df2["Real_Rtn"], lw=2, label="Real Returns")
-    plt.title("AAPL Stock Returns")
+    plt.title("RELIANCE.NS Stock Returns")
     plt.legend()
     plt.show()
