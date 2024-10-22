@@ -1,7 +1,8 @@
 TEMPLATE = app
 TARGET = barchart
 INCLUDEPATH += .
-include(../../../../../chocolaf/common_files/common.pro)
+# include(../../../../../chocolaf/common_files/common.pro)
+include($$(CHOCOLAF_HOME)/chocolaf/common_files/common.pro)
 QT += charts
 
 SOURCES += \
