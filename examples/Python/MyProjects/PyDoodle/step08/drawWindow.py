@@ -82,7 +82,9 @@ class DrawWindow(QWidget):
         NOTE: you must call setMouseTracking(True) so window can receive mouse drag events
         """
         if (e.buttons() == Qt.LeftButton) and (self.__dragging):
-            assert self.__currSquiggle != None, "FATAL: self.currLine is None, when expecting valid!"
+            assert (
+                self.__currSquiggle != None
+            ), "FATAL: self.currLine is None, when expecting valid!"
             pt = QPoint(e.pos().x(), e.pos().y())
             self.__currSquiggle.append(pt)
             self.update()
@@ -92,7 +94,9 @@ class DrawWindow(QWidget):
     def mouseReleaseEvent(self, e: QMouseEvent) -> None:
         """handler for mouse (left or right clostBtn) released events"""
         if (e.button() == Qt.LeftButton) and (self.__dragging):
-            assert self.__currSquiggle != None, "FATAL: self.currLine is None, when expecting valid!"
+            assert (
+                self.__currSquiggle != None
+            ), "FATAL: self.currLine is None, when expecting valid!"
             pt = QPoint(e.pos().x(), e.pos().y())
             self.__currSquiggle.append(pt)
             self.__dragging = False
