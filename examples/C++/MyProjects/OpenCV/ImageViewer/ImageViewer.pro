@@ -1,7 +1,10 @@
 TEMPLATE = app
 TARGET = ImageViewer
 
-include (../../../../../chocolaf/common_files/common.pro)
+#include (../../../../../chocolaf/common_files/common.pro)
+include ($$(CHOCOLAF_HOME)/chocolaf/common_files/common.pro)
+# CONFIG += c++20
+# QMAKE_CXXFLAGS += -std=c++20
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

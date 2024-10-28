@@ -6,6 +6,9 @@ static QTextStream cout(stdout, QIODevice::WriteOnly);
 // NOTE: this may not work on Windows!
 QLocale locale(QLocale::English, QLocale::India);
 
+/**
+ * @brief abstraction of an Employee with name, age and salary
+ */
 class Employee
 {
 protected:
@@ -14,18 +17,13 @@ protected:
    double _salary;
 
 public:
-   Employee()
-       : _name{""}
-       , _age{0}
-       , _salary{0.0}
+   Employee() : _name{""}, _age{0}, _salary{0.0}
    {
       // nothing more
    }
 
    Employee(const QString &name, int age, double salary)
-       : _name(name)
-       , _age(age)
-       , _salary(salary)
+       : _name(name), _age(age), _salary(salary)
    {
       // nothing more
    }
