@@ -25,6 +25,7 @@ bool getline(QTextStream &in, QString &ret, const QString &prompt = "");
 bool readString(QTextStream &in, QString &ret, const QString &prompt = "");
 bool readInt(QTextStream &in, int &ret, const QString &prompt = "");
 bool readDouble(QTextStream &in, double &ret, const QString &prompt = "");
+bool fileExists(const QString &filepath);
 
 bool windowsDarkThemeAvailable();
 bool windowsIsInDarkTheme();
