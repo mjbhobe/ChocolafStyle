@@ -1,4 +1,5 @@
 """ login.py - login dialog """
+
 import sys
 import os
 
@@ -6,8 +7,16 @@ os.environ["QT_API"] = "pyqt6"
 
 from qtpy.QtCore import PYQT_VERSION_STR, Qt
 from qtpy.QtWidgets import (
-    QApplication, QWidget, QLabel, QLineEdit, QPushButton,
-    QCheckBox, QGridLayout, QHBoxLayout, QMessageBox, QMainWindow
+    QApplication,
+    QWidget,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QCheckBox,
+    QGridLayout,
+    QHBoxLayout,
+    QMessageBox,
+    QMainWindow,
 )
 from qtpy.QtGui import QFont, QPixmap
 import chocolaf
@@ -54,7 +63,7 @@ class LoginWindow(QWidget):
         self.setupMainWindow()
 
     def setupMainWindow(self):
-        """ setup widgets & connect signals/slots """
+        """setup widgets & connect signals/slots"""
         self.login_successful = False
 
         login_label = QLabel("Login", self)
@@ -103,7 +112,7 @@ class LoginWindow(QWidget):
             self.password_edit.setEchoMode(QLineEdit.EchoMode.Password)
 
     def clickLoginButton(self):
-        """ check credentials & allow/deny login """
+        """check credentials & allow/deny login"""
         users = {}
         password_file = os.path.join(AppDir, "files/users.txt")
 
@@ -119,17 +128,31 @@ class LoginWindow(QWidget):
             username = self.username_edit.text()
             password = self.password_edit.text()
             if (username, password) in users.items():
-                QMessageBox.information(self, "Login Successful!",
-                                        "Login successful", QMessageBox.StandardButton.Ok, QMessageBox.StandardButton.Ok)
+                QMessageBox.information(
+                    self,
+                    "Login Successful!",
+                    "Login successful",
+                    QMessageBox.StandardButton.Ok,
+                    QMessageBox.StandardButton.Ok,
+                )
                 self.close()
                 self.openApplicationWindow()
             else:
-                QMessageBox.warning(self, "Login Failed!",
-                                    "Login failed - invalid credentials.", QMessageBox.StandardButton.Ok, QMessageBox.StandardButton.Ok)
+                QMessageBox.warning(
+                    self,
+                    "Login Failed!",
+                    "Login failed - invalid credentials.",
+                    QMessageBox.StandardButton.Ok,
+                    QMessageBox.StandardButton.Ok,
+                )
         except FileNotFoundError as error:
-            QMessageBox.warning(self, "Error",
-                                f"""<p>File not found.</p>
-                 <p>Error: {error}</p>""", QMessageBox.StandardButton.Ok)
+            QMessageBox.warning(
+                self,
+                "Error",
+                f"""<p>File not found.</p>
+                 <p>Error: {error}</p>""",
+                QMessageBox.StandardButton.Ok,
+            )
 
     def createNewUser(self):
         new_user_dlg = NewUserDialog(self)

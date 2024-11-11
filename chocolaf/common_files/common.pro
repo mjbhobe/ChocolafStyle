@@ -105,3 +105,18 @@ include(QtAwesome/QtAwesome.pri)
 #message($${SOURCES})
 #message($${HEADERS})
 #message($${RESOURCES})
+
+# added Nov'24 to segregate debug & release build files
+# @see: https://stackoverflow.com/questions/2580934/how-to-specify-different-debug-release-output-directories-in-qmake-pro-file
+CONFIG(debug, debug|release) {
+    DESTDIR = build/debug
+}
+CONFIG(release, debug|release) {
+    DESTDIR = build/release
+}
+
+OBJECTS_DIR = $$DESTDIR/.obj
+MOC_DIR = $$DESTDIR/.moc
+RCC_DIR = $$DESTDIR/.qrc
+UI_DIR = $$DESTDIR/.u
+

@@ -1,4 +1,5 @@
 """ registration.py - new user registration """
+
 import sys
 import os
 import pathlib
@@ -7,12 +8,19 @@ os.environ["QT_API"] = "pyqt6"
 
 from qtpy.QtCore import PYQT_VERSION_STR, Qt
 from qtpy.QtWidgets import (
-    QDialog, QWidget, QLabel, QLineEdit, QPushButton,
-    QGridLayout, QVBoxLayout, QMessageBox
+    QDialog,
+    QWidget,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QGridLayout,
+    QVBoxLayout,
+    QMessageBox,
 )
 from qtpy.QtGui import QFont, QPixmap
 
 import chocolaf
+
 _logger = chocolaf.get_logger(pathlib.Path(__file__).name)
 
 custom_stylesheet = """
@@ -41,7 +49,9 @@ class NewUserDialog(QDialog):
         login_label.setFont(QFont("Arial", 16))
         login_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         user_image_path = os.path.join(AppDir, "images/new_user_icon.png")
-        assert os.path.exists(user_image_path), f"FATAL: {user_image_path} does not exist!"
+        assert os.path.exists(
+            user_image_path
+        ), f"FATAL: {user_image_path} does not exist!"
         user_label = QLabel(self)
         user_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         pixmap = QPixmap(user_image_path)
@@ -80,21 +90,30 @@ class NewUserDialog(QDialog):
 
         # name & password must be entered
         if name_txt == "" or pwd_txt == "":
-            QMessageBox.warning(self, "Error",
-                                "Please enter both user name & password values",
-                                QMessageBox.StandardButton.Ok)
+            QMessageBox.warning(
+                self,
+                "Error",
+                "Please enter both user name & password values",
+                QMessageBox.StandardButton.Ok,
+            )
         elif pwd_txt != confirm_pwd:
-            QMessageBox.warning(self, "Error",
-                                "Passwords entered do not match",
-                                QMessageBox.StandardButton.Ok)
+            QMessageBox.warning(
+                self,
+                "Error",
+                "Passwords entered do not match",
+                QMessageBox.StandardButton.Ok,
+            )
         else:
-            AppDir = pathlib.Path(__file__).parents[0]
+            # AppDir = pathlib.Path(__file__).parents[0]
             pwd_file_path = os.path.join(AppDir, "files/users.txt")
             with open(pwd_file_path, "a+") as f:
                 f.write(f"\n{name_txt} {pwd_txt}")
-                QMessageBox.information(self, "Registration Successful",
-                                        f"User {name_txt} registered successfully!",
-                                        QMessageBox.StandardButton.Ok)
+                QMessageBox.information(
+                    self,
+                    "Registration Successful",
+                    f"User {name_txt} registered successfully!",
+                    QMessageBox.StandardButton.Ok,
+                )
                 self.username_edit.clear()
                 self.password_edit.clear()
                 self.confirm_password_edit.clear()

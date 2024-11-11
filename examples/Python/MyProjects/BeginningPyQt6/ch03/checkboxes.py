@@ -1,4 +1,5 @@
 """ checkboxes.py - create the basic PyQt6 application """
+
 import sys
 
 from PyQt6.QtCore import PYQT_VERSION_STR, Qt
@@ -8,7 +9,7 @@ import chocolaf
 
 STYLE_SHEET = """
     QWidget {
-       background-color: rgb(47, 47, 47);
+        background-color: rgb(47, 47, 47);
         border: 0px solid rgb(127, 127, 127);
         padding: 0px;
         color: rgb(220, 220, 220);
@@ -157,8 +158,8 @@ def main():
     # app = chocolaf.ChocolafApp(sys.argv)
     # app.setStyle("Chocolaf")
     app = QApplication(sys.argv)
-    app.setStyle("Fusion")
-    # app.setStyleSheet(STYLE_SHEET)
+    # app.setStyle("Fusion")
+    app.setStyleSheet(STYLE_SHEET)
 
     # create the main window
     win = MainWindow()
