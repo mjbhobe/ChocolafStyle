@@ -26,9 +26,8 @@ import locale
 
 import chocolaf
 
-this_path = pathlib.Path(__file__)
 
-logger = chocolaf.get_logger(this_path.name, log_to_file=True)
+logger = chocolaf.get_logger(pathlib.Path(__file__))
 # Now, we can log messages
 # logger.debug("This is a debug message")
 # logger.info("This is an info message")

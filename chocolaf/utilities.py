@@ -1,7 +1,7 @@
 import os
 import random
 import logging
-import inspect
+import pathlib
 from datetime import datetime
 
 import numpy as np
@@ -81,59 +81,61 @@ def pixelsToPoints(pixels):
     return int(pixels * 72 / 96)
 
 
-def get_logger(
-    logger_name: str,
-    level: int = logging.DEBUG,
-    log_to_file: bool = False,
-    file_logger_path: str = None,
-) -> logging.Logger:
-    """Return the logger with the name specified by logger_name arg.
-
-    Args:
-        logger_name (string): The name of logger (required!).
-        level (int): logging level (optional, default = logging.DEBUG)
-        log_to_file (bool): flag to indicate if logger should also log to file (other than console) (optional, default: True)
-        file_logger_path (str): directory in which to create file logger [required if log_to_file is True, else ignored]
-
-    Returns:
-        Logger reformatted for this package.
+def get_logger(file_path: pathlib.Path, level: int = logging.INFO) -> logging.Logger:
     """
-    logger = logging.getLogger(logger_name)
-    logger.propagate = False
-    logger.setLevel(level)
-
-    formatter = logging.Formatter(
+    gets a standard logger with 2 handlers - a stream handler (console) and a file handler.
+    The stream handler respects the level passed in as a parameter, whereas the file-handler
+    always sets logging level to logging.DEBUG (to log all messages to file).
+    Both handlers use the same formatter, which logs with following format:
         "[%(name)s] [%(levelname)s] [%(asctime)s] %(message)s"
+
+    @params:
+        file_path (required, pathlib.Path): usually full path of program from where this function is called
+            (file logging creates a log file in the logs subfolder of this path)
+        level (optional, int - default = logging.INFO) - the logging level of the stream (console) logger
+            (level of file logger is always set to logging.DEBUG)
+
+    @returns:
+        logging.Logger - the logger objects, which should be passed to the Trainer object to log progress
+    """
+
+    assert (
+        file_path.is_file()
+    ), f"FATAL ERROR: get_logger() -> file_path parameter must be a valid path to existing file!"
+    name = file_path.stem
+    # replace extension of file_path with .log
+    # log_path = file_path.with_suffix(".log")
+    log_dir = file_path.parent / "logs"
+    # log_dir does not exist, create it
+    log_dir.mkdir(exist_ok=True)
+    now = datetime.now()
+    now_str = datetime.strftime(now, "%Y%m%d-%H%M%S")
+    log_path = f"{log_dir}/{name}_{now_str}.log"
+
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)
+
+    # common formatter
+    formatter = logging.Formatter(
+        "[%(name)s] [%(levelname)s] [%(asctime)s] %(message)s",
+        datefmt="%Y-%b-%d %H:%M:%S",
     )
-    # create a console logger
-    console_handler = logging.StreamHandler()
-    console_handler.setFormatter(formatter)
-    logger.addHandler(console_handler)
 
-    # create a file-handler (if asked for)
-    if log_to_file:
-        # create path of log file
-        if file_logger_path is None:
-            # create log in "logs" subfolder in dir from where this func was called
-            calling_file_path = inspect.stack()[1].filename
-            # Get the directory of the calling file (e.g., app.py)
-            calling_dir = os.path.dirname(os.path.abspath(calling_file_path))
-            logs_folder = os.path.join(calling_dir, "logs")
-            if not os.path.exists(logs_folder):
-                os.makedirs(logs_folder, exist_ok=True)
-        now = datetime.now()
-        log_file_name = f"{logger_name}_{now.strftime('%Y-%m-%d_%H-%M-%S')}.log"
-        log_file_path = os.path.join(logs_folder, log_file_name)
+    # create handlers
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(level)
+    stream_handler.setFormatter(formatter)
 
-        # create file handler
-        file_handler = logging.FileHandler(log_file_path)
-        file_handler.setFormatter(formatter)
-        logger.addHandler(file_handler)
+    file_handler = logging.FileHandler(log_path)
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(formatter)
 
-    # logger.setLevel(level)
-    # ch = logging.StreamHandler()
-    # ch.setFormatter(formatter)
-    # logger.addHandler(ch)
+    logger.addHandler(stream_handler)
+    logger.addHandler(file_handler)
+
+    # Avoid duplicate logs by ensuring handlers are not added multiple times
+    logger.propagate = False
+
     return logger
 
 

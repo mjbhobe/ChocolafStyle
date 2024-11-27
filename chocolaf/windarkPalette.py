@@ -1,4 +1,5 @@
 """ windarkPalette.py - Windows dark palette """
+
 import pathlib
 from qtpy.QtCore import *
 from qtpy.QtWidgets import *
@@ -7,7 +8,7 @@ from qtpy.QtGui import *
 from .palettes import WinDarkPalette
 from .utilities import get_logger
 
-_logger = get_logger(pathlib.Path(__file__).name)
+_logger = get_logger(pathlib.Path(__file__))
 
 WINDOWS_DARK_STYLE_SHEET = """
     QWidget:!active {
@@ -78,90 +79,102 @@ def setWindowsPaletteAndStyleSheet(app: QApplication):
     palette = QPalette()
     # @see: https://doc.qt.io/qt-5/qpalette.html
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.Window,
-        WinDarkPalette.Window_Color
+        QPalette.ColorGroup.Active,
+        QPalette.ColorRole.Window,
+        WinDarkPalette.Window_Color,
     )  # general background color
     palette.setColor(
-        QPalette.ColorGroup.Disabled, QPalette.ColorRole.Window,
-        WinDarkPalette.Window_Color
+        QPalette.ColorGroup.Disabled,
+        QPalette.ColorRole.Window,
+        WinDarkPalette.Window_Color,
     )  # general background color
     palette.setColor(
         QPalette.ColorGroup.Active,
         QPalette.ColorRole.WindowText,
-        WinDarkPalette.WindowText_Color
+        WinDarkPalette.WindowText_Color,
     )  # general foreground color
     palette.setColor(
-        QPalette.ColorGroup.Disabled, QPalette.ColorRole.WindowText,
-        WinDarkPalette.Disabled_WindowText_Color
+        QPalette.ColorGroup.Disabled,
+        QPalette.ColorRole.WindowText,
+        WinDarkPalette.Disabled_WindowText_Color,
     )  # general foreground color
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.Base,
-        WinDarkPalette.Base_Color
+        QPalette.ColorGroup.Active, QPalette.ColorRole.Base, WinDarkPalette.Base_Color
     )  # background for text entry widgets
     # background color for views with alternating colors
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.AlternateBase,
-        WinDarkPalette.AlternateBase_Color
+        QPalette.ColorGroup.Active,
+        QPalette.ColorRole.AlternateBase,
+        WinDarkPalette.AlternateBase_Color,
     )
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.ToolTipBase,
-        WinDarkPalette.ToolTipBase_Color
+        QPalette.ColorGroup.Active,
+        QPalette.ColorRole.ToolTipBase,
+        WinDarkPalette.ToolTipBase_Color,
     )  # background for tooltips
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.PlaceholderText,
-        WinDarkPalette.Placeholder_Color
+        QPalette.ColorGroup.Active,
+        QPalette.ColorRole.PlaceholderText,
+        WinDarkPalette.Placeholder_Color,
     )
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.Text,
-        WinDarkPalette.Text_Color
+        QPalette.ColorGroup.Active, QPalette.ColorRole.Text, WinDarkPalette.Text_Color
     )  # foreground color to use with Base
     palette.setColor(
-        QPalette.ColorGroup.Disabled, QPalette.ColorRole.Text,
-        WinDarkPalette.Disabled_Text_Color
+        QPalette.ColorGroup.Disabled,
+        QPalette.ColorRole.Text,
+        WinDarkPalette.Disabled_Text_Color,
     )
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.Dark,
-        WinDarkPalette.Dark_Color
+        QPalette.ColorGroup.Active, QPalette.ColorRole.Dark, WinDarkPalette.Dark_Color
     )
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.Shadow,
-        WinDarkPalette.Shadow_Color
+        QPalette.ColorGroup.Active,
+        QPalette.ColorRole.Shadow,
+        WinDarkPalette.Shadow_Color,
     )
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.Button,
-        WinDarkPalette.Button_Color
+        QPalette.ColorGroup.Active,
+        QPalette.ColorRole.Button,
+        WinDarkPalette.Button_Color,
     )  # pushbutton colors
     palette.setColor(
-        QPalette.ColorGroup.Disabled, QPalette.ColorRole.Button,
-        WinDarkPalette.Button_Color
+        QPalette.ColorGroup.Disabled,
+        QPalette.ColorRole.Button,
+        WinDarkPalette.Button_Color,
     )  # disabled pushbutton colors
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.ButtonText,
-        WinDarkPalette.ButtonText_Color
+        QPalette.ColorGroup.Active,
+        QPalette.ColorRole.ButtonText,
+        WinDarkPalette.ButtonText_Color,
     )  # pushbutton's text color
     palette.setColor(
-        QPalette.ColorGroup.Disabled, QPalette.ColorRole.ButtonText,
-        WinDarkPalette.Disabled_ButtonText_Color
+        QPalette.ColorGroup.Disabled,
+        QPalette.ColorRole.ButtonText,
+        WinDarkPalette.Disabled_ButtonText_Color,
     )
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.Link,
-        WinDarkPalette.Link_Color
+        QPalette.ColorGroup.Active, QPalette.ColorRole.Link, WinDarkPalette.Link_Color
     )
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.LinkVisited,
-        WinDarkPalette.LinkVisited_Color
+        QPalette.ColorGroup.Active,
+        QPalette.ColorRole.LinkVisited,
+        WinDarkPalette.LinkVisited_Color,
     )
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.Highlight,
-        WinDarkPalette.Highlight_Color
+        QPalette.ColorGroup.Active,
+        QPalette.ColorRole.Highlight,
+        WinDarkPalette.Highlight_Color,
     )  # highlight color
     palette.setColor(
-        QPalette.ColorGroup.Active, QPalette.ColorRole.HighlightedText,
-        WinDarkPalette.HighlightedText_Color
+        QPalette.ColorGroup.Active,
+        QPalette.ColorRole.HighlightedText,
+        WinDarkPalette.HighlightedText_Color,
     )
     palette.setColor(
-        QPalette.ColorGroup.Disabled, QPalette.ColorRole.Light,
-        WinDarkPalette.Disabled_Light_Color
+        QPalette.ColorGroup.Disabled,
+        QPalette.ColorRole.Light,
+        WinDarkPalette.Disabled_Light_Color,
     )
 
     app.setPalette(palette)

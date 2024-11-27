@@ -21,7 +21,7 @@ from .palettes import ChocolafPalette, WinDarkPalette
 from .utilities import get_logger
 from .windarkPalette import setWindowsPaletteAndStyleSheet
 
-_logger = get_logger(pathlib.Path(__file__).name)
+_logger = get_logger(pathlib.Path(__file__))
 
 
 class ChocolafApp(QApplication):
@@ -43,67 +43,91 @@ class ChocolafApp(QApplication):
         palette = QPalette()
         # @see: https://doc.qt.io/qt-5/qpalette.html
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.Window,
-            ChocolafPalette.Window_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.Window,
+            ChocolafPalette.Window_Color,
         )  # general background color
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.WindowText,
-            ChocolafPalette.WindowText_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.WindowText,
+            ChocolafPalette.WindowText_Color,
         )  # general foreground color
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.Base,
-            ChocolafPalette.Base_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.Base,
+            ChocolafPalette.Base_Color,
         )  # background for text entry widgets
         # background color for views with alternating colors
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.AlternateBase,
-            ChocolafPalette.AlternateBase_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.AlternateBase,
+            ChocolafPalette.AlternateBase_Color,
         )
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.ToolTipBase,
-            ChocolafPalette.ToolTipBase_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.ToolTipBase,
+            ChocolafPalette.ToolTipBase_Color,
         )  # background for tooltips
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.ToolTipText, ChocolafPalette.ToolTipText_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.ToolTipText,
+            ChocolafPalette.ToolTipText_Color,
         )
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.Text,
-            ChocolafPalette.Text_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.Text,
+            ChocolafPalette.Text_Color,
         )  # foreground color to use with Base
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.Button,
-            ChocolafPalette.Button_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.Button,
+            ChocolafPalette.Button_Color,
         )  # pushbutton colors
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.ButtonText,
-            ChocolafPalette.ButtonText_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.ButtonText,
+            ChocolafPalette.ButtonText_Color,
         )  # pushbutton's text color
-        palette.setColor(QPalette.ColorGroup.Active, QPalette.ColorRole.Link, ChocolafPalette.Link_Color)
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.LinkVisited, ChocolafPalette.LinkVisited_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.Link,
+            ChocolafPalette.Link_Color,
         )
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.Highlight,
-            ChocolafPalette.Highlight_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.LinkVisited,
+            ChocolafPalette.LinkVisited_Color,
+        )
+        palette.setColor(
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.Highlight,
+            ChocolafPalette.Highlight_Color,
         )  # highlight color
         palette.setColor(
-            QPalette.ColorGroup.Active, QPalette.ColorRole.HighlightedText,
-            ChocolafPalette.HighlightedText_Color
+            QPalette.ColorGroup.Active,
+            QPalette.ColorRole.HighlightedText,
+            ChocolafPalette.HighlightedText_Color,
         )
         # colors for disabled elements
         palette.setColor(
-            QPalette.ColorGroup.Disabled, QPalette.ColorRole.ButtonText,
-            ChocolafPalette.Disabled_ButtonText_Color
+            QPalette.ColorGroup.Disabled,
+            QPalette.ColorRole.ButtonText,
+            ChocolafPalette.Disabled_ButtonText_Color,
         )
         palette.setColor(
-            QPalette.ColorGroup.Disabled, QPalette.ColorRole.WindowText,
-            ChocolafPalette.Disabled_WindowText_Color
+            QPalette.ColorGroup.Disabled,
+            QPalette.ColorRole.WindowText,
+            ChocolafPalette.Disabled_WindowText_Color,
         )
         palette.setColor(
-            QPalette.ColorGroup.Disabled, QPalette.ColorRole.Text, ChocolafPalette.Disabled_Text_Color
+            QPalette.ColorGroup.Disabled,
+            QPalette.ColorRole.Text,
+            ChocolafPalette.Disabled_Text_Color,
         )
         palette.setColor(
-            QPalette.ColorGroup.Disabled, QPalette.ColorRole.Light, ChocolafPalette.Disabled_Light_Color
+            QPalette.ColorGroup.Disabled,
+            QPalette.ColorRole.Light,
+            ChocolafPalette.Disabled_Light_Color,
         )
 
         return palette
@@ -137,27 +161,27 @@ class ChocolafApp(QApplication):
         except ImportError:
             # if user has not install QDarkStyle, these stylesheets will not be available!
             _logger.info(
-                f"NOTE: QDarkstyle is not available ChocolafApp.setStyle(\"QDarkStyle-XXX\") won't work!"
+                f'NOTE: QDarkstyle is not available ChocolafApp.setStyle("QDarkStyle-XXX") won\'t work!'
             )
             pass
 
-    def availableStyles(self, subset='all') -> list:
-        assert subset in ['all', 'mine']
+    def availableStyles(self, subset="all") -> list:
+        assert subset in ["all", "mine"]
         availableStyles = []
         for key in self.styles.keys():
             availableStyles.append(key)
-        if subset == 'all':
+        if subset == "all":
             # add styles included with PyQt
             for key in QStyleFactory.keys():
                 availableStyles.append(key)
         return availableStyles
 
     def getStyleSheet(self, style: str):
-        if style in self.availableStyles('mine'):
+        if style in self.availableStyles("mine"):
             return self.styles[style]
         else:
-            availableStyles = self.availableStyles('mine')
-            msg = f"\"{style}\" is not recognized as a valid stylesheet!\nValid options are: {availableStyles}"
+            availableStyles = self.availableStyles("mine")
+            msg = f'"{style}" is not recognized as a valid stylesheet!\nValid options are: {availableStyles}'
             raise ValueError(msg)
 
     def setWindowsDarkStyle(self):
@@ -258,7 +282,7 @@ class ChocolafApp(QApplication):
     #     self.setPalette(palette)
 
     def setStyle(self, style: str) -> None:
-        """ NOTE: style is case sensitive! """
+        """NOTE: style is case sensitive!"""
         if style in self.styles.keys():
             stylesheet = self.styles[style]
             # return self.styles[style]
@@ -271,20 +295,22 @@ class ChocolafApp(QApplication):
         elif style in QStyleFactory.keys():
             super(ChocolafApp, self).setStyle(style)
         else:
-            availableStyles = self.availableStyles('all')
-            msg = f"\"{style}\" is not recognized as a valid style!\nValid options are: [{availableStyles}]"
+            availableStyles = self.availableStyles("all")
+            msg = f'"{style}" is not recognized as a valid style!\nValid options are: [{availableStyles}]'
             raise ValueError(msg)
 
     @staticmethod
     def setupAppForHighDpiScreens():
-        """ enables scaling for high DPI screens """
+        """enables scaling for high DPI screens"""
         from qtpy import QtCore
         from qtpy.QtWidgets import QApplication
+
         if sys.platform == "win32":
             # Windows only
             # @see: https://vicrucann.github.io/tutorials/osg-qt-high-dpi/
             # @see: https://stackoverflow.com/questions/44398075/can-dpi-scaling-be-enabled-disabled-programmatically-on-a-per-session-basis
             import ctypes
+
             # 0 - unaware, 1 - system dpi aware, 2 - per monitor DPI aware
             ctypes.windll.shcore.SetProcessDpiAwareness(2)
             QApplication.setAttribute(QtCore.Qt.AA_DisableHighDpiScaling, True)
