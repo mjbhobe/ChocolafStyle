@@ -8,10 +8,13 @@
 MatOp::MatOp(const QPixmap& pixmap, QObject* parent /*= nullptr*/)
     : QObject(parent)
 {
-    m_image = pixmap.toImage();
-    m_image = m_image.convertToFormat(QImage::Format_RGB888);
-    m_srcMat = cv::Mat(m_image.height(), m_image.width(), CV_8UC3, m_image.bits(),
-        m_image.bytesPerLine());
+   m_image = pixmap.toImage();
+   m_image = m_image.convertToFormat(QImage::Format_RGB888);
+   m_srcMat = cv::Mat(m_image.height(),
+                      m_image.width(),
+                      CV_8UC3,
+                      m_image.bits(),
+                      m_image.bytesPerLine());
 }
 
 QPixmap MatOp::blur(cv::Size ksize /*= cv::Size(8,8)*/,

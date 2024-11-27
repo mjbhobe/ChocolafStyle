@@ -26,7 +26,17 @@ import locale
 
 import chocolaf
 
-logger = chocolaf.get_logger(pathlib.Path(__file__).name)
+this_path = pathlib.Path(__file__)
+
+logger = chocolaf.get_logger(this_path.name, log_to_file=True)
+# Now, we can log messages
+# logger.debug("This is a debug message")
+# logger.info("This is an info message")
+# logger.warning("This is a warning message")
+# logger.error("This is an error message")
+# logger.critical("This is a critical message")
+# sys.exit(-1)
+
 
 # some pandas tweaks
 pd.set_option("display.max_rows", 80)
@@ -412,7 +422,7 @@ if __name__ == "__main__":
         "--zoom",
         type=float,
         default=1.0,
-        help="Zoom level for the font size (optional, default=1.0, no zoom)",
+        help="Zoom level for the font size used in grid (optional, default=1.0, no zoom)",
     )
     # Start Modification (12-Apr-24):
     # on command line pass --lookback 120 to change lookback window
@@ -425,9 +435,10 @@ if __name__ == "__main__":
     # on command line pass --force_download to force download
     parser.add_argument(
         "--force_download",
-        type=bool,
-        default=False,
-        help=f"Flag to force download (optional, default=False)",
+        action="store_false",
+        # type=bool,
+        # default=True,
+        help=f"Flag to force download of stock prices (optional, default=False)",
     )
     # End Modification (12-Apr-24):
     args = parser.parse_args()

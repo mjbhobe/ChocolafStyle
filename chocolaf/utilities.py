@@ -1,6 +1,8 @@
 import os
 import random
 import logging
+import inspect
+from datetime import datetime
 
 import numpy as np
 
@@ -79,24 +81,80 @@ def pixelsToPoints(pixels):
     return int(pixels * 72 / 96)
 
 
-def get_logger(logger_name: str) -> logging.Logger:
+def get_logger(
+    logger_name: str,
+    level: int = logging.DEBUG,
+    log_to_file: bool = False,
+    file_logger_path: str = None,
+) -> logging.Logger:
     """Return the logger with the name specified by logger_name arg.
 
     Args:
-        logger_name: The name of logger.
+        logger_name (string): The name of logger (required!).
+        level (int): logging level (optional, default = logging.DEBUG)
+        log_to_file (bool): flag to indicate if logger should also log to file (other than console) (optional, default: True)
+        file_logger_path (str): directory in which to create file logger [required if log_to_file is True, else ignored]
 
     Returns:
         Logger reformatted for this package.
     """
     logger = logging.getLogger(logger_name)
     logger.propagate = False
-    logger.setLevel(logging.INFO)
-    ch = logging.StreamHandler()
-    ch.setFormatter(
-        logging.Formatter("[%(name)s] [%(levelname)s] [%(asctime)s] %(message)s")
+    logger.setLevel(level)
+
+    formatter = logging.Formatter(
+        "[%(name)s] [%(levelname)s] [%(asctime)s] %(message)s"
     )
-    logger.addHandler(ch)
+    # create a console logger
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
+
+    # create a file-handler (if asked for)
+    if log_to_file:
+        # create path of log file
+        if file_logger_path is None:
+            # create log in "logs" subfolder in dir from where this func was called
+            calling_file_path = inspect.stack()[1].filename
+            # Get the directory of the calling file (e.g., app.py)
+            calling_dir = os.path.dirname(os.path.abspath(calling_file_path))
+            logs_folder = os.path.join(calling_dir, "logs")
+            if not os.path.exists(logs_folder):
+                os.makedirs(logs_folder, exist_ok=True)
+        now = datetime.now()
+        log_file_name = f"{logger_name}_{now.strftime('%Y-%m-%d_%H-%M-%S')}.log"
+        log_file_path = os.path.join(logs_folder, log_file_name)
+
+        # create file handler
+        file_handler = logging.FileHandler(log_file_path)
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+
+    # logger.setLevel(level)
+    # ch = logging.StreamHandler()
+    # ch.setFormatter(formatter)
+    # logger.addHandler(ch)
     return logger
+
+
+# def get_logger(logger_name: str, level: int = logging.INFO) -> logging.Logger:
+#     """Return the logger with the name specified by logger_name arg.
+
+#     Args:
+#         logger_name: The name of logger.
+
+#     Returns:
+#         Logger reformatted for this package.
+#     """
+#     logger = logging.getLogger(logger_name)
+#     logger.propagate = False
+#     logger.setLevel(level)
+#     ch = logging.StreamHandler()
+#     ch.setFormatter(
+#         logging.Formatter("[%(name)s] [%(levelname)s] [%(asctime)s] %(message)s")
+#     )
+#     logger.addHandler(ch)
+#     return logger
 
 
 def centerOnScreenWithSize(
