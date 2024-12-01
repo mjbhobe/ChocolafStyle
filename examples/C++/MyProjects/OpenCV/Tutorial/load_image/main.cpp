@@ -52,8 +52,9 @@ int main()
    QString randomImagePath = getRandomImagePath();
    qDebug() << "Displaying " << randomImagePath;
    // OpenCV uses cv::String
-   cv::String image_path = cv::String(randomImagePath.toStdString().c_str());
-   cv::Mat image = cv::imread(image_path);
+   //cv::String image_path = cv::String(randomImagePath.toStdString().c_str());
+   std::string image_path = randomImagePath.toStdString();
+   cv::Mat image = cv::imread(image_path, cv::IMREAD_COLOR);
    if (image.empty()) {
       qDebug() << "FATAL: could not read image " << randomImagePath;
       return -1;
@@ -61,11 +62,15 @@ int main()
 
    // create a display windows of size (1024, 768) to display image
    // image will be re-sized to this dimension, else for large images, window
-   // could be larger than screen
-   cv::String windowName(image_path);
-   cv::namedWindow(windowName, cv::WINDOW_NORMAL);
-   cv::resizeWindow(windowName, 1024, 768);
-   cv::imshow(windowName, image);
+   // could be larger than scree
+   std::string win_title
+       = QString("OpenCV Image Viewer: Displaying %1").arg(randomImagePath).toStdString();
+   //cv::String windowName(win_title);
+   cv::namedWindow(win_title, cv::WINDOW_NORMAL);
+   //cv::resizeWindow(windowName, 1024, 768);
+   cv::resizeWindow(win_title, 1024, 768);
+   //cv::imshow(windowName, image);
+   cv::imshow(win_title, image);
    cv::waitKey(0); // wait for user to press any key
    cv::destroyAllWindows();
    return 0;
