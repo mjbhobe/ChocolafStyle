@@ -2,7 +2,8 @@ TEMPLATE = app
 TARGET = sigslot2
 INCLUDEPATH += .
 
-include (../../../../../../chocolaf/common_files/common.pro)
+#include (../../../../../../chocolaf/common_files/common.pro)
+include ($(CHOCOLAF_HOME)/chocolaf/common_files/common.pro)
 
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.

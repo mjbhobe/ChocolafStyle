@@ -15,6 +15,7 @@ class MainWindow(QMainWindow):
         self.setupUi()
 
     def setupUi(self):
+        self.setMinimumSize(400, 100)
         self.slider = QSlider(Qt.Orientation.Horizontal, self)
         self.slider.setTickPosition(QSlider.TickPosition.TicksBelow)
         self.slider.setRange(0, 100)
@@ -28,6 +29,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
         self.setWindowIcon(QIcon(self.icon_path))
         self.slider.valueChanged.connect(self.displayValue)
+        self.slider.setValue(20)
 
     def displayValue(self):
         value = self.sender().value()
