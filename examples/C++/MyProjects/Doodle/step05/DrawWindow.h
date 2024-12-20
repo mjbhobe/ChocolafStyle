@@ -8,8 +8,7 @@ class QImage;
 class QColor;
 class Line;
 
-class DrawWindow : public QMainWindow
-{
+class DrawWindow : public QMainWindow {
   Q_OBJECT
 public:
   DrawWindow();

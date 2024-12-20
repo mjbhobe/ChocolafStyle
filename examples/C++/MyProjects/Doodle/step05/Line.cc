@@ -3,8 +3,7 @@
 #include <QList>
 #include <QtGui>
 
-Line::Line(int penWidth /*= 2*/, const QColor &penColor /*= qRgb(0,0,255)*/)
-{
+Line::Line(int penWidth /*= 2*/, const QColor &penColor /*= qRgb(0,0,255)*/) {
   // let's accept penwidths between 1 & 12 (inclusive) only
   penWidth = qMax(2, penWidth);
   penWidth = qMin(penWidth, 12);
@@ -13,13 +12,9 @@ Line::Line(int penWidth /*= 2*/, const QColor &penColor /*= qRgb(0,0,255)*/)
   _points = new QList<QPoint>();
 }
 
-Line::~Line()
-{
-  delete _points;
-}
+Line::~Line() { delete _points; }
 
-void Line::setPenWidth(int newWidth)
-{
+void Line::setPenWidth(int newWidth) {
   if (newWidth == _penWidth)
     return;
 
@@ -30,8 +25,7 @@ void Line::setPenWidth(int newWidth)
   emit penWidthChanged(_penWidth);
 }
 
-void Line::setPenColor(const QColor &newColor)
-{
+void Line::setPenColor(const QColor &newColor) {
   if (_penColor == newColor)
     return;
 
@@ -39,20 +33,17 @@ void Line::setPenColor(const QColor &newColor)
   emit penColorChanged(_penColor);
 }
 
-int Line::numPoints() const
-{
+int Line::numPoints() const {
   return (_points == nullptr) ? 0 : _points->count();
 }
 
-void Line::addPoint(const QPoint &pt)
-{
+void Line::addPoint(const QPoint &pt) {
   if (_points == nullptr)
     _points = new QList<QPoint>();
   _points->append(pt);
 }
 
-void Line::draw(QPainter &painter)
-{
+void Line::draw(QPainter &painter) {
   qDebug() << "In Line::draw()...";
 
   if (numPoints() > 0) {

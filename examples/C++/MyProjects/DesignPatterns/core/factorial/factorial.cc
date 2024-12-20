@@ -12,7 +12,8 @@ static QTextStream cout(stdout, QIODevice::WriteOnly);
 static QTextStream cerr(stderr, QIODevice::WriteOnly);
 static QTextStream cin(stdin, QIODevice::ReadOnly);
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv)
+{
   QCoreApplication app(argc, argv);
   QString ans{""};
   bool contd{true};
