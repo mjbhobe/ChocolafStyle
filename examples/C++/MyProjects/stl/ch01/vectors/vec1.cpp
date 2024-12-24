@@ -22,9 +22,10 @@ concept Numeric = std::is_integral_v<T> || std::is_floating_point_v<T>;
 template <typename CharT> struct locale_formatter_number {
   std::locale locale;
 
-  template <Numeric T> constexpr auto operator()(const T &value) const {
-    return std::format_to(std::ostreambuf_iterator<CharT>(), locale, "{:.4f}",
-                          value);
+  template<Numeric T>
+  constexpr auto operator()(const T &value) const
+  {
+    return std::format_to(std::ostreambuf_iterator<CharT>(), locale, "{:.4f}", value);
   }
 };
 
@@ -35,8 +36,7 @@ template <typename CharT> struct locale_formatter_currency {
   template <Numeric T> constexpr auto operator()(const T &value) const {
     // NOTE: only difference between number & currency is format spec (.4f vs
     // .4c)
-    return std::format_to(std::ostreambuf_iterator<CharT>(), locale, "{:.4c}",
-                          value);
+    return std::format_to(std::ostreambuf_iterator<CharT>(), locale, "{:.4c}", value);
   }
 };
 
@@ -136,7 +136,7 @@ namespace mjb {
     std::normal_distribution<double> distribution{0, 1};
     double randomNumber = distribution(gen);
     // rescale it to between start & end
-    //randomNumber = start + (randomNumber + 3) * (end - start) / 6;
+    // randomNumber = start + (randomNumber + 3) * (end - start) / 6;
     randomNumber = start + (randomNumber + 1) * (end - start) / 2;
     return randomNumber;
   }
