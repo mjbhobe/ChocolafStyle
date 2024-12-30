@@ -28,14 +28,6 @@ import chocolaf
 
 
 logger = chocolaf.get_logger(pathlib.Path(__file__))
-# Now, we can log messages
-# logger.debug("This is a debug message")
-# logger.info("This is an info message")
-# logger.warning("This is a warning message")
-# logger.error("This is an error message")
-# logger.critical("This is a critical message")
-# sys.exit(-1)
-
 
 # some pandas tweaks
 pd.set_option("display.max_rows", 80)
