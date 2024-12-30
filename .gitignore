@@ -124,6 +124,7 @@ qrc_*.cpp
 *.user
 *.csvx
 *.csv
+*.swp
 PROJECT
 
 # Windows & Mac specific files

@@ -1,5 +1,5 @@
 // templ.cpp - illustrates templates
-// Compile: g++/clang++ -std=c++20 .... -lstdc++
+// Compile: g++/clang++ -std=c++23 .... -lstdc++
 
 // require C++ 23!
 #if __cplusplus < 202302L
