@@ -7,6 +7,7 @@ TARGET = trivial
 INCLUDEPATH += .
 
 include (../../../../../../chocolaf/common_files/common_console.pro)
+#include ($(CHOCOLAF_HOME)/chocolaf/common_files/common_console.pro)
 
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.

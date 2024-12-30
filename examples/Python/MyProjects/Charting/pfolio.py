@@ -449,7 +449,11 @@ if __name__ == "__main__":
 
     today = QDateTime.currentDateTime().toString("dd-MMM-yyyy")
 
-    save_path = Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}.csv"
+    save_path = Path(__file__).absolute().parents[0] / "pfolio"
+    if not save_path.exists():
+        save_path.mkdir(exist_ok=True)
+
+    save_path = save_path / f"pfolio_{today}.csv"
 
     # open holdings CSV (update this when holdings change)
     holdings = pd.read_csv(pathlib.Path(__file__).parent / "holdings.csv")

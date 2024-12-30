@@ -2,9 +2,9 @@
 #include "myclass.h"
 #include <QTextStream>
 
-QTextStream cout(stdout, QIODevice::WriteOnly);
-QTextStream cerr(stderr, QIODevice::WriteOnly);
-QTextStream cin(stdin, QIODevice::ReadOnly);
+QTextStream cout(stdout, QIODeviceBase::WriteOnly);
+QTextStream cerr(stderr, QIODeviceBase::WriteOnly);
+QTextStream cin(stdin, QIODeviceBase::ReadOnly);
 
 int main(int /*argc*/, char ** /*argv*/)
 {

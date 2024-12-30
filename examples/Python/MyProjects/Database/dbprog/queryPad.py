@@ -203,7 +203,7 @@ class MainWindow(QWidget):
                     value = value.toDate()
                     value = locale.toString(value, Qt.DateFormat.ShortFormat)
                 elif isinstance(value, float):
-                    value = value.toFloat()
+                    # value = value.toFloat()
                     value = locale.toString(value, Qt.FormatStyle.DecimalFormat)
 
                 # Set the item in the table

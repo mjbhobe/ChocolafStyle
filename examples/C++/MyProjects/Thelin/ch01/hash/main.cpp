@@ -5,7 +5,7 @@
 #include <QSet>
 #include <QTextStream>
 
-QTextStream cout(stdout, QIODevice::WriteOnly);
+QTextStream cout(stdout, QIODeviceBase::WriteOnly);
 
 template<class T>
 QTextStream& operator<<(QTextStream& os, QList<T> lst)

@@ -16,7 +16,7 @@ const QString getConnectionString() {
   if (!file.exists())
     throw std::runtime_error(fmt::format(
         "FATAL: could not find config file {}. Cannot connect to database!",
-          config_file.toStdString().c_str()));
+        config_file.toStdString().c_str()));
 
   /*
    * program expects a database connection settings file named config.ini
