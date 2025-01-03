@@ -95,18 +95,4 @@ std::string Image::to_string() const
   return s;
 }
 
-// -----------------------------------------------
-// main()
-// -----------------------------------------------
 
-int main(void)
-{
-  Image im0{};
-  std::println("im0: {} - after ctor", im0);
-  Image im1{100, 200};
-  std::println("im1: {} - after ctor", im1);
-  Image im2{300, 400};
-  std::println("im2: {} - after ctor", im2);
-
-  return EXIT_SUCCESS;
-}
