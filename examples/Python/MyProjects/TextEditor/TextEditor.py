@@ -25,7 +25,7 @@ from PyQt6.Qsci import *
 import chocolaf
 from chocolaf import ChocolafPalette
 
-logger = chocolaf.get_logger(pathlib.Path(__file__).name)
+logger = chocolaf.get_logger(pathlib.Path(__file__))
 
 
 class TextEditorWindow(QMainWindow):
