@@ -16,15 +16,15 @@
 
 int main(int argc, char **argv)
 {
-    QApplication app(argc, argv);
-    Chocolaf::setChocolafStyle(app, "Chocolaf");
+  QApplication app(argc, argv);
+  Chocolaf::setChocolafStyle(app, "Chocolaf");
 
-    // create the GUI
-    QMainWindow mainWindow;
-    QString title = QString("Qt %1 Doodle with Chocolaf - Step01: Basic Window").arg(QT_VERSION_STR);
-    mainWindow.setWindowTitle(title);
-    Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
-    mainWindow.show();
+  // create the GUI
+  QMainWindow mainWindow;
+  QString title = QString("Qt %1 Doodle with Chocolaf - Step01: Basic Window").arg(QT_VERSION_STR);
+  mainWindow.setWindowTitle(title);
+  Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
+  mainWindow.show();
 
-    return app.exec();
+  return app.exec();
 }
