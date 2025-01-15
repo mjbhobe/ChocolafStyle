@@ -32,7 +32,8 @@ _ = load_dotenv(find_dotenv())
 
 SYS_PROMPT = f"""
 You are an expert at Finance, Financial Markets and Financial market ratio calculations and 
-analysis of companies and can give expert and detailed recommendations.
+analysis of companies and can give expert and detailed recommendations about a company, its 
+Financial performance and its potential as a good investment target
 """
 
 PROVIDER_AND_MODEL = {
