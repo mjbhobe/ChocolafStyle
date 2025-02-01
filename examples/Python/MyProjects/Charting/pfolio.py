@@ -58,6 +58,7 @@ END_DATE = END_DATE if td is None else END_DATE + td
 # I need a lookback of at least LOOKBACK_WINDOW days for plotting, so modify the start date
 # if days between start_date & end_date < 90. Push back start_date to before 01-Apr-YYYY
 LOOKBACK_WINDOW = 90
+FOR_MJB = True
 
 # adjust START_DATE to date LOOKBACK_WINDOW days before END_DATE
 START_DATE = (
@@ -429,9 +430,19 @@ if __name__ == "__main__":
         action="store_false",
         # type=bool,
         # default=True,
-        help=f"Flag to force download of stock prices (optional, default=False)",
+        help=f"Flag to force download of stock prices (optional, default=True)",
     )
     # End Modification (12-Apr-24):
+    parser.add_argument(
+        "--for_mjb",
+        action="store_false",
+        # type=bool,
+        # default=True,
+        help=f"Flag to check if portfolio is for MJB or SJB (default=True)",
+    )
+    # Start modification (01-Feb-25):
+
+    # End modification (01-Feb-25):
     args = parser.parse_args()
     font = app.font()
     logger.info(f"Default font: {font.family()}, {font.pointSize()} points")
@@ -443,6 +454,7 @@ if __name__ == "__main__":
     # Start Modification (12-Apr-24):
     # lookback window set from command line argument
     LOOKBACK_WINDOW = args.lookback
+    FOR_MJB = args.for_mjb
     logger.info(f"Lookback window: {LOOKBACK_WINDOW} days")
     logger.info(f"Force download of stock data? {args.force_download}")
     # End Modification (12-Apr-24):
@@ -453,10 +465,15 @@ if __name__ == "__main__":
     if not save_path.exists():
         save_path.mkdir(exist_ok=True)
 
-    save_path = save_path / f"pfolio_{today}.csv"
+    save_path = (
+        save_path / f"pfolio_mjb_{today}.csv" if FOR_MJB else f"pfolio_sjb_{today}.csv"
+    )
 
     # open holdings CSV (update this when holdings change)
-    holdings = pd.read_csv(pathlib.Path(__file__).parent / "holdings.csv")
+    holdings = pd.read_csv(
+        pathlib.Path(__file__).parent
+        / ("holdings_mjb.csv" if FOR_MJB else "holdings_sjb.csv")
+    )
     # download holdings, if not done already
     pfolio_df = download_stock_prices(
         holdings,
@@ -476,7 +493,7 @@ if __name__ == "__main__":
     )
     df_values.to_csv(save_path, index=True, header=True)
 
-    title = f"Portfolio Performance for past {DAY_WINDOW} days"
+    title = f"{'Manish' if FOR_MJB else 'Sunila'}'s Portfolio performance for past {DAY_WINDOW} days"
     window = MainWindow(df_values)
     window.setWindowTitle(title)
     window.setWindowIcon(QIcon(str(pathlib.Path(__file__).parent / "stocks.png")))
