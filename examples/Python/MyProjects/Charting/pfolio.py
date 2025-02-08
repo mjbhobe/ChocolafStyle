@@ -434,7 +434,7 @@ if __name__ == "__main__":
     )
     # End Modification (12-Apr-24):
     parser.add_argument(
-        "--for_mjb",
+        "--for_sjb",
         action="store_false",
         # type=bool,
         # default=True,
@@ -454,7 +454,7 @@ if __name__ == "__main__":
     # Start Modification (12-Apr-24):
     # lookback window set from command line argument
     LOOKBACK_WINDOW = args.lookback
-    FOR_MJB = args.for_mjb
+    FOR_MJB = args.for_sjb
     logger.info(f"Lookback window: {LOOKBACK_WINDOW} days")
     logger.info(f"Force download of stock data? {args.force_download}")
     # End Modification (12-Apr-24):
@@ -470,10 +470,8 @@ if __name__ == "__main__":
     )
 
     # open holdings CSV (update this when holdings change)
-    holdings = pd.read_csv(
-        pathlib.Path(__file__).parent
-        / ("holdings_mjb.csv" if FOR_MJB else "holdings_sjb.csv")
-    )
+    holdings_csv_file = "holdings_mjb.csv" if FOR_MJB else "holdings_sjb.csv"
+    holdings = pd.read_csv(pathlib.Path(__file__).parent / holdings_csv_file)
     # download holdings, if not done already
     pfolio_df = download_stock_prices(
         holdings,
@@ -489,7 +487,13 @@ if __name__ == "__main__":
     df_values = calculate_values(pfolio_df, DAY_WINDOW)
     # logger.info(df_values)
     save_path = (
-        Path(__file__).absolute().parents[0] / "pfolio" / f"pfolio_{today}_vals.csv"
+        Path(__file__).absolute().parents[0]
+        / "pfolio"
+        / (
+            f"pfolio_mjb_{today}_vals.csv"
+            if FOR_MJB
+            else f"pfolio_sjb_{today}_vals.csv"
+        )
     )
     df_values.to_csv(save_path, index=True, header=True)
 
