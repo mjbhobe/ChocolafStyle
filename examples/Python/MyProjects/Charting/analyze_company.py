@@ -170,10 +170,11 @@ def fetch_data(symbol: str):
     balance_sheet = ticker.balance_sheet.transpose()
     cash_flow = ticker.cashflow.transpose()
 
-    # NOTE: financials, balance_sheet and cash_flow are
+    # NOTE: financials, balance_sheet and cash_flow are by default
     # reverse sorted by date-time index (i.e. have the
     # most recent year on top). This screws up all calculations
-    # We'll fix that by reverse sorting these dataframes
+    # We'll fix that by sorting dataframes in ascending data order
+    # (i.e. latest year is the last in the dataframe)
     financials = financials.sort_index(ascending=True)
     balance_sheet = balance_sheet.sort_index(ascending=True)
     cash_flow = cash_flow.sort_index(ascending=True)
@@ -396,7 +397,7 @@ def get_recommendation(chat_client, symbol: str, report: str, peers=None) -> str
         f"First, give a commentary and your analysis of {symbol} performance\n"
     )
     if peers is not None:
-        reco_prompt += f"Next, give a commentary and your analysis of how {symbol} has fares viz-a-viz peers {peers}\n"
+        reco_prompt += f"Next, give a commentary and your analysis of how {symbol} has fared viz-a-viz peers {peers}\n"
 
     reco_prompt += f"Finally, What is your recommendation on this company's long-term investment potential?"
     completion = get_model_completion(chat_client, reco_prompt)
@@ -424,7 +425,7 @@ def main():
         symbol = st.text_input("Enter the Company Ticker (e.g AAPL, PERSISTENT.NS):")
 
     if provider and symbol:
-        # and provider selected & symbol entered
+        # provider selected & symbol entered
 
         # first check if entered symbol is valid or not
         if not is_valid_ticker(symbol):

@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../dl-pytorch"
+		},
+		{
+			"path": "../GenAiWithGemini"
+		},
+		{
+			"path": "../LangChain"
+		},
+		{
+			"path": "../gai_with_llamaindex"
+		},
+		{
+			"path": "../gaai_with_phi"
+		},
+		{
+			"path": "../MyWeekendGenAIProjects"
+		},
+		{
+			"path": "../InvestmentDecisionAnalysis"
+		}
+	],
+	"settings": {}
+}

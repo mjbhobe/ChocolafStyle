@@ -3,6 +3,7 @@
 #include <gmpxx.h>
 
 #include <cstdlib>
+//#include <print>
 #include <QtCore>
 
 #include "common_funcs.h"
@@ -20,6 +21,7 @@ int main(int argc, char** argv)
 
   do {
     cout << "Factorial of (press Enter to end)? " << Qt::flush;
+    //std::printf("Factorial of (press Enter to end)? ");
     fflush(stdin);
     ans = cin.readLine();
     if (ans.trimmed().length() == 0)
