@@ -4,9 +4,6 @@
 			"path": "."
 		},
 		{
-			"path": "../dl-pytorch"
-		},
-		{
 			"path": "../GenAiWithGemini"
 		},
 		{
@@ -20,9 +17,6 @@
 		},
 		{
 			"path": "../MyWeekendGenAIProjects"
-		},
-		{
-			"path": "../InvestmentDecisionAnalysis"
 		}
 	],
 	"settings": {}
