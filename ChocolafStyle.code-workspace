@@ -4,12 +4,6 @@
 			"path": "."
 		},
 		{
-			"path": "../GenAiWithGemini"
-		},
-		{
-			"path": "../LangChain"
-		},
-		{
 			"path": "../gai_with_llamaindex"
 		},
 		{
@@ -17,6 +11,12 @@
 		},
 		{
 			"path": "../MyWeekendGenAIProjects"
+		},
+		{
+			"path": "../MumbaiChatWala"
+		},
+		{
+			"path": "../InvestmentAnalysis-v1"
 		}
 	],
 	"settings": {}
