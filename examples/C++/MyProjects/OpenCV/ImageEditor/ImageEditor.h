@@ -12,6 +12,7 @@ class QScrollBar;
 class QAction;
 class QFileDialog;
 class QPixmap;
+class QCloseEvent;
 class ImageSpinner;
 
 QT_BEGIN_NAMESPACE
@@ -33,8 +34,11 @@ public:
   void initializeFileDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
   // save & restore state
-  void writeSettings();
-  void readSettings();
+  void saveSettings();
+  void loadSettings();
+
+  // event handlers
+  void closeEvent(QCloseEvent *e) override;
 
 private slots:
   void open();

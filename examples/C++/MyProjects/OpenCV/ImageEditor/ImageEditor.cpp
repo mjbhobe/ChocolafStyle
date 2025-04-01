@@ -19,8 +19,7 @@ public:
 };
 
 ImageEditor::ImageEditor(QWidget* parent) :
-  QMainWindow(parent) /*, m_pixmap(nullptr) */
-  ,
+  QMainWindow(parent), /* m_pixmap(nullptr), */
   imageSpinner(nullptr)
 {
   setWindowTitle(QString("Qt %1 Image Editor with Chocolaf").arg(QT_VERSION_STR));
@@ -48,11 +47,19 @@ ImageEditor::ImageEditor(QWidget* parent) :
   setupStatusBar();
 
   // set initial size to 4/5 of screen
-  resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+  // resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+  loadSettings();
   setWindowIcon(QIcon(":/app_icon.png")); // set the main window icon
 }
 
 ImageEditor::~ImageEditor() {}
+
+void ImageEditor::closeEvent(QCloseEvent* e) /* override */
+{
+  // save all settings before closing
+  saveSettings();
+  QMainWindow::closeEvent(e);
+}
 
 // helper function
 QString getIconPath(QString baseName, bool darkTheme = false)
@@ -299,7 +306,7 @@ void ImageEditor::updateStatusBar()
   }
 }
 
-void ImageEditor::writeSettings()
+void ImageEditor::saveSettings()
 {
   QSettings settings("QtPie Apps Inc.", "ImageEditor - OpenCV");
 
@@ -310,15 +317,24 @@ void ImageEditor::writeSettings()
   qDebug() << "ImageEditor settings saved";
 }
 
-void ImageEditor::readSettings()
+void ImageEditor::loadSettings()
 {
   QSettings settings("QtPie Apps Inc.", "ImageEditor - OpenCV");
 
   settings.beginGroup("mainWindow");
-  restoreGeometry(settings.value("geometry").toByteArray());
-  restoreState(settings.value("state").toByteArray());
+  QByteArray geometry = settings.value("geometry").toByteArray();
+
+  // on the very first run, there will be no settings saved
+  if (!geometry.isEmpty()) {
+    qDebug() << "Loading from saved settings";
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("state").toByteArray());
+  } else {
+    // set default size = 4/5 of screen size
+    qDebug() << "Not settings available, setting defaults!";
+    resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+  }
   settings.endGroup();
-  qDebug() << "ImageEditor settings loaded";
 }
 
 void ImageEditor::scaleImage(double factor /*=-1*/)
@@ -396,9 +412,11 @@ void ImageEditor::initializeFileDialog(QFileDialog& dialog, QFileDialog::AcceptM
 void ImageEditor::open()
 {
   QFileDialog dialog(this, "Open Image");
-  const QString imageFilters("Images (*.png *.bmp *.tiff *.tif *.jpg *.jpeg *.xpm");
+  const QString imageFilters("Images (*.png *.bmp *.tiff *.tif *.jpg *.jpeg *.xpm)");
   const QStringList picsLocation = QStandardPaths::standardLocations(
     QStandardPaths::PicturesLocation);
+  // if there are multiple pictures locations, pick the last one in the list as
+  // the directory in which the dialog will open
   const QString startingDir = picsLocation.isEmpty() ? QDir::currentPath() : picsLocation.last();
   QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), startingDir, imageFilters);
   if (!fileName.isEmpty() && loadImage(fileName))

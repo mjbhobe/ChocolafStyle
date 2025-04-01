@@ -1,8 +1,16 @@
-#include <QtCore>
+/**
+ * load_image : loads & displays a random image using OpenCV-C++ from the OS's
+ *  standard image path
+ *  
+ *  Author: Manish Bhobe
+ *  My experiments with C++/Qt & OpenCV
+ *  Code shared for educational purposes only!
+ */
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <QtCore>
 
 using namespace std;
 

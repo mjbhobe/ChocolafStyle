@@ -31,6 +31,13 @@ public:
   void updateActions();
   void initializeFileDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
+  // save & restore state
+  void saveSettings();
+  void loadSettings();
+
+  // event handlers
+  void closeEvent(QCloseEvent *e) override;
+
 private slots:
   void open();
   void print();

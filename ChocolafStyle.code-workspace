@@ -1,22 +1,38 @@
 {
 	"folders": [
 		{
+			"name": "ChocolafStyle",
 			"path": "."
 		},
 		{
+			"name": "gai_with_llamaindex",
 			"path": "../gai_with_llamaindex"
 		},
 		{
+			"name": "gaai_with_phi",
 			"path": "../gaai_with_phi"
 		},
 		{
+			"name": "MyWeekendGenAIProjects",
 			"path": "../MyWeekendGenAIProjects"
 		},
 		{
-			"path": "../MumbaiChatWala"
+			"name": "ai-hedge-fund",
+			"path": "../references/ai-hedge-fund"
 		},
 		{
+			"name": "InvestmentAnalysis-v1",
 			"path": "../InvestmentAnalysis-v1"
+		},
+		{
+			"name": "InvestmentAnalysis-v2",
+			"path": "../InvestmentAnalysis-v2"
+		},
+		{
+			"path": "../InvestmentAnalysis-v3"
+		},
+		{
+			"path": "../TechnicalAnalysisOfStock-v1"
 		}
 	],
 	"settings": {}

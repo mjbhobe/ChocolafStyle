@@ -49,11 +49,19 @@ ImageViewer::ImageViewer(QWidget *parent)
   setupStatusBar();
 
   // set initial size to 3/5 of screen
-  resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+  //resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+  loadSettings();
   setWindowIcon(QIcon(":/app_icon.png")); // load an image
 }
 
 ImageViewer::~ImageViewer() {}
+
+void ImageViewer::closeEvent(QCloseEvent *e) /* override */
+{
+  // save all settings before closing
+  saveSettings();
+  QMainWindow::closeEvent(e);
+}
 
 // helper function
 QString getIconPath(QString baseName, bool darkTheme = false)
@@ -248,6 +256,37 @@ void ImageViewer::updateStatusBar()
       scaleFactorLabel->setText(QString("Zoom: %1%").arg(currZoomFactor));
     }
   }
+}
+
+void ImageViewer::saveSettings()
+{
+  QSettings settings("QtPie Apps Inc.", "ImageViewer - OpenCV");
+
+  settings.beginGroup("mainWindow");
+  settings.setValue("geometry", saveGeometry());
+  settings.setValue("state", saveState());
+  settings.endGroup();
+  qDebug() << "ImageEditor settings saved";
+}
+
+void ImageViewer::loadSettings()
+{
+  QSettings settings("QtPie Apps Inc.", "ImageViewer - OpenCV");
+
+  settings.beginGroup("mainWindow");
+  QByteArray geometry = settings.value("geometry").toByteArray();
+
+  // on the very first run, there will be no settings saved
+  if (!geometry.isEmpty()) {
+    qDebug() << "Loading from saved settings";
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("state").toByteArray());
+  } else {
+    // set default size = 4/5 of screen size
+    qDebug() << "Not settings available, setting defaults!";
+    resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+  }
+  settings.endGroup();
 }
 
 void ImageViewer::scaleImage(double factor /*= -1.0*/)
