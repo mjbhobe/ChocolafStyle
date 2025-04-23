@@ -202,15 +202,17 @@ int main(void) {
 
   // vector of vectors
   std::vector<std::vector<double>> X(4);
-  // the first one is a random set of 20 numbers between 50 & 200
+  // the first one is a random set of 10 numbers between -200 & 200
   X[0] = mjb::randn(10, -200, 200);
   std::cout << "randn(): " << X[0] << std::endl;
-  // for each element of X[0] add a random number between -3o & +30
+  // for each element of X[0] add a random number between -30 & +30
+  // and store as X[1]
   X[1] = std::vector<double>(X[0].size());
   std::transform(X[0].cbegin(), X[0].cend(), X[1].begin(), [](double x) {
     return x + mjb::randn(-30, +30);
   });
   std::cout << "X[1]: " << X[1] << std::endl;
+  // for each element of X[0] return 1 if value is > 50, else return -1
   X[2] = std::vector<double>(X[0].size());
   std::transform(X[0].cbegin(), X[0].cend(), X[2].begin(), [](double x) {
     return x > 50 ? +1. : -1.;
