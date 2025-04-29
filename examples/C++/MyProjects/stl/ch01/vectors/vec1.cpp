@@ -1,5 +1,7 @@
+#include <chrono>
 #include <concepts>
 #include <cstdlib>
+#include <ctime>
 #include <format>
 #include <iomanip>
 #include <iostream>
@@ -81,11 +83,68 @@ std::string format_as_currency(float val, std::locale &loc) {
   return ss.str();
 }
 
+class LocaleFormatter {
+private:
+  std::locale _locale;
+
+public:
+  LocaleFormatter(std::locale locale)
+    : _locale{locale} {}
+  std::string formatAsNumber(double val) {
+    std::stringstream ss;
+    ss.imbue(_locale);
+
+    ss << std::showbase << std::fixed << val;
+    return ss.str();
+  }
+  std::string formatAsCurrency(double val) {
+    std::stringstream ss;
+    ss.imbue(_locale);
+
+    // put_money for currency requires * 100
+    ss << std::showbase << std::put_money(val * 100);
+    return ss.str();
+  }
+
+  std::tm to_tm(const std::chrono::year_month_day &ymd) {
+    std::tm tm_result{};
+    tm_result.tm_year = static_cast<int>(ymd.year()) - 1900;   // tm_year = years since 1900
+    tm_result.tm_mon = static_cast<unsigned>(ymd.month()) - 1; // tm_mon = [0, 11]
+    tm_result.tm_mday = static_cast<unsigned>(ymd.day());
+
+    // Other fields you might want to default to 0
+    tm_result.tm_hour = 0;
+    tm_result.tm_min = 0;
+    tm_result.tm_sec = 0;
+    tm_result.tm_isdst = -1; // Not known whether DST is in effect
+
+    return tm_result;
+  }
+
+  std::string formatAsDate(const std::chrono::year_month_day &date) {
+    std::stringstream ss;
+    ss.imbue(_locale);
+
+    /* does not work with C++20 or C++23 - may work with C++26!
+    std::chrono::sys_days day_point{date};
+    ss << std::format(_locale, "{:L%x}", day_point); */
+
+    std::tm tm = to_tm(date);
+    ss << std::put_time(&tm, "%x");
+    return ss.str();
+  }
+};
+
 // user defined type
 class Employee {
 public:
-  Employee(size_t empNo, const std::string &name, float salary)
-      : m_empNo(empNo), m_name(name), m_salary(salary) {}
+  Employee(
+    size_t empNo, const std::string &name, float salary, const std::chrono::year_month_day &hire_date
+  )
+    : m_empNo(empNo)
+    , m_name(name)
+    , m_salary(salary)
+    , m_hire_date{hire_date} {}
   // getters & setters
   size_t empNo() const { return m_empNo; }
   std::string name() const { return m_name; }
@@ -104,9 +163,15 @@ public:
   }
 
   std::string toString() const {
-    return std::format("Employee -> No: {:<3d} - name: {:s} - salary: {:s}",
-                       m_empNo, m_name,
-                       format_as_currency(m_salary, in_locale));
+    LocaleFormatter formatter(in_locale);
+    return std::format(
+      "Employee -> No: {:<3d} - name: {:s} - salary: {:s} - hired on: {:s}",
+      m_empNo,
+      m_name,
+      formatter.formatAsCurrency(m_salary),
+      formatter.formatAsDate(m_hire_date)
+    );
+    // format_as_currency(m_salary, in_locale));
   }
 
   friend std::ostream &operator<<(std::ostream &ost, const Employee &emp) {
@@ -118,6 +183,7 @@ private:
   size_t m_empNo;
   std::string m_name;
   float m_salary;
+  std::chrono::year_month_day m_hire_date;
 };
 
 namespace mjb {
@@ -155,6 +221,8 @@ namespace mjb {
 } // namespace mjb
 
 int main(void) {
+  using namespace std::chrono;
+
   // initialize random number generator
   constexpr unsigned int SEED{42};
 
@@ -177,9 +245,9 @@ int main(void) {
 
   // custom classes in vectors
   std::vector<Employee> emps{
-      Employee(10, "Manish", 45678.67),
-      Employee(20, "Anupa", 86789.75),
-      Employee(30, "Nupoor", 6789.83),
+    Employee(10, "Manish", 45678.67, {year{1991}, month{9}, day{2}}),
+    Employee(20, "Anupa", 86789.75, {year{2001}, month{6}, day{14}}),
+    Employee(30, "Nupoor", 6789.83, {year{2023}, month{3}, day{19}}),
   };
   for (auto const &e : emps)
     std::cout << e.toString() << std::endl;
