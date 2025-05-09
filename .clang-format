@@ -22,7 +22,7 @@ AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: false
-ArrayInitializerAlignmentStyle: Left
+# ArrayInitializerAlignmentStyle: Left
 BinPackArguments: true
 BinPackParameters: true
 BreakBeforeBraces: Custom

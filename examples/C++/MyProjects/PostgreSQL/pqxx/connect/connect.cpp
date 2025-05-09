@@ -1,21 +1,22 @@
 // connect.cpp - connect to PostgreSQL using pqxx
 // Tutorial at https://www.tutorialspoint.com/postgresql/postgresql_c_cpp.htm
-#include <QCoreApplication>
-#include <QFile>
-#include <QSettings>
 #include <fmt/core.h>
 #include <iostream>
 #include <pqxx/except>
 #include <pqxx/pqxx>
 #include <stdexcept>
 #include <string>
+#include <QCoreApplication>
+#include <QFile>
+#include <QSettings>
 
-const QString getConnectionString() {
+const QString getConnectionString()
+{
   const QString config_file{"config.cfg"};
   QFile file(config_file);
   if (!file.exists())
-    throw std::runtime_error(fmt::format(
-        "FATAL: could not find config file {}. Cannot connect to database!",
+    throw std::runtime_error(
+      fmt::format("FATAL: could not find config file {}. Cannot connect to database!",
         config_file.toStdString().c_str()));
 
   /*
@@ -38,11 +39,12 @@ const QString getConnectionString() {
   QString password = config.value("postgres/password").toString();
 
   QString connString = QString("hostaddr=%1 dbname=%2 user=%3 password=%4")
-                           .arg(host, dbase, user, password);
+                         .arg(host, dbase, user, password);
   return connString;
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   QCoreApplication app(argc, argv);
 
   try {
@@ -63,20 +65,22 @@ int main(int argc, char **argv) {
       std::cout << "Results of SQL: \'" << sql << "\'" << std::endl;
       // display the result
       for (auto [id, first_name, last_name] :
-           txn.stream<int, std::string_view, std::string_view>(sql)) {
-        std::string outstr =
-            fmt::format("{:6d} {}, {}", id, last_name, first_name);
+        txn.stream<int, std::string_view, std::string_view>(sql)) {
+        std::string outstr = fmt::format("{:6d} {}, {}", id, last_name, first_name);
         std::cout << outstr << std::endl;
       }
       txn.commit();
-    } else {
+    }
+    else {
       std::cerr << "Can't open database dvdrental!" << std::endl;
       return -1;
     }
-  } catch (pqxx::sql_error const &e) {
+  }
+  catch (pqxx::sql_error const &e) {
     std::cerr << "Database error: " << e.what() << std::endl
               << "Query was: " << e.query() << std::endl;
-  } catch (const std::exception &e) {
+  }
+  catch (const std::exception &e) {
     std::cerr << e.what() << std::endl;
     return -2;
   }
