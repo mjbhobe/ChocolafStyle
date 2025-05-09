@@ -5,7 +5,8 @@
 TEMPLATE = app
 TARGET = factorial
 
-include (/home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf/common_files/common_console.pro)
+# include (/home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf/common_files/common_console.pro)
+include ($$system(CHOCOLAF_COMMONFILES_HOME)/common_console.pro)
 
 # Input
 SOURCES += factorial.cc

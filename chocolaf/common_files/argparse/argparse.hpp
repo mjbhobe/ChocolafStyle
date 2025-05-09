@@ -273,7 +273,7 @@ struct Entry {
 
       datap = std::make_unique<ConvertType<T>>();
       return ((ConvertType<T> *)(datap.get()))->data;
-   };
+   }
 
    // Force an ambiguous error when not using a reference.
    template <typename T>

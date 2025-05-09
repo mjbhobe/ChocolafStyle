@@ -6,7 +6,8 @@ QTextStream cout(stdout, QIODeviceBase::WriteOnly);
 QTextStream cerr(stderr, QIODeviceBase::WriteOnly);
 QTextStream cin(stdin, QIODeviceBase::ReadOnly);
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   QCoreApplication a(argc, argv);
 
   // constructors

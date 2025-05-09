@@ -219,6 +219,8 @@ cython_debug/
 # config files
 *.config
 *.ini
+holdings*.csv
+pfolio*.csv
 
 # Model binaries
 *.bin

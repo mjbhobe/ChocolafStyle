@@ -55,7 +55,13 @@ struct std::formatter<Image> : std::formatter<std::string>
 
   auto format(const Image& im, std::format_context& fc) const
   {
-    return std::format_to(fc.out(), "{}", im.to_string());
+    // NOTE: following line fails at compile time as it is
+    // hOT a constexpr due to to_string() call.
+    // return std::format_to(fc.out(), "{}", im.to_string());
+
+    // basically using [most of] to_string() code locally
+    return std::format_to(fc.out(), "[{:5d} [{:5d} [{:8d}]]]", im.m_Height, im.m_Width,
+      im.m_Height * im.m_Width);
   }
 };
 

@@ -6,7 +6,8 @@ TEMPLATE = app
 TARGET = factorial
 INCLUDEPATH += .
 
-include (../../../../../../chocolaf/common_files/common_console.pro)
+#include (../../../../../../chocolaf/common_files/common_console.pro)
+include ($$(CHOCOLAF_COMMONFILES_HOME)/common_console.pro)
 
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.

@@ -2,8 +2,8 @@
 analyze_company.py - analysis of a company's financial & stock performance
     using Yahoo Finance and then leveraging an LLM to analyze performance viz-a-viz
     its peers and make a final investment recommendation.
-    Supports LLMs from OpenAI (paid), Anthropic (paid), and Gemini
-    Groq is also supported, but it has issues with context window size when making 
+    Supports LLMs from OpenAI (paid), Anthropic (paid), and Gemini.
+    Groq is also supported, but it has issues with context window size when making
     final recommendations.
 
 Author: Manish Bhobe
@@ -32,7 +32,8 @@ _ = load_dotenv(find_dotenv())
 
 SYS_PROMPT = f"""
 You are an expert at Finance, Financial Markets and Financial market ratio calculations and 
-analysis of companies and can give expert and detailed recommendations.
+analysis of companies and can give expert and detailed recommendations about a company, its 
+Financial performance and its potential as a good investment target
 """
 
 PROVIDER_AND_MODEL = {
@@ -169,10 +170,11 @@ def fetch_data(symbol: str):
     balance_sheet = ticker.balance_sheet.transpose()
     cash_flow = ticker.cashflow.transpose()
 
-    # NOTE: financials, balance_sheet and cash_flow are
+    # NOTE: financials, balance_sheet and cash_flow are by default
     # reverse sorted by date-time index (i.e. have the
     # most recent year on top). This screws up all calculations
-    # We'll fix that by reverse sorting these dataframes
+    # We'll fix that by sorting dataframes in ascending data order
+    # (i.e. latest year is the last in the dataframe)
     financials = financials.sort_index(ascending=True)
     balance_sheet = balance_sheet.sort_index(ascending=True)
     cash_flow = cash_flow.sort_index(ascending=True)
@@ -251,11 +253,13 @@ def calculate_ratios(
             1. Liquidity Ratios:
                 - Current Ratio = Current Assets / Current Liabilities
                 - Quick Ratio = (Current Assets - Inventory) / Current Liabilities
+                - Cash Ratio = (Cash & Equivalents) / Current Liabilities
             2. Profitability Ratios:
-                - Net Profit Margin = Net Income / Revenue'
-                - Operating Margin = Operating Income / Revenue
-                - Return on Assets (RoA) = Net Income / Total Assets
                 - Return on Equity (RoE) = Net Income / Shareholder's Equity
+                - Return on Assets (RoA) = Net Income / Total Assets
+                - Return on Capital Employed (RoCE) = EBIT / (Current Assets - Current Liabilities)
+                - Net Profit Margin = Net Income / Revenue
+                - Operating Margin = Operating Income / Revenue
             3. Leverage Ratios:
                 - Debt-to-Equity Ratio (DoE) = Total Debt / Shareholder's Equity
                 - Interest Coverage Ratio = EBIT / Interest Expense
@@ -266,12 +270,15 @@ def calculate_ratios(
                 - Price-to-Earnings Ratio (P/E) = Price per Share / Earnings per Share (EPS)
                 - Price-to-Sales Ratio (P/S) = Market Capitalization / Revenue
                 - Price-to-Book Ratio (P/B) = Market Capitalization / Book Value of Equity
-            Revenue Growth
-            Net Profit Margin
-            Earnings Per Share (EPS)
-            Return on Equity (RoE)
-            Debt to Equity (D/E)
-            Free Cash Flow
+            6. Performance and Growth Metrics (%, means reported as percentage [multiply by 100])
+                - Revenue Growth (%) = (Current Year Revenue - Previous Year Revenue) / Previous Year Revenue
+                - EBIT Growth (%) = (Current Year EBIT - Previous Year EBIT) / Previous Year EBIT
+                - EPS Growth (%) = (Current Year EPS - Previous Year EPS) / Previous Year EPS
+                - FCF Growth (%) = (Current Year FCF - Prev Year FCF) / Prev Year FCF [FCF = Free Cash Flow]
+                - Net Profit Margin (%) = Net Income / Total Revenue
+                - Earnings Per Share (EPS) = (Net Income - Preferred Dividends) / Shares Outstanding
+                - Debt to Equity (D/E) = Total Debt / Total Shareholders' Equity
+                - Free Cash Flow = Operating Cash Flow - Capital Expenditure
     Params:
         ticker (yf.Ticker): an instance of Ticker object
         financials, balance_sheet and cash_flow: all pandas Dataframe instances
@@ -395,7 +402,7 @@ def get_recommendation(chat_client, symbol: str, report: str, peers=None) -> str
         f"First, give a commentary and your analysis of {symbol} performance\n"
     )
     if peers is not None:
-        reco_prompt += f"Next, give a commentary and your analysis of how {symbol} has fares viz-a-viz peers {peers}\n"
+        reco_prompt += f"Next, give a commentary and your analysis of how {symbol} has fared viz-a-viz peers {peers}\n"
 
     reco_prompt += f"Finally, What is your recommendation on this company's long-term investment potential?"
     completion = get_model_completion(chat_client, reco_prompt)
@@ -423,7 +430,7 @@ def main():
         symbol = st.text_input("Enter the Company Ticker (e.g AAPL, PERSISTENT.NS):")
 
     if provider and symbol:
-        # and provider selected & symbol entered
+        # provider selected & symbol entered
 
         # first check if entered symbol is valid or not
         if not is_valid_ticker(symbol):

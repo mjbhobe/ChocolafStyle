@@ -3,7 +3,8 @@ TEMPLATE = app
 TARGET = part1
 INCLUDEPATH += .
 
-include(../../../../../../../../chocolaf/common_files/common.pro)
+# include(../../../../../../../../chocolaf/common_files/common.pro)
+include($$(CHOCOLAF_HOME)/chocolaf/common_files/common.pro)
 
 
 SOURCES = main.cpp
