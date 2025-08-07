@@ -1,5 +1,4 @@
 #include <chrono>
-#include <concepts>
 #include <cstdlib>
 #include <ctime>
 #include <format>
@@ -90,6 +89,7 @@ private:
 public:
   LocaleFormatter(std::locale locale)
     : _locale{locale} {}
+
   std::string formatAsNumber(double val) {
     std::stringstream ss;
     ss.imbue(_locale);
@@ -97,6 +97,7 @@ public:
     ss << std::showbase << std::fixed << val;
     return ss.str();
   }
+
   std::string formatAsCurrency(double val) {
     std::stringstream ss;
     ss.imbue(_locale);
@@ -152,7 +153,9 @@ public:
     if (m_name != newName)
       m_name = newName;
   }
+
   float salary() const { return m_salary; }
+
   void setSalary(float newSal) {
     if (newSal >= float(0.0)) {
       m_salary = newSal;
