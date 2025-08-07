@@ -14,7 +14,8 @@ int SysmetsModel::rowCount(const QModelIndex & /*parent*/) const
   return NUMLINES;
 }
 
-int SysmetsModel::columnCount(const QModelIndex & /*parent*/) const {
+int SysmetsModel::columnCount(const QModelIndex & /*parent*/) const
+{
   return 3; /* hard coded! */
 }
 
