@@ -1,7 +1,7 @@
 // SysmetsModel.cpp - QAbstractTable model for system metrics
-#include <windows.h>
-#include "Sysmets.h"
 #include "SysmetsModel.h"
+#include <windows.h>
+#include "sysmets.h"
 
 SysmetsModel::SysmetsModel(QObject *parent /*= null_ptr*/)
   : QAbstractTableModel(parent)
