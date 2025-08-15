@@ -16,7 +16,15 @@
 
 #include <QApplication>
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QTableView>
+
+// NOTE: this code is for Windows only!
+#ifndef Q_OS_WIN
+// Code for other operating systems (Mac, Linux, etc.)
+QMessageBox::critical(nullptr, "Error", "This program is designed to run only on Windows.");
+return 1; // Exit with an error code
+#endif
 
 int main(int argc, char **argv)
 {
@@ -32,6 +40,7 @@ int main(int argc, char **argv)
   // tableView.show();
 
   QMainWindow mainWindow;
+  mainWindow.resize(400, 250);
   mainWindow.setWindowTitle("Windows System Metrics with Qt");
   mainWindow.setCentralWidget(&tableView);
   mainWindow.show();
