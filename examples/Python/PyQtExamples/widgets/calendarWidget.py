@@ -1,7 +1,7 @@
 """
 * calendarWidget.py: PyQt5 version of the Qt calendar widgets demo using Chocolaf theme
 *   (NOTE: not themed fully yet!)
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning

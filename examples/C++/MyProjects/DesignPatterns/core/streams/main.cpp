@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
 {
    QCoreApplication a(argc, argv);
 
-   QString name{"Manish Bhobe"};
+   QString name{"Manish Bhobé"};
    cout << QString("Hello %1! Welcome to Qt %2").arg(name).arg(QT_VERSION_STR)
         << Qt::endl;
    QStringList favProgLanguages{"Python", "C++", "Java", "SQL"};
@@ -115,9 +115,9 @@ int main(int argc, char *argv[])
         << Qt::endl;
 
    QList<student_rec> recs{
-      {10, "Manish Bhobe", 76.45f, QDate(1969, 6, 22)},
+      {10, "Manish Bhobé", 76.45f, QDate(1969, 6, 22)},
       {20, "Anupa Sardesai", 85.34f, QDate(1976, 1, 22)},
-      {30, "Nupoor Bhobe", 98.45f, QDate(2007, 5, 8)},
+      {30, "Nupoor Bhobé", 98.45f, QDate(2007, 5, 8)},
    };
 
    student_rec rec{1, "", 0.0f, QDate()};

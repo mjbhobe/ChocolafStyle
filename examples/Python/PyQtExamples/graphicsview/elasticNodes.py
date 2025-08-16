@@ -1,6 +1,6 @@
 """
-* elasticNodes.py - illustrates use of QGraphicsItem & QGraphicsScene 
-* @author (Chocolaf): Manish Bhobe
+* elasticNodes.py - illustrates use of QGraphicsItem & QGraphicsScene
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -101,15 +101,15 @@ class Edge(QGraphicsItem):
         if not self.source or not self.dest:
             return
 
-        line = QLineF(self.mapFromItem(self.source, 0, 0),
-                      self.mapFromItem(self.dest, 0, 0))
+        line = QLineF(
+            self.mapFromItem(self.source, 0, 0), self.mapFromItem(self.dest, 0, 0)
+        )
         length = line.length()
 
         self.prepareGeometryChange()
 
         if length > 20.0:
-            edgeOffset = QPointF((line.dx() * 10) / length,
-                                 (line.dy() * 10) / length)
+            edgeOffset = QPointF((line.dx() * 10) / length, (line.dy() * 10) / length)
 
             self.sourcePoint = line.p1() + edgeOffset
             self.destPoint = line.p2() - edgeOffset
@@ -124,10 +124,17 @@ class Edge(QGraphicsItem):
         penWidth = 1.0
         extra = (penWidth + self.arrowSize) / 2.0
 
-        return QRectF(self.sourcePoint,
-                      QSizeF(self.destPoint.x() - self.sourcePoint.x(),
-                             self.destPoint.y() - self.sourcePoint.y())).normalized().adjusted(-extra, -extra, extra,
-                                                                                               extra)
+        return (
+            QRectF(
+                self.sourcePoint,
+                QSizeF(
+                    self.destPoint.x() - self.sourcePoint.x(),
+                    self.destPoint.y() - self.sourcePoint.y(),
+                ),
+            )
+            .normalized()
+            .adjusted(-extra, -extra, extra, extra)
+        )
 
     def paint(self, painter, option, widget):
         if not self.source or not self.dest:
@@ -139,8 +146,7 @@ class Edge(QGraphicsItem):
         if line.length() == 0.0:
             return
 
-        painter.setPen(QPen(Qt.black, 1, Qt.SolidLine, Qt.RoundCap,
-                            Qt.RoundJoin))
+        painter.setPen(QPen(Qt.black, 1, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
         painter.drawLine(line)
 
         # Draw the arrows if there's enough room.
@@ -148,14 +154,22 @@ class Edge(QGraphicsItem):
         if line.dy() >= 0:
             angle = Edge.TwoPi - angle
 
-        sourceArrowP1 = self.sourcePoint + QPointF(math.sin(angle + Edge.Pi / 3) * self.arrowSize,
-                                                   math.cos(angle + Edge.Pi / 3) * self.arrowSize)
-        sourceArrowP2 = self.sourcePoint + QPointF(math.sin(angle + Edge.Pi - Edge.Pi / 3) * self.arrowSize,
-                                                   math.cos(angle + Edge.Pi - Edge.Pi / 3) * self.arrowSize)
-        destArrowP1 = self.destPoint + QPointF(math.sin(angle - Edge.Pi / 3) * self.arrowSize,
-                                               math.cos(angle - Edge.Pi / 3) * self.arrowSize)
-        destArrowP2 = self.destPoint + QPointF(math.sin(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize,
-                                               math.cos(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize)
+        sourceArrowP1 = self.sourcePoint + QPointF(
+            math.sin(angle + Edge.Pi / 3) * self.arrowSize,
+            math.cos(angle + Edge.Pi / 3) * self.arrowSize,
+        )
+        sourceArrowP2 = self.sourcePoint + QPointF(
+            math.sin(angle + Edge.Pi - Edge.Pi / 3) * self.arrowSize,
+            math.cos(angle + Edge.Pi - Edge.Pi / 3) * self.arrowSize,
+        )
+        destArrowP1 = self.destPoint + QPointF(
+            math.sin(angle - Edge.Pi / 3) * self.arrowSize,
+            math.cos(angle - Edge.Pi / 3) * self.arrowSize,
+        )
+        destArrowP2 = self.destPoint + QPointF(
+            math.sin(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize,
+            math.cos(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize,
+        )
 
         painter.setBrush(Qt.black)
         painter.drawPolygon(QPolygonF([line.p1(), sourceArrowP1, sourceArrowP2]))
@@ -222,8 +236,12 @@ class Node(QGraphicsItem):
 
         sceneRect = self.scene().sceneRect()
         self.newPos = self.pos() + QPointF(xvel, yvel)
-        self.newPos.setX(min(max(self.newPos.x(), sceneRect.left() + 10), sceneRect.right() - 10))
-        self.newPos.setY(min(max(self.newPos.y(), sceneRect.top() + 10), sceneRect.bottom() - 10))
+        self.newPos.setX(
+            min(max(self.newPos.x(), sceneRect.left() + 10), sceneRect.right() - 10)
+        )
+        self.newPos.setY(
+            min(max(self.newPos.y(), sceneRect.top() + 10), sceneRect.bottom() - 10)
+        )
 
     def advance(self):
         if self.newPos == self.pos():
@@ -385,10 +403,12 @@ class GraphWidget(QGraphicsView):
     def drawBackground(self, painter, rect):
         # Shadow.
         sceneRect = self.sceneRect()
-        rightShadow = QRectF(sceneRect.right(), sceneRect.top() + 5, 5,
-                             sceneRect.height())
-        bottomShadow = QRectF(sceneRect.left() + 5, sceneRect.bottom(),
-                              sceneRect.width(), 5)
+        rightShadow = QRectF(
+            sceneRect.right(), sceneRect.top() + 5, 5, sceneRect.height()
+        )
+        bottomShadow = QRectF(
+            sceneRect.left() + 5, sceneRect.bottom(), sceneRect.width(), 5
+        )
         if rightShadow.intersects(rect) or rightShadow.contains(rect):
             painter.fillRect(rightShadow, Qt.darkGray)
         if bottomShadow.intersects(rect) or bottomShadow.contains(rect):
@@ -403,10 +423,16 @@ class GraphWidget(QGraphicsView):
         painter.drawRect(sceneRect)
 
         # Text.
-        textRect = QRectF(sceneRect.left() + 4, sceneRect.top() + 4,
-                          sceneRect.width() - 4, sceneRect.height() - 4)
-        message = "Click and drag the nodes around, and zoom with the " \
-                  "mouse wheel or the '+' and '-' keys"
+        textRect = QRectF(
+            sceneRect.left() + 4,
+            sceneRect.top() + 4,
+            sceneRect.width() - 4,
+            sceneRect.height() - 4,
+        )
+        message = (
+            "Click and drag the nodes around, and zoom with the "
+            "mouse wheel or the '+' and '-' keys"
+        )
 
         font = painter.font()
         font.setBold(True)
@@ -418,7 +444,12 @@ class GraphWidget(QGraphicsView):
         painter.drawText(textRect, message)
 
     def scaleView(self, scaleFactor):
-        factor = self.transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width()
+        factor = (
+            self.transform()
+            .scale(scaleFactor, scaleFactor)
+            .mapRect(QRectF(0, 0, 1, 1))
+            .width()
+        )
 
         if factor < 0.07 or factor > 100:
             return
@@ -426,7 +457,7 @@ class GraphWidget(QGraphicsView):
         self.scale(scaleFactor, scaleFactor)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

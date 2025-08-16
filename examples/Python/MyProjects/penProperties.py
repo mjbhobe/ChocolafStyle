@@ -1,10 +1,11 @@
 """
 * penProperties.py - illustrates a 'dumb' pen properties dialog
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
 """
+
 import os
 import pathlib
 import sys

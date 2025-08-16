@@ -1,6 +1,6 @@
 """
 * lighting.py - lighting & shadow effect using QGraphicsView
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -61,7 +61,7 @@ import chocolaf
 
 
 class Lighting(QGraphicsView):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(Lighting, self).__init__(parent)
 
         self.angle = 0.0
@@ -125,7 +125,7 @@ class Lighting(QGraphicsView):
                 self.m_items.append(item)
 
     def animate(self):
-        self.angle += (math.pi / 30)
+        self.angle += math.pi / 30
         xs = 200 * math.sin(self.angle) - 40 + 25
         ys = 200 * math.cos(self.angle) - 40 + 25
         self.m_lightSource.setPos(xs, ys)
@@ -144,7 +144,7 @@ class Lighting(QGraphicsView):
         self.m_scene.update()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

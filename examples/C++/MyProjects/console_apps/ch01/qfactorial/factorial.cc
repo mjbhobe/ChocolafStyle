@@ -2,7 +2,7 @@
 // factorial.cc : calculate factorials of numbers
 // In this example we make use of GNU MPZ class library
 //
-// @author: Manish Bhobe
+// @author: Manish Bhobé
 // My experiments with C++ & Qt Framework
 // This code is meant for learning & educational purposes only!!
 // -------------------------------------------------------------------------

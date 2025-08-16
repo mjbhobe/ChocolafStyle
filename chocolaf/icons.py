@@ -4,7 +4,7 @@
 *   standardised to a consistent L&F. Provides most commonly used icons.
 *   Uses qtawesome package for the icons - please install it first
 *       $> pip install qtawesome
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
@@ -186,9 +186,9 @@ class _ChocolafIconsCache(QObject):
         self.icons_map["Shapes_Rectangle"] = self.Shapes_Rectangle_Icon
         self.icons_map["Shapes_Empty_Rectangle"] = self.Shapes_Empty_Rectangle_Icon
         self.icons_map["Shapes_Rounded_Rectangle"] = self.Shapes_Rounded_Rectangle_Icon
-        self.icons_map[
-            "Shapes_Empty_Rounded_Rectangle"
-        ] = self.Shapes_Empty_Rounded_Rectangle_Icon
+        self.icons_map["Shapes_Empty_Rounded_Rectangle"] = (
+            self.Shapes_Empty_Rounded_Rectangle_Icon
+        )
         self.icons_map["Shapes_Circle"] = self.Shapes_Circle_Icon
         self.icons_map["Shapes_Empty_Circle"] = self.Shapes_Empty_Circle_Icon
         self.icons_map["Shapes_Ellipse"] = self.Shapes_Ellipse_Icon

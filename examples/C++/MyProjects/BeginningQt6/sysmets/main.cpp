@@ -5,7 +5,7 @@
 // Programming Windows by Charles Petzold (Microsoft Press)
 // We use a QTableView, so data shows up in a grid, with auto scrolling!
 //
-// Author: Manish Bhobe
+// Author: Manish Bhobé
 // My Experiments with C/C++ and QT Framework
 // Code is meant for illustration only! Use at your own risk. Author is not
 // liable for any direct/indirect damage caused due to use of this code.

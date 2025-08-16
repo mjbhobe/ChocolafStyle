@@ -5,7 +5,7 @@
 //
 // Tutorial - PyQt5 Doodle Application
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
-// @author: Manish Bhobe
+// @author: Manish Bhobé
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
@@ -19,7 +19,9 @@ from drawWindow import DrawWindow
 class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(QMainWindow, self).__init__(*args, **kwargs)
-        self.setWindowTitle("PyQt5 Doodle - Step07: Separating the Squiggle Implementation")
+        self.setWindowTitle(
+            "PyQt5 Doodle - Step07: Separating the Squiggle Implementation"
+        )
         # self.setGeometry(QRect(100, 100, 640, 480))
         self.resize(QGuiApplication.primaryScreen().availableSize() * 4 / 5)
         self.drawWindow = DrawWindow()

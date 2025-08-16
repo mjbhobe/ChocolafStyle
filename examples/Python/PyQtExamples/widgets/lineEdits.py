@@ -1,6 +1,6 @@
 """
 * lineEdits.py - various types of single line edit widgets using Chocolaf
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -242,7 +242,7 @@ class Window(QWidget):
         return accessGroup
 
     def accessChanged(self, index: int):
-        readOnly: bool = (index == 1)
+        readOnly: bool = index == 1
         self.accessLineEdit.setReadOnly(readOnly)
 
 
@@ -253,14 +253,14 @@ def main():
 
     win = Window()
     # win.setStyleSheet(app.getStyleSheet("WindowsDark"))
-    win.setWindowTitle(f'PyQt {PYQT_VERSION_STR} LineEdits - WindowsDark Theme')
+    win.setWindowTitle(f"PyQt {PYQT_VERSION_STR} LineEdits - WindowsDark Theme")
     win.move(100, 100)
     win.show()
 
     rect = win.geometry()
     win1 = Window()
     win1.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
-    win1.setWindowTitle(f'PyQt {PYQT_VERSION_STR} LineEdits - QDarkStyle(dark) Theme')
+    win1.setWindowTitle(f"PyQt {PYQT_VERSION_STR} LineEdits - QDarkStyle(dark) Theme")
     win1.move(rect.left() + rect.width() + 50, rect.top() + 50)
     win1.show()
     #

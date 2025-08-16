@@ -4,7 +4,7 @@
 """
 * ImageEditor.py: simple image editor application with PyQt and OpenCV
 *
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, C++, OpenCV, Data Science & ML
 * Code is provided for learning purposes only! Use at your own risk!!
 """
@@ -56,7 +56,7 @@ class ImageEditor(QMainWindow):
         self.createToolbar()
         # and status bar
         self.statusBar().showMessage(
-            f"Image Editor: developed with PyQt {PYQT_VERSION_STR} by Manish Bhobe"
+            f"Image Editor: developed with PyQt {PYQT_VERSION_STR} by Manish Bhobé"
         )
         self.setupStatusBar()
 
@@ -439,7 +439,7 @@ class ImageEditor(QMainWindow):
             "About Image Editor",
             f"<b>Image Editor</b> application to view images & apply simple effects.<br/>"
             f"Developed with PyQt {PYQT_VERSION_STR} and Chocolaf theme<br/><br/>"
-            f"Version 1.0, by Manish Bhobe<br/>"
+            f"Version 1.0, by Manish Bhobé<br/>"
             f"Free to use, but use at your own risk!!",
         )
 

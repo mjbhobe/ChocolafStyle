@@ -1,6 +1,6 @@
 """
 * wiggly.py - wiggly widget in a QDialog using Chocolaf theme
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -59,7 +59,7 @@ import chocolaf
 
 
 class WigglyWidget(QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(WigglyWidget, self).__init__(parent)
 
         self.setBackgroundRole(QPalette.Midlight)
@@ -70,13 +70,30 @@ class WigglyWidget(QWidget):
         self.setFont(newFont)
 
         self.timer = QBasicTimer()
-        self.text = ''
+        self.text = ""
 
         self.step = 0
         self.timer.start(60, self)
 
     def paintEvent(self, event):
-        sineTable = (0, 38, 71, 92, 100, 92, 71, 38, 0, -38, -71, -92, -100, -92, -71, -38)
+        sineTable = (
+            0,
+            38,
+            71,
+            92,
+            100,
+            92,
+            71,
+            38,
+            0,
+            -38,
+            -71,
+            -92,
+            -100,
+            -92,
+            -71,
+            -38,
+        )
 
         metrics = QFontMetrics(self.font())
         x = (self.width() - metrics.width(self.text)) / 2
@@ -89,7 +106,9 @@ class WigglyWidget(QWidget):
             index = (self.step + i) % 16
             color.setHsv((15 - index) * 16, 255, 191)
             painter.setPen(color)
-            painter.drawText(QPointF(x, y - ((sineTable[index] * metrics.height())) / 400), ch)
+            painter.drawText(
+                QPointF(x, y - ((sineTable[index] * metrics.height())) / 400), ch
+            )
             x += metrics.width(ch)
 
     def setText(self, newText):
@@ -104,7 +123,7 @@ class WigglyWidget(QWidget):
 
 
 class Dialog(QDialog):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(Dialog, self).__init__(parent)
 
         wigglyWidget = WigglyWidget()

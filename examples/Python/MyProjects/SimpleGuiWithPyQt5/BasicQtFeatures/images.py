@@ -1,6 +1,6 @@
 """
 * images.py - set image for label
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * Examples from book "Create Simple Gui Applications with Python & Qt5 - Martin Fitzpatrick"
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -27,9 +27,7 @@ class Window(QWidget):
         self.unchecked_text = "Check to see Mojo's picture"
         self.checked_text = "Uncheck to see Muffin's picture"
         self.mojo_image_path = os.path.join(app_dir, "images", "Mojo.jpg")
-        self.muffin_image_path = os.path.join(
-            app_dir, "images", "Muffin-2.jpg"
-        )
+        self.muffin_image_path = os.path.join(app_dir, "images", "Muffin-2.jpg")
         self.setupUi()
 
     def setupUi(self):
@@ -64,19 +62,16 @@ class Window(QWidget):
         #                                          Qt.KeepAspectRatio, Qt.SmoothTransformation))
         self.image_label.setPixmap(
             pixmap.scaled(
-                self.image_label.width(), self.image_label.height(),
-                Qt.KeepAspectRatio
+                self.image_label.width(), self.image_label.height(), Qt.KeepAspectRatio
             )
         )
-        self.setWindowTitle(
-            f"PyQt {PYQT_VERSION_STR} image labels: {image_path}"
-        )
+        self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} image labels: {image_path}")
 
 
 chocolaf.enable_hi_dpi()
 app = chocolaf.ChocolafApp(sys.argv)
 app.setStyle("WindowsDark")
-print('Hello World!')
+print("Hello World!")
 
 win = Window()
 win.show()

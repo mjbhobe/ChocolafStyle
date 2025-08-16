@@ -450,7 +450,7 @@ void ImageViewer::about()
 {
   QString str = QString("<b>Image Viewer</b> application to view images on desktop.<br/>"
                         "Created with Qt %1 and Chocolaf theme<br/><br/>"
-                        "Developed by Manish Bhobe<br/>"
+                        "Developed by Manish Bhobé<br/>"
                         "Free to use, but use at your own risk!!")
                   .arg(QT_VERSION_STR);
   QMessageBox::about(this, tr("About Image Viewer"), str);

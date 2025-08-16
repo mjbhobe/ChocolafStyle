@@ -1,6 +1,6 @@
 """
 * color.py - a color widget in a VBoxLayout
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * Examples from book "Create Simple Gui Applications with Python & Qt5 - Martin Fitzpatrick"
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -21,7 +21,7 @@ app_dir = os.path.dirname(__file__)
 
 
 class Color(QWidget):
-    def __init__(self, color, *args, darken = True, **kwargs):
+    def __init__(self, color, *args, darken=True, **kwargs):
         super(Color, self).__init__(*args, **kwargs)
         self.color = color
         self.darken = darken
@@ -29,7 +29,7 @@ class Color(QWidget):
         palette = self.palette()
         clr = QColor(color)
         if self.darken:
-            clr = clr.darker(factor = 150)
+            clr = clr.darker(factor=150)
         palette.setColor(QPalette.Window, clr)
         self.setPalette(palette)
 
@@ -38,12 +38,11 @@ class Window(QWidget):
 
     def __init__(self, *args, **kwargs):
         super(Window, self).__init__(*args, **kwargs)
-        rainbow = ['violet', 'indigo', 'blue',
-                   'green', 'yellow', 'orange', 'red']
+        rainbow = ["violet", "indigo", "blue", "green", "yellow", "orange", "red"]
         layout = QHBoxLayout()  # QVBoxLayout()
         layout.setSpacing(0)
         for color in rainbow:
-            layout.addWidget(Color(QColor(color), darken = False))
+            layout.addWidget(Color(QColor(color), darken=False))
         self.setLayout(layout)
 
         self.resize(300, 300)

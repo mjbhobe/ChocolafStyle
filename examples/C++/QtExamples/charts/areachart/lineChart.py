@@ -1,6 +1,6 @@
 """
 * lineChart.py: draw a line chart from data in a CSV file
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -83,7 +83,9 @@ class DisplayGraph(QWidget):
         x_values, y_values = self.loadCSVFile()
         # Create chart object
         chart = QChart()
-        chart.setTitle("Public Social Spending as a Share of GDP for Sweden, 1880 to 2016")
+        chart.setTitle(
+            "Public Social Spending as a Share of GDP for Sweden, 1880 to 2016"
+        )
         chart.setAnimationOptions(QChart.SeriesAnimations)
         chart.legend().hide()  # Hide the chart's legend
         line_series = QLineSeries()  # Using line charts for this example
@@ -119,9 +121,11 @@ class DisplayGraph(QWidget):
         Return the x_values and y_values lists."""
 
         x_values, y_values = [], []
-        data_file_path = os.path.join(os.path.dirname(__file__), "social_spending_sweden.csv")
+        data_file_path = os.path.join(
+            os.path.dirname(__file__), "social_spending_sweden.csv"
+        )
         # file_name = "./social_spending_sweden.csv"
-        assert(os.path.exists(data_file_path))
+        assert os.path.exists(data_file_path)
         with open(data_file_path, "r") as csv_f:
             reader = csv.reader(csv_f)
             header_labels = next(reader)  # Skip header row
@@ -137,7 +141,7 @@ class DisplayGraph(QWidget):
         return x_values, y_values
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = ChocolafApp(sys.argv)
     # app.setStyle("Chocolaf")
     # print(os.path.dirname(__file__), flush=True)

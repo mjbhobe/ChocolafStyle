@@ -4,10 +4,11 @@
 //
 // Tutorial - PyQt5 Doodle Application
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
-// @author: Manish Bhobe
+// @author: Manish Bhobé
 // My experiments with the Qt Framework with PyQt. Use at your own risk!!
 // ============================================================================
 """
+
 import sys
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *

@@ -1,6 +1,6 @@
 """
 * findDialog.py - implements rudimentary FindDialog
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -62,7 +62,7 @@ import chocolaf
 
 
 class FindDialog(QDialog):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(FindDialog, self).__init__(parent)
 
         label = QLabel("Find &what:")
@@ -120,7 +120,7 @@ class FindDialog(QDialog):
         extension.hide()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

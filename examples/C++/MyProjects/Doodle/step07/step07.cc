@@ -3,7 +3,7 @@
 //
 // Tutorial - Qt Scribble Application
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
-// Created by Manish Bhobe.
+// Created by Manish Bhobé.
 // ===========================================================================
 
 #include "DrawWindow.h"

@@ -5,7 +5,7 @@
 //
 // Tutorial - PyQt5 Doodle Application
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
-// @author: Manish Bhobe
+// @author: Manish Bhobé
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
@@ -62,7 +62,12 @@ class DrawWindow(QWidget):
                 # if Ctrl key is also pressed with mouse press, display
                 # dialog to change pen thickness
                 newWidth, ok = QInputDialog.getInt(
-                    self, "Pen Width", "Enter new pen width (2-12):", self.doodle.defPenWidth, 2, 12
+                    self,
+                    "Pen Width",
+                    "Enter new pen width (2-12):",
+                    self.doodle.defPenWidth,
+                    2,
+                    12,
                 )
                 if ok:  # user clicked Ok on QInputDialog
                     self.doodle.defPenWidth = newWidth
@@ -93,7 +98,9 @@ class DrawWindow(QWidget):
         NOTE: you must call setMouseTracking(True) so window can receive mouse drag events
         """
         if (e.buttons() == Qt.LeftButton) and (self.__dragging):
-            assert self.__currSquiggle != None, "FATAL: self.currLine is None, when expecting valid!"
+            assert (
+                self.__currSquiggle != None
+            ), "FATAL: self.currLine is None, when expecting valid!"
             pt = QPoint(e.pos().x(), e.pos().y())
             self.__currSquiggle.append(pt)
             self.update()
@@ -103,7 +110,9 @@ class DrawWindow(QWidget):
     def mouseReleaseEvent(self, e: QMouseEvent) -> None:
         """handler for mouse (left or right clostBtn) released events"""
         if (e.button() == Qt.LeftButton) and (self.__dragging):
-            assert self.__currSquiggle != None, "FATAL: self.currLine is None, when expecting valid!"
+            assert (
+                self.__currSquiggle != None
+            ), "FATAL: self.currLine is None, when expecting valid!"
             pt = QPoint(e.pos().x(), e.pos().y())
             self.__currSquiggle.append(pt)
             self.__dragging = False

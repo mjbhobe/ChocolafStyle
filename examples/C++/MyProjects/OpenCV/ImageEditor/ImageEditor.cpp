@@ -588,7 +588,7 @@ void ImageEditor::nextImage()
 void ImageEditor::about()
 {
   QString str = QString("<p><b>Image Viewer</b> application to view images on desktop.</p>"
-                        "<p>Developed with Qt %1 by Manish Bhobe</p>"
+                        "<p>Developed with Qt %1 by Manish Bhobé</p>"
                         "<p>Uses Chocolaf dark theme for Windows & Linux</p>"
                         "<p>Free to use, but use at your own risk!!")
                   .arg(QT_VERSION_STR);

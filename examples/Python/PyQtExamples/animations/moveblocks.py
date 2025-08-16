@@ -2,7 +2,7 @@
 
 """
 * moveblocks.py
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -66,7 +66,7 @@ import chocolaf
 class StateSwitchEvent(QEvent):
     StateSwitchType = QEvent.User + 256
 
-    def __init__(self, rand = 0):
+    def __init__(self, rand=0):
         super(StateSwitchEvent, self).__init__(StateSwitchEvent.StateSwitchType)
 
         self.m_rand = rand
@@ -87,8 +87,10 @@ class StateSwitchTransition(QAbstractTransition):
         self.m_rand = rand
 
     def eventTest(self, event):
-        return (event.type() == StateSwitchEvent.StateSwitchType and
-                event.rand() == self.m_rand)
+        return (
+            event.type() == StateSwitchEvent.StateSwitchType
+            and event.rand() == self.m_rand
+        )
 
     def onTransition(self, event):
         pass
@@ -123,16 +125,16 @@ class StateSwitcher(QState):
 def createGeometryState(w1, rect1, w2, rect2, w3, rect3, w4, rect4, parent):
     result = QState(parent)
 
-    result.assignProperty(w1, 'geometry', rect1)
-    result.assignProperty(w1, 'geometry', rect1)
-    result.assignProperty(w2, 'geometry', rect2)
-    result.assignProperty(w3, 'geometry', rect3)
-    result.assignProperty(w4, 'geometry', rect4)
+    result.assignProperty(w1, "geometry", rect1)
+    result.assignProperty(w1, "geometry", rect1)
+    result.assignProperty(w2, "geometry", rect2)
+    result.assignProperty(w3, "geometry", rect3)
+    result.assignProperty(w4, "geometry", rect4)
 
     return result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
@@ -166,59 +168,115 @@ if __name__ == '__main__':
     timer.setSingleShot(True)
     group.entered.connect(timer.start)
 
-    state1 = createGeometryState(button1, QRect(100, 0, 50, 50), button2,
-                                 QRect(150, 0, 50, 50), button3, QRect(200, 0, 50, 50), button4,
-                                 QRect(250, 0, 50, 50), group)
+    state1 = createGeometryState(
+        button1,
+        QRect(100, 0, 50, 50),
+        button2,
+        QRect(150, 0, 50, 50),
+        button3,
+        QRect(200, 0, 50, 50),
+        button4,
+        QRect(250, 0, 50, 50),
+        group,
+    )
 
-    state2 = createGeometryState(button1, QRect(250, 100, 50, 50), button2,
-                                 QRect(250, 150, 50, 50), button3, QRect(250, 200, 50, 50), button4,
-                                 QRect(250, 250, 50, 50), group)
+    state2 = createGeometryState(
+        button1,
+        QRect(250, 100, 50, 50),
+        button2,
+        QRect(250, 150, 50, 50),
+        button3,
+        QRect(250, 200, 50, 50),
+        button4,
+        QRect(250, 250, 50, 50),
+        group,
+    )
 
-    state3 = createGeometryState(button1, QRect(150, 250, 50, 50), button2,
-                                 QRect(100, 250, 50, 50), button3, QRect(50, 250, 50, 50), button4,
-                                 QRect(0, 250, 50, 50), group)
+    state3 = createGeometryState(
+        button1,
+        QRect(150, 250, 50, 50),
+        button2,
+        QRect(100, 250, 50, 50),
+        button3,
+        QRect(50, 250, 50, 50),
+        button4,
+        QRect(0, 250, 50, 50),
+        group,
+    )
 
-    state4 = createGeometryState(button1, QRect(0, 150, 50, 50), button2,
-                                 QRect(0, 100, 50, 50), button3, QRect(0, 50, 50, 50), button4,
-                                 QRect(0, 0, 50, 50), group)
+    state4 = createGeometryState(
+        button1,
+        QRect(0, 150, 50, 50),
+        button2,
+        QRect(0, 100, 50, 50),
+        button3,
+        QRect(0, 50, 50, 50),
+        button4,
+        QRect(0, 0, 50, 50),
+        group,
+    )
 
-    state5 = createGeometryState(button1, QRect(100, 100, 50, 50), button2,
-                                 QRect(150, 100, 50, 50), button3, QRect(100, 150, 50, 50), button4,
-                                 QRect(150, 150, 50, 50), group)
+    state5 = createGeometryState(
+        button1,
+        QRect(100, 100, 50, 50),
+        button2,
+        QRect(150, 100, 50, 50),
+        button3,
+        QRect(100, 150, 50, 50),
+        button4,
+        QRect(150, 150, 50, 50),
+        group,
+    )
 
-    state6 = createGeometryState(button1, QRect(50, 50, 50, 50), button2,
-                                 QRect(200, 50, 50, 50), button3, QRect(50, 200, 50, 50), button4,
-                                 QRect(200, 200, 50, 50), group)
+    state6 = createGeometryState(
+        button1,
+        QRect(50, 50, 50, 50),
+        button2,
+        QRect(200, 50, 50, 50),
+        button3,
+        QRect(50, 200, 50, 50),
+        button4,
+        QRect(200, 200, 50, 50),
+        group,
+    )
 
-    state7 = createGeometryState(button1, QRect(0, 0, 50, 50), button2,
-                                 QRect(250, 0, 50, 50), button3, QRect(0, 250, 50, 50), button4,
-                                 QRect(250, 250, 50, 50), group)
+    state7 = createGeometryState(
+        button1,
+        QRect(0, 0, 50, 50),
+        button2,
+        QRect(250, 0, 50, 50),
+        button3,
+        QRect(0, 250, 50, 50),
+        button4,
+        QRect(250, 250, 50, 50),
+        group,
+    )
 
     group.setInitialState(state1)
 
     animationGroup = QParallelAnimationGroup()
-    anim = QPropertyAnimation(button4, b'geometry')
+    anim = QPropertyAnimation(button4, b"geometry")
     anim.setDuration(1000)
     anim.setEasingCurve(QEasingCurve.OutElastic)
     animationGroup.addAnimation(anim)
 
     subGroup = QSequentialAnimationGroup(animationGroup)
     subGroup.addPause(100)
-    anim = QPropertyAnimation(button3, b'geometry')
+    anim = QPropertyAnimation(button3, b"geometry")
     anim.setDuration(1000)
     anim.setEasingCurve(QEasingCurve.OutElastic)
     subGroup.addAnimation(anim)
 
     subGroup = QSequentialAnimationGroup(animationGroup)
     subGroup.addPause(150)
-    anim = QPropertyAnimation(button2, b'geometry')
+    anim = QPropertyAnimation(button2, b"geometry")
     anim.setDuration(1000)
     anim.setEasingCurve(QEasingCurve.OutElastic)
     subGroup.addAnimation(anim)
 
     subGroup = QSequentialAnimationGroup(animationGroup)
     subGroup.addPause(200)
-    anim = QPropertyAnimation(button1, b'geometry')
+    anim = QPropertyAnimation(button1, b"geometry")
     anim.setDuration(1000)
     anim.setEasingCurve(QEasingCurve.OutElastic)
     subGroup.addAnimation(anim)

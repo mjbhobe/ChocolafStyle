@@ -3,7 +3,7 @@
 
 """
 * ImageViewer.py: Image viewer application with PyQt and OpenCV
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
@@ -59,7 +59,7 @@ class ImageViewer(QMainWindow):
         self.createToolbar()
         # and status bar
         self.statusBar().showMessage(
-            f"Image Viewer: developed with PyQt {PYQT_VERSION_STR} by Manish Bhobe"
+            f"Image Viewer: developed with PyQt {PYQT_VERSION_STR} by Manish Bhobé"
         )
         self.setupStatusBar()
 
@@ -411,7 +411,7 @@ class ImageViewer(QMainWindow):
             "About Image Viewer",
             f"<b>Image Viewer</b> application to view images on desktop.<br/>"
             f"Developed with PyQt {PYQT_VERSION_STR} and Chocolaf theme<br/><br/>"
-            f"Version 1.0, by Manish Bhobe<br/>"
+            f"Version 1.0, by Manish Bhobé<br/>"
             f"Free to use, but use at your own risk!!",
         )
 

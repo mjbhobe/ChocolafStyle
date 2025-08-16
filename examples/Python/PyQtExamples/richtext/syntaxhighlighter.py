@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 * syntaxhighlighter.py - syntax highlighter application with PyQt and Chocolaf
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -76,22 +76,28 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(self.editor)
         self.setWindowTitle("Syntax Highlighter")
-        self.openFile(r"C:\Dev\Code\git-projects\learning_Qt\bogo2bogo\OpenCV\ImageEditor\ImageEditor.cpp")
+        self.openFile(
+            r"C:\Dev\Code\git-projects\learning_Qt\bogo2bogo\OpenCV\ImageEditor\ImageEditor.cpp"
+        )
 
     def about(self):
-        QMessageBox.about(self, "About Syntax Highlighter",
-                          "<p>The <b>Syntax Highlighter</b> example shows how to "
-                          "perform simple syntax highlighting by subclassing the "
-                          "QSyntaxHighlighter class and describing highlighting "
-                          "rules using regular expressions.</p>")
+        QMessageBox.about(
+            self,
+            "About Syntax Highlighter",
+            "<p>The <b>Syntax Highlighter</b> example shows how to "
+            "perform simple syntax highlighting by subclassing the "
+            "QSyntaxHighlighter class and describing highlighting "
+            "rules using regular expressions.</p>",
+        )
 
     def newFile(self):
         self.editor.clear()
 
     def openFile(self, path=None):
         if not path:
-            path, _ = QFileDialog.getOpenFileName(self, "Open File", '',
-                                                  "C++ Files (*.cpp *.h)")
+            path, _ = QFileDialog.getOpenFileName(
+                self, "Open File", "", "C++ Files (*.cpp *.h)"
+            )
 
         if path:
             inFile = QFile(path)
@@ -100,7 +106,7 @@ class MainWindow(QMainWindow):
 
                 try:
                     # Python v3.
-                    text = str(text, encoding='ascii')
+                    text = str(text, encoding="ascii")
                 except TypeError:
                     # Python v2.
                     text = str(text)
@@ -109,7 +115,7 @@ class MainWindow(QMainWindow):
 
     def setupEditor(self):
         font = QFont()
-        font.setFamily('Consolas, SF Mono, Noto Mono, Roboto Mono, Ubuntu Mono')
+        font.setFamily("Consolas, SF Mono, Noto Mono, Roboto Mono, Ubuntu Mono")
         font.setFixedPitch(True)
         font.setPointSize(10)
 
@@ -151,15 +157,37 @@ class Highlighter(QSyntaxHighlighter):
         keywordFormat.setForeground(QColor("#81A1C1"))  # (Qt.darkBlue)
         # keywordFormat.setFontWeight(QFont.Bold)
 
-        keywordPatterns = ["\\bchar\\b", "\\bclass\\b", "\\bconst\\b",
-                           "\\bdouble\\b", "\\benum\\b", "\\bexplicit\\b", "\\bfriend\\b",
-                           "\\binline\\b", "\\bint\\b", "\\blong\\b", "\\bnamespace\\b",
-                           "\\boperator\\b", "\\bprivate\\b", "\\bprotected\\b",
-                           "\\bpublic\\b", "\\bshort\\b", "\\bsignals\\b", "\\bsigned\\b",
-                           "\\bslots\\b", "\\bstatic\\b", "\\bstruct\\b",
-                           "\\btemplate\\b", "\\btypedef\\b", "\\btypename\\b",
-                           "\\bunion\\b", "\\bunsigned\\b", "\\bvirtual\\b", "\\bvoid\\b",
-                           "\\bvolatile\\b"]
+        keywordPatterns = [
+            "\\bchar\\b",
+            "\\bclass\\b",
+            "\\bconst\\b",
+            "\\bdouble\\b",
+            "\\benum\\b",
+            "\\bexplicit\\b",
+            "\\bfriend\\b",
+            "\\binline\\b",
+            "\\bint\\b",
+            "\\blong\\b",
+            "\\bnamespace\\b",
+            "\\boperator\\b",
+            "\\bprivate\\b",
+            "\\bprotected\\b",
+            "\\bpublic\\b",
+            "\\bshort\\b",
+            "\\bsignals\\b",
+            "\\bsigned\\b",
+            "\\bslots\\b",
+            "\\bstatic\\b",
+            "\\bstruct\\b",
+            "\\btemplate\\b",
+            "\\btypedef\\b",
+            "\\btypename\\b",
+            "\\bunion\\b",
+            "\\bunsigned\\b",
+            "\\bvirtual\\b",
+            "\\bvoid\\b",
+            "\\bvolatile\\b",
+        ]
 
         # self.highlightingRules = [(QRegExp(pattern), keywordFormat)
         #                           for pattern in keywordPatterns]
@@ -179,18 +207,22 @@ class Highlighter(QSyntaxHighlighter):
         # strings
         quotationFormat = QTextCharFormat()
         quotationFormat.setForeground(QColor("#A3BE8C"))  # (Qt.darkGreen)
-        self.highlightingRules.append((QRegExp("\".*\""), quotationFormat))
+        self.highlightingRules.append((QRegExp('".*"'), quotationFormat))
 
         # numbers
         numberFormat = QTextCharFormat()
         numberFormat.setForeground(QColor("#B48EAD"))
-        self.highlightingRules.append((QRegExp("[+-]?([0-9]*[.])?[0-9]+"), numberFormat))
+        self.highlightingRules.append(
+            (QRegExp("[+-]?([0-9]*[.])?[0-9]+"), numberFormat)
+        )
 
         # functions
         functionFormat = QTextCharFormat()
         functionFormat.setFontItalic(True)
         functionFormat.setForeground(QColor("#88C0D0"))  # (Qt.blue)
-        self.highlightingRules.append((QRegExp("\\b[A-Za-z0-9_]+(?=\\()"), functionFormat))
+        self.highlightingRules.append(
+            (QRegExp("\\b[A-Za-z0-9_]+(?=\\()"), functionFormat)
+        )
 
         self.commentStartExpression = QRegExp("/\\*")
         self.commentEndExpression = QRegExp("\\*/")
@@ -217,15 +249,17 @@ class Highlighter(QSyntaxHighlighter):
                 self.setCurrentBlockState(1)
                 commentLength = len(text) - startIndex
             else:
-                commentLength = endIndex - startIndex + self.commentEndExpression.matchedLength()
+                commentLength = (
+                    endIndex - startIndex + self.commentEndExpression.matchedLength()
+                )
 
-            self.setFormat(startIndex, commentLength,
-                           self.multiLineCommentFormat)
-            startIndex = self.commentStartExpression.indexIn(text,
-                                                             startIndex + commentLength)
+            self.setFormat(startIndex, commentLength, self.multiLineCommentFormat)
+            startIndex = self.commentStartExpression.indexIn(
+                text, startIndex + commentLength
+            )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

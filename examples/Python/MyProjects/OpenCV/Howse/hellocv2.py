@@ -4,7 +4,7 @@
 """
 * hellocv2.py - hello OpenCV - open & show an image.
 *
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, C++, OpenCV, Data Science & ML
 * Code is provided for learning purposes only! Use at your own risk!!
 """

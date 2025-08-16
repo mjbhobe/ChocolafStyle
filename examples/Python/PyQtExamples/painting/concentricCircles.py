@@ -2,7 +2,7 @@
 
 """
 * concentricCircles.py
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -105,11 +105,13 @@ class CircleWidget(QWidget):
                 painter.setPen(QPen(QColor(64, diameter / 2, 255, alpha), 3))
 
                 if self.floatBased:
-                    painter.drawEllipse(QRectF(-diameter / 2.0,
-                                               -diameter / 2.0, diameter, diameter))
+                    painter.drawEllipse(
+                        QRectF(-diameter / 2.0, -diameter / 2.0, diameter, diameter)
+                    )
                 else:
-                    painter.drawEllipse(QRect(-diameter / 2,
-                                              -diameter / 2, diameter, diameter))
+                    painter.drawEllipse(
+                        QRect(-diameter / 2, -diameter / 2, diameter, diameter)
+                    )
 
 
 class Window(QWidget):
@@ -152,7 +154,7 @@ class Window(QWidget):
         return label
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

@@ -2,7 +2,7 @@
 
 """
 * stickman.py: displays a stick figure that can chill, dance, jump or play dead
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -68,7 +68,7 @@ import stickman_rc
 class Node(QGraphicsObject):
     positionChanged = pyqtSignal()
 
-    def __init__(self, pos, parent = None):
+    def __init__(self, pos, parent=None):
         super(Node, self).__init__(parent)
 
         self.m_dragging = False
@@ -103,38 +103,32 @@ class Node(QGraphicsObject):
 Coords = (
     # Head: 0
     (0.0, -150.0),
-
     # Body pentagon, top->bottom, left->right: 1 - 5
     (0.0, -100.0),
     (-50.0, -50.0),
     (50.0, -50.0),
     (-25.0, 50.0),
     (25.0, 50.0),
-
     # Right arm: 6 - 7
     (-100.0, 0.0),
     (-125.0, 50.0),
-
     # Left arm: 8 - 9
     (100.0, 0.0),
     (125.0, 50.0),
-
     # Lower body: 10 - 11
     (-35.0, 75.0),
     (35.0, 75.0),
-
     # Right leg: 12 - 13
     (-25.0, 200.0),
     (-30.0, 300.0),
-
     # Left leg: 14 - 15
     (25.0, 200.0),
-    (30.0, 300.0))
+    (30.0, 300.0),
+)
 
 Bones = (
     # Neck.
     (0, 1),
-
     # Body.
     (1, 2),
     (1, 3),
@@ -146,29 +140,25 @@ Bones = (
     (3, 4),
     (3, 5),
     (4, 5),
-
     # Right arm.
     (2, 6),
     (6, 7),
-
     # Left arm.
     (3, 8),
     (8, 9),
-
     # Lower body.
     (4, 10),
     (4, 11),
     (5, 10),
     (5, 11),
     (10, 11),
-
     # Right leg.
     (10, 12),
     (12, 13),
-
     # Left leg.
     (11, 14),
-    (14, 15))
+    (14, 15),
+)
 
 
 class StickMan(QGraphicsObject):
@@ -177,7 +167,7 @@ class StickMan(QGraphicsObject):
 
         self.m_sticks = True
         self.m_isDead = False
-        self.m_pixmap = QPixmap('images/head.png')
+        self.m_pixmap = QPixmap("images/head.png")
         self.m_penColor = QColor(Qt.white)
         self.m_fillColor = QColor(Qt.black)
 
@@ -352,15 +342,21 @@ class StickMan(QGraphicsObject):
                 painter.drawLine(20.0, -30.0, 30.0, -20.0)
                 painter.drawLine(30.0, -30.0, 20.0, -20.0)
             else:
-                painter.drawChord(QRectF(-30.0, -30.0, 25.0, 70.0), int(30.0 * 16), int(120.0 * 16))
-                painter.drawChord(QRectF(5.0, -30.0, 25.0, 70.0), int(30.0 * 16), int(120.0 * 16))
+                painter.drawChord(
+                    QRectF(-30.0, -30.0, 25.0, 70.0), int(30.0 * 16), int(120.0 * 16)
+                )
+                painter.drawChord(
+                    QRectF(5.0, -30.0, 25.0, 70.0), int(30.0 * 16), int(120.0 * 16)
+                )
 
             # Mouth.
             if self.m_isDead:
                 painter.drawLine(-28.0, 2.0, 29.0, 2.0)
             else:
                 painter.setBrush(QColor(128, 0, 64))
-                painter.drawChord(QRectF(-28.0, 2.0 - 55.0 / 2.0, 57.0, 55.0), 0, int(-180.0 * 16))
+                painter.drawChord(
+                    QRectF(-28.0, 2.0 - 55.0 / 2.0, 57.0, 55.0), 0, int(-180.0 * 16)
+                )
 
             # Pupils.
             if not self.m_isDead:
@@ -405,7 +401,7 @@ class Animation(object):
     def __init__(self):
         self.m_currentFrame = 0
         self.m_frames = [Frame()]
-        self.m_name = ''
+        self.m_name = ""
 
     def setTotalFrames(self, totalFrames):
         while len(self.m_frames) < totalFrames:
@@ -479,7 +475,7 @@ class Animation(object):
 
 
 class KeyPressTransition(QSignalTransition):
-    def __init__(self, receiver, key, target = None):
+    def __init__(self, receiver, key, target=None):
         super(KeyPressTransition, self).__init__(receiver.keyPressed)
 
         self.m_key = key
@@ -506,8 +502,9 @@ class LightningStrikesTransition(QEventTransition):
         self.startTimer(1000)
 
     def eventTest(self, e):
-        return (super(LightningStrikesTransition, self).eventTest(e) and
-                (qrand() % 50) == 0)
+        return (
+            super(LightningStrikesTransition, self).eventTest(e) and (qrand() % 50) == 0
+        )
 
 
 class LifeCycle(object):
@@ -520,7 +517,7 @@ class LifeCycle(object):
         stickManNodeCount = self.m_stickMan.nodeCount()
         self._pas = []
         for i in range(stickManNodeCount):
-            pa = QPropertyAnimation(self.m_stickMan.node(i), b'pos')
+            pa = QPropertyAnimation(self.m_stickMan.node(i), b"pos")
             self._pas.append(pa)
             self.m_animationGroup.addAnimation(pa)
 
@@ -529,15 +526,16 @@ class LifeCycle(object):
         self.m_machine.addDefaultAnimation(self.m_animationGroup)
 
         self.m_alive = QState(self.m_machine)
-        self.m_alive.setObjectName('alive')
+        self.m_alive.setObjectName("alive")
 
         # Make it blink when lightning strikes before entering dead animation.
         lightningBlink = QState(self.m_machine)
-        lightningBlink.assignProperty(self.m_stickMan.scene(),
-                                      'backgroundBrush', Qt.white)
-        lightningBlink.assignProperty(self.m_stickMan, 'penColor', Qt.black)
-        lightningBlink.assignProperty(self.m_stickMan, 'fillColor', Qt.white)
-        lightningBlink.assignProperty(self.m_stickMan, 'isDead', True)
+        lightningBlink.assignProperty(
+            self.m_stickMan.scene(), "backgroundBrush", Qt.white
+        )
+        lightningBlink.assignProperty(self.m_stickMan, "penColor", Qt.black)
+        lightningBlink.assignProperty(self.m_stickMan, "fillColor", Qt.white)
+        lightningBlink.assignProperty(self.m_stickMan, "isDead", True)
 
         timer = QTimer(lightningBlink)
         timer.setSingleShot(True)
@@ -546,15 +544,14 @@ class LifeCycle(object):
         lightningBlink.exited.connect(timer.stop)
 
         self.m_dead = QState(self.m_machine)
-        self.m_dead.assignProperty(self.m_stickMan.scene(), 'backgroundBrush',
-                                   Qt.black)
-        self.m_dead.assignProperty(self.m_stickMan, 'penColor', Qt.white)
-        self.m_dead.assignProperty(self.m_stickMan, 'fillColor', Qt.black)
-        self.m_dead.setObjectName('dead')
+        self.m_dead.assignProperty(self.m_stickMan.scene(), "backgroundBrush", Qt.black)
+        self.m_dead.assignProperty(self.m_stickMan, "penColor", Qt.white)
+        self.m_dead.assignProperty(self.m_stickMan, "fillColor", Qt.black)
+        self.m_dead.setObjectName("dead")
 
         # Idle state (sets no properties).
         self.m_idle = QState(self.m_alive)
-        self.m_idle.setObjectName('idle')
+        self.m_idle.setObjectName("idle")
 
         self.m_alive.setInitialState(self.m_idle)
 
@@ -592,26 +589,29 @@ class LifeCycle(object):
             frameState = QState(topLevel)
             nodeCount = animation.nodeCount()
             for j in range(nodeCount):
-                frameState.assignProperty(self.m_stickMan.node(j), 'pos',
-                                          animation.nodePos(j))
+                frameState.assignProperty(
+                    self.m_stickMan.node(j), "pos", animation.nodePos(j)
+                )
 
-            frameState.setObjectName('frame %d' % i)
+            frameState.setObjectName("frame %d" % i)
 
             if previousState is None:
                 topLevel.setInitialState(frameState)
             else:
-                previousState.addTransition(previousState.propertiesAssigned,
-                                            frameState)
+                previousState.addTransition(
+                    previousState.propertiesAssigned, frameState
+                )
 
             previousState = frameState
 
-        previousState.addTransition(previousState.propertiesAssigned,
-                                    topLevel.initialState())
+        previousState.addTransition(
+            previousState.propertiesAssigned, topLevel.initialState()
+        )
 
         return topLevel
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
@@ -620,18 +620,20 @@ if __name__ == '__main__':
     stickMan.setDrawSticks(False)
 
     textItem = QGraphicsTextItem()
-    textItem.setHtml("<font color=\"white\"><b>Stickman</b>"
-                     "<p>"
-                     "Tell the stickman what to do!"
-                     "</p>"
-                     "<p><i>"
-                     "<li>Press <font color=\"purple\">J</font> to make the stickman jump.</li>"
-                     "<li>Press <font color=\"purple\">D</font> to make the stickman dance.</li>"
-                     "<li>Press <font color=\"purple\">C</font> to make him chill out.</li>"
-                     "<li>When you are done, press <font color=\"purple\">Escape</font>.</li>"
-                     "</i></p>"
-                     "<p>If he is unlucky, the stickman will get struck by lightning, and never jump, dance or chill out again."
-                     "</p></font>")
+    textItem.setHtml(
+        '<font color="white"><b>Stickman</b>'
+        "<p>"
+        "Tell the stickman what to do!"
+        "</p>"
+        "<p><i>"
+        '<li>Press <font color="purple">J</font> to make the stickman jump.</li>'
+        '<li>Press <font color="purple">D</font> to make the stickman dance.</li>'
+        '<li>Press <font color="purple">C</font> to make him chill out.</li>'
+        '<li>When you are done, press <font color="purple">Escape</font>.</li>'
+        "</i></p>"
+        "<p>If he is unlucky, the stickman will get struck by lightning, and never jump, dance or chill out again."
+        "</p></font>"
+    )
 
     w = textItem.boundingRect().width()
     stickManBoundingRect = stickMan.mapToScene(stickMan.boundingRect()).boundingRect()
@@ -655,11 +657,11 @@ if __name__ == '__main__':
     view.setSceneRect(sceneRect)
 
     cycle = LifeCycle(stickMan, view)
-    cycle.setDeathAnimation(':/animations/dead')
+    cycle.setDeathAnimation(":/animations/dead")
 
-    cycle.addActivity(':/animations/jumping', Qt.Key_J)
-    cycle.addActivity(':/animations/dancing', Qt.Key_D)
-    cycle.addActivity(':/animations/chilling', Qt.Key_C)
+    cycle.addActivity(":/animations/jumping", Qt.Key_J)
+    cycle.addActivity(":/animations/dancing", Qt.Key_D)
+    cycle.addActivity(":/animations/chilling", Qt.Key_C)
     cycle.start()
 
     sys.exit(app.exec())

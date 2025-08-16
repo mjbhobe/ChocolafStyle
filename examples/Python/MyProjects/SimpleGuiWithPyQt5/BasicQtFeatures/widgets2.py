@@ -1,6 +1,6 @@
 """
 * widgets2.py - label and checkbox
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * Examples from book "Create Simple Gui Applications with Python & Qt5 - Martin Fitzpatrick"
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -39,7 +39,9 @@ class Window(QWidget):
         self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} label & checkbox")
 
     def checkbox_clicked(self):
-        checkbox_text = self.checked_text if self.checkbox.isChecked() else self.unchecked_text
+        checkbox_text = (
+            self.checked_text if self.checkbox.isChecked() else self.unchecked_text
+        )
         self.checkbox.setText(checkbox_text)
 
 

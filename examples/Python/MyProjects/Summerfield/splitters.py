@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 * splitters.py - verticle split into 3 using splitters
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -19,14 +19,11 @@ import chocolaf
 
 
 def createGui():
-    text1 = \
-        """Mon enfant, ma sœur, pense à la douceur d'y aller vivre ensemble ; Aimer à loisir, aimer et mourir, dans un pays qui est à votre image!
+    text1 = """Mon enfant, ma sœur, pense à la douceur d'y aller vivre ensemble ; Aimer à loisir, aimer et mourir, dans un pays qui est à votre image!
         """
-    text2 = \
-        """My child, my sister, think of the sweetness of going there to live together; To love at leisure, to love and to die, in a country that is an image of you!
+    text2 = """My child, my sister, think of the sweetness of going there to live together; To love at leisure, to love and to die, in a country that is an image of you!
         """
-    text3 = \
-        """मेरे बच्चे, मेरी बहन, एक साथ रहने के लिए वहाँ जाने की मिठास के बारे में सोचो; फुर्सत में प्यार करना, प्यार करना और मरना, एक ऐसे देश में जो आपकी एक छवि है!
+    text3 = """मेरे बच्चे, मेरी बहन, एक साथ रहने के लिए वहाँ जाने की मिठास के बारे में सोचो; फुर्सत में प्यार करना, प्यार करना और मरना, एक ऐसे देश में जो आपकी एक छवि है!
         """
     editor1 = QTextEdit()
     editor1.setText(text1)

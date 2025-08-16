@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 * widgetGallery.py: demonstrates PyQt5 widget gallery
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -64,7 +64,7 @@ import chocolaf
 
 
 class WidgetGallery(QDialog):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(WidgetGallery, self).__init__(parent)
 
         self.originalPalette = QApplication.palette()
@@ -114,14 +114,14 @@ class WidgetGallery(QDialog):
         self.setLayout(mainLayout)
 
         self.setWindowTitle("Styles")
-        self.changeStyle('Windows')
+        self.changeStyle("Windows")
 
     def changeStyle(self, styleName):
         QApplication.setStyle(QStyleFactory.create(styleName))
         self.changePalette()
 
     def changePalette(self):
-        if (self.useStylePaletteCheckBox.isChecked()):
+        if self.useStylePaletteCheckBox.isChecked():
             QApplication.setPalette(QApplication.style().standardPalette())
         else:
             QApplication.setPalette(self.originalPalette)
@@ -174,8 +174,7 @@ class WidgetGallery(QDialog):
     def createBottomLeftTabWidget(self):
         self.bottomLeftTabWidget = QTabWidget()
         self.bottomLeftTabWidget.setSizePolicy(
-            QSizePolicy.Preferred,
-            QSizePolicy.Ignored
+            QSizePolicy.Preferred, QSizePolicy.Ignored
         )
 
         tab1 = QWidget()
@@ -211,7 +210,7 @@ class WidgetGallery(QDialog):
         self.bottomRightGroupBox.setCheckable(True)
         self.bottomRightGroupBox.setChecked(True)
 
-        lineEdit = QLineEdit('s3cRe7')
+        lineEdit = QLineEdit("s3cRe7")
         lineEdit.setEchoMode(QLineEdit.Password)
 
         spinBox = QSpinBox(self.bottomRightGroupBox)
@@ -271,10 +270,7 @@ def main():
     rect = w.geometry()
     w1 = WidgetGallery()
     w1.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
-    w1.move(
-        rect.left() + rect.width() + 50,
-        rect.top() + rect.height() // 4 + 50
-        )
+    w1.move(rect.left() + rect.width() + 50, rect.top() + rect.height() // 4 + 50)
     w1.show()
 
     return app.exec()

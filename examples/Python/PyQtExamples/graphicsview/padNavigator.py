@@ -1,6 +1,6 @@
 """
 * padNavigator.py - QGraphicsScene with QGraphicsItems
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -65,7 +65,7 @@ from ui_form import Ui_Form
 
 
 class PadNavigator(QGraphicsView):
-    def __init__(self, size, parent = None):
+    def __init__(self, size, parent=None):
         super(PadNavigator, self).__init__(parent)
 
         self.form = Ui_Form()
@@ -92,22 +92,25 @@ class PadNavigator(QGraphicsView):
         backItem.setFocus()
         backItem.setCacheMode(QGraphicsItem.ItemCoordinateCache)
         r = backItem.rect()
-        backItem.setTransform(QTransform().rotate(180, Qt.YAxis).translate(-r.width() / 2, -r.height() / 2))
+        backItem.setTransform(
+            QTransform()
+            .rotate(180, Qt.YAxis)
+            .translate(-r.width() / 2, -r.height() / 2)
+        )
 
-        selectionItem = RoundRectItem(QRectF(-60, -60, 120, 120),
-                                      QColor(Qt.gray), pad)
+        selectionItem = RoundRectItem(QRectF(-60, -60, 120, 120), QColor(Qt.gray), pad)
         selectionItem.setZValue(0.5)
 
-        smoothSplashMove = QPropertyAnimation(splash, b'y')
-        smoothSplashOpacity = QPropertyAnimation(splash, b'opacity')
+        smoothSplashMove = QPropertyAnimation(splash, b"y")
+        smoothSplashOpacity = QPropertyAnimation(splash, b"opacity")
         smoothSplashMove.setEasingCurve(QEasingCurve.InQuad)
         smoothSplashMove.setDuration(250)
         smoothSplashOpacity.setDuration(250)
 
-        smoothXSelection = QPropertyAnimation(selectionItem, b'x')
-        smoothYSelection = QPropertyAnimation(selectionItem, b'y')
-        smoothXRotation = QPropertyAnimation(xRotation, b'angle')
-        smoothYRotation = QPropertyAnimation(yRotation, b'angle')
+        smoothXSelection = QPropertyAnimation(selectionItem, b"x")
+        smoothYSelection = QPropertyAnimation(selectionItem, b"y")
+        smoothXRotation = QPropertyAnimation(xRotation, b"angle")
+        smoothYRotation = QPropertyAnimation(yRotation, b"angle")
         smoothXSelection.setDuration(125)
         smoothYSelection.setDuration(125)
         smoothXRotation.setDuration(125)
@@ -117,10 +120,10 @@ class PadNavigator(QGraphicsView):
         smoothXRotation.setEasingCurve(QEasingCurve.InOutQuad)
         smoothYRotation.setEasingCurve(QEasingCurve.InOutQuad)
 
-        smoothFlipRotation = QPropertyAnimation(flipRotation, b'angle')
-        smoothFlipScale = QPropertyAnimation(pad, b'scale')
-        smoothFlipXRotation = QPropertyAnimation(xRotation, b'angle')
-        smoothFlipYRotation = QPropertyAnimation(yRotation, b'angle')
+        smoothFlipRotation = QPropertyAnimation(flipRotation, b"angle")
+        smoothFlipScale = QPropertyAnimation(pad, b"scale")
+        smoothFlipXRotation = QPropertyAnimation(xRotation, b"angle")
+        smoothFlipYRotation = QPropertyAnimation(yRotation, b"angle")
         flipAnimation = QParallelAnimationGroup(self)
         smoothFlipScale.setDuration(500)
         smoothFlipRotation.setDuration(500)
@@ -139,9 +142,9 @@ class PadNavigator(QGraphicsView):
         flipAnimation.addAnimation(smoothFlipYRotation)
 
         setVariablesSequence = QSequentialAnimationGroup()
-        setFillAnimation = QPropertyAnimation(pad, b'fill')
-        setBackItemVisibleAnimation = QPropertyAnimation(backItem, b'visible')
-        setSelectionItemVisibleAnimation = QPropertyAnimation(selectionItem, b'visible')
+        setFillAnimation = QPropertyAnimation(pad, b"fill")
+        setBackItemVisibleAnimation = QPropertyAnimation(backItem, b"visible")
+        setSelectionItemVisibleAnimation = QPropertyAnimation(selectionItem, b"visible")
         setFillAnimation.setDuration(0)
         setBackItemVisibleAnimation.setDuration(0)
         setSelectionItemVisibleAnimation.setDuration(0)
@@ -181,14 +184,18 @@ class PadNavigator(QGraphicsView):
         anyKeyTransition.addAnimation(smoothSplashMove)
         anyKeyTransition.addAnimation(smoothSplashOpacity)
 
-        enterTransition = QKeyEventTransition(self, QEvent.KeyPress,
-                                              Qt.Key_Enter, backState)
-        returnTransition = QKeyEventTransition(self, QEvent.KeyPress,
-                                               Qt.Key_Return, backState)
-        backEnterTransition = QKeyEventTransition(self, QEvent.KeyPress,
-                                                  Qt.Key_Enter, frontState)
-        backReturnTransition = QKeyEventTransition(self, QEvent.KeyPress,
-                                                   Qt.Key_Return, frontState)
+        enterTransition = QKeyEventTransition(
+            self, QEvent.KeyPress, Qt.Key_Enter, backState
+        )
+        returnTransition = QKeyEventTransition(
+            self, QEvent.KeyPress, Qt.Key_Return, backState
+        )
+        backEnterTransition = QKeyEventTransition(
+            self, QEvent.KeyPress, Qt.Key_Enter, frontState
+        )
+        backReturnTransition = QKeyEventTransition(
+            self, QEvent.KeyPress, Qt.Key_Return, frontState
+        )
         enterTransition.setTargetState(historyState)
         returnTransition.setTargetState(historyState)
         backEnterTransition.setTargetState(backState)
@@ -211,17 +218,23 @@ class PadNavigator(QGraphicsView):
             for x in range(columns):
                 state = stateGrid[y][x]
 
-                rightTransition = QKeyEventTransition(self, QEvent.KeyPress,
-                                                      Qt.Key_Right, state)
-                leftTransition = QKeyEventTransition(self, QEvent.KeyPress,
-                                                     Qt.Key_Left, state)
-                downTransition = QKeyEventTransition(self, QEvent.KeyPress,
-                                                     Qt.Key_Down, state)
-                upTransition = QKeyEventTransition(self, QEvent.KeyPress,
-                                                   Qt.Key_Up, state)
+                rightTransition = QKeyEventTransition(
+                    self, QEvent.KeyPress, Qt.Key_Right, state
+                )
+                leftTransition = QKeyEventTransition(
+                    self, QEvent.KeyPress, Qt.Key_Left, state
+                )
+                downTransition = QKeyEventTransition(
+                    self, QEvent.KeyPress, Qt.Key_Down, state
+                )
+                upTransition = QKeyEventTransition(
+                    self, QEvent.KeyPress, Qt.Key_Up, state
+                )
 
                 rightTransition.setTargetState(stateGrid[y][(x + 1) % columns])
-                leftTransition.setTargetState(stateGrid[y][((x - 1) + columns) % columns])
+                leftTransition.setTargetState(
+                    stateGrid[y][((x - 1) + columns) % columns]
+                )
                 downTransition.setTargetState(stateGrid[(y + 1) % rows][x])
                 upTransition.setTargetState(stateGrid[((y - 1) + rows) % rows][x])
 
@@ -233,7 +246,7 @@ class PadNavigator(QGraphicsView):
                 frontState.assignProperty(icon, "visible", True)
                 backState.assignProperty(icon, "visible", False)
 
-                setIconVisibleAnimation = QPropertyAnimation(icon, b'visible')
+                setIconVisibleAnimation = QPropertyAnimation(icon, b"visible")
                 setIconVisibleAnimation.setDuration(0)
                 setVariablesSequence.addAnimation(setIconVisibleAnimation)
 
@@ -254,8 +267,11 @@ class PadNavigator(QGraphicsView):
         self.setMinimumSize(50, 50)
         self.setViewportUpdateMode(QGraphicsView.FullViewportUpdate)
         self.setCacheMode(QGraphicsView.CacheBackground)
-        self.setRenderHints(QPainter.Antialiasing |
-                            QPainter.SmoothPixmapTransform | QPainter.TextAntialiasing)
+        self.setRenderHints(
+            QPainter.Antialiasing
+            | QPainter.SmoothPixmapTransform
+            | QPainter.TextAntialiasing
+        )
 
         if QGLFormat.hasOpenGL():
             self.setViewport(QGLWidget(QGLFormat(QGL.SampleBuffers)))
@@ -268,7 +284,7 @@ class PadNavigator(QGraphicsView):
 
 
 class RoundRectItem(QGraphicsObject):
-    def __init__(self, bounds, color, parent = None):
+    def __init__(self, bounds, color, parent=None):
         super(RoundRectItem, self).__init__(parent)
 
         self.fillRect = False
@@ -320,9 +336,10 @@ class RoundRectItem(QGraphicsObject):
 
 
 class FlippablePad(RoundRectItem):
-    def __init__(self, size, parent = None):
-        super(FlippablePad, self).__init__(self.boundsFromSize(size),
-                                           QColor(226, 255, 92, 64), parent)
+    def __init__(self, size, parent=None):
+        super(FlippablePad, self).__init__(
+            self.boundsFromSize(size), QColor(226, 255, 92, 64), parent
+        )
 
         numIcons = size.width() * size.height()
         pixmaps = []
@@ -354,22 +371,29 @@ class FlippablePad(RoundRectItem):
 
     @staticmethod
     def boundsFromSize(size):
-        return QRectF((-size.width() / 2.0) * 150,
-                      (-size.height() / 2.0) * 150, size.width() * 150,
-                      size.height() * 150)
+        return QRectF(
+            (-size.width() / 2.0) * 150,
+            (-size.height() / 2.0) * 150,
+            size.width() * 150,
+            size.height() * 150,
+        )
 
     @staticmethod
     def posForLocation(column, row, size):
-        return QPointF(column * 150, row * 150) - QPointF((size.width() - 1) * 75, (size.height() - 1) * 75)
+        return QPointF(column * 150, row * 150) - QPointF(
+            (size.width() - 1) * 75, (size.height() - 1) * 75
+        )
 
 
 class SplashItem(QGraphicsObject):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(SplashItem, self).__init__(parent)
 
-        self.text = "Welcome to the Pad Navigator Example. You can use the " \
-                    "keyboard arrows to navigate the icons, and press enter to " \
-                    "activate an item. Press any key to begin."
+        self.text = (
+            "Welcome to the Pad Navigator Example. You can use the "
+            "keyboard arrows to navigate the icons, and press enter to "
+            "activate an item. Press any key to begin."
+        )
 
         self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
 
@@ -392,7 +416,7 @@ class SplashItem(QGraphicsObject):
         painter.drawText(textRect, flags, self.text)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

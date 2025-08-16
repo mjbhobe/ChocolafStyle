@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 * TextEditor.py - code editor using QScintilla
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * This application relies on QScintilla text component
 *  >> pip install QScintilla

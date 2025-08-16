@@ -1,6 +1,6 @@
 """
-* spinboxdelegate.py: 
-* @author (Chocolaf): Manish Bhobe
+* spinboxdelegate.py:
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -57,7 +57,7 @@ import chocolaf
 
 
 class Window(QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(Window, self).__init__(parent)
 
         # Set up the model.
@@ -105,12 +105,13 @@ class Window(QWidget):
     def setupModel(self):
         self.model = QStandardItemModel(5, 3, self)
         names = ("Alice", "Bob", "Carol", "Donald", "Emma")
-        addresses = ("<qt>123 Main Street<br/>Market Town</qt>",
-                     "<qt>PO Box 32<br/>Mail Handling Service"
-                     "<br/>Service City</qt>",
-                     "<qt>The Lighthouse<br/>Remote Island</qt>",
-                     "<qt>47338 Park Avenue<br/>Big City</qt>",
-                     "<qt>Research Station<br/>Base Camp<br/>Big Mountain</qt>")
+        addresses = (
+            "<qt>123 Main Street<br/>Market Town</qt>",
+            "<qt>PO Box 32<br/>Mail Handling Service" "<br/>Service City</qt>",
+            "<qt>The Lighthouse<br/>Remote Island</qt>",
+            "<qt>47338 Park Avenue<br/>Big City</qt>",
+            "<qt>Research Station<br/>Base Camp<br/>Big Mountain</qt>",
+        )
         ages = ("20", "31", "32", "19", "26")
 
         for row, name in enumerate(names):
@@ -126,7 +127,7 @@ class Window(QWidget):
         self.nextButton.setEnabled(row < self.model.rowCount() - 1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

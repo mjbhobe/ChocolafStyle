@@ -4,7 +4,7 @@
 """
 * affines.py - affine transforms on images
 *
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, C++, OpenCV, Data Science & ML
 * Code is provided for learning purposes only! Use at your own risk!!
 """
@@ -33,31 +33,50 @@ def main():
     num_rows, num_cols = manish_image.shape[:2]
     src_points = np.float32([[0, 0], [num_cols - 1, 0], [0, num_rows - 1]])
     dst_points = np.float32(
-        [[0, 0], [int(0.6 * (num_cols - 1)), 0], [int(0.4 * (num_cols - 1)), num_rows - 1]]
+        [
+            [0, 0],
+            [int(0.6 * (num_cols - 1)), 0],
+            [int(0.4 * (num_cols - 1)), num_rows - 1],
+        ]
     )
     manish2 = cv2_utils.affine_transform_image(manish_image, src_points, dst_points)
     cv2_imxshow(
-        [manish_image, manish2], ["Your's Truly", "All scrunched up!"],
-        title="Affine Transform"
+        [manish_image, manish2],
+        ["Your's Truly", "All scrunched up!"],
+        title="Affine Transform",
     )
 
     # flip manish
     src_points = np.float32([[0, 0], [num_cols - 1, 0], [0, num_rows - 1]])
     dst_points = np.float32([[num_cols - 1, 0], [0, 0], [num_cols - 1, num_rows - 1]])
-    manish_flipped = cv2_utils.affine_transform_image(manish_image, src_points, dst_points)
+    manish_flipped = cv2_utils.affine_transform_image(
+        manish_image, src_points, dst_points
+    )
     cv2_imxshow(
-        [manish_image, manish_flipped], ["Original", "Flipped?"], title="Flipping about Y"
+        [manish_image, manish_flipped],
+        ["Original", "Flipped?"],
+        title="Flipping about Y",
     )
 
     # perspective transformation
-    src_points = np.float32([[0, 0], [num_cols - 1, 0], [0, num_rows - 1], [num_cols - 1, num_rows - 1]])
-    dst_points = np.float32(
-        [[0, 0], [num_cols - 1, 0], [int(0.33 * num_cols), num_rows - 1],
-         [int(0.66 * num_cols), num_rows - 1]]
+    src_points = np.float32(
+        [[0, 0], [num_cols - 1, 0], [0, num_rows - 1], [num_cols - 1, num_rows - 1]]
     )
-    manish_cone = cv2_utils.perspective_transform_image(manish_image, src_points, dst_points)
+    dst_points = np.float32(
+        [
+            [0, 0],
+            [num_cols - 1, 0],
+            [int(0.33 * num_cols), num_rows - 1],
+            [int(0.66 * num_cols), num_rows - 1],
+        ]
+    )
+    manish_cone = cv2_utils.perspective_transform_image(
+        manish_image, src_points, dst_points
+    )
     cv2_imxshow(
-        [manish_image, manish_cone], ["Original", "Conical?"], title="Perspective Transformation"
+        [manish_image, manish_cone],
+        ["Original", "Conical?"],
+        title="Perspective Transformation",
     )
 
     # # now let's set top left rectangle to blue

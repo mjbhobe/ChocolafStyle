@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-* sigslots.py - illustrates signals & slots with PyQt with a QDial & 
+* sigslots.py - illustrates signals & slots with PyQt with a QDial &
 *    QSpinBox class using Chocolaf & QarkStyle-dark stylesheets
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!

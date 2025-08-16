@@ -1,6 +1,6 @@
 """
 * standarddialogs.py - using standard dialogs with PyQt
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -59,15 +59,17 @@ import chocolaf
 
 
 class Dialog(QDialog):
-    MESSAGE = "<p>Message boxes have a caption, a text, and up to three " \
-              "buttons, each with standard or custom texts.</p>" \
-              "<p>Click a clostBtn to close the message box. Pressing the Esc " \
-              "clostBtn will activate the detected escape clostBtn (if any).</p>"
+    MESSAGE = (
+        "<p>Message boxes have a caption, a text, and up to three "
+        "buttons, each with standard or custom texts.</p>"
+        "<p>Click a clostBtn to close the message box. Pressing the Esc "
+        "clostBtn will activate the detected escape clostBtn (if any).</p>"
+    )
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(Dialog, self).__init__(parent)
 
-        self.openFilesPath = ''
+        self.openFilesPath = ""
 
         self.errorMessageDialog = QErrorMessage(self)
 
@@ -195,16 +197,14 @@ class Dialog(QDialog):
 
     def setInteger(self):
         i, ok = QInputDialog.getInt(
-            self, "QInputDialog.getInt()",
-            "Percentage:", 25, 0, 100, 1
+            self, "QInputDialog.getInt()", "Percentage:", 25, 0, 100, 1
         )
         if ok:
             self.integerLabel.setText("%d%%" % i)
 
     def setDouble(self):
         d, ok = QInputDialog.getDouble(
-            self, "QInputDialog.getDouble()",
-            "Amount:", 37.56, -10000, 10000, 2
+            self, "QInputDialog.getDouble()", "Amount:", 37.56, -10000, 10000, 2
         )
         if ok:
             self.doubleLabel.setText("$%g" % d)
@@ -213,18 +213,20 @@ class Dialog(QDialog):
         items = ("Spring", "Summer", "Fall", "Winter")
 
         item, ok = QInputDialog.getItem(
-            self, "QInputDialog.getItem()",
-            "Season:", items, 0, False
+            self, "QInputDialog.getItem()", "Season:", items, 0, False
         )
         if ok and item:
             self.itemLabel.setText(item)
 
     def setText(self):
         text, ok = QInputDialog.getText(
-            self, "QInputDialog.getText()",
-            "User name:", QLineEdit.Normal, QDir.home().dirName()
+            self,
+            "QInputDialog.getText()",
+            "User name:",
+            QLineEdit.Normal,
+            QDir.home().dirName(),
         )
-        if ok and text != '':
+        if ok and text != "":
             self.textLabel.setText(text)
 
     def setColor(self):
@@ -245,7 +247,8 @@ class Dialog(QDialog):
         directory = QFileDialog.getExistingDirectory(
             self,
             "QFileDialog.getExistingDirectory()",
-            self.directoryLabel.text(), options = options
+            self.directoryLabel.text(),
+            options=options,
         )
         if directory:
             self.directoryLabel.setText(directory)
@@ -256,8 +259,10 @@ class Dialog(QDialog):
             options |= QFileDialog.DontUseNativeDialog
         fileName, _ = QFileDialog.getOpenFileName(
             self,
-            "QFileDialog.getOpenFileName()", self.openFileNameLabel.text(),
-            "All Files (*);;Text Files (*.txt)", options = options
+            "QFileDialog.getOpenFileName()",
+            self.openFileNameLabel.text(),
+            "All Files (*);;Text Files (*.txt)",
+            options=options,
         )
         if fileName:
             self.openFileNameLabel.setText(fileName)
@@ -268,12 +273,14 @@ class Dialog(QDialog):
             options |= QFileDialog.DontUseNativeDialog
         files, _ = QFileDialog.getOpenFileNames(
             self,
-            "QFileDialog.getOpenFileNames()", self.openFilesPath,
-            "All Files (*);;Text Files (*.txt)", options = options
+            "QFileDialog.getOpenFileNames()",
+            self.openFilesPath,
+            "All Files (*);;Text Files (*.txt)",
+            options=options,
         )
         if files:
             self.openFilesPath = files[0]
-            self.openFileNamesLabel.setText("[%s]" % ', '.join(files))
+            self.openFileNamesLabel.setText("[%s]" % ", ".join(files))
 
     def setSaveFileName(self):
         options = QFileDialog.Options()
@@ -283,17 +290,19 @@ class Dialog(QDialog):
             self,
             "QFileDialog.getSaveFileName()",
             self.saveFileNameLabel.text(),
-            "All Files (*);;Text Files (*.txt)", options = options
+            "All Files (*);;Text Files (*.txt)",
+            options=options,
         )
         if fileName:
             self.saveFileNameLabel.setText(fileName)
 
     def criticalMessage(self):
         reply = QMessageBox.critical(
-            self, "QMessageBox.critical()",
+            self,
+            "QMessageBox.critical()",
             Dialog.MESSAGE,
-            QMessageBox.Abort | QMessageBox.Retry | QMessageBox.Ignore
-            )
+            QMessageBox.Abort | QMessageBox.Retry | QMessageBox.Ignore,
+        )
         if reply == QMessageBox.Abort:
             self.criticalLabel.setText("Abort")
         elif reply == QMessageBox.Retry:
@@ -303,8 +312,7 @@ class Dialog(QDialog):
 
     def informationMessage(self):
         reply = QMessageBox.information(
-            self,
-            "QMessageBox.information()", Dialog.MESSAGE
+            self, "QMessageBox.information()", Dialog.MESSAGE
         )
         if reply == QMessageBox.Ok:
             self.informationLabel.setText("OK")
@@ -313,10 +321,11 @@ class Dialog(QDialog):
 
     def questionMessage(self):
         reply = QMessageBox.question(
-            self, "QMessageBox.question()",
+            self,
+            "QMessageBox.question()",
             Dialog.MESSAGE,
-            QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel
-            )
+            QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel,
+        )
         if reply == QMessageBox.Yes:
             self.questionLabel.setText("Yes")
         elif reply == QMessageBox.No:
@@ -326,8 +335,11 @@ class Dialog(QDialog):
 
     def warningMessage(self):
         msgBox = QMessageBox(
-            QMessageBox.Warning, "QMessageBox.warning()",
-            Dialog.MESSAGE, QMessageBox.NoButton, self
+            QMessageBox.Warning,
+            "QMessageBox.warning()",
+            Dialog.MESSAGE,
+            QMessageBox.NoButton,
+            self,
         )
         msgBox.addButton("Save &Again", QMessageBox.AcceptRole)
         msgBox.addButton("&Continue", QMessageBox.RejectRole)
@@ -345,12 +357,11 @@ class Dialog(QDialog):
             "QErrorMessage.showMessage() is called with the same message."
         )
         self.errorLabel.setText(
-            "If the box is unchecked, the message won't "
-            "appear again."
+            "If the box is unchecked, the message won't " "appear again."
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

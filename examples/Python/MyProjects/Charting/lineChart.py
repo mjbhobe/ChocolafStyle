@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 * lineChart.py: displays line chart of a stock's closing price
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -29,14 +29,33 @@ from datetime import datetime, timedelta, date
 # some pandas tweaks
 pd.set_option("display.max_rows", 80)
 pd.set_option("display.max_columns", 50)
-pd.options.display.float_format = '{:,.4f}'.format
+pd.options.display.float_format = "{:,.4f}".format
 
 # some global constants
-START_DATE = '2000-01-01'
-END_DATE = '2022-12-31'
-STOCKS = ['BAJAJ-AUTO.NS', 'BAJAJFINSV.NS', 'COLPAL.NS', 'DIXON.NS', 'HDFCBANK.NS', 'HDFC.NS', 'HEROMOTOCO.NS',
-          'INFY.NS', 'ITC.NS', 'KANSAINER.NS', 'LT.NS', 'M&M.NS', 'NESTLEIND.NS', 'PIDILITIND.NS', 'PGHH.NS',
-          'RELIANCE.NS', 'TCS.NS', 'TATASTEEL.NS', 'TITAN.NS', 'ULTRACEMCO.NS']
+START_DATE = "2000-01-01"
+END_DATE = "2022-12-31"
+STOCKS = [
+    "BAJAJ-AUTO.NS",
+    "BAJAJFINSV.NS",
+    "COLPAL.NS",
+    "DIXON.NS",
+    "HDFCBANK.NS",
+    "HDFC.NS",
+    "HEROMOTOCO.NS",
+    "INFY.NS",
+    "ITC.NS",
+    "KANSAINER.NS",
+    "LT.NS",
+    "M&M.NS",
+    "NESTLEIND.NS",
+    "PIDILITIND.NS",
+    "PGHH.NS",
+    "RELIANCE.NS",
+    "TCS.NS",
+    "TATASTEEL.NS",
+    "TITAN.NS",
+    "ULTRACEMCO.NS",
+]
 
 logger = chocolaf.get_logger(pathlib.Path(__file__).name)
 
@@ -48,8 +67,12 @@ def download_datasets(stocks_list=STOCKS, start_date=START_DATE, end_date=END_DA
     for stock in stocks_list:
         # print(f"Downloading {stock} data from {start_date} to {end_date}...", flush=True)
         save_file_path = f'{os.path.dirname(__file__)}/data/{stock[1:] if stock.startswith("^") else stock}.csv'
-        logger.info(f"Downloading {stock} data from {start_date} to {end_date} to file {save_file_path}")
-        stock_df = yfinance.download(stock, start=start_date, end=end_date, progress=False)
+        logger.info(
+            f"Downloading {stock} data from {start_date} to {end_date} to file {save_file_path}"
+        )
+        stock_df = yfinance.download(
+            stock, start=start_date, end=end_date, progress=False
+        )
         stock_df.to_csv(save_file_path)
 
 
@@ -99,8 +122,16 @@ class LineChartWidget(QWidget):
         self.setWindowTitle(f"PyQt{PYQT_VERSION_STR}: line chart demo")
 
     def setupFilters(self):
-        stocks_list = sorted([(stock.split('.')[0][1:] if stock.startswith("^")
-                               else stock.split('.')[0]).title() for stock in STOCKS])
+        stocks_list = sorted(
+            [
+                (
+                    stock.split(".")[0][1:]
+                    if stock.startswith("^")
+                    else stock.split(".")[0]
+                ).title()
+                for stock in STOCKS
+            ]
+        )
         self.stocks_combo = QComboBox()
         for stock in stocks_list:
             self.stocks_combo.addItem(stock)
@@ -134,20 +165,27 @@ class LineChartWidget(QWidget):
 
     def setupChart(self, stock_name, start_date, end_date):
         chart = QChart()
-        start_date_str, end_date_str = start_date.toString('yyyy-MM-dd'), end_date.toString('yyyy-MM-dd')
+        start_date_str, end_date_str = start_date.toString(
+            "yyyy-MM-dd"
+        ), end_date.toString("yyyy-MM-dd")
         chart.setTitle(
-            f"<html><b>{stock_name.title()}</b> Closing Price from <b>{start_date.toString('dd-MMM-yy')}</b> " +
-            f"to <b>{end_date.toString('dd-MMM-yy')}</b></html>")
+            f"<html><b>{stock_name.title()}</b> Closing Price from <b>{start_date.toString('dd-MMM-yy')}</b> "
+            + f"to <b>{end_date.toString('dd-MMM-yy')}</b></html>"
+        )
         chart.setAnimationOptions(QChart.SeriesAnimations)
         chart.legend().hide()
 
-        stock_df = pd.read_csv(f'{os.path.dirname(__file__)}/data/{stock_name.upper()}.NS.csv')
+        stock_df = pd.read_csv(
+            f"{os.path.dirname(__file__)}/data/{stock_name.upper()}.NS.csv"
+        )
         # stock_df['Date'] = pd.to_datetime(stock_df['Date'])
-        date_mask = ((stock_df['Date'] >= start_date_str) & (stock_df['Date'] <= end_date_str))
+        date_mask = (stock_df["Date"] >= start_date_str) & (
+            stock_df["Date"] <= end_date_str
+        )
         stock_df2 = stock_df.loc[date_mask]
 
-        xVals = stock_df2['Date'].values
-        yVals = stock_df2['Close'].values
+        xVals = stock_df2["Date"].values
+        yVals = stock_df2["Close"].values
         minY, maxY = yVals.min() - 20, yVals.max() + 20
         print(f"xVals.min() {xVals.min()} - xVals.max() {xVals.max()}")
         print(f"yVals.min() {minY} - yVals.max() {maxY}")
@@ -187,9 +225,9 @@ if __name__ == "__main__":
     # download_datasets(start_date=START_DATE, end_date=END_DATE)
     # sys.exit(-1)
 
-    stocks_list = [stock.split('.')[0].title() for stock in STOCKS]
+    stocks_list = [stock.split(".")[0].title() for stock in STOCKS]
     print(f"We have data for {stocks_list}")
-    stock_df = pd.read_csv(f'{os.path.dirname(__file__)}/data/RELIANCE.NS.csv')
+    stock_df = pd.read_csv(f"{os.path.dirname(__file__)}/data/RELIANCE.NS.csv")
     print(stock_df.head())
 
     chocolaf.enable_hi_dpi()

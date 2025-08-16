@@ -2,7 +2,7 @@
 """
 * calendar.py - displays HTML based calendar for current month (selectable) inside
 *   a rich text editor control (QTextEdit)
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
             monthCombo.addItem(QDate.longMonthName(month))
 
         yearEdit = QDateTimeEdit()
-        yearEdit.setDisplayFormat('yyyy')
+        yearEdit.setDisplayFormat("yyyy")
         yearEdit.setDateRange(QDate(1753, 1, 1), QDate(8000, 1, 1))
 
         monthCombo.setCurrentIndex(self.selectedDate.month() - 1)
@@ -132,13 +132,15 @@ class MainWindow(QMainWindow):
         tableFormat.setCellPadding(4)
         tableFormat.setCellSpacing(0)
         tableFormat.setBorder(1)
-        constraints = [QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14),
-                       QTextLength(QTextLength.PercentageLength, 14)]
+        constraints = [
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+            QTextLength(QTextLength.PercentageLength, 14),
+        ]
 
         tableFormat.setColumnWidthConstraints(constraints)
 
@@ -156,8 +158,7 @@ class MainWindow(QMainWindow):
         boldFormat.setFontWeight(QFont.Bold)
 
         highlightedFormat = QTextCharFormat(boldFormat)
-        highlightedFormat.setBackground(
-            ChocolafPalette.Highlight_Color)  # Qt.yellow)
+        highlightedFormat.setBackground(ChocolafPalette.Highlight_Color)  # Qt.yellow)
 
         for weekDay in range(1, 8):
             cell = table.cellAt(0, weekDay - 1)
@@ -183,25 +184,29 @@ class MainWindow(QMainWindow):
 
         cursor.endEditBlock()
 
-        self.setWindowTitle("Calendar for %s %d" % (QDate.longMonthName(
-            self.selectedDate.month()), self.selectedDate.year()))
+        self.setWindowTitle(
+            "Calendar for %s %d"
+            % (QDate.longMonthName(self.selectedDate.month()), self.selectedDate.year())
+        )
 
     def setfontSize(self, size):
         self.fontSize = size
         self.insertCalendar()
 
     def setMonth(self, month):
-        self.selectedDate = QDate(self.selectedDate.year(), month + 1,
-                                  self.selectedDate.day())
+        self.selectedDate = QDate(
+            self.selectedDate.year(), month + 1, self.selectedDate.day()
+        )
         self.insertCalendar()
 
     def setYear(self, date):
-        self.selectedDate = QDate(date.year(), self.selectedDate.month(),
-                                  self.selectedDate.day())
+        self.selectedDate = QDate(
+            date.year(), self.selectedDate.month(), self.selectedDate.day()
+        )
         self.insertCalendar()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     window = MainWindow()

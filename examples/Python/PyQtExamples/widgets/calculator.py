@@ -1,6 +1,6 @@
 """
 * calculator.py: PyQt5 version of the Qt Widgets calculator demo using Chocolaf theme
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -81,15 +81,15 @@ class Calculator(QWidget):
     def __init__(self, parent=None):
         super(Calculator, self).__init__(parent)
 
-        self.pendingAdditiveOperator = ''
-        self.pendingMultiplicativeOperator = ''
+        self.pendingAdditiveOperator = ""
+        self.pendingMultiplicativeOperator = ""
 
         self.sumInMemory = 0.0
         self.sumSoFar = 0.0
         self.factorSoFar = 0.0
         self.waitingForOperand = True
 
-        self.display = QLineEdit('0')
+        self.display = QLineEdit("0")
         self.display.setReadOnly(True)
         self.display.setAlignment(Qt.AlignRight)
         self.display.setMaxLength(15)
@@ -104,7 +104,9 @@ class Calculator(QWidget):
             self.digitButtons.append(self.createButton(str(i), self.digitClicked))
 
         self.pointButton = self.createButton(".", self.pointClicked)
-        self.changeSignButton = self.createButton(u"\N{PLUS-MINUS SIGN}", self.changeSignClicked)
+        self.changeSignButton = self.createButton(
+            "\N{PLUS-MINUS SIGN}", self.changeSignClicked
+        )
 
         self.backspaceButton = self.createButton("Backspace", self.backspaceClicked)
         self.clearButton = self.createButton("Clear", self.clear)
@@ -115,14 +117,19 @@ class Calculator(QWidget):
         self.setMemoryButton = self.createButton("MS", self.setMemory)
         self.addToMemoryButton = self.createButton("M+", self.addToMemory)
 
-        self.divisionButton = self.createButton(u"\N{DIVISION SIGN}",
-                                                self.multiplicativeOperatorClicked)
-        self.timesButton = self.createButton(u"\N{MULTIPLICATION SIGN}", self.multiplicativeOperatorClicked)
+        self.divisionButton = self.createButton(
+            "\N{DIVISION SIGN}", self.multiplicativeOperatorClicked
+        )
+        self.timesButton = self.createButton(
+            "\N{MULTIPLICATION SIGN}", self.multiplicativeOperatorClicked
+        )
         self.minusButton = self.createButton("-", self.additiveOperatorClicked)
         self.plusButton = self.createButton("+", self.additiveOperatorClicked)
 
         self.squareRootButton = self.createButton("Sqrt", self.unaryOperatorClicked)
-        self.powerButton = self.createButton(u"x\N{SUPERSCRIPT TWO}", self.unaryOperatorClicked)
+        self.powerButton = self.createButton(
+            "x\N{SUPERSCRIPT TWO}", self.unaryOperatorClicked
+        )
         self.reciprocalButton = self.createButton("1/x", self.unaryOperatorClicked)
         self.equalButton = self.createButton("=", self.equalClicked)
 
@@ -165,7 +172,7 @@ class Calculator(QWidget):
         clickedButton = self.sender()
         digitValue = int(clickedButton.text())
 
-        if self.display.text() == '0' and digitValue == 0.0:
+        if self.display.text() == "0" and digitValue == 0.0:
             return
 
         if self.waitingForOperand:
@@ -185,7 +192,7 @@ class Calculator(QWidget):
                 return
 
             result = math.sqrt(operand)
-        elif clickedOperator == u"x\N{SUPERSCRIPT TWO}":
+        elif clickedOperator == "x\N{SUPERSCRIPT TWO}":
             result = math.pow(operand, 2.0)
         elif clickedOperator == "1/x":
             if operand == 0.0:
@@ -210,7 +217,7 @@ class Calculator(QWidget):
             self.display.setText(str(self.factorSoFar))
             operand = self.factorSoFar
             self.factorSoFar = 0.0
-            self.pendingMultiplicativeOperator = ''
+            self.pendingMultiplicativeOperator = ""
 
         if self.pendingAdditiveOperator:
             if not self.calculate(operand, self.pendingAdditiveOperator):
@@ -251,14 +258,14 @@ class Calculator(QWidget):
 
             operand = self.factorSoFar
             self.factorSoFar = 0.0
-            self.pendingMultiplicativeOperator = ''
+            self.pendingMultiplicativeOperator = ""
 
         if self.pendingAdditiveOperator:
             if not self.calculate(operand, self.pendingAdditiveOperator):
                 self.abortOperation()
                 return
 
-            self.pendingAdditiveOperator = ''
+            self.pendingAdditiveOperator = ""
         else:
             self.sumSoFar = operand
 
@@ -268,7 +275,7 @@ class Calculator(QWidget):
 
     def pointClicked(self):
         if self.waitingForOperand:
-            self.display.setText('0')
+            self.display.setText("0")
 
         if "." not in self.display.text():
             self.display.setText(self.display.text() + ".")
@@ -292,7 +299,7 @@ class Calculator(QWidget):
 
         text = self.display.text()[:-1]
         if not text:
-            text = '0'
+            text = "0"
             self.waitingForOperand = True
 
         self.display.setText(text)
@@ -301,15 +308,15 @@ class Calculator(QWidget):
         if self.waitingForOperand:
             return
 
-        self.display.setText('0')
+        self.display.setText("0")
         self.waitingForOperand = True
 
     def clearAll(self):
         self.sumSoFar = 0.0
         self.factorSoFar = 0.0
-        self.pendingAdditiveOperator = ''
-        self.pendingMultiplicativeOperator = ''
-        self.display.setText('0')
+        self.pendingAdditiveOperator = ""
+        self.pendingMultiplicativeOperator = ""
+        self.display.setText("0")
         self.waitingForOperand = True
 
     def clearMemory(self):
@@ -341,9 +348,9 @@ class Calculator(QWidget):
             self.sumSoFar += rightOperand
         elif pendingOperator == "-":
             self.sumSoFar -= rightOperand
-        elif pendingOperator == u"\N{MULTIPLICATION SIGN}":
+        elif pendingOperator == "\N{MULTIPLICATION SIGN}":
             self.factorSoFar *= rightOperand
-        elif pendingOperator == u"\N{DIVISION SIGN}":
+        elif pendingOperator == "\N{DIVISION SIGN}":
             if rightOperand == 0.0:
                 return False
 
@@ -352,7 +359,7 @@ class Calculator(QWidget):
         return True
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("WindowsDark")

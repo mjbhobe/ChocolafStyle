@@ -1,6 +1,6 @@
 """
 * flowLayout.py - custom flow layout a-la-Java
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -79,7 +79,7 @@ class Window(QWidget):
 
 
 class FlowLayout(QLayout):
-    def __init__(self, parent = None, margin = 0, spacing = -1):
+    def __init__(self, parent=None, margin=0, spacing=-1):
         super(FlowLayout, self).__init__(parent)
 
         if parent is not None:
@@ -169,7 +169,7 @@ class FlowLayout(QLayout):
         return y + lineHeight - rect.y()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

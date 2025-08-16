@@ -4,8 +4,8 @@
 // squiggle.py: represents one squiggle in the Doodle, with its own color & width
 //
 // Tutorial - PyQt5 Doodle Application
-// Based on a similar tutorial for Borland ObjectWindows Library (OWL) 
-// @author: Manish Bhobe
+// Based on a similar tutorial for Borland ObjectWindows Library (OWL)
+// @author: Manish Bhobé
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """

@@ -1,6 +1,6 @@
 """
 * recentFiles.py: illustrates how to use recent files menu
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -76,7 +76,9 @@ class MainWindow(QMainWindow):
 
         self.textEdit = QTextEdit()
         self.textEdit.setStyleSheet("QTextEdit {border: None;}")
-        self.textEdit.setFont(QFont("Consolas, Source Code Pro, Driod Mono, Monospace", 12))
+        self.textEdit.setFont(
+            QFont("Consolas, Source Code Pro, Driod Mono, Monospace", 12)
+        )
         self.setCentralWidget(self.textEdit)
 
         self.createActions()
@@ -113,41 +115,72 @@ class MainWindow(QMainWindow):
             self.loadFile(action.data())
 
     def about(self):
-        QMessageBox.about(self, "About Recent Files",
-                          "The <b>Recent Files</b> example demonstrates how to provide "
-                          "a recently used file menu in a Qt application.")
+        QMessageBox.about(
+            self,
+            "About Recent Files",
+            "The <b>Recent Files</b> example demonstrates how to provide "
+            "a recently used file menu in a Qt application.",
+        )
 
     def createActions(self):
-        self.newAct = QAction("&New", self, shortcut=QKeySequence.New,
-                              statusTip="Create a new file", triggered=self.newFile)
+        self.newAct = QAction(
+            "&New",
+            self,
+            shortcut=QKeySequence.New,
+            statusTip="Create a new file",
+            triggered=self.newFile,
+        )
 
-        self.openAct = QAction("&Open...", self, shortcut=QKeySequence.Open,
-                               statusTip="Open an existing file", triggered=self.open)
+        self.openAct = QAction(
+            "&Open...",
+            self,
+            shortcut=QKeySequence.Open,
+            statusTip="Open an existing file",
+            triggered=self.open,
+        )
 
-        self.saveAct = QAction("&Save", self, shortcut=QKeySequence.Save,
-                               statusTip="Save the document to disk", triggered=self.save)
+        self.saveAct = QAction(
+            "&Save",
+            self,
+            shortcut=QKeySequence.Save,
+            statusTip="Save the document to disk",
+            triggered=self.save,
+        )
 
-        self.saveAsAct = QAction("Save &As...", self,
-                                 shortcut=QKeySequence.SaveAs,
-                                 statusTip="Save the document under a new name",
-                                 triggered=self.saveAs)
+        self.saveAsAct = QAction(
+            "Save &As...",
+            self,
+            shortcut=QKeySequence.SaveAs,
+            statusTip="Save the document under a new name",
+            triggered=self.saveAs,
+        )
 
         for i in range(MainWindow.MaxRecentFiles):
             self.recentFileActs.append(
-                QAction(self, visible=False,
-                        triggered=self.openRecentFile))
+                QAction(self, visible=False, triggered=self.openRecentFile)
+            )
 
-        self.exitAct = QAction("E&xit", self, shortcut="Ctrl+Q",
-                               statusTip="Exit the application",
-                               triggered=QApplication.instance().closeAllWindows)
+        self.exitAct = QAction(
+            "E&xit",
+            self,
+            shortcut="Ctrl+Q",
+            statusTip="Exit the application",
+            triggered=QApplication.instance().closeAllWindows,
+        )
 
-        self.aboutAct = QAction("&About", self,
-                                statusTip="Show the application's About box",
-                                triggered=self.about)
+        self.aboutAct = QAction(
+            "&About",
+            self,
+            statusTip="Show the application's About box",
+            triggered=self.about,
+        )
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                                  statusTip="Show the Qt library's About box",
-                                  triggered=QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt",
+            self,
+            statusTip="Show the Qt library's About box",
+            triggered=QApplication.instance().aboutQt,
+        )
 
     def createMenus(self):
         self.fileMenu = self.menuBar().addMenu("&File")
@@ -171,8 +204,11 @@ class MainWindow(QMainWindow):
     def loadFile(self, fileName):
         file = QFile(fileName)
         if not file.open(QFile.ReadOnly | QFile.Text):
-            QMessageBox.warning(self, "Recent Files",
-                                "Cannot read file %s:\n%s." % (fileName, file.errorString()))
+            QMessageBox.warning(
+                self,
+                "Recent Files",
+                "Cannot read file %s:\n%s." % (fileName, file.errorString()),
+            )
             return
 
         instr = QTextStream(file)
@@ -186,8 +222,11 @@ class MainWindow(QMainWindow):
     def saveFile(self, fileName):
         file = QFile(fileName)
         if not file.open(QFile.WriteOnly | QFile.Text):
-            QMessageBox.warning(self, "Recent Files",
-                                "Cannot write file %s:\n%s." % (fileName, file.errorString()))
+            QMessageBox.warning(
+                self,
+                "Recent Files",
+                "Cannot write file %s:\n%s." % (fileName, file.errorString()),
+            )
             return
 
         outstr = QTextStream(file)
@@ -205,8 +244,8 @@ class MainWindow(QMainWindow):
         else:
             self.setWindowTitle("Recent Files")
 
-        settings = QSettings('Trolltech', 'Recent Files Example')
-        files = settings.value('recentFileList', [])
+        settings = QSettings("Trolltech", "Recent Files Example")
+        files = settings.value("recentFileList", [])
 
         try:
             files.remove(fileName)
@@ -214,17 +253,17 @@ class MainWindow(QMainWindow):
             pass
 
         files.insert(0, fileName)
-        del files[MainWindow.MaxRecentFiles:]
+        del files[MainWindow.MaxRecentFiles :]
 
-        settings.setValue('recentFileList', files)
+        settings.setValue("recentFileList", files)
 
         for widget in QApplication.topLevelWidgets():
             if isinstance(widget, MainWindow):
                 widget.updateRecentFileActions()
 
     def updateRecentFileActions(self):
-        settings = QSettings('Trolltech', 'Recent Files Example')
-        files = settings.value('recentFileList', [])
+        settings = QSettings("Trolltech", "Recent Files Example")
+        files = settings.value("recentFileList", [])
 
         numRecentFiles = min(len(files), MainWindow.MaxRecentFiles)
 
@@ -243,7 +282,7 @@ class MainWindow(QMainWindow):
         return QFileInfo(fullFileName).fileName()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

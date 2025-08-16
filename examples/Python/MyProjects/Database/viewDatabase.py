@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 * viewDatabase.py: display results of a table or query in a QTableView
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.

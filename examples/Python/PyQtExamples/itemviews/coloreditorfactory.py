@@ -1,6 +1,6 @@
 """
 * coloreditorfactory.py: illustrated inline color chooser with combobox
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -58,7 +58,7 @@ import chocolaf
 
 
 class ColorListEditor(QComboBox):
-    def __init__(self, widget = None):
+    def __init__(self, widget=None):
         super(ColorListEditor, self).__init__(widget)
 
         self.populateList()
@@ -70,7 +70,7 @@ class ColorListEditor(QComboBox):
     def setColor(self, color):
         self.setCurrentIndex(self.findData(color, Qt.DecorationRole))
 
-    color = pyqtProperty(QColor, getColor, setColor, user = True)
+    color = pyqtProperty(QColor, getColor, setColor, user=True)
 
     def populateList(self):
         for i, colorName in enumerate(QColor.colorNames()):
@@ -85,7 +85,7 @@ class ColorListItemEditorCreator(QItemEditorCreatorBase):
 
 
 class Window(QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(Window, self).__init__(parent)
 
         factory = QItemEditorFactory()
@@ -96,9 +96,9 @@ class Window(QWidget):
 
     def createGUI(self):
         tableData = [
-            ("Alice", QColor('aliceblue')),
-            ("Neptun", QColor('aquamarine')),
-            ("Ferdinand", QColor('springgreen'))
+            ("Alice", QColor("aliceblue")),
+            ("Neptun", QColor("aquamarine")),
+            ("Ferdinand", QColor("springgreen")),
         ]
 
         table = QTableWidget(3, 2)
@@ -123,7 +123,7 @@ class Window(QWidget):
         self.setWindowTitle("Color Editor Factory")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

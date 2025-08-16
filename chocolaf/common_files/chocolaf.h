@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------
 // chocolaf.h - declare helper ChocolafApp & ChocolafPalette classes
-// @author: Manish Bhobe
+// @author: Manish Bhobé
 //
 // Chocolaf - dark chocolate custom stylesheet for Qt/PyQt applications
 // ---------------------------------------------------------------------

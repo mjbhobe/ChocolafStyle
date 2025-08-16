@@ -3,7 +3,7 @@
 """
 * sigslots2.py - many to 1 signal handler using QPushButtons
 *   and Chocolaf & QDarkStyle-dark, QDarkStyle-light and Fusion stylesheets
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!

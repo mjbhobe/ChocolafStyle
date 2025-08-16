@@ -4,10 +4,11 @@
 //
 // Tutorial - PyQt5 Doodle Application
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
-// @author: Manish Bhobe
+// @author: Manish Bhobé
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
+
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
@@ -78,7 +79,12 @@ class MainWindow(QMainWindow):
                 # if Ctrl key is also pressed with mouse press, display
                 # dialog to change pen thickness
                 newWidth, ok = QInputDialog.getInt(
-                    self, "Pen Width", "Enter new pen width (2-12):", self.penWidth, 2, 12
+                    self,
+                    "Pen Width",
+                    "Enter new pen width (2-12):",
+                    self.penWidth,
+                    2,
+                    12,
                 )
                 if ok:  # user clicked Ok on QInputDialog
                     self.penWidth = newWidth

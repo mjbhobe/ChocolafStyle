@@ -5,7 +5,7 @@
 * motion_blur.py: apply motion blur, so it appears that you are viewing
 *   image from a moving vehicle
 *
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, C++, OpenCV, Data Science & ML
 * Code is provided for learning purposes only! Use at your own risk!!
 """
@@ -41,22 +41,25 @@ def main():
     cv2_imxshow(
         [tree_image, output],
         ["Original", "Motion Blurred"],
-        title = "Motion Blur Effect",
-        fig_size = (10, 4)
+        title="Motion Blur Effect",
+        fig_size=(10, 4),
     )
 
     # sharpening image
     kernel_sharpen_1 = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
     kernel_sharpen_2 = np.array([[1, 1, 1], [1, -7, 1], [1, 1, 1]])
-    kernel_sharpen_3 = np.array(
-        [
-            [-1, -1, -1, -1, -1],
-            [-1, 2, 2, 2, -1],
-            [-1, 2, 8, 2, -1],
-            [-1, 2, 2, 2, -1],
-            [-1, -1, -1, -1, -1]
-        ]
-    ) / 8.0
+    kernel_sharpen_3 = (
+        np.array(
+            [
+                [-1, -1, -1, -1, -1],
+                [-1, 2, 2, 2, -1],
+                [-1, 2, 8, 2, -1],
+                [-1, 2, 2, 2, -1],
+                [-1, -1, -1, -1, -1],
+            ]
+        )
+        / 8.0
+    )
 
     # applying different kernels to the input image
     output_1 = cv2.filter2D(tree_image, -1, kernel_sharpen_1)
@@ -65,9 +68,9 @@ def main():
 
     cv2_imxshow(
         [tree_image, output_1, output_2, output_3],
-        title = "Sharpening Effect",
-        fig_size = (10, 8),
-        max_cols = 2
+        title="Sharpening Effect",
+        fig_size=(10, 8),
+        max_cols=2,
     )
 
 

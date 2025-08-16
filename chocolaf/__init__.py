@@ -26,7 +26,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 """
 * __init__.py - Chocolaf stylesheet for Qt & PyQt applications (dark chocolate theme)
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 *
 * Inspired by QDarkstyle (@see: https://github.com/ColinDuquesnoy/QDarkStyleSheet)
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -39,7 +39,7 @@ import sys
 
 version_info = (1, 0, 0, "dev0")
 
-__version__ = '.'.join(map(str, version_info))
+__version__ = ".".join(map(str, version_info))
 __installer_version__ = __version__
 __title__ = "Chocolaf"
 __author__ = "Manish Bhobé"
@@ -52,7 +52,7 @@ _logger = logging.getLogger(__name__)
 
 
 def loadStyleSheet() -> str:
-    """ loads the chocolaf stylesheet from ./styes/chocolaf """
+    """loads the chocolaf stylesheet from ./styes/chocolaf"""
     here = os.path.dirname(os.path.abspath(__file__))
     chocolaf_dir = os.path.join(here, "styles", "chocolaf")
     sys.path.append(chocolaf_dir)
@@ -68,7 +68,14 @@ def loadStyleSheet() -> str:
 
 
 # local imports
-from .utilities import seed_all, enable_hi_dpi, pixelsToPoints, pointsToPixels, get_logger, centerOnScreenWithSize
+from .utilities import (
+    seed_all,
+    enable_hi_dpi,
+    pixelsToPoints,
+    pointsToPixels,
+    get_logger,
+    centerOnScreenWithSize,
+)
 from .app import ChocolafApp
 from .palettes import ChocolafPalette, WinDarkPalette
 from .styles.chocolaf import chocolaf_rc

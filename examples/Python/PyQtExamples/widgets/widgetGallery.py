@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 * widgetGallery.py: demonstrates PyQt5 widget gallery
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning

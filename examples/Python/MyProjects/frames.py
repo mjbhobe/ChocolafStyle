@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 * frames.py - illustrates various styles of QFrame class
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!

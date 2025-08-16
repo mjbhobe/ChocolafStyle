@@ -2,7 +2,7 @@
 
 """
 * dataviz.py: data visualization with Python & Qt
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
@@ -20,13 +20,13 @@ from PyQt6.QtWidgets import *
 import chocolaf
 
 
-def transform_date(utc_time, timezone = None):
+def transform_date(utc_time, timezone=None):
     utc_fmt = "yyyy-MM-ddTHH:mm:ss.zzzZ"
     new_date = QDateTime().fromString(utc_time, utc_fmt)
     if timezone:
         new_date.setTimeZone(timezone)
         # print(f"{new_date.toString('dd-MMMM-yyyy hh:mm:ss ap')} - {new_date.toString(Qt.SystemLocaleShortDate)}")
-    return new_date.toString('dd-MMM-yy hh:mm:ss ap')
+    return new_date.toString("dd-MMM-yy hh:mm:ss ap")
 
 
 def read_data(data_file_path):
@@ -48,7 +48,7 @@ def read_data(data_file_path):
 
 
 class CustomTableModel(QAbstractTableModel):
-    def __init__(self, data = None):
+    def __init__(self, data=None):
         super(CustomTableModel, self).__init__()
         if data is not None:
             self.load_data(data)
@@ -59,10 +59,10 @@ class CustomTableModel(QAbstractTableModel):
         self.column_count = 2
         self.row_count = len(self.input_magnitudes)
 
-    def rowCount(self, parent = QModelIndex()):
+    def rowCount(self, parent=QModelIndex()):
         return self.row_count
 
-    def columnCount(self, parent = QModelIndex()):
+    def columnCount(self, parent=QModelIndex()):
         return self.column_count
 
     def headerData(self, section, orientation, role):
@@ -73,7 +73,7 @@ class CustomTableModel(QAbstractTableModel):
         else:
             return f"{section}"
 
-    def data(self, index, role = Qt.DisplayRole):
+    def data(self, index, role=Qt.DisplayRole):
         column = index.column()
         row = index.row()
 
@@ -106,12 +106,8 @@ class Widget(QWidget):
         # QTableView Headers
         self.horizontal_header = self.table_view.horizontalHeader()
         self.vertical_header = self.table_view.verticalHeader()
-        self.horizontal_header.setSectionResizeMode(
-            QHeaderView.ResizeToContents
-        )
-        self.vertical_header.setSectionResizeMode(
-            QHeaderView.ResizeToContents
-        )
+        self.horizontal_header.setSectionResizeMode(QHeaderView.ResizeToContents)
+        self.vertical_header.setSectionResizeMode(QHeaderView.ResizeToContents)
         # self.horizontal_header.setStretchLastSection(True)
 
         # QWidget Layout
@@ -156,8 +152,9 @@ class MainWindow(QMainWindow):
 
 def main():
     argsParser = argparse.ArgumentParser()
-    argsParser.add_argument("-f", "--file", required = True,
-                            help = "Enter path of data file", type = str)
+    argsParser.add_argument(
+        "-f", "--file", required=True, help="Enter path of data file", type=str
+    )
     args = argsParser.parse_args()
     data_file_path = args.file
     data = read_data(data_file_path)

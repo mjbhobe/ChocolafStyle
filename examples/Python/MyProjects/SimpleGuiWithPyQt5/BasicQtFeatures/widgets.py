@@ -1,6 +1,6 @@
 """
 * widgets.py - create an instance of all core widgets & show
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * Examples from book "Create Simple Gui Applications with Python & Qt5 - Martin Fitzpatrick"
 * My experiments with Python, PyQt, Data Science & Deep Learning

@@ -1,6 +1,6 @@
 """
 * spreadsheetdelegate.py - model delegate for Spreadsheet PyQt app
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -86,11 +86,17 @@ class SpreadSheetDelegate(QItemDelegate):
         if isinstance(editor, QLineEdit):
             editor.setText(index.model().data(index, Qt.EditRole))
         elif isinstance(editor, QDateTimeEdit):
-            editor.setDate(QDate.fromString(
-                index.model().data(index, Qt.EditRole), self.parent().currentDateFormat))
+            editor.setDate(
+                QDate.fromString(
+                    index.model().data(index, Qt.EditRole),
+                    self.parent().currentDateFormat,
+                )
+            )
 
     def setModelData(self, editor, model, index):
         if isinstance(editor, QLineEdit):
             model.setData(index, editor.text())
         elif isinstance(editor, QDateTimeEdit):
-            model.setData(index, editor.date().toString(self.parent().currentDateFormat))
+            model.setData(
+                index, editor.date().toString(self.parent().currentDateFormat)
+            )

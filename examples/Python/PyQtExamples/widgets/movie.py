@@ -1,6 +1,6 @@
 """
 * sliders.py: PyQt version of the sliders Qt widgets demo using Chocolaf
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -59,7 +59,7 @@ import chocolaf
 
 
 class MoviePlayer(QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(MoviePlayer, self).__init__(parent)
 
         self.movie = QMovie(self)
@@ -71,7 +71,7 @@ class MoviePlayer(QWidget):
         self.movieLabel.setBackgroundRole(QPalette.Dark)
         self.movieLabel.setAutoFillBackground(True)
 
-        self.currentMovieDirectory = ''
+        self.currentMovieDirectory = ""
 
         self.createControls()
         self.createButtons()
@@ -96,8 +96,9 @@ class MoviePlayer(QWidget):
 
     def open(self):
         videosPath = QStandardPaths.standardLocations(QStandardPaths.MoviesLocation)
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open a Movie", videosPath[-1],
-                                                  self.currentMovieDirectory)
+        fileName, _ = QFileDialog.getOpenFileName(
+            self, "Open a Movie", videosPath[-1], self.currentMovieDirectory
+        )
 
         if fileName:
             self.openFile(fileName)
@@ -120,7 +121,7 @@ class MoviePlayer(QWidget):
         self.movieLabel.setScaledContents(self.fitCheckBox.isChecked())
 
     def updateFrameSlider(self):
-        hasFrames = (self.movie.currentFrameNumber() >= 0)
+        hasFrames = self.movie.currentFrameNumber() >= 0
 
         if hasFrames:
             if self.movie.frameCount() > 0:
@@ -138,8 +139,11 @@ class MoviePlayer(QWidget):
     def updateButtons(self):
         state = self.movie.state()
 
-        self.playButton.setEnabled(self.movie.isValid() and
-                                   self.movie.frameCount() != 1 and state == QMovie.NotRunning)
+        self.playButton.setEnabled(
+            self.movie.isValid()
+            and self.movie.frameCount() != 1
+            and state == QMovie.NotRunning
+        )
         self.pauseButton.setEnabled(state != QMovie.NotRunning)
         self.pauseButton.setChecked(state == QMovie.Paused)
         self.stopButton.setEnabled(state != QMovie.NotRunning)

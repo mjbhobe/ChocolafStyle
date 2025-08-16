@@ -2,7 +2,7 @@
  * load_image : loads & displays a random image using OpenCV-C++ from the OS's
  *  standard image path
  *  
- *  Author: Manish Bhobe
+ *  Author: Manish Bhobé
  *  My experiments with C++/Qt & OpenCV
  *  Code shared for educational purposes only!
  */

@@ -19,7 +19,7 @@ MainWindow::MainWindow()
    createActions();
    createMenus();
    createToolbar();
-   statusBar()->showMessage(QString("%1 - Doodling Application by %2. Created by Manish Bhobe")
+   statusBar()->showMessage(QString("%1 - Doodling Application by %2. Created by Manish Bhobé")
                                   .arg(QApplication::instance()->applicationName())
                                   .arg(QApplication::instance()->organizationName()));
 

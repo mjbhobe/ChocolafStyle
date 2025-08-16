@@ -4,7 +4,7 @@
 // Tutorial - Qt Scribble Application
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
 //
-// @author Manish Bhobe for Nämostuté Ltd.
+// @author Manish Bhobé for Nämostuté Ltd.
 // My experiments with C++,Qt, Python & PyQt.
 // Code is provided for illustration purposes only! Use at your own risk.
 // =============================================================================

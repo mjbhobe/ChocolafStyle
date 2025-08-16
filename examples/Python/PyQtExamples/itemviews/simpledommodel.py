@@ -1,6 +1,6 @@
 """
 * simpledommodel.py: displays XML in a QTreeView
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -60,7 +60,7 @@ import chocolaf
 
 
 class DomItem(object):
-    def __init__(self, node, row, parent = None):
+    def __init__(self, node, row, parent=None):
         self.domNode = node
         # Record the item's location within its parent.
         self.rowNumber = row
@@ -90,7 +90,7 @@ class DomItem(object):
 
 
 class DomModel(QAbstractItemModel):
-    def __init__(self, document, parent = None):
+    def __init__(self, document, parent=None):
         super(DomModel, self).__init__(parent)
 
         self.domDocument = document
@@ -119,17 +119,18 @@ class DomModel(QAbstractItemModel):
         elif index.column() == 1:
             for i in range(0, attributeMap.count()):
                 attribute = attributeMap.item(i)
-                attributes.append(attribute.nodeName() + '="' +
-                                  attribute.nodeValue() + '"')
+                attributes.append(
+                    attribute.nodeName() + '="' + attribute.nodeValue() + '"'
+                )
 
             return " ".join(attributes)
 
         if index.column() == 2:
             value = node.nodeValue()
             if value is None:
-                return ''
+                return ""
 
-            return ' '.join(node.nodeValue().split('\n'))
+            return " ".join(node.nodeValue().split("\n"))
 
         return None
 
@@ -208,9 +209,13 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Simple DOM Model")
 
     def openFile(self):
-        filePath, _ = QFileDialog.getOpenFileName(self, "Open File",
-                                                  self.xmlPath, "XML files (*.xml);;HTML files (*.html);;"
-                                                                "SVG files (*.svg);;User Interface files (*.ui)")
+        filePath, _ = QFileDialog.getOpenFileName(
+            self,
+            "Open File",
+            self.xmlPath,
+            "XML files (*.xml);;HTML files (*.html);;"
+            "SVG files (*.svg);;User Interface files (*.ui)",
+        )
 
         if filePath:
             f = QFile(filePath)
@@ -225,7 +230,7 @@ class MainWindow(QMainWindow):
                 f.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

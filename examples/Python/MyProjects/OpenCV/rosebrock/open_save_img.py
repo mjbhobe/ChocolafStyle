@@ -4,7 +4,7 @@
 """
 * open_save_img.py - open & save images with OpenCV
 *
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, C++, OpenCV, Data Science & ML
 * Code is provided for learning purposes only! Use at your own risk!!
 """

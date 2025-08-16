@@ -1,11 +1,12 @@
 """
 * labels.py: Using QLabel class - illustrates various styles of QLabels
 *   using both Chocolaf style and QDarkStyle-dark stylesheets
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
 """
+
 import os
 import pathlib
 import sys

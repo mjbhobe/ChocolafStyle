@@ -1,7 +1,7 @@
 // ----------------------------------------------------------
 // stringdemo.cc - illustrates use of QString class
 //
-// @author: Manish Bhobe
+// @author: Manish Bhobé
 // My experiments with C++ & Qt. Use at your own risk!
 // This code is intended for illustration purposes only
 // ----------------------------------------------------------

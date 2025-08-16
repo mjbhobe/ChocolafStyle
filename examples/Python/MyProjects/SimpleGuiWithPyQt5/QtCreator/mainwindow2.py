@@ -3,11 +3,11 @@
 * mainwindow2.py - this example illustrates an alternate way of using
 *  *.ui files in your PyQt code.py
 *  Steps:
-*    1. compile your ui file into a py file using 
+*    1. compile your ui file into a py file using
 *           pyuic5 <ui_file_name> -o <python_file_name>
 *    2. import your python module like you would normally
 *           import <python_file_name>
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.

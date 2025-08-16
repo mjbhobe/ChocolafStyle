@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 * tabWidget.py - using QTabWidget
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
@@ -50,8 +50,12 @@ class TabWidget(QWidget):
         tableWidget.setColumnCount(30)
 
         listModel = QStandardItemModel(0, 1, result)
-        dirOpenIcon = QIcon(":/qt-project.org/styles/commonstyle/images/diropen-128.png")
-        computerIcon = QIcon(":/qt-project.org/styles/commonstyle/images/computer-32.png")
+        dirOpenIcon = QIcon(
+            ":/qt-project.org/styles/commonstyle/images/diropen-128.png"
+        )
+        computerIcon = QIcon(
+            ":/qt-project.org/styles/commonstyle/images/computer-32.png"
+        )
 
         listModel.appendRow(QStandardItem(dirOpenIcon, "Directory"))
         listModel.appendRow(QStandardItem(computerIcon, "Compute"))

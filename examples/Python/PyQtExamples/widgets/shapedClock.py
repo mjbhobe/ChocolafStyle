@@ -1,6 +1,6 @@
 """
 * shapedClock.py: PyQt version of the ShapedClock Qt widgets application using Chocolaf style
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -58,38 +58,24 @@ import chocolaf
 
 
 class ShapedClock(QWidget):
-    hourHand = QPolygon(
-        [
-            QPoint(7, 8),
-            QPoint(-7, 8),
-            QPoint(0, -40)
-        ]
-    )
+    hourHand = QPolygon([QPoint(7, 8), QPoint(-7, 8), QPoint(0, -40)])
 
-    minuteHand = QPolygon(
-        [
-            QPoint(7, 8),
-            QPoint(-7, 8),
-            QPoint(0, -70)
-        ]
-    )
+    minuteHand = QPolygon([QPoint(7, 8), QPoint(-7, 8), QPoint(0, -70)])
 
     hourColor = QColor(127, 0, 127)
     minuteColor = QColor(0, 127, 127, 191)
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(ShapedClock, self).__init__(
-            parent,
-            Qt.FramelessWindowHint | Qt.WindowSystemMenuHint
-            )
+            parent, Qt.FramelessWindowHint | Qt.WindowSystemMenuHint
+        )
 
         timer = QTimer(self)
         timer.timeout.connect(self.update)
         timer.start(1000)
 
         quitAction = QAction(
-            "E&xit", self, shortcut = "Ctrl+Q",
-            triggered = QApplication.instance().quit
+            "E&xit", self, shortcut="Ctrl+Q", triggered=QApplication.instance().quit
         )
         self.addAction(quitAction)
 
@@ -153,9 +139,12 @@ class ShapedClock(QWidget):
         side = min(self.width(), self.height())
 
         maskedRegion = QRegion(
-            self.width() // 2 - side // 2, self.height() // 2 - side // 2, side, side,
-            QRegion.Ellipse
-            )
+            self.width() // 2 - side // 2,
+            self.height() // 2 - side // 2,
+            side,
+            side,
+            QRegion.Ellipse,
+        )
         self.setMask(maskedRegion)
 
     def sizeHint(self):

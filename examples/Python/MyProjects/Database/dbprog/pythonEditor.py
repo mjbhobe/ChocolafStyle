@@ -1,10 +1,11 @@
 """
 pythonEditor.py: simple syntax highlighting Python text editor that implements
     auto-indentation, smart-indentation
-@author: Manish Bhobe
+@author: Manish Bhobé
 My Experiments with Python, Machine Learning, and Deep Learning
 Code is distributed as-is for learning purposed only. Please use at your own risk.
 """
+
 import sys
 import pathlib
 

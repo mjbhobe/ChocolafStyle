@@ -1,6 +1,6 @@
 """
-* spreadsheetitem.py 
-* @author (Chocolaf): Manish Bhobe
+* spreadsheetitem.py
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -92,7 +92,7 @@ class SpreadSheetItem(QTableWidgetItem):
             return QColor(Qt.blue)
 
         if role == Qt.TextAlignmentRole:
-            if t and (t[0].isdigit() or t[0] == '-'):
+            if t and (t[0].isdigit() or t[0] == "-"):
                 return Qt.AlignRight | Qt.AlignVCenter
         return super(SpreadSheetItem, self).data(role)
 
@@ -114,7 +114,7 @@ class SpreadSheetItem(QTableWidgetItem):
         if formula is None:
             return None
         # check if the string is actually a formula or not
-        slist = formula.split(' ')
+        slist = formula.split(" ")
         if not slist or not widget:
             # it is a normal string
             return formula
@@ -152,16 +152,16 @@ class SpreadSheetItem(QTableWidgetItem):
                             pass
             result = sum_
         elif op == "+":
-            result = (firstVal + secondVal)
+            result = firstVal + secondVal
         elif op == "-":
-            result = (firstVal - secondVal)
+            result = firstVal - secondVal
         elif op == "*":
-            result = (firstVal * secondVal)
+            result = firstVal * secondVal
         elif op == "/":
             if secondVal == 0:
                 result = "nan"
             else:
-                result = (firstVal / secondVal)
+                result = firstVal / secondVal
         elif op == "=":
             if start:
                 result = start.text()

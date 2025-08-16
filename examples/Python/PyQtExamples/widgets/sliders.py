@@ -1,6 +1,6 @@
 """
 * sliders.py: PyQt version of the sliders Qt widgets demo using Chocolaf
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -59,7 +59,7 @@ import chocolaf
 class SlidersGroup(QGroupBox):
     valueChanged = pyqtSignal(int)
 
-    def __init__(self, orientation, title, parent = None):
+    def __init__(self, orientation, title, parent=None):
         super(SlidersGroup, self).__init__(title, parent)
 
         self.slider = QSlider(orientation)
@@ -118,8 +118,7 @@ class Window(QWidget):
     def __init__(self):
         super(Window, self).__init__()
 
-        self.horizontalSliders = SlidersGroup(Qt.Horizontal,
-                                              "Horizontal")
+        self.horizontalSliders = SlidersGroup(Qt.Horizontal, "Horizontal")
         self.verticalSliders = SlidersGroup(Qt.Vertical, "Vertical")
 
         self.stackedWidget = QStackedWidget()

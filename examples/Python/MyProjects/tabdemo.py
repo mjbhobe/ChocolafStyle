@@ -1,10 +1,11 @@
 """
 * tabDemo.py - demonstrated tab controls
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
 """
+
 import sys
 
 from PyQt5.QtCore import *
@@ -77,5 +78,5 @@ def main():
     sys.exit(app.exec_())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

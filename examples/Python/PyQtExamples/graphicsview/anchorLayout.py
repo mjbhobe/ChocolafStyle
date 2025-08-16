@@ -1,6 +1,6 @@
 """
-* anchorLayout.py: 
-* @author (Chocolaf): Manish Bhobe
+* anchorLayout.py:
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -70,7 +70,7 @@ def createItem(minimum, preferred, maximum, name):
     return w
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

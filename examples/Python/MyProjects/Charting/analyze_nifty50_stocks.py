@@ -1,7 +1,7 @@
 """analyze_nifty50_stocks.py: iterate over all stocks that are part of Nifty 50
    index and analyze if they are a good potential for long term investment.
 
-Author: Manish Bhobe
+Author: Manish Bhobé
 My experiments with Python, AI and Generative AI
 Code shared for learning purposes only!
 """

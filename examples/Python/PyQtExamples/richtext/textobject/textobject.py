@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 """
-* textobject.py - 
-* @author (Chocolaf): Manish Bhobe
+* textobject.py -
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -99,8 +99,9 @@ class Window(QWidget):
         file = QFile(fileName)
 
         if not file.open(QIODevice.ReadOnly):
-            QMessageBox.warning(self, "Error Opening File",
-                                "Could not open '%s'" % fileName)
+            QMessageBox.warning(
+                self, "Error Opening File", "Could not open '%s'" % fileName
+            )
 
         svgData = file.readAll()
 
@@ -110,10 +111,10 @@ class Window(QWidget):
 
         try:
             # Python v2.
-            orc = unichr(0xfffc)
+            orc = unichr(0xFFFC)
         except NameError:
             # Python v3.
-            orc = chr(0xfffc)
+            orc = chr(0xFFFC)
 
         cursor = self.textEdit.textCursor()
         cursor.insertText(orc, svgCharFormat)
@@ -121,14 +122,16 @@ class Window(QWidget):
 
     def setupTextObject(self):
         svgInterface = SvgTextObject(self)
-        self.textEdit.document().documentLayout().registerHandler(Window.SvgTextFormat, svgInterface)
+        self.textEdit.document().documentLayout().registerHandler(
+            Window.SvgTextFormat, svgInterface
+        )
 
     def setupGui(self):
         fileNameLabel = QLabel("Svg File Name:")
         self.fileNameLineEdit = QLineEdit()
         insertTextObjectButton = QPushButton("Insert Image")
 
-        self.fileNameLineEdit.setText('./files/heart.svg')
+        self.fileNameLineEdit.setText("./files/heart.svg")
         insertTextObjectButton.clicked.connect(self.insertTextObject)
 
         bottomLayout = QHBoxLayout()
@@ -145,7 +148,7 @@ class Window(QWidget):
         self.setLayout(mainLayout)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

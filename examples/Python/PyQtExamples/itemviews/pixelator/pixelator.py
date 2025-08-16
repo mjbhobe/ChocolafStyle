@@ -1,6 +1,6 @@
 """
 * pixelator.py - pixellates an image loaded into viewer
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -66,7 +66,7 @@ ItemSize = 256
 
 
 class PixelDelegate(QAbstractItemDelegate):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(PixelDelegate, self).__init__(parent)
 
         self.pixelSize = 12
@@ -90,10 +90,14 @@ class PixelDelegate(QAbstractItemDelegate):
         else:
             painter.setBrush(QBrush(Qt.black))
 
-        painter.drawEllipse(QRectF(
-            option.rect.x() + option.rect.width() / 2 - radius,
-            option.rect.y() + option.rect.height() / 2 - radius,
-            2 * radius, 2 * radius))
+        painter.drawEllipse(
+            QRectF(
+                option.rect.x() + option.rect.width() / 2 - radius,
+                option.rect.y() + option.rect.height() / 2 - radius,
+                2 * radius,
+                2 * radius,
+            )
+        )
 
         painter.restore()
 
@@ -105,7 +109,7 @@ class PixelDelegate(QAbstractItemDelegate):
 
 
 class ImageModel(QAbstractTableModel):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(ImageModel, self).__init__(parent)
 
         self.modelImage = QImage()
@@ -202,8 +206,12 @@ class MainWindow(QMainWindow):
 
     def chooseImage(self):
         picsPath = QStandardPaths.standardLocations(QStandardPaths.PicturesLocation)
-        fileName, _ = QFileDialog.getOpenFileName(self, "Choose an Image", picsPath[-1],
-                                                  "Image Files (*.png *.tiff *.jpg *.jpeg *.svg *.bmp)")
+        fileName, _ = QFileDialog.getOpenFileName(
+            self,
+            "Choose an Image",
+            picsPath[-1],
+            "Image Files (*.png *.tiff *.jpg *.jpeg *.svg *.bmp)",
+        )
 
         if fileName:
             self.openImage(fileName)
@@ -214,7 +222,7 @@ class MainWindow(QMainWindow):
         if image.load(fileName):
             self.model.setImage(image)
 
-            if not fileName.startswith(':/'):
+            if not fileName.startswith(":/"):
                 self.currentPath = fileName
                 self.setWindowTitle("%s - Pixelator" % self.currentPath)
 
@@ -222,11 +230,17 @@ class MainWindow(QMainWindow):
             self.updateView()
 
     def printImage(self):
-        if self.model.rowCount(QModelIndex()) * self.model.columnCount(QModelIndex()) > 90000:
-            answer = QMessageBox.question(self, "Large Image Size",
-                                          "The printed image may be very large. Are you sure that "
-                                          "you want to print it?",
-                                          QMessageBox.Yes | QMessageBox.No)
+        if (
+            self.model.rowCount(QModelIndex()) * self.model.columnCount(QModelIndex())
+            > 90000
+        ):
+            answer = QMessageBox.question(
+                self,
+                "Large Image Size",
+                "The printed image may be very large. Are you sure that "
+                "you want to print it?",
+                QMessageBox.Yes | QMessageBox.No,
+            )
             if answer == QMessageBox.No:
                 return
 
@@ -252,8 +266,10 @@ class MainWindow(QMainWindow):
         yscale = printer.pageRect().height() / float(sourceHeight)
         scale = min(xscale, yscale)
 
-        painter.translate(printer.paperRect().x() + printer.pageRect().width() / 2,
-                          printer.paperRect().y() + printer.pageRect().height() / 2)
+        painter.translate(
+            printer.paperRect().x() + printer.pageRect().width() / 2,
+            printer.paperRect().y() + printer.pageRect().height() / 2,
+        )
         painter.scale(scale, scale)
         painter.translate(-sourceWidth / 2, -sourceHeight / 2)
 
@@ -274,8 +290,9 @@ class MainWindow(QMainWindow):
 
             for column in range(columns):
                 option.rect = QRect(x, y, ItemSize, ItemSize)
-                self.view.itemDelegate().paint(painter, option,
-                                               self.model.index(row, column, parent))
+                self.view.itemDelegate().paint(
+                    painter, option, self.model.index(row, column, parent)
+                )
                 x += ItemSize
 
             y += ItemSize
@@ -286,27 +303,34 @@ class MainWindow(QMainWindow):
         painter.end()
 
         if progress.wasCanceled():
-            QMessageBox.information(self, "Printing canceled",
-                                    "The printing process was canceled.", QMessageBox.Cancel)
+            QMessageBox.information(
+                self,
+                "Printing canceled",
+                "The printing process was canceled.",
+                QMessageBox.Cancel,
+            )
 
     def showAboutBox(self):
-        QMessageBox.about(self, "About the Pixelator example",
-                          "This example demonstrates how a standard view and a custom\n"
-                          "delegate can be used to produce a specialized "
-                          "representation\nof data in a simple custom model.")
+        QMessageBox.about(
+            self,
+            "About the Pixelator example",
+            "This example demonstrates how a standard view and a custom\n"
+            "delegate can be used to produce a specialized "
+            "representation\nof data in a simple custom model.",
+        )
 
     def updateView(self):
         self.view.resizeColumnsToContents()
         self.view.resizeRowsToContents()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 
     window = MainWindow()
     window.show()
-    window.openImage(':/images/qt.png')
+    window.openImage(":/images/qt.png")
 
     sys.exit(app.exec())

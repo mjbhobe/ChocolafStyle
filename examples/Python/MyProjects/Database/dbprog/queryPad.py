@@ -1,7 +1,7 @@
 """
 queryPad: a PostgreSQL query application with a very basic SQL syntax editor.
 
-@author: Manish Bhobe
+@author: Manish Bhobé
 This code is released for research purposed only. Please use at your own risk!
 """
 

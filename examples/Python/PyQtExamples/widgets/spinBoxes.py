@@ -1,6 +1,6 @@
 """
 * spinBoxes.py: PyQt version of the spinboxes Qt Widgets demo using Chocolaf theme
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -123,7 +123,9 @@ class Window(QWidget):
 
         groupSeparatorCheck = QCheckBox("Show separator")
         groupSeparatorSpinBox = QSpinBox()
-        groupSeparatorCheck.toggled.connect(groupSeparatorSpinBox.setGroupSeparatorShown)
+        groupSeparatorCheck.toggled.connect(
+            groupSeparatorSpinBox.setGroupSeparatorShown
+        )
         groupSeparatorCheck.setChecked(True)
         groupSeparatorSpinBox.setRange(-99999999, 99999999)
         groupSeparatorSpinBox.setValue(1000)
@@ -150,16 +152,20 @@ class Window(QWidget):
         dateLabel = QLabel()
         dateEdit = QDateEdit(QDate.currentDate())
         dateEdit.setDateRange(QDate(2010, 1, 1), QDate(2030, 12, 31))
-        dateLabel.setText(f"Appointment date (between {dateEdit.minimumDate().toString(Qt.ISODate)} " +
-                          f"and {dateEdit.maximumDate().toString(Qt.ISODate)})")
+        dateLabel.setText(
+            f"Appointment date (between {dateEdit.minimumDate().toString(Qt.ISODate)} "
+            + f"and {dateEdit.maximumDate().toString(Qt.ISODate)})"
+        )
         dateLabel.setBuddy(dateEdit)
 
         timeLabel = QLabel()
         timeEdit = QTimeEdit(QTime.currentTime())
         # appointments available between 9AM and 5:30 PM
         timeEdit.setTimeRange(QTime(9, 0, 0, 0), QTime(17, 30, 0, 0))
-        timeLabel.setText(f"Appointments (between {timeEdit.minimumTime().toString(Qt.ISODate)} " +
-                          f"and {timeEdit.maximumTime().toString(Qt.ISODate)})")
+        timeLabel.setText(
+            f"Appointments (between {timeEdit.minimumTime().toString(Qt.ISODate)} "
+            + f"and {timeEdit.maximumTime().toString(Qt.ISODate)})"
+        )
         timeLabel.setBuddy(timeEdit)
 
         self.meetingLabel = QLabel()
@@ -192,14 +198,21 @@ class Window(QWidget):
 
     def setFormatString(self, formatString: str):
         self.meetingEdit.setDisplayFormat(formatString)
-        if (self.meetingEdit.displayedSections() and QDateTimeEdit.Section.DateSections_Mask):
+        if (
+            self.meetingEdit.displayedSections()
+            and QDateTimeEdit.Section.DateSections_Mask
+        ):
             self.meetingEdit.setDateRange(QDate(2022, 1, 1), QDate(2022, 3, 31))
-            self.meetingLabel.setText(f"Meeting date (between {self.meetingEdit.minimumDate().toString(Qt.ISODate)} " +
-                                      f"and {self.meetingEdit.maximumDate().toString(Qt.ISODate)})")
+            self.meetingLabel.setText(
+                f"Meeting date (between {self.meetingEdit.minimumDate().toString(Qt.ISODate)} "
+                + f"and {self.meetingEdit.maximumDate().toString(Qt.ISODate)})"
+            )
         else:
             self.meetingEdit.setTimeRange(QTime(0, 7, 20, 0), QTime(21, 0, 0, 0))
-            self.meetingLabel.setText(f"Meeting time (between {self.meetingEdit.minimumTime().toString(Qt.ISODate)} " +
-                                      f"and {self.meetingEdit.maximumTime().toString(Qt.ISODate)})")
+            self.meetingLabel.setText(
+                f"Meeting time (between {self.meetingEdit.minimumTime().toString(Qt.ISODate)} "
+                + f"and {self.meetingEdit.maximumTime().toString(Qt.ISODate)})"
+            )
 
     def createDoubleSpinBoxes(self):
         doubleSpinBoxesGroup = QGroupBox("Double precision spinboxes")

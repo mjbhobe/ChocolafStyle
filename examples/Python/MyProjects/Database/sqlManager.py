@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 * sqlManager.sql - interface for SQL queries
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.

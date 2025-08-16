@@ -4,7 +4,7 @@
 """
 * wavelets.py - wave effects with OpenCV
 *
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, C++, OpenCV, Data Science & ML
 * Code is provided for learning purposes only! Use at your own risk!!
 """
@@ -44,13 +44,27 @@ def main():
     sharp_edges_blur = cv2.blur(sharp_edges_image, (15, 15))
 
     cv2_imxshow(
-        [sharp_edges_image, sharp_edges_identity, sharp_edges_3x3, sharp_edges_5x5, sharp_edges_7x7,
-         sharp_edges_15x15, sharp_edges_blur],
-        ["Original", "Identity Filter", "3x3 Filter", "5x5 Filter", "7x7 Filter", "15x15 Filter",
-         "Blur Effect"],
-        title = "Blur Effects",
-        fig_size = (16, 3),
-        max_cols = 10
+        [
+            sharp_edges_image,
+            sharp_edges_identity,
+            sharp_edges_3x3,
+            sharp_edges_5x5,
+            sharp_edges_7x7,
+            sharp_edges_15x15,
+            sharp_edges_blur,
+        ],
+        [
+            "Original",
+            "Identity Filter",
+            "3x3 Filter",
+            "5x5 Filter",
+            "7x7 Filter",
+            "15x15 Filter",
+            "Blur Effect",
+        ],
+        title="Blur Effects",
+        fig_size=(16, 3),
+        max_cols=10,
     )
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 * findFiles.py - find files dialog
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -61,7 +61,7 @@ import chocolaf
 
 
 class Window(QDialog):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(Window, self).__init__(parent)
 
         browseButton = self.createButton("&Browse...", self.browse)
@@ -99,14 +99,17 @@ class Window(QDialog):
         self.resize(700, 450)
 
     def browse(self):
-        directory = QFileDialog.getExistingDirectory(self, "Find Files",
-                                                     QDir.currentPath())
+        directory = QFileDialog.getExistingDirectory(
+            self, "Find Files", QDir.currentPath()
+        )
 
         if directory:
             if self.directoryComboBox.findText(directory) == -1:
                 self.directoryComboBox.addItem(directory)
 
-            self.directoryComboBox.setCurrentIndex(self.directoryComboBox.findText(directory))
+            self.directoryComboBox.setCurrentIndex(
+                self.directoryComboBox.findText(directory)
+            )
 
     @staticmethod
     def updateComboBox(comboBox):
@@ -130,7 +133,7 @@ class Window(QDialog):
         fileName = f"**/{fileName}"
         # files = self.currentDir.entryList([fileName],
         #                                   QDir.Files | QDir.NoSymLinks | QDir.NoDot | QDir.NoDotDot | QDir.Dirs)
-        files = glob.glob(f"{path}/{fileName}", recursive = True)
+        files = glob.glob(f"{path}/{fileName}", recursive=True)
 
         if text:
             files = self.findFiles(files, text)
@@ -186,14 +189,16 @@ class Window(QDialog):
             self.filesTable.setItem(row, 0, fileNameItem)
             self.filesTable.setItem(row, 1, sizeItem)
 
-        self.filesFoundLabel.setText("%d file(s) found (Double click on a file to open it)" % len(files))
+        self.filesFoundLabel.setText(
+            "%d file(s) found (Double click on a file to open it)" % len(files)
+        )
 
     def createButton(self, text, member):
         button = QPushButton(text)
         button.clicked.connect(member)
         return button
 
-    def createComboBox(self, text = ""):
+    def createComboBox(self, text=""):
         comboBox = QComboBox()
         comboBox.setEditable(True)
         comboBox.addItem(text)
@@ -217,7 +222,7 @@ class Window(QDialog):
         QDesktopServices.openUrl(QUrl(self.currentDir.absoluteFilePath(item.text())))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

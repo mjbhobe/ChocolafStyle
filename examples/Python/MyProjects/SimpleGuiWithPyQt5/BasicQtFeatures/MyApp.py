@@ -1,6 +1,6 @@
 """
 * MyApp.py - simple Qt Application
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * Examples from book "Create Simple Gui Applications with Python & Qt5 - Martin Fitzpatrick"
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -36,16 +36,18 @@ class MainWindow(QMainWindow):
         self.toolbar.setIconSize(QSize(22, 22))
         self.addToolBar(self.toolbar)
         self.toggle_switch_off_icon = qta.icon("mdi6.toggle-switch-off-outline")
-        self.toggle_switch_on_icon = qta.icon("mdi6.toggle-switch-outline", color="#fd0")
+        self.toggle_switch_on_icon = qta.icon(
+            "mdi6.toggle-switch-outline", color="#fd0"
+        )
 
         # create actions
         appDir = os.path.dirname(__file__)
         click_image_path = os.path.join(appDir, "images", "click.png")
-        assert (os.path.exists(click_image_path))
+        assert os.path.exists(click_image_path)
         toggle_image_path = os.path.join(appDir, "images", "toggle.png")
-        assert (os.path.exists(toggle_image_path))
+        assert os.path.exists(toggle_image_path)
         exit_image_path = os.path.join(appDir, "images", "exit.png")
-        assert (os.path.exists(exit_image_path))
+        assert os.path.exists(exit_image_path)
 
         self.button1_action = QAction(
             qta.icon("mdi6.camera-party-mode"), "Click Button", self
@@ -63,9 +65,7 @@ class MainWindow(QMainWindow):
         # add shortcut (Ctrl+T)
         self.button2_action.setShortcut(Qt.CTRL + Qt.Key_T)
         self.button2_action.triggered.connect(self.button2Clicked)
-        self.exitAction = QAction(
-            qta.icon("mdi6.power"), "Exit Application", self
-        )
+        self.exitAction = QAction(qta.icon("mdi6.power"), "Exit Application", self)
         self.exitAction.triggered.connect(qApp.exit)
 
         self.toolbar.addAction(self.button1_action)
@@ -95,7 +95,8 @@ class MainWindow(QMainWindow):
         txt = f"{self.labelText} - clostBtn is {'ON' if self.button2_action.isChecked() else 'OFF'}"
         self.label.setText(txt)
         self.button2_action.setIcon(
-            self.toggle_switch_on_icon if self.button2_action.isChecked()
+            self.toggle_switch_on_icon
+            if self.button2_action.isChecked()
             else self.toggle_switch_off_icon
         )
 

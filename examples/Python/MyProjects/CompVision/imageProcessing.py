@@ -2,7 +2,7 @@
 """
 * imageProcessing.py - ilustrate some transformations & effects available
 *   with OpenCV that can be applied to images.
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.

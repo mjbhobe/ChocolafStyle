@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 * RadioGaga.py: demonstrating Radio buttons & Radio groups
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
@@ -36,7 +36,7 @@ class RadioForm(QWidget):
         rb3 = QRadioButton("Small", self)
         rb3.toggled.connect(self.updateLabel)
 
-        self.label = QLabel('', self)
+        self.label = QLabel("", self)
 
         hbox.addWidget(rb1)
         hbox.addWidget(rb2)
@@ -52,7 +52,7 @@ class RadioForm(QWidget):
         self.setLayout(vbox)
 
         self.setGeometry(300, 300, 350, 250)
-        self.setWindowTitle('QRadioButton Example')
+        self.setWindowTitle("QRadioButton Example")
         self.show()
 
     def updateLabel(self, value):
@@ -94,8 +94,8 @@ class RadioGroupForm(QWidget):
         rb6 = QRadioButton("Blue", self)
         rb6.toggled.connect(self.updateLabel2)
 
-        self.label1 = QLabel('', self)
-        self.label2 = QLabel('', self)
+        self.label1 = QLabel("", self)
+        self.label2 = QLabel("", self)
 
         bg1.addButton(rb1)
         bg1.addButton(rb2)
@@ -121,7 +121,7 @@ class RadioGroupForm(QWidget):
         self.setLayout(vbox)
 
         self.setGeometry(300, 300, 350, 250)
-        self.setWindowTitle('QRadioButton')
+        self.setWindowTitle("QRadioButton")
         self.show()
 
     def updateLabel1(self, value):
@@ -167,8 +167,7 @@ def main():
     rect = w.geometry()
     w1 = RadioGroupForm()
     w1.setStyleSheet(app.getStyleSheet("QDarkStyle-dark"))
-    w1.move(rect.left() + rect.width() + 20,
-            rect.top() + rect.height() // 4 + 20)
+    w1.move(rect.left() + rect.width() + 20, rect.top() + rect.height() // 4 + 20)
     w1.show()
 
     return app.exec()

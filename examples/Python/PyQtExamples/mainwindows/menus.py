@@ -1,6 +1,6 @@
 """
 * menus.py - example of using QMenu for various types of menus
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -78,7 +78,8 @@ class MainWindow(QMainWindow):
 
         self.infoLabel = QLabel(
             "<i>Choose a menu option, or right-click to invoke a context menu</i>",
-            alignment=Qt.AlignCenter)
+            alignment=Qt.AlignCenter,
+        )
         self.infoLabel.setFrameStyle(QFrame.StyledPanel | QFrame.Sunken)
 
         bottomFiller = QWidget()
@@ -161,95 +162,203 @@ class MainWindow(QMainWindow):
 
     def about(self):
         self.infoLabel.setText("Invoked <b>Help|About</b>")
-        QMessageBox.about(self, "About Menu",
-                          "The <b>Menu</b> example shows how to create menu-bar menus "
-                          "and context menus.")
+        QMessageBox.about(
+            self,
+            "About Menu",
+            "The <b>Menu</b> example shows how to create menu-bar menus "
+            "and context menus.",
+        )
 
     def aboutQt(self):
         self.infoLabel.setText("Invoked <b>Help|About Qt</b>")
 
     def createActions(self):
-        self.newAct = QAction(QIcon(":/file_new.png"), "&New", self, shortcut=QKeySequence.New,
-                              statusTip="Create a new file", triggered=self.newFile)
+        self.newAct = QAction(
+            QIcon(":/file_new.png"),
+            "&New",
+            self,
+            shortcut=QKeySequence.New,
+            statusTip="Create a new file",
+            triggered=self.newFile,
+        )
 
-        self.openAct = QAction(QIcon(":/file_open.png"), "&Open...", self, shortcut=QKeySequence.Open,
-                               statusTip="Open an existing file", triggered=self.open)
+        self.openAct = QAction(
+            QIcon(":/file_open.png"),
+            "&Open...",
+            self,
+            shortcut=QKeySequence.Open,
+            statusTip="Open an existing file",
+            triggered=self.open,
+        )
 
-        self.saveAct = QAction(QIcon(":/file_save.png"), "&Save", self, shortcut=QKeySequence.Save,
-                               statusTip="Save the document to disk", triggered=self.save)
+        self.saveAct = QAction(
+            QIcon(":/file_save.png"),
+            "&Save",
+            self,
+            shortcut=QKeySequence.Save,
+            statusTip="Save the document to disk",
+            triggered=self.save,
+        )
 
-        self.printAct = QAction(QIcon(":/file_print.png"), "&Print...", self, shortcut=QKeySequence.Print,
-                                statusTip="Print the document", triggered=self.print_)
+        self.printAct = QAction(
+            QIcon(":/file_print.png"),
+            "&Print...",
+            self,
+            shortcut=QKeySequence.Print,
+            statusTip="Print the document",
+            triggered=self.print_,
+        )
 
-        self.exitAct = QAction(QIcon(":/on-off.png"), "E&xit", self, shortcut="Ctrl+Q",
-                               statusTip="Exit the application", triggered=self.close)
+        self.exitAct = QAction(
+            QIcon(":/on-off.png"),
+            "E&xit",
+            self,
+            shortcut="Ctrl+Q",
+            statusTip="Exit the application",
+            triggered=self.close,
+        )
 
-        self.undoAct = QAction(QIcon(":/edit_undo.png"), "&Undo", self, shortcut=QKeySequence.Undo,
-                               statusTip="Undo the last operation", triggered=self.undo)
+        self.undoAct = QAction(
+            QIcon(":/edit_undo.png"),
+            "&Undo",
+            self,
+            shortcut=QKeySequence.Undo,
+            statusTip="Undo the last operation",
+            triggered=self.undo,
+        )
 
-        self.redoAct = QAction(QIcon(":/edit_redo.png"), "&Redo", self, shortcut=QKeySequence.Redo,
-                               statusTip="Redo the last operation", triggered=self.redo)
+        self.redoAct = QAction(
+            QIcon(":/edit_redo.png"),
+            "&Redo",
+            self,
+            shortcut=QKeySequence.Redo,
+            statusTip="Redo the last operation",
+            triggered=self.redo,
+        )
 
-        self.cutAct = QAction(QIcon(":/edit_cut.png"), "Cu&t", self, shortcut=QKeySequence.Cut,
-                              statusTip="Cut the current selection's contents to the clipboard",
-                              triggered=self.cut)
+        self.cutAct = QAction(
+            QIcon(":/edit_cut.png"),
+            "Cu&t",
+            self,
+            shortcut=QKeySequence.Cut,
+            statusTip="Cut the current selection's contents to the clipboard",
+            triggered=self.cut,
+        )
 
-        self.copyAct = QAction(QIcon(":/edit_copy.png"), "&Copy", self, shortcut=QKeySequence.Copy,
-                               statusTip="Copy the current selection's contents to the clipboard",
-                               triggered=self.copy)
+        self.copyAct = QAction(
+            QIcon(":/edit_copy.png"),
+            "&Copy",
+            self,
+            shortcut=QKeySequence.Copy,
+            statusTip="Copy the current selection's contents to the clipboard",
+            triggered=self.copy,
+        )
 
-        self.pasteAct = QAction(QIcon(":/edit_paste.png"), "&Paste", self, shortcut=QKeySequence.Paste,
-                                statusTip="Paste the clipboard's contents into the current selection",
-                                triggered=self.paste)
+        self.pasteAct = QAction(
+            QIcon(":/edit_paste.png"),
+            "&Paste",
+            self,
+            shortcut=QKeySequence.Paste,
+            statusTip="Paste the clipboard's contents into the current selection",
+            triggered=self.paste,
+        )
 
-        self.boldAct = QAction(QIcon(":/font_bold.png"), "&Bold", self, checkable=True,
-                               shortcut="Ctrl+B", statusTip="Make the text bold",
-                               triggered=self.bold)
+        self.boldAct = QAction(
+            QIcon(":/font_bold.png"),
+            "&Bold",
+            self,
+            checkable=True,
+            shortcut="Ctrl+B",
+            statusTip="Make the text bold",
+            triggered=self.bold,
+        )
 
         boldFont = self.boldAct.font()
         boldFont.setBold(True)
         self.boldAct.setFont(boldFont)
 
-        self.italicAct = QAction(QIcon(":/font_italic.png"), "&Italic", self, checkable=True,
-                                 shortcut="Ctrl+I", statusTip="Make the text italic",
-                                 triggered=self.italic)
+        self.italicAct = QAction(
+            QIcon(":/font_italic.png"),
+            "&Italic",
+            self,
+            checkable=True,
+            shortcut="Ctrl+I",
+            statusTip="Make the text italic",
+            triggered=self.italic,
+        )
 
         italicFont = self.italicAct.font()
         italicFont.setItalic(True)
         self.italicAct.setFont(italicFont)
 
-        self.setLineSpacingAct = QAction("Set &Line Spacing...", self,
-                                         statusTip="Change the gap between the lines of a paragraph",
-                                         triggered=self.setLineSpacing)
+        self.setLineSpacingAct = QAction(
+            "Set &Line Spacing...",
+            self,
+            statusTip="Change the gap between the lines of a paragraph",
+            triggered=self.setLineSpacing,
+        )
 
-        self.setParagraphSpacingAct = QAction("Set &Paragraph Spacing...",
-                                              self, statusTip="Change the gap between paragraphs",
-                                              triggered=self.setParagraphSpacing)
+        self.setParagraphSpacingAct = QAction(
+            "Set &Paragraph Spacing...",
+            self,
+            statusTip="Change the gap between paragraphs",
+            triggered=self.setParagraphSpacing,
+        )
 
-        self.aboutAct = QAction("&About", self,
-                                statusTip="Show the application's About box",
-                                triggered=self.about)
+        self.aboutAct = QAction(
+            "&About",
+            self,
+            statusTip="Show the application's About box",
+            triggered=self.about,
+        )
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                                  statusTip="Show the Qt library's About box",
-                                  triggered=self.aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt",
+            self,
+            statusTip="Show the Qt library's About box",
+            triggered=self.aboutQt,
+        )
         self.aboutQtAct.triggered.connect(QApplication.instance().aboutQt)
 
-        self.leftAlignAct = QAction(QIcon(":/align_left.png"), "&Left Align", self, checkable=True,
-                                    shortcut="Ctrl+L", statusTip="Left align the selected text",
-                                    triggered=self.leftAlign)
+        self.leftAlignAct = QAction(
+            QIcon(":/align_left.png"),
+            "&Left Align",
+            self,
+            checkable=True,
+            shortcut="Ctrl+L",
+            statusTip="Left align the selected text",
+            triggered=self.leftAlign,
+        )
 
-        self.rightAlignAct = QAction(QIcon(":/align_right.png"), "&Right Align", self, checkable=True,
-                                     shortcut="Ctrl+R", statusTip="Right align the selected text",
-                                     triggered=self.rightAlign)
+        self.rightAlignAct = QAction(
+            QIcon(":/align_right.png"),
+            "&Right Align",
+            self,
+            checkable=True,
+            shortcut="Ctrl+R",
+            statusTip="Right align the selected text",
+            triggered=self.rightAlign,
+        )
 
-        self.justifyAct = QAction(QIcon(":/align_justified.png"), "&Justify", self, checkable=True,
-                                  shortcut="Ctrl+J", statusTip="Justify the selected text",
-                                  triggered=self.justify)
+        self.justifyAct = QAction(
+            QIcon(":/align_justified.png"),
+            "&Justify",
+            self,
+            checkable=True,
+            shortcut="Ctrl+J",
+            statusTip="Justify the selected text",
+            triggered=self.justify,
+        )
 
-        self.centerAct = QAction(QIcon(":/align_center.png"), "&Center", self, checkable=True,
-                                 shortcut="Ctrl+C", statusTip="Center the selected text",
-                                 triggered=self.center)
+        self.centerAct = QAction(
+            QIcon(":/align_center.png"),
+            "&Center",
+            self,
+            checkable=True,
+            shortcut="Ctrl+C",
+            statusTip="Center the selected text",
+            triggered=self.center,
+        )
 
         self.alignmentGroup = QActionGroup(self)
         self.alignmentGroup.addAction(self.leftAlignAct)
@@ -293,7 +402,7 @@ class MainWindow(QMainWindow):
         self.formatMenu.addAction(self.setParagraphSpacingAct)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

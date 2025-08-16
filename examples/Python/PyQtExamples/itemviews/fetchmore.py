@@ -1,6 +1,6 @@
 """
 * spinboxdelegate.py: fetch data as web-pages do with Ajax Calls
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -59,16 +59,16 @@ import chocolaf
 class FileListModel(QAbstractListModel):
     numberPopulated = pyqtSignal(int)
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(FileListModel, self).__init__(parent)
 
         self.fileCount = 0
         self.fileList = []
 
-    def rowCount(self, parent = QModelIndex()):
+    def rowCount(self, parent=QModelIndex()):
         return self.fileCount
 
-    def data(self, index, role = Qt.DisplayRole):
+    def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
             return None
 
@@ -94,8 +94,9 @@ class FileListModel(QAbstractListModel):
         remainder = len(self.fileList) - self.fileCount
         itemsToFetch = min(100, remainder)
 
-        self.beginInsertRows(QModelIndex(), self.fileCount,
-                             self.fileCount + itemsToFetch)
+        self.beginInsertRows(
+            QModelIndex(), self.fileCount, self.fileCount + itemsToFetch
+        )
 
         self.fileCount += itemsToFetch
 
@@ -113,7 +114,7 @@ class FileListModel(QAbstractListModel):
 
 
 class Window(QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(Window, self).__init__(parent)
 
         model = FileListModel(self)
@@ -127,7 +128,9 @@ class Window(QWidget):
         view.setModel(model)
 
         self.logViewer = QTextBrowser()
-        self.logViewer.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred))
+        self.logViewer.setSizePolicy(
+            QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        )
 
         lineEdit.textChanged.connect(model.setDirPath)
         lineEdit.textChanged.connect(self.logViewer.clear)
@@ -146,7 +149,7 @@ class Window(QWidget):
         self.logViewer.append("%d items added." % number)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

@@ -1,6 +1,6 @@
 """
 * util.py - spreadsheet utilities
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -52,7 +52,7 @@
 def decode_pos(pos):
     try:
         row = int(pos[1:]) - 1
-        col = ord(pos[0]) - ord('A')
+        col = ord(pos[0]) - ord("A")
     except ValueError:
         row = -1
         col = -1
@@ -61,4 +61,4 @@ def decode_pos(pos):
 
 
 def encode_pos(row, col):
-    return chr(col + ord('A')) + str(row + 1)
+    return chr(col + ord("A")) + str(row + 1)

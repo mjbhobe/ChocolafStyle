@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 * pyqtapp.py - utility QApplication derived class to set various themes
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!

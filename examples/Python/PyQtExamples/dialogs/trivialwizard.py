@@ -1,6 +1,6 @@
 """
 * trivialwizard.py - illustrated a trivial wizard style dialog using Chocolaf & QDarkStyle-dark styles
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -62,8 +62,8 @@ def createIntroPage():
     page.setTitle("Introduction")
 
     label = QLabel(
-        "This wizard will help you register your copy of Super Product "
-        "Two.")
+        "This wizard will help you register your copy of Super Product " "Two."
+    )
     label.setWordWrap(True)
 
     layout = QVBoxLayout()
@@ -108,7 +108,7 @@ def createConclusionPage():
     return page
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

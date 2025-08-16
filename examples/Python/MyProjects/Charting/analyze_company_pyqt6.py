@@ -1,7 +1,7 @@
 """
 analyze_company_pyqt6.py - embeds a streamlib web application in a PytQt6 window
 
-Author: Manish Bhobe
+Author: Manish Bhobé
 My experiments with Python, ML and Generative AI.
 Code is meant for illustration purposes ONLY. Use at your own risk!
 Author is not liable for any damages arising from direct/indirect use of this code.

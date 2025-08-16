@@ -6,7 +6,7 @@ analyze_company.py - analysis of a company's financial & stock performance
     Groq is also supported, but it has issues with context window size when making
     final recommendations.
 
-Author: Manish Bhobe
+Author: Manish Bhobé
 My experiments with Python, ML and Generative AI.
 Code is meant for illustration purposes ONLY. Use at your own risk!
 Author is not liable for any damages arising from direct/indirect use of this code.

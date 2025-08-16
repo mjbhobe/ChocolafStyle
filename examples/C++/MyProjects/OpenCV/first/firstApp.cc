@@ -1,6 +1,6 @@
 // ==================================================================================
 // firstApp.cc - first OpenCV C++ application with Qt 5.X
-// @author Manish Bhobe
+// @author Manish Bhobé
 // ==================================================================================
 #include "argparse/argparse.hpp"
 #include <QTextStream>

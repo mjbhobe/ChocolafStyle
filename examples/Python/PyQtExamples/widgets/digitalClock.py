@@ -1,7 +1,7 @@
 """
-* digitalClock.py: PyQt5 version of Qt widgets digital clock using 
+* digitalClock.py: PyQt5 version of Qt widgets digital clock using
 *    QLCDNumber widget and the Chocolaf theme & no titlebar
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -78,8 +78,8 @@ class DigitalClock(QLCDNumber):
         time = QTime.currentTime()
         text = time.toString("hh:mm")
         # simulate 'blinking' for every alternate click
-        if ((time.second() % 2) == 0):
-            text = ' '.join([text[:2], text[3:]])
+        if (time.second() % 2) == 0:
+            text = " ".join([text[:2], text[3:]])
         self.display(text)
 
     def keyPressEvent(self, e):

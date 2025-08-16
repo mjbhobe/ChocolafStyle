@@ -1,7 +1,7 @@
 """
 * groupBox.py - PyQt version of Qt widgets groupbox example using Chocolaf theme
 *   (also shows other widgets like QRadioButton, QChechBox & QPushButton)
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning

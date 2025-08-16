@@ -1,6 +1,6 @@
 """
 * chart.py - draws a piechart based on data in QTableView
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -60,7 +60,7 @@ import chart_rc
 
 
 class PieView(QAbstractItemView):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(PieView, self).__init__(parent)
 
         self.horizontalScrollBar().setRange(0, 0)
@@ -110,7 +110,7 @@ class PieView(QAbstractItemView):
             cy = self.totalSize / 2 - wy  # positive cy for items above the center
 
             # Determine the distance from the center point of the pie chart.
-            d = (cx ** 2 + cy ** 2) ** 0.5
+            d = (cx**2 + cy**2) ** 0.5
 
             if d == 0 or d > self.pieSize / 2:
                 return QModelIndex()
@@ -175,15 +175,21 @@ class PieView(QAbstractItemView):
 
             listItem = 0
             for row in range(index.row() - 1, -1, -1):
-                if self.model().data(self.model().index(row, 1, self.rootIndex())) > 0.0:
+                if (
+                    self.model().data(self.model().index(row, 1, self.rootIndex()))
+                    > 0.0
+                ):
                     listItem += 1
 
             if index.column() == 0:
 
                 itemHeight = QFontMetrics(self.viewOptions().font).height()
-                return QRect(self.totalSize,
-                             int(self.margin + listItem * itemHeight),
-                             self.totalSize - self.margin, int(itemHeight))
+                return QRect(
+                    self.totalSize,
+                    int(self.margin + listItem * itemHeight),
+                    self.totalSize - self.margin,
+                    int(itemHeight),
+                )
             elif index.column() == 1:
                 return self.viewport().rect()
 
@@ -211,9 +217,14 @@ class PieView(QAbstractItemView):
                 if sliceIndex == index:
                     slicePath = QPainterPath()
                     slicePath.moveTo(self.totalSize / 2, self.totalSize / 2)
-                    slicePath.arcTo(self.margin, self.margin,
-                                    self.margin + self.pieSize, self.margin + self.pieSize,
-                                    startAngle, angle)
+                    slicePath.arcTo(
+                        self.margin,
+                        self.margin,
+                        self.margin + self.pieSize,
+                        self.margin + self.pieSize,
+                        startAngle,
+                        angle,
+                    )
                     slicePath.closeSubpath()
 
                     return QRegion(slicePath.toFillPolygon().toPolygon())
@@ -254,20 +265,22 @@ class PieView(QAbstractItemView):
         if cursorAction in (QAbstractItemView.MoveLeft, QAbstractItemView.MoveUp):
 
             if current.row() > 0:
-                current = self.model().index(current.row() - 1,
-                                             current.column(), self.rootIndex())
+                current = self.model().index(
+                    current.row() - 1, current.column(), self.rootIndex()
+                )
             else:
-                current = self.model().index(0, current.column(),
-                                             self.rootIndex())
+                current = self.model().index(0, current.column(), self.rootIndex())
 
         elif cursorAction in (QAbstractItemView.MoveRight, QAbstractItemView.MoveDown):
 
             if current.row() < self.rows(current) - 1:
-                current = self.model().index(current.row() + 1,
-                                             current.column(), self.rootIndex())
+                current = self.model().index(
+                    current.row() + 1, current.column(), self.rootIndex()
+                )
             else:
-                current = self.model().index(self.rows(current) - 1,
-                                             current.column(), self.rootIndex())
+                current = self.model().index(
+                    self.rows(current) - 1, current.column(), self.rootIndex()
+                )
 
         self.viewport().update()
         return current
@@ -289,15 +302,18 @@ class PieView(QAbstractItemView):
         painter.setPen(foreground)
 
         # Viewport rectangles
-        pieRect = QRect(self.margin, self.margin, self.pieSize,
-                        self.pieSize)
-        keyPoint = QPoint(self.totalSize - self.horizontalScrollBar().value(),
-                          self.margin - self.verticalScrollBar().value())
+        pieRect = QRect(self.margin, self.margin, self.pieSize, self.pieSize)
+        keyPoint = QPoint(
+            self.totalSize - self.horizontalScrollBar().value(),
+            self.margin - self.verticalScrollBar().value(),
+        )
 
         if self.validItems > 0:
             painter.save()
-            painter.translate(pieRect.x() - self.horizontalScrollBar().value(),
-                              pieRect.y() - self.verticalScrollBar().value())
+            painter.translate(
+                pieRect.x() - self.horizontalScrollBar().value(),
+                pieRect.y() - self.verticalScrollBar().value(),
+            )
             painter.drawEllipse(0, 0, self.pieSize, self.pieSize)
             startAngle = 0.0
 
@@ -319,8 +335,14 @@ class PieView(QAbstractItemView):
                     else:
                         painter.setBrush(QBrush(color))
 
-                    painter.drawPie(0, 0, self.pieSize, self.pieSize,
-                                    int(startAngle * 16), int(angle * 16))
+                    painter.drawPie(
+                        0,
+                        0,
+                        self.pieSize,
+                        self.pieSize,
+                        int(startAngle * 16),
+                        int(angle * 16),
+                    )
 
                     startAngle += angle
 
@@ -382,26 +404,31 @@ class PieView(QAbstractItemView):
 
         if rect.left() < area.left():
             self.horizontalScrollBar().setValue(
-                self.horizontalScrollBar().value() + rect.left() - area.left())
+                self.horizontalScrollBar().value() + rect.left() - area.left()
+            )
         elif rect.right() > area.right():
             self.horizontalScrollBar().setValue(
-                self.horizontalScrollBar().value() + min(
-                    rect.right() - area.right(), rect.left() - area.left()))
+                self.horizontalScrollBar().value()
+                + min(rect.right() - area.right(), rect.left() - area.left())
+            )
 
         if rect.top() < area.top():
             self.verticalScrollBar().setValue(
-                self.verticalScrollBar().value() + rect.top() - area.top())
+                self.verticalScrollBar().value() + rect.top() - area.top()
+            )
         elif rect.bottom() > area.bottom():
             self.verticalScrollBar().setValue(
-                self.verticalScrollBar().value() + min(
-                    rect.bottom() - area.bottom(), rect.top() - area.top()))
+                self.verticalScrollBar().value()
+                + min(rect.bottom() - area.bottom(), rect.top() - area.top())
+            )
 
     def setSelection(self, rect, command):
         # Use content widget coordinates because we will use the itemRegion()
         # function to check for intersections.
 
-        contentsRect = rect.translated(self.horizontalScrollBar().value(),
-                                       self.verticalScrollBar().value()).normalized()
+        contentsRect = rect.translated(
+            self.horizontalScrollBar().value(), self.verticalScrollBar().value()
+        ).normalized()
 
         rows = self.model().rowCount(self.rootIndex())
         columns = self.model().columnCount(self.rootIndex())
@@ -428,7 +455,8 @@ class PieView(QAbstractItemView):
 
             selection = QItemSelection(
                 self.model().index(firstRow, firstColumn, self.rootIndex()),
-                self.model().index(lastRow, lastColumn, self.rootIndex()))
+                self.model().index(lastRow, lastColumn, self.rootIndex()),
+            )
             self.selectionModel().select(selection, command)
         else:
             noIndex = QModelIndex()
@@ -439,9 +467,13 @@ class PieView(QAbstractItemView):
 
     def updateGeometries(self):
         self.horizontalScrollBar().setPageStep(self.viewport().width())
-        self.horizontalScrollBar().setRange(0, max(0, 2 * self.totalSize - self.viewport().width()))
+        self.horizontalScrollBar().setRange(
+            0, max(0, 2 * self.totalSize - self.viewport().width())
+        )
         self.verticalScrollBar().setPageStep(self.viewport().height())
-        self.verticalScrollBar().setRange(0, max(0, self.totalSize - self.viewport().height()))
+        self.verticalScrollBar().setRange(
+            0, max(0, self.totalSize - self.viewport().height())
+        )
 
     def verticalOffset(self):
         return self.verticalScrollBar().value()
@@ -449,9 +481,12 @@ class PieView(QAbstractItemView):
     def visualRect(self, index):
         rect = self.itemRect(index)
         if rect.isValid():
-            return QRect(rect.left() - self.horizontalScrollBar().value(),
-                         rect.top() - self.verticalScrollBar().value(),
-                         rect.width(), rect.height())
+            return QRect(
+                rect.left() - self.horizontalScrollBar().value(),
+                rect.top() - self.verticalScrollBar().value(),
+                rect.width(),
+                rect.height(),
+            )
         else:
             return rect
 
@@ -489,7 +524,7 @@ class MainWindow(QMainWindow):
         self.menuBar().addMenu(fileMenu)
         self.statusBar()
 
-        self.openFile(':/Charts/qtdata.cht')
+        self.openFile(":/Charts/qtdata.cht")
 
         self.setWindowTitle("Chart")
         self.resize(870, 550)
@@ -519,10 +554,11 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(splitter)
 
-    def openFile(self, path = None):
+    def openFile(self, path=None):
         if not path:
-            path, _ = QFileDialog.getOpenFileName(self, "Choose a data file",
-                                                  '', '*.cht')
+            path, _ = QFileDialog.getOpenFileName(
+                self, "Choose a data file", "", "*.cht"
+            )
 
         if path:
             f = QFile(path)
@@ -530,21 +566,27 @@ class MainWindow(QMainWindow):
             if f.open(QFile.ReadOnly | QFile.Text):
                 stream = QTextStream(f)
 
-                self.model.removeRows(0, self.model.rowCount(QModelIndex()),
-                                      QModelIndex())
+                self.model.removeRows(
+                    0, self.model.rowCount(QModelIndex()), QModelIndex()
+                )
 
                 row = 0
                 line = stream.readLine()
                 while line:
                     self.model.insertRows(row, 1, QModelIndex())
 
-                    pieces = line.split(',')
-                    self.model.setData(self.model.index(row, 0, QModelIndex()),
-                                       pieces[0])
-                    self.model.setData(self.model.index(row, 1, QModelIndex()),
-                                       float(pieces[1]))
-                    self.model.setData(self.model.index(row, 0, QModelIndex()),
-                                       QColor(pieces[2]), Qt.DecorationRole)
+                    pieces = line.split(",")
+                    self.model.setData(
+                        self.model.index(row, 0, QModelIndex()), pieces[0]
+                    )
+                    self.model.setData(
+                        self.model.index(row, 1, QModelIndex()), float(pieces[1])
+                    )
+                    self.model.setData(
+                        self.model.index(row, 0, QModelIndex()),
+                        QColor(pieces[2]),
+                        Qt.DecorationRole,
+                    )
 
                     row += 1
                     line = stream.readLine()
@@ -553,8 +595,7 @@ class MainWindow(QMainWindow):
                 self.statusBar().showMessage("Loaded %s" % path, 2000)
 
     def saveFile(self):
-        fileName, _ = QFileDialog.getSaveFileName(self, "Save file as", '',
-                                                  '*.cht')
+        fileName, _ = QFileDialog.getSaveFileName(self, "Save file as", "", "*.cht")
 
         if fileName:
             f = QFile(fileName)
@@ -565,25 +606,29 @@ class MainWindow(QMainWindow):
 
                     pieces.append(
                         self.model.data(
-                            self.model.index(row, 0, QModelIndex()),
-                            Qt.DisplayRole))
+                            self.model.index(row, 0, QModelIndex()), Qt.DisplayRole
+                        )
+                    )
                     pieces.append(
-                        '%g' % self.model.data(
-                            self.model.index(row, 1, QModelIndex()),
-                            Qt.DisplayRole))
+                        "%g"
+                        % self.model.data(
+                            self.model.index(row, 1, QModelIndex()), Qt.DisplayRole
+                        )
+                    )
                     pieces.append(
                         self.model.data(
-                            self.model.index(row, 0, QModelIndex()),
-                            Qt.DecorationRole).name())
+                            self.model.index(row, 0, QModelIndex()), Qt.DecorationRole
+                        ).name()
+                    )
 
-                    f.write(b','.join([p.encode('utf-8') for p in pieces]))
-                    f.write(b'\n')
+                    f.write(b",".join([p.encode("utf-8") for p in pieces]))
+                    f.write(b"\n")
 
             f.close()
             self.statusBar().showMessage("Saved %s" % fileName, 2000)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

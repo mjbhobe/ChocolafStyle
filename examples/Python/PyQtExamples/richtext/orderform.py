@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
-* orderform.py - 
-* @author (Chocolaf): Manish Bhobe
+* orderform.py -
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -130,16 +130,16 @@ class MainWindow(QMainWindow):
         cursor.insertBlock()
 
         date = QDate.currentDate()
-        cursor.insertText("Date: %s" % date.toString('d MMMM yyyy'),
-                          textFormat)
+        cursor.insertText("Date: %s" % date.toString("d MMMM yyyy"), textFormat)
         cursor.insertBlock()
 
         bodyFrameFormat = QTextFrameFormat()
         bodyFrameFormat.setWidth(QTextLength(QTextLength.PercentageLength, 100))
         cursor.insertFrame(bodyFrameFormat)
 
-        cursor.insertText("I would like to place an order for the following "
-                          "items:", textFormat)
+        cursor.insertText(
+            "I would like to place an order for the following " "items:", textFormat
+        )
         cursor.insertBlock()
         cursor.insertBlock()
 
@@ -169,25 +169,33 @@ class MainWindow(QMainWindow):
 
         cursor.insertBlock()
 
-        cursor.insertText("Please update my records to take account of the "
-                          "following privacy information:")
+        cursor.insertText(
+            "Please update my records to take account of the "
+            "following privacy information:"
+        )
         cursor.insertBlock()
 
         offersTable = cursor.insertTable(2, 2)
 
         cursor = offersTable.cellAt(0, 1).firstCursorPosition()
-        cursor.insertText("I want to receive more information about your "
-                          "company's products and special offers.", textFormat)
+        cursor.insertText(
+            "I want to receive more information about your "
+            "company's products and special offers.",
+            textFormat,
+        )
         cursor = offersTable.cellAt(1, 1).firstCursorPosition()
-        cursor.insertText("I do not want to receive any promotional "
-                          "information from your company.", textFormat)
+        cursor.insertText(
+            "I do not want to receive any promotional "
+            "information from your company.",
+            textFormat,
+        )
 
         if sendOffers:
             cursor = offersTable.cellAt(0, 0).firstCursorPosition()
         else:
             cursor = offersTable.cellAt(1, 0).firstCursorPosition()
 
-        cursor.insertText('X', boldFormat)
+        cursor.insertText("X", boldFormat)
 
         cursor.setPosition(topFrame.lastPosition())
         cursor.insertBlock()
@@ -200,17 +208,24 @@ class MainWindow(QMainWindow):
         self.printAction.setEnabled(True)
 
     def createSample(self):
-        dialog = DetailsDialog('Dialog with default values', self)
-        self.createLetter('Mr Smith',
-                          '12 High Street\nSmall Town\nThis country',
-                          dialog.orderItems(), True)
+        dialog = DetailsDialog("Dialog with default values", self)
+        self.createLetter(
+            "Mr Smith",
+            "12 High Street\nSmall Town\nThis country",
+            dialog.orderItems(),
+            True,
+        )
 
     def openDialog(self):
         dialog = DetailsDialog("Enter Customer Details", self)
 
         if dialog.exec_() == QDialog.Accepted:
-            self.createLetter(dialog.senderName(), dialog.senderAddress(),
-                              dialog.orderItems(), dialog.sendOffers())
+            self.createLetter(
+                dialog.senderName(),
+                dialog.senderAddress(),
+                dialog.orderItems(),
+                dialog.sendOffers(),
+            )
 
     def printFile(self):
         editor = self.letters.currentWidget()
@@ -241,7 +256,8 @@ class DetailsDialog(QDialog):
         self.nameEdit = QLineEdit()
         self.addressEdit = QTextEdit()
         self.offersCheckBox = QCheckBox(
-            "Send information about products and special offers:")
+            "Send information about products and special offers:"
+        )
 
         self.setupItemsTable()
 
@@ -269,7 +285,7 @@ class DetailsDialog(QDialog):
             name = QTableWidgetItem(item)
             name.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
             self.itemsTable.setItem(row, 0, name)
-            quantity = QTableWidgetItem('1')
+            quantity = QTableWidgetItem("1")
             self.itemsTable.setItem(row, 1, quantity)
 
     def orderItems(self):
@@ -296,16 +312,20 @@ class DetailsDialog(QDialog):
             self.accept()
             return
 
-        answer = QMessageBox.warning(self, "Incomplete Form",
-                                     "The form does not contain all the necessary information.\n"
-                                     "Do you want to discard it?",
-                                     QMessageBox.Yes, QMessageBox.No)
+        answer = QMessageBox.warning(
+            self,
+            "Incomplete Form",
+            "The form does not contain all the necessary information.\n"
+            "Do you want to discard it?",
+            QMessageBox.Yes,
+            QMessageBox.No,
+        )
 
         if answer == QMessageBox.Yes:
             self.reject()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
     window = MainWindow()

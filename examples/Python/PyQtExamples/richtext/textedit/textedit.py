@@ -2,7 +2,7 @@
 
 """
 * textedit.py - rich text editor example with PyQt5 using Chocolaf
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -71,7 +71,7 @@ class TextEdit(QMainWindow):
     def __init__(self, fileName=None, parent=None):
         super(TextEdit, self).__init__(parent)
 
-        self.setWindowIcon(QIcon(':/logo.png'))
+        self.setWindowIcon(QIcon(":/logo.png"))
         self.setToolButtonStyle(Qt.ToolButtonFollowStyle)
         self.setupFileActions()
         self.setupEditActions()
@@ -111,7 +111,7 @@ class TextEdit(QMainWindow):
         QApplication.clipboard().dataChanged.connect(self.clipboardDataChanged)
 
         if fileName is None:
-            fileName = ':/example.html'
+            fileName = ":/example.html"
 
         if not self.load(fileName):
             self.fileNew()
@@ -130,54 +130,84 @@ class TextEdit(QMainWindow):
         menu = QMenu("&File", self)
         self.menuBar().addMenu(menu)
 
-        self.actionNew = QAction(QIcon(':/file_new.png'),
-                                 "&New", self, priority=QAction.LowPriority,
-                                 shortcut=QKeySequence.New, triggered=self.fileNew)
+        self.actionNew = QAction(
+            QIcon(":/file_new.png"),
+            "&New",
+            self,
+            priority=QAction.LowPriority,
+            shortcut=QKeySequence.New,
+            triggered=self.fileNew,
+        )
         tb.addAction(self.actionNew)
         menu.addAction(self.actionNew)
 
-        self.actionOpen = QAction(QIcon(':/file_open.png'),
-                                  "&Open...", self, shortcut=QKeySequence.Open,
-                                  triggered=self.fileOpen)
+        self.actionOpen = QAction(
+            QIcon(":/file_open.png"),
+            "&Open...",
+            self,
+            shortcut=QKeySequence.Open,
+            triggered=self.fileOpen,
+        )
         tb.addAction(self.actionOpen)
         menu.addAction(self.actionOpen)
         menu.addSeparator()
 
-        self.actionSave = QAction(QIcon(':/file_save.png'),
-                                  "&Save", self, shortcut=QKeySequence.Save,
-                                  triggered=self.fileSave, enabled=False)
+        self.actionSave = QAction(
+            QIcon(":/file_save.png"),
+            "&Save",
+            self,
+            shortcut=QKeySequence.Save,
+            triggered=self.fileSave,
+            enabled=False,
+        )
         tb.addAction(self.actionSave)
         menu.addAction(self.actionSave)
 
-        self.actionSaveAs = QAction("Save &As...", self,
-                                    priority=QAction.LowPriority,
-                                    shortcut=Qt.CTRL + Qt.SHIFT + Qt.Key_S,
-                                    triggered=self.fileSaveAs)
+        self.actionSaveAs = QAction(
+            "Save &As...",
+            self,
+            priority=QAction.LowPriority,
+            shortcut=Qt.CTRL + Qt.SHIFT + Qt.Key_S,
+            triggered=self.fileSaveAs,
+        )
         menu.addAction(self.actionSaveAs)
         menu.addSeparator()
 
-        self.actionPrint = QAction(QIcon(':/file_print.png'),
-                                   "&Print...", self, priority=QAction.LowPriority,
-                                   shortcut=QKeySequence.Print, triggered=self.filePrint)
+        self.actionPrint = QAction(
+            QIcon(":/file_print.png"),
+            "&Print...",
+            self,
+            priority=QAction.LowPriority,
+            shortcut=QKeySequence.Print,
+            triggered=self.filePrint,
+        )
         tb.addAction(self.actionPrint)
         menu.addAction(self.actionPrint)
 
-        self.actionPrintPreview = QAction(QIcon(':/file_print.png'),
-                                          "Print Preview...", self,
-                                          shortcut=Qt.CTRL + Qt.SHIFT + Qt.Key_P,
-                                          triggered=self.filePrintPreview)
+        self.actionPrintPreview = QAction(
+            QIcon(":/file_print.png"),
+            "Print Preview...",
+            self,
+            shortcut=Qt.CTRL + Qt.SHIFT + Qt.Key_P,
+            triggered=self.filePrintPreview,
+        )
         menu.addAction(self.actionPrintPreview)
 
-        self.actionPrintPdf = QAction(QIcon(':/export_2_pdf.png'),
-                                      "&Export PDF...", self, priority=QAction.LowPriority,
-                                      shortcut=Qt.CTRL + Qt.Key_D,
-                                      triggered=self.filePrintPdf)
+        self.actionPrintPdf = QAction(
+            QIcon(":/export_2_pdf.png"),
+            "&Export PDF...",
+            self,
+            priority=QAction.LowPriority,
+            shortcut=Qt.CTRL + Qt.Key_D,
+            triggered=self.filePrintPdf,
+        )
         tb.addAction(self.actionPrintPdf)
         menu.addAction(self.actionPrintPdf)
         menu.addSeparator()
 
-        self.actionQuit = QAction("&Quit", self, shortcut=QKeySequence.Quit,
-                                  triggered=self.close)
+        self.actionQuit = QAction(
+            "&Quit", self, shortcut=QKeySequence.Quit, triggered=self.close
+        )
         menu.addAction(self.actionQuit)
 
     def setupEditActions(self):
@@ -188,34 +218,51 @@ class TextEdit(QMainWindow):
         menu = QMenu("&Edit", self)
         self.menuBar().addMenu(menu)
 
-        self.actionUndo = QAction(QIcon(':/edit_undo.png'),
-                                  "&Undo", self, shortcut=QKeySequence.Undo)
+        self.actionUndo = QAction(
+            QIcon(":/edit_undo.png"), "&Undo", self, shortcut=QKeySequence.Undo
+        )
         tb.addAction(self.actionUndo)
         menu.addAction(self.actionUndo)
 
-        self.actionRedo = QAction(QIcon(':/edit_redo.png'),
-                                  "&Redo", self, priority=QAction.LowPriority,
-                                  shortcut=QKeySequence.Redo)
+        self.actionRedo = QAction(
+            QIcon(":/edit_redo.png"),
+            "&Redo",
+            self,
+            priority=QAction.LowPriority,
+            shortcut=QKeySequence.Redo,
+        )
         tb.addAction(self.actionRedo)
         menu.addAction(self.actionRedo)
         menu.addSeparator()
 
-        self.actionCut = QAction(QIcon(':/edit_cut.png'),
-                                 "Cu&t", self, priority=QAction.LowPriority,
-                                 shortcut=QKeySequence.Cut)
+        self.actionCut = QAction(
+            QIcon(":/edit_cut.png"),
+            "Cu&t",
+            self,
+            priority=QAction.LowPriority,
+            shortcut=QKeySequence.Cut,
+        )
         tb.addAction(self.actionCut)
         menu.addAction(self.actionCut)
 
-        self.actionCopy = QAction(QIcon(':/edit_copy.png'),
-                                  "&Copy", self, priority=QAction.LowPriority,
-                                  shortcut=QKeySequence.Copy)
+        self.actionCopy = QAction(
+            QIcon(":/edit_copy.png"),
+            "&Copy",
+            self,
+            priority=QAction.LowPriority,
+            shortcut=QKeySequence.Copy,
+        )
         tb.addAction(self.actionCopy)
         menu.addAction(self.actionCopy)
 
-        self.actionPaste = QAction(QIcon(':/edit_paste.png'),
-                                   "&Paste", self, priority=QAction.LowPriority,
-                                   shortcut=QKeySequence.Paste,
-                                   enabled=(len(QApplication.clipboard().text()) != 0))
+        self.actionPaste = QAction(
+            QIcon(":/edit_paste.png"),
+            "&Paste",
+            self,
+            priority=QAction.LowPriority,
+            shortcut=QKeySequence.Paste,
+            enabled=(len(QApplication.clipboard().text()) != 0),
+        )
         tb.addAction(self.actionPaste)
         menu.addAction(self.actionPaste)
 
@@ -227,30 +274,45 @@ class TextEdit(QMainWindow):
         menu = QMenu("F&ormat", self)
         self.menuBar().addMenu(menu)
 
-        self.actionTextBold = QAction(QIcon(':/font_bold.png'),
-                                      "&Bold", self, priority=QAction.LowPriority,
-                                      shortcut=Qt.CTRL + Qt.Key_B, triggered=self.textBold,
-                                      checkable=True)
+        self.actionTextBold = QAction(
+            QIcon(":/font_bold.png"),
+            "&Bold",
+            self,
+            priority=QAction.LowPriority,
+            shortcut=Qt.CTRL + Qt.Key_B,
+            triggered=self.textBold,
+            checkable=True,
+        )
         bold = QFont()
         bold.setBold(True)
         self.actionTextBold.setFont(bold)
         tb.addAction(self.actionTextBold)
         menu.addAction(self.actionTextBold)
 
-        self.actionTextItalic = QAction(QIcon(':/font_italic.png'),
-                                        "&Italic", self, priority=QAction.LowPriority,
-                                        shortcut=Qt.CTRL + Qt.Key_I, triggered=self.textItalic,
-                                        checkable=True)
+        self.actionTextItalic = QAction(
+            QIcon(":/font_italic.png"),
+            "&Italic",
+            self,
+            priority=QAction.LowPriority,
+            shortcut=Qt.CTRL + Qt.Key_I,
+            triggered=self.textItalic,
+            checkable=True,
+        )
         italic = QFont()
         italic.setItalic(True)
         self.actionTextItalic.setFont(italic)
         tb.addAction(self.actionTextItalic)
         menu.addAction(self.actionTextItalic)
 
-        self.actionTextUnderline = QAction(QIcon(':/font_underline.png'),
-                                           "&Underline", self, priority=QAction.LowPriority,
-                                           shortcut=Qt.CTRL + Qt.Key_U, triggered=self.textUnderline,
-                                           checkable=True)
+        self.actionTextUnderline = QAction(
+            QIcon(":/font_underline.png"),
+            "&Underline",
+            self,
+            priority=QAction.LowPriority,
+            shortcut=Qt.CTRL + Qt.Key_U,
+            triggered=self.textUnderline,
+            checkable=True,
+        )
         underline = QFont()
         underline.setUnderline(True)
         self.actionTextUnderline.setFont(underline)
@@ -263,22 +325,21 @@ class TextEdit(QMainWindow):
 
         # Make sure the alignLeft is always left of the alignRight.
         if QApplication.isLeftToRight():
-            self.actionAlignLeft = QAction(QIcon(':/align_left.png'),
-                                           "&Left", grp)
-            self.actionAlignCenter = QAction(QIcon(':/align_center.png'),
-                                             "C&enter", grp)
-            self.actionAlignRight = QAction(QIcon(':/align_right.png'),
-                                            "&Right", grp)
+            self.actionAlignLeft = QAction(QIcon(":/align_left.png"), "&Left", grp)
+            self.actionAlignCenter = QAction(
+                QIcon(":/align_center.png"), "C&enter", grp
+            )
+            self.actionAlignRight = QAction(QIcon(":/align_right.png"), "&Right", grp)
         else:
-            self.actionAlignRight = QAction(QIcon(':/align_right.png'),
-                                            "&Right", grp)
-            self.actionAlignCenter = QAction(QIcon(':/align_center.png'),
-                                             "C&enter", grp)
-            self.actionAlignLeft = QAction(QIcon(':/align_left.png'),
-                                           "&Left", grp)
+            self.actionAlignRight = QAction(QIcon(":/align_right.png"), "&Right", grp)
+            self.actionAlignCenter = QAction(
+                QIcon(":/align_center.png"), "C&enter", grp
+            )
+            self.actionAlignLeft = QAction(QIcon(":/align_left.png"), "&Left", grp)
 
-        self.actionAlignJustify = QAction(QIcon(':/align_justified.png'),
-                                          "&Justify", grp)
+        self.actionAlignJustify = QAction(
+            QIcon(":/align_justified.png"), "&Justify", grp
+        )
 
         self.actionAlignLeft.setShortcut(Qt.CTRL + Qt.Key_L)
         self.actionAlignLeft.setCheckable(True)
@@ -302,8 +363,9 @@ class TextEdit(QMainWindow):
 
         pix = QPixmap(16, 16)
         pix.fill(Qt.black)
-        self.actionTextColor = QAction(QIcon(pix), "&Color...", self,
-                                       triggered=self.textColor)
+        self.actionTextColor = QAction(
+            QIcon(pix), "&Color...", self, triggered=self.textColor
+        )
         tb.addAction(self.actionTextColor)
         menu.addAction(self.actionTextColor)
 
@@ -341,8 +403,8 @@ class TextEdit(QMainWindow):
 
         self.comboSize.activated[str].connect(self.textSize)
         self.comboSize.setCurrentIndex(
-            self.comboSize.findText(
-                "%s" % (QApplication.font().pointSize())))
+            self.comboSize.findText("%s" % (QApplication.font().pointSize()))
+        )
 
     def load(self, f):
         if not QFile.exists(f):
@@ -368,13 +430,15 @@ class TextEdit(QMainWindow):
         if not self.textEdit.document().isModified():
             return True
 
-        if self.fileName.startswith(':/'):
+        if self.fileName.startswith(":/"):
             return True
 
-        ret = QMessageBox.warning(self, "Application",
-                                  "The document has been modified.\n"
-                                  "Do you want to save your changes?",
-                                  QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+        ret = QMessageBox.warning(
+            self,
+            "Application",
+            "The document has been modified.\n" "Do you want to save your changes?",
+            QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel,
+        )
 
         if ret == QMessageBox.Save:
             return self.fileSave()
@@ -384,12 +448,12 @@ class TextEdit(QMainWindow):
 
         return True
 
-    def setCurrentFileName(self, fileName=''):
+    def setCurrentFileName(self, fileName=""):
         self.fileName = fileName
         self.textEdit.document().setModified(False)
 
         if not fileName:
-            shownName = 'untitled.txt'
+            shownName = "untitled.txt"
         else:
             shownName = QFileInfo(fileName).fileName()
 
@@ -402,8 +466,9 @@ class TextEdit(QMainWindow):
             self.setCurrentFileName()
 
     def fileOpen(self):
-        fn, _ = QFileDialog.getOpenFileName(self, "Open File...", None,
-                                            "HTML-Files (*.htm *.html);;All Files (*)")
+        fn, _ = QFileDialog.getOpenFileName(
+            self, "Open File...", None, "HTML-Files (*.htm *.html);;All Files (*)"
+        )
 
         if fn:
             self.load(fn)
@@ -420,16 +485,20 @@ class TextEdit(QMainWindow):
         return success
 
     def fileSaveAs(self):
-        fn, _ = QFileDialog.getSaveFileName(self, "Save as...", None,
-                                            "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)")
+        fn, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save as...",
+            None,
+            "ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)",
+        )
 
         if not fn:
             return False
 
         lfn = fn.lower()
-        if not lfn.endswith(('.odt', '.htm', '.html')):
+        if not lfn.endswith((".odt", ".htm", ".html")):
             # The default.
-            fn += '.odt'
+            fn += ".odt"
 
         self.setCurrentFileName(fn)
         return self.fileSave()
@@ -458,12 +527,13 @@ class TextEdit(QMainWindow):
         self.textEdit.print_(printer)
 
     def filePrintPdf(self):
-        fn, _ = QFileDialog.getSaveFileName(self, "Export PDF", None,
-                                            "PDF files (*.pdf);;All Files (*)")
+        fn, _ = QFileDialog.getSaveFileName(
+            self, "Export PDF", None, "PDF files (*.pdf);;All Files (*)"
+        )
 
         if fn:
             if QFileInfo(fn).suffix().isEmpty():
-                fn += '.pdf'
+                fn += ".pdf"
 
             printer = QPrinter(QPrinter.HighResolution)
             printer.setOutputFormat(QPrinter.PdfFormat)
@@ -472,7 +542,9 @@ class TextEdit(QMainWindow):
 
     def textBold(self):
         fmt = QTextCharFormat()
-        fmt.setFontWeight(self.actionTextBold.isChecked() and QFont.Bold or QFont.Normal)
+        fmt.setFontWeight(
+            self.actionTextBold.isChecked() and QFont.Bold or QFont.Normal
+        )
         self.mergeFormatOnWordOrSelection(fmt)
 
     def textUnderline(self):
@@ -562,10 +634,13 @@ class TextEdit(QMainWindow):
         self.actionPaste.setEnabled(len(QApplication.clipboard().text()) != 0)
 
     def about(self):
-        QMessageBox.about(self, "About",
-                          "This example demonstrates Qt's rich text editing facilities "
-                          "in action, providing an example document for you to "
-                          "experiment with.")
+        QMessageBox.about(
+            self,
+            "About",
+            "This example demonstrates Qt's rich text editing facilities "
+            "in action, providing an example document for you to "
+            "experiment with.",
+        )
 
     def mergeFormatOnWordOrSelection(self, format):
         cursor = self.textEdit.textCursor()
@@ -577,9 +652,9 @@ class TextEdit(QMainWindow):
 
     def fontChanged(self, font):
         self.comboFont.setCurrentIndex(
-            self.comboFont.findText(QFontInfo(font).family()))
-        self.comboSize.setCurrentIndex(
-            self.comboSize.findText("%s" % font.pointSize()))
+            self.comboFont.findText(QFontInfo(font).family())
+        )
+        self.comboSize.setCurrentIndex(self.comboSize.findText("%s" % font.pointSize()))
         self.actionTextBold.setChecked(font.bold())
         self.actionTextItalic.setChecked(font.italic())
         self.actionTextUnderline.setChecked(font.underline())
@@ -600,7 +675,7 @@ class TextEdit(QMainWindow):
             self.actionAlignJustify.setChecked(True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
 

@@ -2,7 +2,7 @@
 """
 * palettes.py - allows you earier access to certain key color components
 *   of themes supported by Chocolaf
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!

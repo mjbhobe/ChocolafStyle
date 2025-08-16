@@ -1,6 +1,6 @@
 """
 * stardelegate.py: provides a storage view of all file systems mounted on system
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -64,21 +64,26 @@ class StarRating(object):
 
     PaintingScaleFactor = 20
 
-    def __init__(self, starCount = 1, maxStarCount = 5):
+    def __init__(self, starCount=1, maxStarCount=5):
         self._starCount = starCount
         self._maxStarCount = maxStarCount
 
         self.starPolygon = QPolygonF([QPointF(1.0, 0.5)])
         for i in range(5):
-            self.starPolygon << QPointF(0.5 + 0.5 * math.cos(0.8 * i * math.pi),
-                                        0.5 + 0.5 * math.sin(0.8 * i * math.pi))
+            self.starPolygon << QPointF(
+                0.5 + 0.5 * math.cos(0.8 * i * math.pi),
+                0.5 + 0.5 * math.sin(0.8 * i * math.pi),
+            )
 
         self.diamondPolygon = QPolygonF()
-        self.diamondPolygon << QPointF(0.4, 0.5) \
-        << QPointF(0.5, 0.4) \
-        << QPointF(0.6, 0.5) \
-        << QPointF(0.5, 0.6) \
-        << QPointF(0.4, 0.5)
+        (
+            self.diamondPolygon
+            << QPointF(0.4, 0.5)
+            << QPointF(0.5, 0.4)
+            << QPointF(0.6, 0.5)
+            << QPointF(0.5, 0.6)
+            << QPointF(0.4, 0.5)
+        )
 
     def starCount(self):
         return self._starCount
@@ -124,7 +129,7 @@ class StarRating(object):
 class StarEditor(QWidget):
     editingFinished = pyqtSignal()
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(StarEditor, self).__init__(parent)
 
         self._starRating = StarRating()
@@ -143,8 +148,9 @@ class StarEditor(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        self._starRating.paint(painter, self.rect(), self.palette(),
-                               StarRating.Editable)
+        self._starRating.paint(
+            painter, self.rect(), self.palette(), StarRating.Editable
+        )
 
     def mouseMoveEvent(self, event):
         star = self.starAtPosition(event.x())
@@ -158,7 +164,9 @@ class StarEditor(QWidget):
 
     def starAtPosition(self, x):
         # Enable a star, if pointer crosses the center horizontally.
-        starwidth = self._starRating.sizeHint().width() // self._starRating.maxStarCount()
+        starwidth = (
+            self._starRating.sizeHint().width() // self._starRating.maxStarCount()
+        )
         star = (x + starwidth / 2) // starwidth
         if 0 <= star <= self._starRating.maxStarCount():
             return star
@@ -173,8 +181,7 @@ class StarDelegate(QStyledItemDelegate):
             if option.state & QStyle.State_Selected:
                 painter.fillRect(option.rect, option.palette.highlight())
 
-            starRating.paint(painter, option.rect, option.palette,
-                             StarRating.ReadOnly)
+            starRating.paint(painter, option.rect, option.palette, StarRating.ReadOnly)
         else:
             super(StarDelegate, self).paint(painter, option, index)
 
@@ -234,7 +241,7 @@ def populateTableWidget(tableWidget):
         tableWidget.setItem(row, 3, item3)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")
@@ -242,7 +249,8 @@ if __name__ == '__main__':
     tableWidget = QTableWidget(4, 4)
     tableWidget.setItemDelegate(StarDelegate())
     tableWidget.setEditTriggers(
-        QAbstractItemView.DoubleClicked | QAbstractItemView.SelectedClicked)
+        QAbstractItemView.DoubleClicked | QAbstractItemView.SelectedClicked
+    )
     tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
 
     headerLabels = ("Title", "Genre", "Artist", "Rating")

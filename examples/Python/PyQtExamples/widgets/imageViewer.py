@@ -1,6 +1,6 @@
 """
 * imageViewer.py - simple image viewer application with Chocolaf
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -95,12 +95,18 @@ class ImageViewer(QMainWindow):
 
     def open(self):
         picsPath = QStandardPaths.standardLocations(QStandardPaths.PicturesLocation)
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open Image", picsPath[-1],
-                                                  "Image Files (*.png *.tiff *.jpg *.jpeg *.svg *.bmp)")
+        fileName, _ = QFileDialog.getOpenFileName(
+            self,
+            "Open Image",
+            picsPath[-1],
+            "Image Files (*.png *.tiff *.jpg *.jpeg *.svg *.bmp)",
+        )
         if fileName:
             image = QImage(fileName)
             if image.isNull():
-                QMessageBox.information(self, "Image Viewer", f"Cannot load {fileName}.")
+                QMessageBox.information(
+                    self, "Image Viewer", f"Cannot load {fileName}."
+                )
                 return
 
             self.imageLabel.setPixmap(QPixmap.fromImage(image))
@@ -160,59 +166,109 @@ class ImageViewer(QMainWindow):
         self.updateActions()
 
     def about(self):
-        QMessageBox.about(self, "About Image Viewer",
-                          f"<p>The <b>Image Viewer</b> example shows how to combine " +
-                          f"QLabel and QScrollArea to display an image. QLabel is " +
-                          f"typically used for displaying text, but it can also display " +
-                          f"an image. QScrollArea provides a scrolling view around " +
-                          f"another widget. If the child widget exceeds the size of the " +
-                          f"frame, QScrollArea automatically provides scroll bars.</p>" +
-                          f"<p>Version {__version__}</p>" +
-                          f"<p>The example demonstrates how QLabel's ability to s cale " +
-                          f"its contents (QLabel.scaledContents), and QScrollArea's " +
-                          f"ability to automatically resize its contents " +
-                          f"(QScrollArea.widgetResizable), can be used to implement " +
-                          f"zooming and scaling features.</p>" +
-                          f"<p>In addition the example shows how to use QPainter to " +
-                          f"print an image.</p>" +
-                          f"Using Python {platform.python_version()} - Qt {QT_VERSION_STR} - PyQt {PYQT_VERSION_STR} on {platform.system()}"
-                          )
+        QMessageBox.about(
+            self,
+            "About Image Viewer",
+            f"<p>The <b>Image Viewer</b> example shows how to combine "
+            + f"QLabel and QScrollArea to display an image. QLabel is "
+            + f"typically used for displaying text, but it can also display "
+            + f"an image. QScrollArea provides a scrolling view around "
+            + f"another widget. If the child widget exceeds the size of the "
+            + f"frame, QScrollArea automatically provides scroll bars.</p>"
+            + f"<p>Version {__version__}</p>"
+            + f"<p>The example demonstrates how QLabel's ability to s cale "
+            + f"its contents (QLabel.scaledContents), and QScrollArea's "
+            + f"ability to automatically resize its contents "
+            + f"(QScrollArea.widgetResizable), can be used to implement "
+            + f"zooming and scaling features.</p>"
+            + f"<p>In addition the example shows how to use QPainter to "
+            + f"print an image.</p>"
+            + f"Using Python {platform.python_version()} - Qt {QT_VERSION_STR} - PyQt {PYQT_VERSION_STR} on {platform.system()}",
+        )
 
     def createActions(self):
-        self.openAct = QAction(QIcon(":/file_open.png"), "&Open...", self, shortcut = "Ctrl+O",
-                               statusTip = "Open an image file to view",
-                               triggered = self.open)
+        self.openAct = QAction(
+            QIcon(":/file_open.png"),
+            "&Open...",
+            self,
+            shortcut="Ctrl+O",
+            statusTip="Open an image file to view",
+            triggered=self.open,
+        )
 
-        self.printAct = QAction(QIcon(":/file_print.png"), "&Print...", self, shortcut = "Ctrl+P",
-                                statusTip = "Print the displayed image",
-                                enabled = False, triggered = self.print_)
+        self.printAct = QAction(
+            QIcon(":/file_print.png"),
+            "&Print...",
+            self,
+            shortcut="Ctrl+P",
+            statusTip="Print the displayed image",
+            enabled=False,
+            triggered=self.print_,
+        )
 
-        self.exitAct = QAction(QIcon(":/on-off.png"), "E&xit", self, shortcut = "Ctrl+Q",
-                               statusTip = "Quit the application",
-                               triggered = self.close)
+        self.exitAct = QAction(
+            QIcon(":/on-off.png"),
+            "E&xit",
+            self,
+            shortcut="Ctrl+Q",
+            statusTip="Quit the application",
+            triggered=self.close,
+        )
 
-        self.zoomInAct = QAction(QIcon(":/zoomin.png"), "Zoom &In (25%)", self, shortcut = "Ctrl++",
-                                 statusTip = "Zoom into the image by 25%",
-                                 enabled = False, triggered = self.zoomIn)
+        self.zoomInAct = QAction(
+            QIcon(":/zoomin.png"),
+            "Zoom &In (25%)",
+            self,
+            shortcut="Ctrl++",
+            statusTip="Zoom into the image by 25%",
+            enabled=False,
+            triggered=self.zoomIn,
+        )
 
-        self.zoomOutAct = QAction(QIcon(":/zoomout.png"), "Zoom &Out (25%)", self, shortcut = "Ctrl+-",
-                                  statusTip = "Zoom out of the image by 25%",
-                                  enabled = False, triggered = self.zoomOut)
+        self.zoomOutAct = QAction(
+            QIcon(":/zoomout.png"),
+            "Zoom &Out (25%)",
+            self,
+            shortcut="Ctrl+-",
+            statusTip="Zoom out of the image by 25%",
+            enabled=False,
+            triggered=self.zoomOut,
+        )
 
-        self.normalSizeAct = QAction("&Normal Size", self, shortcut = "Ctrl+0",
-                                     statusTip = "Zoom image to normal size",
-                                     enabled = False, triggered = self.normalSize)
+        self.normalSizeAct = QAction(
+            "&Normal Size",
+            self,
+            shortcut="Ctrl+0",
+            statusTip="Zoom image to normal size",
+            enabled=False,
+            triggered=self.normalSize,
+        )
 
-        self.fitToWindowAct = QAction(QIcon(":/zoom_to_fill.png"), "&Fit to Window", self, enabled = False,
-                                      statusTip = "Zoom image to fit the size of viewer",
-                                      checkable = True, shortcut = "Ctrl+F", triggered = self.fitToWindow)
+        self.fitToWindowAct = QAction(
+            QIcon(":/zoom_to_fill.png"),
+            "&Fit to Window",
+            self,
+            enabled=False,
+            statusTip="Zoom image to fit the size of viewer",
+            checkable=True,
+            shortcut="Ctrl+F",
+            triggered=self.fitToWindow,
+        )
 
         self.aboutAct = QAction(
-            "&About", self, statusTip = "Display information about application", triggered = self.about)
+            "&About",
+            self,
+            statusTip="Display information about application",
+            triggered=self.about,
+        )
 
-        self.aboutQtAct = QAction(QIcon(":/qt_logo.png"), "About &Qt", self,
-                                  statusTip = "Display information about Qt Framework used",
-                                  triggered = QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            QIcon(":/qt_logo.png"),
+            "About &Qt",
+            self,
+            statusTip="Display information about Qt Framework used",
+            triggered=QApplication.instance().aboutQt,
+        )
 
     def createMenus(self):
         self.fileMenu = QMenu("&File", self)
@@ -262,8 +318,9 @@ class ImageViewer(QMainWindow):
         self.zoomOutAct.setEnabled(self.scaleFactor > 0.333)
 
     def adjustScrollBar(self, scrollBar, factor):
-        scrollBar.setValue(int(factor * scrollBar.value()
-                               + ((factor - 1) * scrollBar.pageStep() / 2)))
+        scrollBar.setValue(
+            int(factor * scrollBar.value() + ((factor - 1) * scrollBar.pageStep() / 2))
+        )
 
 
 def main():

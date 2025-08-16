@@ -1,6 +1,6 @@
 """
-* spinboxdelegate.py: 
-* @author (Chocolaf): Manish Bhobe
+* spinboxdelegate.py:
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -98,7 +98,7 @@ def createTableView():
     return tableView
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

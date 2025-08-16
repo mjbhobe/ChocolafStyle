@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 """
-* transformations.py 
-* @author (Chocolaf): Manish Bhobe
+* transformations.py
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -101,7 +101,9 @@ class RenderArea(QWidget):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         # QBrush(ChocolafPalette.Window_Color))  # QBrush(Qt.white))
-        painter.fillRect(event.rect(), QBrush(Qt.white))  # QBrush(QColor(qRgb(110, 110, 110))))
+        painter.fillRect(
+            event.rect(), QBrush(Qt.white)
+        )  # QBrush(QColor(qRgb(110, 110, 110))))
 
         painter.translate(66, 66)
 
@@ -122,18 +124,24 @@ class RenderArea(QWidget):
         painter.drawLine(0, 0, 50, 0)
         painter.drawLine(48, -2, 50, 0)
         painter.drawLine(48, 2, 50, 0)
-        painter.drawText(60 - self.xBoundingRect.width() / 2,
-                         0 + self.xBoundingRect.height() / 2, "x")
+        painter.drawText(
+            60 - self.xBoundingRect.width() / 2,
+            0 + self.xBoundingRect.height() / 2,
+            "x",
+        )
 
         painter.drawLine(0, 0, 0, 50)
         painter.drawLine(-2, 48, 0, 50)
         painter.drawLine(2, 48, 0, 50)
-        painter.drawText(0 - self.yBoundingRect.width() / 2,
-                         60 + self.yBoundingRect.height() / 2, "y")
+        painter.drawText(
+            0 - self.yBoundingRect.width() / 2,
+            60 + self.yBoundingRect.height() / 2,
+            "y",
+        )
 
     def drawOutline(self, painter):
         painter.setPen(Qt.darkGreen)
-        #painter.setPen(QColor(qRgb(102, 102, 102)))
+        # painter.setPen(QColor(qRgb(102, 102, 102)))
 
         painter.setPen(Qt.DashLine)
         painter.setBrush(Qt.NoBrush)
@@ -182,7 +190,7 @@ class Window(QWidget):
 
             self.operationComboBoxes[i] = QComboBox()
             self.operationComboBoxes[i].addItem("No transformation")
-            self.operationComboBoxes[i].addItem(u"Rotate by 60\N{DEGREE SIGN}")
+            self.operationComboBoxes[i].addItem("Rotate by 60\N{DEGREE SIGN}")
             self.operationComboBoxes[i].addItem("Scale to 75%")
             self.operationComboBoxes[i].addItem("Translate by (50, 50)")
 
@@ -263,7 +271,7 @@ class Window(QWidget):
             self.transformedRenderAreas[i].setShape(shape)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

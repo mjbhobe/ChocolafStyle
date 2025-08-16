@@ -5,7 +5,7 @@
 //
 // Tutorial - PyQt5 Doodle Application
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
-// @author: Manish Bhobe
+// @author: Manish Bhobé
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
@@ -41,7 +41,9 @@ class MainWindow(QMainWindow):
         self.setupMenubar()
         self.setupToolbar()
         # and status bar
-        self.statusBar().showMessage("PyQt5 Doodle: random doodling application by Manish Bhobe")
+        self.statusBar().showMessage(
+            "PyQt5 Doodle: random doodling application by Manish Bhobé"
+        )
 
     def getIcon(self, iconName: str) -> QIcon:
         this_file_dir = os.path.dirname(pathlib.Path(__file__))
@@ -60,21 +62,27 @@ class MainWindow(QMainWindow):
         self.fileNewAction.triggered.connect(self.fileNew)
 
         # self.fileOpenAction = QAction(QIcon(":/file_open.png"), "&Open Doodle...", self)
-        self.fileOpenAction = QAction(chocolaf.get_icon("File_Open"), "&Open Doodle...", self)
+        self.fileOpenAction = QAction(
+            chocolaf.get_icon("File_Open"), "&Open Doodle...", self
+        )
         self.fileOpenAction.setShortcut(QKeySequence.Open)
         self.fileOpenAction.setToolTip("Open Doodle")
         self.fileOpenAction.setStatusTip("Open existing doodle file")
         self.fileOpenAction.triggered.connect(self.fileOpen)
 
         # self.fileSaveAction = QAction(QIcon(":/file_save.png"), "&Save Doodle", self)
-        self.fileSaveAction = QAction(chocolaf.get_icon("File_Save"), "&Save Doodle", self)
+        self.fileSaveAction = QAction(
+            chocolaf.get_icon("File_Save"), "&Save Doodle", self
+        )
         self.fileSaveAction.setShortcut(QKeySequence.Save)
         self.fileSaveAction.setToolTip("Save Doodle")
         self.fileSaveAction.setStatusTip("Save existing doodle file")
         self.fileSaveAction.triggered.connect(self.fileSave)
 
         # self.fileSaveAsAction = QAction("Save Doodle &as...", self)
-        self.fileSaveAsAction = QAction(chocolaf.get_icon("File_SaveAs"), "Save Doodle &as...", self)
+        self.fileSaveAsAction = QAction(
+            chocolaf.get_icon("File_SaveAs"), "Save Doodle &as...", self
+        )
         self.fileSaveAsAction.setShortcut(QKeySequence.SaveAs)
         self.fileSaveAsAction.setToolTip("Save Doodle As")
         self.fileSaveAsAction.setStatusTip("Save Doodle to another file")
@@ -87,14 +95,18 @@ class MainWindow(QMainWindow):
         self.exitAction.triggered.connect(self.fileExit)
 
         # self.penWidthAction = QAction(QIcon(":/pen.png"), "&Choose Pen Thickness...", self)
-        self.penWidthAction = QAction(chocolaf.get_icon("Tools_Pencil"), "&Choose Pen Thickness...", self)
+        self.penWidthAction = QAction(
+            chocolaf.get_icon("Tools_Pencil"), "&Choose Pen Thickness...", self
+        )
         self.penWidthAction.setShortcut("Ctrl+T")
         self.penWidthAction.setToolTip("Pen Thickness")
         self.penWidthAction.setStatusTip("Choose Pen Thickness")
         self.penWidthAction.triggered.connect(self.changePenWidth)
 
         # self.penColorAction = QAction(QIcon(":/palette.png"), "&Choose Pen Color...", self)
-        self.penColorAction = QAction(chocolaf.get_icon("Tools_Palette"), "&Choose Pen Color...", self)
+        self.penColorAction = QAction(
+            chocolaf.get_icon("Tools_Palette"), "&Choose Pen Color...", self
+        )
         self.penColorAction.setShortcut("Ctrl+L")
         self.penColorAction.setToolTip("Pen Color")
         self.penColorAction.setStatusTip("Choose Pen Color")
@@ -140,19 +152,27 @@ class MainWindow(QMainWindow):
         self.addToolBar(toolBar)
 
     def fileNew(self):
-        QMessageBox.information(self, "File New", "You selected the New Doodle option", QMessageBox.Ok)
+        QMessageBox.information(
+            self, "File New", "You selected the New Doodle option", QMessageBox.Ok
+        )
 
     def fileOpen(self):
         currDir = os.path.dirname(pathlib.Path(__file__))
         fname = QFileDialog.getOpenFileName(self, "Open Doodle", currDir)
         if fname[0]:
-            QMessageBox.information(self, "File Open", f"You selected {fname[0]}", QMessageBox.Ok)
+            QMessageBox.information(
+                self, "File Open", f"You selected {fname[0]}", QMessageBox.Ok
+            )
 
     def fileSave(self):
-        QMessageBox.information(self, "File Save", "You selected the File Save option", QMessageBox.Ok)
+        QMessageBox.information(
+            self, "File Save", "You selected the File Save option", QMessageBox.Ok
+        )
 
     def fileSaveAs(self):
-        QMessageBox.information(self, "File Save As", "You selected the File Save As option", QMessageBox.Ok)
+        QMessageBox.information(
+            self, "File Save As", "You selected the File Save As option", QMessageBox.Ok
+        )
 
     def fileExit(self):
         qDebug("File + Exit selected....")
@@ -161,7 +181,12 @@ class MainWindow(QMainWindow):
 
     def changePenWidth(self):
         newWidth, ok = QInputDialog.getInt(
-            self, "Pen Width", "Enter new pen width (2-12):", self.drawWindow.doodle.defPenWidth, 2, 12
+            self,
+            "Pen Width",
+            "Enter new pen width (2-12):",
+            self.drawWindow.doodle.defPenWidth,
+            2,
+            12,
         )
         if ok:  # user clicked Ok on QInputDialog
             self.drawWindow.doodle.defPenWidth = newWidth
@@ -178,7 +203,7 @@ class MainWindow(QMainWindow):
             "PyQt Doodle - random doodles.\n"
             + "\n"
             + "Developed using PyQt5 GUI Library for Python\n"
-            + "Created by Manish Bhobe",
+            + "Created by Manish Bhobé",
         )
 
     # operating system Events

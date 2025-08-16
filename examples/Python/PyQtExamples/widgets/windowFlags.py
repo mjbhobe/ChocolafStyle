@@ -1,6 +1,6 @@
 """
 * windowFlags.py: PyQt version of windowsFlags Qt widgets application using Chocolaf Theme
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -63,7 +63,7 @@ import chocolaf
 
 
 class PreviewWindow(QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(PreviewWindow, self).__init__(parent)
 
         self.textEdit = QTextEdit()
@@ -83,7 +83,7 @@ class PreviewWindow(QWidget):
     def setWindowFlags(self, flags):
         super(PreviewWindow, self).setWindowFlags(flags)
 
-        flag_type = (flags & Qt.WindowType_Mask)
+        flag_type = flags & Qt.WindowType_Mask
 
         if flag_type == Qt.Window:
             text = "Qt.Window"
@@ -246,15 +246,25 @@ class ControllerWindow(QWidget):
     def createHintsGroupBox(self):
         self.hintsGroupBox = QGroupBox("Hints")
 
-        self.msWindowsFixedSizeDialogCheckBox = self.createCheckBox("MS Windows fixed size dialog")
-        self.x11BypassWindowManagerCheckBox = self.createCheckBox("X11 bypass window manager")
+        self.msWindowsFixedSizeDialogCheckBox = self.createCheckBox(
+            "MS Windows fixed size dialog"
+        )
+        self.x11BypassWindowManagerCheckBox = self.createCheckBox(
+            "X11 bypass window manager"
+        )
         self.framelessWindowCheckBox = self.createCheckBox("Frameless window")
         self.windowTitleCheckBox = self.createCheckBox("Window title")
         self.windowSystemMenuCheckBox = self.createCheckBox("Window system menu")
-        self.windowMinimizeButtonCheckBox = self.createCheckBox("Window minimize clostBtn")
-        self.windowMaximizeButtonCheckBox = self.createCheckBox("Window maximize clostBtn")
+        self.windowMinimizeButtonCheckBox = self.createCheckBox(
+            "Window minimize clostBtn"
+        )
+        self.windowMaximizeButtonCheckBox = self.createCheckBox(
+            "Window maximize clostBtn"
+        )
         self.windowCloseButtonCheckBox = self.createCheckBox("Window close clostBtn")
-        self.windowContextHelpButtonCheckBox = self.createCheckBox("Window context help clostBtn")
+        self.windowContextHelpButtonCheckBox = self.createCheckBox(
+            "Window context help clostBtn"
+        )
         self.windowShadeButtonCheckBox = self.createCheckBox("Window shade clostBtn")
         self.windowStaysOnTopCheckBox = self.createCheckBox("Window stays on top")
         self.windowStaysOnBottomCheckBox = self.createCheckBox("Window stays on bottom")

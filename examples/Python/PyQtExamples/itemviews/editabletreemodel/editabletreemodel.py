@@ -1,6 +1,6 @@
 """
 * editabletreemodel.py - QTreeView with editable model
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -60,7 +60,7 @@ from ui_mainwindow import Ui_MainWindow
 
 
 class TreeItem(object):
-    def __init__(self, data, parent = None):
+    def __init__(self, data, parent=None):
         self.parentItem = parent
         self.itemData = data
         self.childItems = []
@@ -143,14 +143,14 @@ class TreeItem(object):
 
 
 class TreeModel(QAbstractItemModel):
-    def __init__(self, headers, data, parent = None):
+    def __init__(self, headers, data, parent=None):
         super(TreeModel, self).__init__(parent)
 
         rootData = [header for header in headers]
         self.rootItem = TreeItem(rootData)
         self.setupModelData(data.split("\n"), self.rootItem)
 
-    def columnCount(self, parent = QModelIndex()):
+    def columnCount(self, parent=QModelIndex()):
         return self.rootItem.columnCount()
 
     def data(self, index, role):
@@ -177,13 +177,13 @@ class TreeModel(QAbstractItemModel):
 
         return self.rootItem
 
-    def headerData(self, section, orientation, role = Qt.DisplayRole):
+    def headerData(self, section, orientation, role=Qt.DisplayRole):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
             return self.rootItem.data(section)
 
         return None
 
-    def index(self, row, column, parent = QModelIndex()):
+    def index(self, row, column, parent=QModelIndex()):
         if parent.isValid() and parent.column() != 0:
             return QModelIndex()
 
@@ -194,18 +194,17 @@ class TreeModel(QAbstractItemModel):
         else:
             return QModelIndex()
 
-    def insertColumns(self, position, columns, parent = QModelIndex()):
+    def insertColumns(self, position, columns, parent=QModelIndex()):
         self.beginInsertColumns(parent, position, position + columns - 1)
         success = self.rootItem.insertColumns(position, columns)
         self.endInsertColumns()
 
         return success
 
-    def insertRows(self, position, rows, parent = QModelIndex()):
+    def insertRows(self, position, rows, parent=QModelIndex()):
         parentItem = self.getItem(parent)
         self.beginInsertRows(parent, position, position + rows - 1)
-        success = parentItem.insertChildren(position, rows,
-                                            self.rootItem.columnCount())
+        success = parentItem.insertChildren(position, rows, self.rootItem.columnCount())
         self.endInsertRows()
 
         return success
@@ -222,7 +221,7 @@ class TreeModel(QAbstractItemModel):
 
         return self.createIndex(parentItem.childNumber(), 0, parentItem)
 
-    def removeColumns(self, position, columns, parent = QModelIndex()):
+    def removeColumns(self, position, columns, parent=QModelIndex()):
         self.beginRemoveColumns(parent, position, position + columns - 1)
         success = self.rootItem.removeColumns(position, columns)
         self.endRemoveColumns()
@@ -232,7 +231,7 @@ class TreeModel(QAbstractItemModel):
 
         return success
 
-    def removeRows(self, position, rows, parent = QModelIndex()):
+    def removeRows(self, position, rows, parent=QModelIndex()):
         parentItem = self.getItem(parent)
 
         self.beginRemoveRows(parent, position, position + rows - 1)
@@ -241,12 +240,12 @@ class TreeModel(QAbstractItemModel):
 
         return success
 
-    def rowCount(self, parent = QModelIndex()):
+    def rowCount(self, parent=QModelIndex()):
         parentItem = self.getItem(parent)
 
         return parentItem.childCount()
 
-    def setData(self, index, value, role = Qt.EditRole):
+    def setData(self, index, value, role=Qt.EditRole):
         if role != Qt.EditRole:
             return False
 
@@ -258,7 +257,7 @@ class TreeModel(QAbstractItemModel):
 
         return result
 
-    def setHeaderData(self, section, orientation, value, role = Qt.EditRole):
+    def setHeaderData(self, section, orientation, value, role=Qt.EditRole):
         if role != Qt.EditRole or orientation != Qt.Horizontal:
             return False
 
@@ -277,7 +276,7 @@ class TreeModel(QAbstractItemModel):
         while number < len(lines):
             position = 0
             while position < len(lines[number]):
-                if lines[number][position] != b' ':
+                if lines[number][position] != b" ":
                     break
                 position += 1
 
@@ -285,7 +284,7 @@ class TreeModel(QAbstractItemModel):
 
             if lineData:
                 # Read the column data from the rest of the line.
-                columnData = [s for s in lineData.split('\t') if s]
+                columnData = [s for s in lineData.split("\t") if s]
 
                 if position > indentations[-1]:
                     # The last child of the current parent is now the new
@@ -302,23 +301,26 @@ class TreeModel(QAbstractItemModel):
 
                 # Append a new item to the current parent's list of children.
                 parent = parents[-1]
-                parent.insertChildren(parent.childCount(), 1,
-                                      self.rootItem.columnCount())
+                parent.insertChildren(
+                    parent.childCount(), 1, self.rootItem.columnCount()
+                )
                 for column in range(len(columnData)):
-                    parent.child(parent.childCount() - 1).setData(column, columnData[column])
+                    parent.child(parent.childCount() - 1).setData(
+                        column, columnData[column]
+                    )
 
             number += 1
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
         self.setupUi(self)
 
         headers = ("Title", "Description")
 
-        file = QFile(':/default.txt')
+        file = QFile(":/default.txt")
         file.open(QIODevice.ReadOnly)
         model = TreeModel(headers, file.readAll())
         file.close()
@@ -355,11 +357,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             child = model.index(0, column, index)
             model.setData(child, "[No data]", Qt.EditRole)
             if model.headerData(column, Qt.Horizontal) is None:
-                model.setHeaderData(column, Qt.Horizontal, "[No header]",
-                                    Qt.EditRole)
+                model.setHeaderData(column, Qt.Horizontal, "[No header]", Qt.EditRole)
 
-        self.view.selectionModel().setCurrentIndex(model.index(0, 0, index),
-                                                   QItemSelectionModel.ClearAndSelect)
+        self.view.selectionModel().setCurrentIndex(
+            model.index(0, 0, index), QItemSelectionModel.ClearAndSelect
+        )
         self.updateActions()
 
     def insertColumn(self):
@@ -368,8 +370,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         changed = model.insertColumn(column + 1)
         if changed:
-            model.setHeaderData(column + 1, Qt.Horizontal, "[No header]",
-                                Qt.EditRole)
+            model.setHeaderData(column + 1, Qt.Horizontal, "[No header]", Qt.EditRole)
 
         self.updateActions()
 
@@ -402,7 +403,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         index = self.view.selectionModel().currentIndex()
         model = self.view.model()
 
-        if (model.removeRow(index.row(), index.parent())):
+        if model.removeRow(index.row(), index.parent()):
             self.updateActions()
 
     def updateActions(self):
@@ -422,10 +423,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if self.view.selectionModel().currentIndex().parent().isValid():
                 self.statusBar().showMessage("Position: (%d,%d)" % (row, column))
             else:
-                self.statusBar().showMessage("Position: (%d,%d) in top level" % (row, column))
+                self.statusBar().showMessage(
+                    "Position: (%d,%d) in top level" % (row, column)
+                )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

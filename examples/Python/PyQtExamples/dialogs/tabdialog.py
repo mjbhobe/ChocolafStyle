@@ -1,7 +1,7 @@
 """
 * tabDialog.py - illustrated a multi-tab dialog. Dialog does not do much, intended to illustrate
-*   how to create multi-tab dialogs. This example shows the dialog with Chocolaf style & QDarkStyle-dark style 
-* @author (Chocolaf): Manish Bhobe
+*   how to create multi-tab dialogs. This example shows the dialog with Chocolaf style & QDarkStyle-dark style
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
 * displaying widgets using Chocolaf & other styles
@@ -60,7 +60,7 @@ import chocolaf
 
 
 class TabDialog(QDialog):
-    def __init__(self, fileName, parent = None):
+    def __init__(self, fileName, parent=None):
         super(TabDialog, self).__init__(parent)
 
         fileInfo = QFileInfo(fileName)
@@ -84,7 +84,7 @@ class TabDialog(QDialog):
 
 
 class GeneralTab(QWidget):
-    def __init__(self, fileInfo, parent = None):
+    def __init__(self, fileInfo, parent=None):
         super(GeneralTab, self).__init__(parent)
 
         fileNameLabel = QLabel("File Name:")
@@ -123,7 +123,7 @@ class GeneralTab(QWidget):
 
 
 class PermissionsTab(QWidget):
-    def __init__(self, fileInfo, parent = None):
+    def __init__(self, fileInfo, parent=None):
         super(PermissionsTab, self).__init__(parent)
 
         permissionsGroup = QGroupBox("Permissions")
@@ -171,7 +171,7 @@ class PermissionsTab(QWidget):
 
 
 class ApplicationsTab(QWidget):
-    def __init__(self, fileInfo, parent = None):
+    def __init__(self, fileInfo, parent=None):
         super(ApplicationsTab, self).__init__(parent)
 
         topLabel = QLabel("Open with:")
@@ -187,11 +187,14 @@ class ApplicationsTab(QWidget):
         alwaysCheckBox = QCheckBox()
 
         if fileInfo.suffix():
-            alwaysCheckBox = QCheckBox("Always use this application to open "
-                                       "files with the extension '%s'" % fileInfo.suffix())
+            alwaysCheckBox = QCheckBox(
+                "Always use this application to open "
+                "files with the extension '%s'" % fileInfo.suffix()
+            )
         else:
-            alwaysCheckBox = QCheckBox("Always use this application to open "
-                                       "this type of file")
+            alwaysCheckBox = QCheckBox(
+                "Always use this application to open " "this type of file"
+            )
 
         layout = QVBoxLayout()
         layout.addWidget(topLabel)
@@ -200,7 +203,7 @@ class ApplicationsTab(QWidget):
         self.setLayout(layout)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
     app.setStyle("Chocolaf")

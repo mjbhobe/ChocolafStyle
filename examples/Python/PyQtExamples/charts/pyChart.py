@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 * pyChart.py: drawing Pie Charts
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -28,11 +28,11 @@ class TestChart(QMainWindow):
 
         self.series = QPieSeries()
 
-        self.series.append('Jane', 1)
-        self.series.append('Joe', 2)
-        self.series.append('Andy', 3)
-        self.series.append('Barbara', 4)
-        self.series.append('Axel', 5)
+        self.series.append("Jane", 1)
+        self.series.append("Joe", 2)
+        self.series.append("Andy", 3)
+        self.series.append("Barbara", 4)
+        self.series.append("Axel", 5)
 
         self.slice = self.series.slices()[1]
         self.slice.setExploded()
@@ -42,7 +42,7 @@ class TestChart(QMainWindow):
 
         self.chart = QChart()
         self.chart.addSeries(self.series)
-        self.chart.setTitle('Simple piechart example')
+        self.chart.setTitle("Simple piechart example")
         self.chart.legend().hide()
 
         self._chart_view = QChartView(self.chart)

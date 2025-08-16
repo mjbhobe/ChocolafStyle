@@ -2,7 +2,7 @@
 """
 * displayImage.py - loads & displays image on a QLabel using
 *   Qt functions (RGB color space) & OpenCV (BGR color space)
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.

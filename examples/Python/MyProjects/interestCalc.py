@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 * interestCalc.py: compound interest calculator exercise
-* @author: Manish Bhobe
+* @author: Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!

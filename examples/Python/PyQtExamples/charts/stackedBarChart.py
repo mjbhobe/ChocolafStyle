@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 * stackedBarChart.py - shows two stacked bar charts for min & max temps
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -28,9 +28,35 @@ class StackedBarChartWidget(QWidget):
         self.lows = QBarSet("Lows")
         self.highs = QBarSet("Highs")
 
-        for temp in [-52, -50, -45.3, -37.0, -25.6, -8.0, -6.0, -11.8, -19.7, -32.8, -43.0, -48.0]:
+        for temp in [
+            -52,
+            -50,
+            -45.3,
+            -37.0,
+            -25.6,
+            -8.0,
+            -6.0,
+            -11.8,
+            -19.7,
+            -32.8,
+            -43.0,
+            -48.0,
+        ]:
             self.lows.append(temp)
-        for temp in [11.9, 12.8, 18.5, 26.5, 32.0, 34.8, 38.2, 34.8, 29.8, 20.4, 15.1, 11.8]:
+        for temp in [
+            11.9,
+            12.8,
+            18.5,
+            26.5,
+            32.0,
+            34.8,
+            38.2,
+            34.8,
+            29.8,
+            20.4,
+            15.1,
+            11.8,
+        ]:
             self.highs.append(temp)
 
         series = QStackedBarSeries()
@@ -42,7 +68,20 @@ class StackedBarChartWidget(QWidget):
         chart.setTitle("<html>Temperatures in &deg;C</html>")
         chart.setAnimationOptions(QChart.AnimationOption.SeriesAnimations)
 
-        categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        categories = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ]
 
         xAxis = QBarCategoryAxis()
         xAxis.append(categories)

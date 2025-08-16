@@ -4,10 +4,11 @@
 //
 // Tutorial - PyQt5 Doodle Application
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
-// @author: Manish Bhobe
+// @author: Manish Bhobé
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
+
 import sys
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
@@ -18,7 +19,9 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(QMainWindow, self).__init__()
         self.setWindowTitle("PyQt5 Doodle - Step03: Drawing points")
-        labelText = "Left click anywhere in client area to see position. Right click to clear"
+        labelText = (
+            "Left click anywhere in client area to see position. Right click to clear"
+        )
         self.messageLabel = QLabel(labelText, parent=self)
         self.messageLabel.setGeometry(10, 5, 500, 50)
         self.resize(QGuiApplication.primaryScreen().availableSize() * 4 / 5)

@@ -1,6 +1,6 @@
 """
 * mainWindowApp.py: illustrates using QMainWindow class with Chocolaf
-* @author (Chocolaf): Manish Bhobe
+* @author (Chocolaf): Manish Bhobé
 *
 * PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets
 * My experiments with Python, PyQt, Data Science & Deep Learning
@@ -71,7 +71,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        self.curFile = ''
+        self.curFile = ""
 
         self.textEdit = QPlainTextEdit()
         self.editorFont = QFont("Consolas", 11)
@@ -87,7 +87,7 @@ class MainWindow(QMainWindow):
 
         self.textEdit.document().contentsChanged.connect(self.documentWasModified)
 
-        self.setCurrentFile('')
+        self.setCurrentFile("")
         self.setWindowIcon(QIcon(":/text_editor_icon.png"))
 
     def closeEvent(self, event):
@@ -100,13 +100,19 @@ class MainWindow(QMainWindow):
     def newFile(self):
         if self.maybeSave():
             self.textEdit.clear()
-            self.setCurrentFile('')
+            self.setCurrentFile("")
 
     def open(self):
         if self.maybeSave():
-            docsPath = QStandardPaths.standardLocations(QStandardPaths.DocumentsLocation)
-            fileName, _ = QFileDialog.getOpenFileName(self, 'Open file', docsPath[-1],
-                                                      "Text Files (*.txt *.c *.cpp *.h *.hxx *.py *.java *.bat *.sh)")
+            docsPath = QStandardPaths.standardLocations(
+                QStandardPaths.DocumentsLocation
+            )
+            fileName, _ = QFileDialog.getOpenFileName(
+                self,
+                "Open file",
+                docsPath[-1],
+                "Text Files (*.txt *.c *.cpp *.h *.hxx *.py *.java *.bat *.sh)",
+            )
             # fileName, _ = QFileDialog.getOpenFileName(self)
             if fileName:
                 self.loadFile(fileName)
@@ -125,12 +131,15 @@ class MainWindow(QMainWindow):
         return False
 
     def about(self):
-        QMessageBox.about(self, "About Application",
-                          "The <b>Chocolaf-TextEditor</b> example demonstrates how to write "
-                          "modern GUI applications using PyQt, with a menu bar, "
-                          "toolbars, and a status bar.<br/><br/>"
-                          "Author: Manish Bhobe<br/><br/>"
-                          "<small>Code released for illustration purposes only!</small>")
+        QMessageBox.about(
+            self,
+            "About Application",
+            "The <b>Chocolaf-TextEditor</b> example demonstrates how to write "
+            "modern GUI applications using PyQt, with a menu bar, "
+            "toolbars, and a status bar.<br/><br/>"
+            "Author: Manish Bhobé<br/><br/>"
+            "<small>Code released for illustration purposes only!</small>",
+        )
 
     def documentWasModified(self):
         self.setWindowModified(self.textEdit.document().isModified())
@@ -138,62 +147,116 @@ class MainWindow(QMainWindow):
     def createActions(self):
         root = QFileInfo(__file__).absolutePath()
 
-        self.newAct = QAction(QIcon(':/file_new.png'), "&New", self,
-                              shortcut=QKeySequence.New, statusTip="Create a new file",
-                              triggered=self.newFile)
+        self.newAct = QAction(
+            QIcon(":/file_new.png"),
+            "&New",
+            self,
+            shortcut=QKeySequence.New,
+            statusTip="Create a new file",
+            triggered=self.newFile,
+        )
 
-        self.openAct = QAction(QIcon(':/file_open.png'), "&Open...",
-                               self, shortcut=QKeySequence.Open,
-                               statusTip="Open an existing file", triggered=self.open)
+        self.openAct = QAction(
+            QIcon(":/file_open.png"),
+            "&Open...",
+            self,
+            shortcut=QKeySequence.Open,
+            statusTip="Open an existing file",
+            triggered=self.open,
+        )
 
-        saveIcon = QIcon(':/file_save.png')
+        saveIcon = QIcon(":/file_save.png")
         saveIcon.addPixmap(QPixmap(":/file_save-1d.png"), QIcon.Disabled)
-        self.saveAct = QAction(saveIcon, "&Save", self, shortcut=QKeySequence.Save,
-                               statusTip="Save the document to disk", triggered=self.save)
+        self.saveAct = QAction(
+            saveIcon,
+            "&Save",
+            self,
+            shortcut=QKeySequence.Save,
+            statusTip="Save the document to disk",
+            triggered=self.save,
+        )
 
-        self.saveAsAct = QAction("Save &As...", self,
-                                 shortcut=QKeySequence.SaveAs,
-                                 statusTip="Save the document under a new name",
-                                 triggered=self.saveAs)
+        self.saveAsAct = QAction(
+            "Save &As...",
+            self,
+            shortcut=QKeySequence.SaveAs,
+            statusTip="Save the document under a new name",
+            triggered=self.saveAs,
+        )
 
-        self.exitAct = QAction(QIcon(':/on-off.png'), "E&xit", self, shortcut="Ctrl+Q",
-                               statusTip="Exit the application", triggered=self.close)
+        self.exitAct = QAction(
+            QIcon(":/on-off.png"),
+            "E&xit",
+            self,
+            shortcut="Ctrl+Q",
+            statusTip="Exit the application",
+            triggered=self.close,
+        )
 
-        cutIcon = QIcon(':/edit_cut.png')
+        cutIcon = QIcon(":/edit_cut.png")
         cutIcon.addPixmap(QPixmap(":/edit_cut-d.png"), QIcon.Disabled)
-        self.cutAct = QAction(cutIcon, "Cu&t", self, shortcut=QKeySequence.Cut,
-                              statusTip="Cut the current selection's contents to the clipboard",
-                              triggered=self.textEdit.cut)
+        self.cutAct = QAction(
+            cutIcon,
+            "Cu&t",
+            self,
+            shortcut=QKeySequence.Cut,
+            statusTip="Cut the current selection's contents to the clipboard",
+            triggered=self.textEdit.cut,
+        )
 
-        copyIcon = QIcon(':/edit_copy.png')
+        copyIcon = QIcon(":/edit_copy.png")
         copyIcon.addPixmap(QPixmap(":/edit_copy-d.png"), QIcon.Disabled)
-        self.copyAct = QAction(copyIcon, "&Copy", self, shortcut=QKeySequence.Copy,
-                               statusTip="Copy the current selection's contents to the clipboard",
-                               triggered=self.textEdit.copy)
+        self.copyAct = QAction(
+            copyIcon,
+            "&Copy",
+            self,
+            shortcut=QKeySequence.Copy,
+            statusTip="Copy the current selection's contents to the clipboard",
+            triggered=self.textEdit.copy,
+        )
 
-        pasteIcon = QIcon(':/edit_paste.png')
+        pasteIcon = QIcon(":/edit_paste.png")
         pasteIcon.addPixmap(QPixmap(":/edit_paste-d.png"), QIcon.Disabled)
-        self.pasteAct = QAction(pasteIcon, "&Paste", self, shortcut=QKeySequence.Paste,
-                                statusTip="Paste the clipboard's contents into the current selection",
-                                triggered=self.textEdit.paste)
+        self.pasteAct = QAction(
+            pasteIcon,
+            "&Paste",
+            self,
+            shortcut=QKeySequence.Paste,
+            statusTip="Paste the clipboard's contents into the current selection",
+            triggered=self.textEdit.paste,
+        )
 
-        self.wordWrapAct = QAction(QIcon(':/word_wrap.png'), "Word &wrap", self,
-                                   statusTip="Toggle word wrapping in editor",
-                                   triggered=self.enableDisableWordWrap)
+        self.wordWrapAct = QAction(
+            QIcon(":/word_wrap.png"),
+            "Word &wrap",
+            self,
+            statusTip="Toggle word wrapping in editor",
+            triggered=self.enableDisableWordWrap,
+        )
         self.wordWrapAct.setCheckable(True)
         self.wordWrapAct.setChecked(True)
 
-        self.fontAct = QAction(QIcon(':/font_size.png'), "Select Font...", self,
-                               statusTip="Choose default font used by editor",
-                               triggered=self.chooseFont)
+        self.fontAct = QAction(
+            QIcon(":/font_size.png"),
+            "Select Font...",
+            self,
+            statusTip="Choose default font used by editor",
+            triggered=self.chooseFont,
+        )
 
-        self.aboutAct = QAction("&About", self,
-                                statusTip="Show the application's About box",
-                                triggered=self.about)
+        self.aboutAct = QAction(
+            "&About",
+            self,
+            statusTip="Show the application's About box",
+            triggered=self.about,
+        )
 
-        self.aboutQtAct = QAction("About &Qt", self,
-                                  statusTip="Show the Qt library's About box",
-                                  triggered=QApplication.instance().aboutQt)
+        self.aboutQtAct = QAction(
+            "About &Qt",
+            self,
+            statusTip="Show the Qt library's About box",
+            triggered=QApplication.instance().aboutQt,
+        )
 
         self.cutAct.setEnabled(False)
         self.copyAct.setEnabled(False)
@@ -251,7 +314,9 @@ class MainWindow(QMainWindow):
         fontSize = settings.value("fontSize", 11)
         self.editorFont = QFont(fontFamily, fontSize)
         self.textEdit.setFont(self.editorFont)
-        _logger.info(f"Settings read: pos = {pos}, size = {size}, fontFamily = {fontFamily}, fontSize = {fontSize}")
+        _logger.info(
+            f"Settings read: pos = {pos}, size = {size}, fontFamily = {fontFamily}, fontSize = {fontSize}"
+        )
         self.resize(size)
         self.move(pos)
 
@@ -262,14 +327,17 @@ class MainWindow(QMainWindow):
         settings.setValue("fontFamily", self.editorFont.family())
         settings.setValue("fontSize", self.editorFont.pointSize())
         _logger.info(
-            f"Settings written: pos = {self.pos()}, size = {self.size()}, fontFamily = {self.editorFont.family()}, fontSize = {self.editorFont.pointSize()}")
+            f"Settings written: pos = {self.pos()}, size = {self.size()}, fontFamily = {self.editorFont.family()}, fontSize = {self.editorFont.pointSize()}"
+        )
 
     def maybeSave(self):
         if self.textEdit.document().isModified():
-            ret = QMessageBox.warning(self, "Application",
-                                      "The document has been modified.\nDo you want to save "
-                                      "your changes?",
-                                      QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+            ret = QMessageBox.warning(
+                self,
+                "Application",
+                "The document has been modified.\nDo you want to save " "your changes?",
+                QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel,
+            )
 
             if ret == QMessageBox.Save:
                 return self.save()
@@ -282,8 +350,11 @@ class MainWindow(QMainWindow):
     def loadFile(self, fileName):
         file = QFile(fileName)
         if not file.open(QFile.ReadOnly | QFile.Text):
-            QMessageBox.warning(self, "Application",
-                                "Cannot read file %s:\n%s." % (fileName, file.errorString()))
+            QMessageBox.warning(
+                self,
+                "Application",
+                "Cannot read file %s:\n%s." % (fileName, file.errorString()),
+            )
             return
 
         inf = QTextStream(file)
@@ -297,8 +368,11 @@ class MainWindow(QMainWindow):
     def saveFile(self, fileName):
         file = QFile(fileName)
         if not file.open(QFile.WriteOnly | QFile.Text):
-            QMessageBox.warning(self, "Application",
-                                "Cannot write file %s:\n%s." % (fileName, file.errorString()))
+            QMessageBox.warning(
+                self,
+                "Application",
+                "Cannot write file %s:\n%s." % (fileName, file.errorString()),
+            )
             return False
 
         outf = QTextStream(file)
@@ -318,7 +392,7 @@ class MainWindow(QMainWindow):
         if self.curFile:
             shownName = self.strippedName(self.curFile)
         else:
-            shownName = 'untitled.txt'
+            shownName = "untitled.txt"
 
         self.setWindowTitle("%s[*] - PyQtTextEditor" % shownName)
 
@@ -345,7 +419,7 @@ class MainWindow(QMainWindow):
             self.textEdit.setFont(editorFont)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     LOG_FILE_PATH = f"{__file__}.log"
     logging.basicConfig(filename=LOG_FILE_PATH, level=logging.DEBUG)
     app = ChocolafApp(sys.argv)
