@@ -7,6 +7,7 @@ TARGET = step05
 INCLUDEPATH += .
 
 include(../../../../../chocolaf/common_files/common.pro)
+#include($$(CHOCOLAF_HOME)/chocolaf/common_files/common.pro)
 
 # Input
 HEADERS += DrawWindow.h Line.h

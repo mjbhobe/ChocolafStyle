@@ -32,6 +32,7 @@ release/
 profile/
 Debug/
 Release/
+cmake_build/
 Profile/
 Makefile
 Makefile.Debug
