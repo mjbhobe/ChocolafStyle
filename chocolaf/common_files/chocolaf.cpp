@@ -23,7 +23,6 @@
 #endif // Q_OS_WIN
 
 namespace Chocolaf {
-
   // const struct __ChocolafPalette ChocolafPalette;
   const QString __version__ = {"1.0"};
   const QString __author__ = {"Manish Bhobé"};
@@ -31,8 +30,7 @@ namespace Chocolaf {
   const QString __domain__ = {"namostute.qtpyapps.in"};
   // static QPalette *__palette = getPalette();
 
-  QPalette *getPalette()
-  {
+  QPalette *getPalette() {
     QPalette *palette = new QPalette();
 
     palette->setColor(QPalette::Window,
@@ -75,13 +73,13 @@ namespace Chocolaf {
     return palette;
   }
 
-  void setStyleSheet(QApplication &app)
-  {
+  void setStyleSheet(QApplication &app) {
     QFile f(":chocolaf/chocolaf.css");
     if (!f.exists()) {
       printf("Unable to open Chocolaf stylesheet! Falling back on Fusion style.");
       app.setStyle("Fusion");
-    } else {
+    }
+    else {
       f.open(QFile::ReadOnly | QFile::Text);
       QTextStream ts(&f);
       app.setStyleSheet(ts.readAll());
@@ -94,8 +92,7 @@ namespace Chocolaf {
     }
   }
 
-  void centerOnScreenWithSize(QWidget &widget, float widthProp, float heightProp)
-  {
+  void centerOnScreenWithSize(QWidget &widget, float widthProp, float heightProp) {
     // center the widget on screen
     QRect screenGeom = QGuiApplication::primaryScreen()->geometry();
     int widgetWidth = int(widthProp * screenGeom.width());
@@ -107,8 +104,7 @@ namespace Chocolaf {
     widget.move(x, y);
   }
 
-  void setChocolafStyle(QApplication &app, const QString &styleName)
-  {
+  void setChocolafStyle(QApplication &app, const QString &styleName) {
     if (styleName == QString("Chocolaf")) {
       app.setStyle("Fusion");
       app.setFont(QApplication::font("QMenu"));
@@ -117,7 +113,8 @@ namespace Chocolaf {
       if (!f.exists()) {
         printf("Unable to open Chocolaf stylesheet! Falling back on Fusion style.");
         QApplication::setStyle("Fusion");
-      } else {
+      }
+      else {
         f.open(QFile::ReadOnly | QFile::Text);
         QTextStream ts(&f);
         app.setStyleSheet(ts.readAll());
@@ -164,7 +161,8 @@ namespace Chocolaf {
         // app.setPalette(palette);
         QApplication::setPalette(palette);
       }
-    } else if (styleName == QString("WindowsDark")) {
+    }
+    else if (styleName == QString("WindowsDark")) {
       app.setStyle("Fusion");
       app.setFont(QApplication::font("QMenu"));
       QPalette darkPalette;
@@ -172,21 +170,21 @@ namespace Chocolaf {
       darkPalette.setColor(QPalette::Window,
                            WinDarkPalette::Window_Color); // general background color
       darkPalette
-          .setColor(QPalette::WindowText,
-                    WinDarkPalette::WindowText_Color); // general foreground color
+        .setColor(QPalette::WindowText,
+                  WinDarkPalette::WindowText_Color); // general foreground color
       darkPalette
-          .setColor(QPalette::Base,
-                    WinDarkPalette::Base_Color); // background for text entry widgets
+        .setColor(QPalette::Base,
+                  WinDarkPalette::Base_Color); // background for text entry widgets
       // background color for views with alternating colors
       darkPalette.setColor(QPalette::AlternateBase,
                            WinDarkPalette::AlternateBase_Color);
       darkPalette
-          .setColor(QPalette::ToolTipBase,
-                    WinDarkPalette::ToolTipBase_Color); // background for tooltips
+        .setColor(QPalette::ToolTipBase,
+                  WinDarkPalette::ToolTipBase_Color); // background for tooltips
       darkPalette.setColor(QPalette::ToolTipText, WinDarkPalette::ToolTipText_Color);
       darkPalette
-          .setColor(QPalette::Text,
-                    WinDarkPalette::Text_Color); // foreground color to use with Base
+        .setColor(QPalette::Text,
+                  WinDarkPalette::Text_Color); // foreground color to use with Base
       darkPalette.setColor(QPalette::Button,
                            WinDarkPalette::Button_Color); // pushbutton colors
       darkPalette.setColor(QPalette::ButtonText,
@@ -214,10 +212,12 @@ namespace Chocolaf {
       app.setPalette(darkPalette);
 
       app.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; "
-                        "border: 1px solid white; }");
-    } else if (QStyleFactory::keys().count(styleName) > 0) {
+        "border: 1px solid white; }");
+    }
+    else if (QStyleFactory::keys().count(styleName) > 0) {
       QApplication::setStyle(styleName);
-    } else {
+    }
+    else {
       QString err = QString("Error: unrecognized style \'%1\'").arg(styleName);
       QMessageBox::critical(nullptr, "FATAL ERROR", err);
       throw std::invalid_argument(err.toStdString().c_str());
@@ -228,8 +228,7 @@ namespace Chocolaf {
   // ChocolafApp - custom application class
   // ===================================================================
   ChocolafApp::ChocolafApp(int argc, char *argv[])
-      : QApplication(argc, argv)
-  {
+    : QApplication(argc, argv) {
     // Q_ASSERT(__palette != nullptr);
     _palette = getPalette(); //__palette;
     _styleSheet = QString("");
@@ -244,12 +243,11 @@ namespace Chocolaf {
     //      qDebug() << "arg[" << a << "] = " << argv[a];
   }
 
-  ChocolafApp::~ChocolafApp()
-  { /* delete _palette;  */
+  ChocolafApp::~ChocolafApp() {
+    /* delete _palette;  */
   }
 
-  void ChocolafApp::setStyle(const QString &styleName)
-  {
+  void ChocolafApp::setStyle(const QString &styleName) {
     if (styleName == QString("Chocolaf")) {
       QApplication::setStyle("Fusion");
       setFont(QApplication::font("QMenu"));
@@ -258,7 +256,8 @@ namespace Chocolaf {
       if (!f.exists()) {
         printf("Unable to open Chocolaf stylesheet! Falling back on Fusion style.");
         QApplication::setStyle("Fusion");
-      } else {
+      }
+      else {
         f.open(QFile::ReadOnly | QFile::Text);
         QTextStream ts(&f);
         setStyleSheet(ts.readAll());
@@ -314,7 +313,8 @@ namespace Chocolaf {
         // setOrganizationName("Nämostuté Ltd.");
         // setOrganizationDomain("namostute.qtpyapps.in");
       }
-    } else if (styleName == QString("WindowsDark")) {
+    }
+    else if (styleName == QString("WindowsDark")) {
       QApplication::setStyle("Fusion");
       setFont(QApplication::font("QMenu"));
       QPalette darkPalette;
@@ -322,21 +322,21 @@ namespace Chocolaf {
       darkPalette.setColor(QPalette::Window,
                            WinDarkPalette::Window_Color); // general background color
       darkPalette
-          .setColor(QPalette::WindowText,
-                    WinDarkPalette::WindowText_Color); // general foreground color
+        .setColor(QPalette::WindowText,
+                  WinDarkPalette::WindowText_Color); // general foreground color
       darkPalette
-          .setColor(QPalette::Base,
-                    WinDarkPalette::Base_Color); // background for text entry widgets
+        .setColor(QPalette::Base,
+                  WinDarkPalette::Base_Color); // background for text entry widgets
       // background color for views with alternating colors
       darkPalette.setColor(QPalette::AlternateBase,
                            WinDarkPalette::AlternateBase_Color);
       darkPalette
-          .setColor(QPalette::ToolTipBase,
-                    WinDarkPalette::ToolTipBase_Color); // background for tooltips
+        .setColor(QPalette::ToolTipBase,
+                  WinDarkPalette::ToolTipBase_Color); // background for tooltips
       darkPalette.setColor(QPalette::ToolTipText, WinDarkPalette::ToolTipText_Color);
       darkPalette
-          .setColor(QPalette::Text,
-                    WinDarkPalette::Text_Color); // foreground color to use with Base
+        .setColor(QPalette::Text,
+                  WinDarkPalette::Text_Color); // foreground color to use with Base
       darkPalette.setColor(QPalette::Button,
                            WinDarkPalette::Button_Color); // pushbutton colors
       darkPalette.setColor(QPalette::ButtonText,
@@ -364,11 +364,13 @@ namespace Chocolaf {
       this->setPalette(darkPalette);
 
       this->setStyleSheet(
-          "QToolTip { color: #ffffff; background-color: #2a82da; border: "
-          "1px solid white; }");
-    } else if (QStyleFactory::keys().count(styleName) > 0) {
+        "QToolTip { color: #ffffff; background-color: #2a82da; border: "
+        "1px solid white; }");
+    }
+    else if (QStyleFactory::keys().count(styleName) > 0) {
       QApplication::setStyle(styleName);
-    } else {
+    }
+    else {
       QString err = QString("Error: unrecognized style \'%1\'").arg(styleName);
       QMessageBox::critical(nullptr, "FATAL ERROR", err);
       throw std::invalid_argument(err.toStdString().c_str());
@@ -376,8 +378,7 @@ namespace Chocolaf {
   }
 
   // static
-  void ChocolafApp::setupForHighDpiScreens()
-  {
+  void ChocolafApp::setupForHighDpiScreens() {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #ifdef Q_OS_WIN
 
@@ -403,24 +404,21 @@ namespace Chocolaf {
   }
 
   // static
-  int ChocolafApp::pixelsToPoints(int pixels)
-  {
+  int ChocolafApp::pixelsToPoints(int pixels) {
     // NOTE: 1 inch == 96 pixels and 1 inch == 72 points
     // hence 96 pixels = 72 points
     return static_cast<int>(pixels * 72 / 96);
   }
 
   // static
-  int ChocolafApp::pointsToPixels(int points)
-  {
+  int ChocolafApp::pointsToPixels(int points) {
     // NOTE: 1 inch == 96 pixels and 1 inch == 72 points
     // hence 96 pixels = 72 points
     return static_cast<int>(points * 96 / 72);
   }
 
   // static
-  void ChocolafApp::setDarkTitlebar(QWidget &win)
-  {
+  void ChocolafApp::setDarkTitlebar(QWidget &win) {
 #ifdef Q_OS_WIN
     QSettings settings(
         "HKEY_CURRENT_"
@@ -501,5 +499,4 @@ namespace Chocolaf {
          return palette;
       }
    ----------------------------------- */
-
 } // namespace Chocolaf

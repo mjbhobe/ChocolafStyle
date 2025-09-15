@@ -24,7 +24,7 @@ const QString WinTitle = QString("Qt %1 Doodle - Step03: Handling mouse clicks")
 int main(int argc, char **argv)
 {
   QApplication app(argc, argv);
-  Chocolaf::setChocolafStyle(app, "WindowsDark");
+  //Chocolaf::setChocolafStyle(app, "WindowsDark");
 
   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 

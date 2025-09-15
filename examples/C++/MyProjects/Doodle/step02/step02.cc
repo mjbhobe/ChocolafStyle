@@ -17,13 +17,12 @@
 
 QTextStream cout(stdout, QIODeviceBase::WriteOnly);
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   QApplication app(argc, argv);
   Chocolaf::setChocolafStyle(app, "WindowsDark");
 
   QStringList args = QCoreApplication::arguments();
-  foreach (auto arg, args)
+  foreach(auto arg, args)
     cout << arg << " ";
   cout << Qt::endl;
 

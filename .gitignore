@@ -32,11 +32,12 @@ release/
 profile/
 Debug/
 Release/
-cmake_build/
+cmake_build*/
+cmake-build*/
 Profile/
 Makefile
 Makefile.Debug
-Makefile.Release
+Makefile.Release*and
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
