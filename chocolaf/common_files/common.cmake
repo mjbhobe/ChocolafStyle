@@ -81,7 +81,7 @@ endif()
 # ---------------------------------------------------------------------------
 # Optional MSYS2 vs non-MSYS2 Windows toggles (mirrors the qmake branches)
 # ---------------------------------------------------------------------------
-option(USE_MSYS2 "Use MSYS2 include/lib layout on Windows" ON) # qmake branch: CONFIG(MSYS2)
+#option(USE_MSYS2 "Use MSYS2 include/lib layout on Windows" ON) # qmake branch: CONFIG(MSYS2)
 
 if(WIN32)
   if(USE_MSYS2)
@@ -237,32 +237,75 @@ set(CHOCOLAF_QT_RESOURCES
 
 # If you want these files to show up in IDEs when linking the interface target,
 # you can expose them as INTERFACE sources (no compilation is triggered here).
-target_sources(chocolaf_settings INTERFACE
-  ${CHOCOLAF_COMMON_SOURCES}
-  ${CHOCOLAF_COMMON_HEADERS}
-  ${CHOCOLAF_QT_RESOURCES}
-)
+#target_sources(chocolaf_settings INTERFACE
+#  ${CHOCOLAF_COMMON_SOURCES}
+#  ${CHOCOLAF_COMMON_HEADERS}
+#  ${CHOCOLAF_QT_RESOURCES}
+#)
 
 # Consumers using Qt6 can also do: qt_add_resources(<target> ... ${CHOCOLAF_QT_RESOURCES})
 
 # ---------------------------------------------------------------------------
 # QtAwesome (qmake: CONFIG += fontAwesomeFree; include(QtAwesome/QtAwesome.pri))
 # ---------------------------------------------------------------------------
-# There isn't a canonical CMake package for QtAwesome; typical patterns:
-#  - add_subdirectory(QtAwesome) defining a QtAwesome::QtAwesome target, or
-#  - find_package(QtAwesome) via a local config file.
-# Keep this optional hook:
-option(ENABLE_QTAWESOME "Enable linking against QtAwesome if available" OFF)
+
+# ---- QtAwesome (vendored sources beside this file) ---------------------------
+# Turn on/off globally
+option(ENABLE_QTAWESOME "Build and link QtAwesome icon helper" ON)
+
 if(ENABLE_QTAWESOME)
-  find_package(QtAwesome QUIET)
-  if(QtAwesome_FOUND)
-    target_link_libraries(chocolaf_settings INTERFACE QtAwesome::QtAwesome)
+  # Path: QtAwesome is a sibling of this common.cmake file
+  set(QTAWESOME_ROOT "${CMAKE_CURRENT_LIST_DIR}/QtAwesome")
+
+  if(EXISTS "${QTAWESOME_ROOT}/QtAwesome.cpp")
+#    add_library(QtAwesome STATIC
+#        "${QTAWESOME_ROOT}/QtAwesome.cpp"
+#        "${QTAWESOME_ROOT}/QtAwesome.h"
+#        "${QTAWESOME_ROOT}/QtAwesomeAnim.cpp"
+#        "${QTAWESOME_ROOT}/QtAwesomeAnim.h"
+#    )
+    #target_include_directories(QtAwesome PUBLIC "${QTAWESOME_ROOT}")
+    target_include_directories(chocolaf_settings INTERFACE "${QTAWESOME_ROOT}")
+    # append QtAwesome header files to includes list
+    list(APPEND CHOCOLAF_COMMON_HEADERS "${QTAWESOME_ROOT}/QtAwesome.h")
+    list(APPEND CHOCOLAF_COMMON_HEADERS "${QTAWESOME_ROOT}/QtAwesomeAnim.h")
+    set(CHOCOLAF_COMMON_HEADERS
+      "${CHOCOLAF_COMMON_HEADERS}"
+      CACHE INTERNAL "Common sources to be added by consumers" FORCE)
+
+    # # append QtAwesome source files to sources list
+    list(APPEND CHOCOLAF_COMMON_SOURCES "${QTAWESOME_ROOT}/QtAwesome.cpp")
+    list(APPEND CHOCOLAF_COMMON_SOURCES "${QTAWESOME_ROOT}/QtAwesomeAnim.cpp")
+    set(CHOCOLAF_COMMON_SOURCES
+        "${CHOCOLAF_COMMON_SOURCES}"
+        CACHE INTERNAL "Common sources to be added by consumers" FORCE)
+
+#    target_link_libraries(QtAwesome PUBLIC
+#        Qt${QT_VERSION_MAJOR}::Core
+#        Qt${QT_VERSION_MAJOR}::Gui
+#        Qt${QT_VERSION_MAJOR}::Widgets
+#    )
+
+    # If the repo (or you) provide a .qrc with Font Awesome fonts, add it here:
+    if(EXISTS "${QTAWESOME_ROOT}/QtAwesomeFree.qrc")
+      # AUTORCC is already ON globally; adding the .qrc is enough
+      #target_sources(QtAwesome PRIVATE "${QTAWESOME_ROOT}/QtAwesome.qrc")
+
+      list(APPEND CHOCOLAF_QT_RESOURCES "${QTAWESOME_ROOT}/QtAwesomeFree.qrc")
+      set(CHOCOLAF_QT_RESOURCES
+          "${CMAKE_CURRENT_LIST_DIR}/../styles/chocolaf/chocolaf.qrc"
+          CACHE INTERNAL "Qt .qrc files for consumers" FORCE
+      )
+    endif()
+
+    # Make all consumers of chocolaf_settings get QtAwesome automatically
+    # target_link_libraries(chocolaf_settings INTERFACE QtAwesome)
+    message(STATUS "QtAwesome enabled from: ${QTAWESOME_ROOT}")
   else()
-    message(STATUS "QtAwesome not found; set ENABLE_QTAWESOME=OFF or provide a package/target.")
+    message(WARNING "QtAwesome not found at ${QTAWESOME_ROOT}. Set ENABLE_QTAWESOME=OFF or place sources there.")
   endif()
 endif()
-
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 # Output directories (qmake DESTDIR/build/debug|release)
 # NOTE: CMake defaults differ; set global dirs to mimic qmake layout.
 # ---------------------------------------------------------------------------
@@ -274,6 +317,15 @@ foreach(_cfg Debug Release RelWithDebInfo MinSizeRel)
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${_CFG} "${_out_base}/${_cfg}")
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${_CFG} "${_out_base}/${_cfg}")
 endforeach()
+
+
+# If you want these files to show up in IDEs when linking the interface target,
+# you can expose them as INTERFACE sources (no compilation is triggered here).
+target_sources(chocolaf_settings INTERFACE
+    ${CHOCOLAF_COMMON_SOURCES}
+    ${CHOCOLAF_COMMON_HEADERS}
+    ${CHOCOLAF_QT_RESOURCES}
+)
 
 # qmake also set OBJECTS_DIR/MOC_DIR/RCC_DIR/UI_DIR under DESTDIR.
 # CMake manages moc/rcc/uic in its own build tree; overriding their
@@ -291,4 +343,45 @@ endforeach()
 # If OpenCV/fmt/PostgreSQL/libpqxx aren’t auto-found, either:
 #  - set USE_MSYS2 ON and keep the link_directories/include dirs above, or
 #  - provide CMAKE_PREFIX_PATH / *_ROOT hints to their installations.
+
+# --- Debug summary for chocolaf_settings ------------------------------------
+
+# 1. Include directories
+get_target_property(_choco_includes chocolaf_settings INTERFACE_INCLUDE_DIRECTORIES)
+
+# 2. Linked libraries
+get_target_property(_choco_libs chocolaf_settings INTERFACE_LINK_LIBRARIES)
+
+# 3. Search paths (used by link_directories() etc.)
+get_directory_property(_link_dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} LINK_DIRECTORIES)
+
+# 4. Common headers (includes appended ones like QtAwesome.h)
+set(_choco_headers "${CHOCOLAF_COMMON_HEADERS}")
+
+# 5. Common sources (includes appended ones like QtAwesome.cpp)
+set(_choco_sources "${CHOCOLAF_COMMON_SOURCES}")
+
+# 6. Common resources (all *.qrc files)
+set(_choco_resources "${CHOCOLAF_QT_RESOURCES}")
+
+# Flatten for pretty-printing
+string(REPLACE ";" "\n    " _includes_str "${_choco_includes}")
+string(REPLACE ";" "\n    " _libs_str     "${_choco_libs}")
+string(REPLACE ";" "\n    " _choco_headers_str "${_choco_headers}")
+string(REPLACE ";" "\n    " _choco_sources_str "${_choco_sources}")
+string(REPLACE ";" "\n    " _choco_resources_str "${_choco_resources}")
+
+message(STATUS "====== Chocolaf Common Settings ======")
+message(STATUS "Include dirs:\n    ${_includes_str}")
+message(STATUS "Library search paths:\n    ${_linkdirs_str}")
+message(STATUS "Linked libs:\n    ${_libs_str}")
+message(STATUS "Common includes:\n    ${_choco_headers_str}")
+message(STATUS "Common sources:\n    ${_choco_sources_str}")
+message(STATUS "Common resources:\n    ${_choco_resources_str}")
+message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
+message(STATUS "CMAKE_LIBRARY_PATH: ${CMAKE_LIBRARY_PATH}")
+message(STATUS "CMAKE_INCLUDE_PATH: ${CMAKE_INCLUDE_PATH}")
+message(STATUS "======================================")
+
+
 

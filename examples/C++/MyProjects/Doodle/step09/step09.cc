@@ -6,6 +6,7 @@
 // Created by Manish Bhobé.
 // ===========================================================================
 
+#include "chocolaf.h"
 #include "MainWindow.h"
 #include <QApplication>
 #include <QDebug>
@@ -27,7 +28,10 @@ const QString AppTitle("Qt Scribble");
 int main(int argc, char **argv)
 {
    QApplication app(argc, argv);
+   //app.setStyle("Fusion");
+   //Chocolaf::setChocolafStyle(app, "Chocolaf");
 
+   /*
    QFile f(":chocolaf/chocolaf.css");
 
    if (!f.exists()) {
@@ -36,7 +40,7 @@ int main(int argc, char **argv)
       f.open(QFile::ReadOnly | QFile::Text);
       QTextStream ts(&f);
       app.setStyleSheet(ts.readAll());
-   }
+   }*/
    app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
    // create the GUI
