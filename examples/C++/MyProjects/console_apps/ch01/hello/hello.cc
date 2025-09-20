@@ -9,8 +9,7 @@
 
 static QTextStream cout(stdout, QIODeviceBase::WriteOnly);
 
-int main(void)
-{
+int main() {
    cout << "Hello World, welcome to the Qt Framework!" << Qt::endl;
    cout << "You are using Qt Framework version " << QT_VERSION_STR << Qt::endl;
 

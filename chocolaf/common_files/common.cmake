@@ -1,8 +1,12 @@
+# ---------------------------------------------------------------------------
 # common.cmake
 #
 # Global settings file for compiler/linker/includes etc.
 # This file DOES NOT build anything; it defines an INTERFACE target that
 # exports compile options/defines, include paths and link libs for consumers.
+# Use as include file on your CMakeLists.txt for GUI applications only!
+# Converted from common.pro file using OpenAI-GPT-5
+# ---------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.21)
 
@@ -22,6 +26,7 @@ set(CMAKE_AUTOUIC ON)
 # ---------------------------------------------------------------------------
 # Try Qt6 first, then Qt5, with the listed components.
 # find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Xml Sql Network Svg Widgets)
+# QT += core gui xml sql network svg widgets
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Gui Xml Sql Network Svg Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Xml Sql Network Svg Widgets)
 
@@ -81,7 +86,9 @@ endif()
 # ---------------------------------------------------------------------------
 # Optional MSYS2 vs non-MSYS2 Windows toggles (mirrors the qmake branches)
 # ---------------------------------------------------------------------------
-#option(USE_MSYS2 "Use MSYS2 include/lib layout on Windows" ON) # qmake branch: CONFIG(MSYS2)
+# use the -DUSE_MSYS2=ON/OFF flag on command line also, by default it's off\
+# Example: cmake -S . -B build -DUSE_MSYS2=ON/OFF
+option(USE_MSYS2 "Use MSYS2 include/lib layout on Windows" OFF)
 
 if(WIN32)
   if(USE_MSYS2)

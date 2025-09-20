@@ -1,97 +1,207 @@
+# ---------------------------------------------------------------------------
 # common_console.cmake
 #
-# Global settings converted from qmake .pro (console, no GUI).
-# Defines an INTERFACE target with compile options/defines, include dirs,
-# and link libraries. This file does NOT build anything.
+# Global settings file for compiler/linker/includes etc.
+# This file DOES NOT build anything; it defines an INTERFACE target that
+# exports compile options/defines, include paths and link libs for consumers
+# Use as include file on your CMakeLists.txt for CONSOLE applications only!
+# Converted from common.pro file using OpenAI-GPT-5
+# ---------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.21)
 
-# --- Language standard (CONFIG c++20, but QMAKE_CXXFLAGS also forced C++23)
+# CONFIG += c++20 → CMake standard settings
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# --- Qt components (QT += core xml sql network; QT -= gui/widgets)
-# find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Xml Sql Network)
+# qmake AUTO features (moc, uic, rcc)
+# CONFIG += console → (default in CMake, no GUI bundle)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+# QT += core xml sql network ; QT -= gui widgets
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Xml Sql Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Xml Sql Network)
 
-# --- The global interface target exported to consumers
+# INTERFACE target used by all console apps
 add_library(chocolaf_console_settings INTERFACE)
 
-# --- Common include roots (DEPENDPATH+=. INCLUDEPATH+=.)
-target_include_directories(chocolaf_console_settings
-  INTERFACE
-    ${CMAKE_CURRENT_LIST_DIR}
-)
-
-# --- COMMON_FILES_HOME (from win32/unix branches in .pro)
-if(WIN32)
-  set(COMMON_FILES_HOME "c:/Dev/Code/git-projects/ChocolafStyle/chocolaf" CACHE PATH "Common files home (Windows)")
-else()
-  set(COMMON_FILES_HOME "/home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf" CACHE PATH "Common files home (Unix)")
-endif()
-
-# INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
-target_include_directories(chocolaf_console_settings INTERFACE
-  "${COMMON_FILES_HOME}/common_files"
-)
-
-# --- Compile definitions (DEFINES += ...)
-#   QT_DEPRECATED_WARNINGS (always)
-#   QT_NO_DEBUG_OUTPUT only for Release
-#   -DCONSOLE_MODE (requested in QMAKE_CXXFLAGS)
+# DEFINES += QT_DEPRECATED_WARNINGS ; CONFIG(release): DEFINES += QT_NO_DEBUG_OUTPUT
 target_compile_definitions(chocolaf_console_settings
   INTERFACE
     QT_DEPRECATED_WARNINGS
-    CONSOLE_MODE
+    CONSOLE_MODE               # from QMAKE_CXXFLAGS += -DCONSOLE_MODE
     $<$<CONFIG:Release>:QT_NO_DEBUG_OUTPUT>
 )
 
-# --- Compile options (QMAKE_CXXFLAGS*, warnings & opts)
-# Note: -std=c++23 handled by CMAKE_CXX_STANDARD above.
+# QMAKE_CXXFLAGS += -Wno-c11-extensions -Wno-deprecated-anon-enum-enum-conversion ...
 target_compile_options(chocolaf_console_settings
   INTERFACE
-    # Suppressions & warnings from .pro
-    $<$<CXX_COMPILER_ID:Clang,AppleClang>:-Wno-c11-extensions>
-    $<$<CXX_COMPILER_ID:Clang,AppleClang,GNU>:-Wno-deprecated-anon-enum-enum-conversion>
-    $<$<CXX_COMPILER_ID:Clang,AppleClang,GNU>:-Wno-unused-variable -Wno-unused-parameter -Wall -pedantic>
-
-    # Debug/Release tunings
-    $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:Clang,AppleClang,GNU>>:-O0 -g2>
-    $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang,AppleClang,GNU>>:-O2 -g0>
-
-    # MSVC equivalents (best-effort)
+    $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:
+      -Wno-c11-extensions
+      -Wno-deprecated-anon-enum-enum-conversion
+      -Wno-unused-variable
+      -Wno-unused-parameter
+    >
+    $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wall>
     $<$<CXX_COMPILER_ID:MSVC>:/W4>
+    $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O0 -g2 -pedantic>
     $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:MSVC>>:/Od /Z7>
-    $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:MSVC>>:/O2 /Z7>
+    $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O2 -g0>
+    $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:MSVC>>:/O2>
 )
 
-# --- Platform library bits (LIBS += ...)
+# DEPENDPATH += . ; INCLUDEPATH += .
+# INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
 if(WIN32)
-  # -lUser32 -lGdi32 -lKernel32 -lDwmapi
-  target_link_libraries(chocolaf_console_settings INTERFACE
-    user32 gdi32 kernel32 dwmapi
-  )
+  set(COMMON_FILES_HOME "c:/Dev/Code/git-projects/ChocolafStyle/chocolaf"
+      CACHE PATH "Common files root (Windows)")
 else()
-  # On Unix the .pro’s STD_LIBS included -lm; libstdc++ is implicit with g++/clang++
-  target_link_libraries(chocolaf_console_settings INTERFACE m)
+  set(COMMON_FILES_HOME "/home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf"
+      CACHE PATH "Common files root (Unix)")
 endif()
 
-# =========================
-# 3rd-party dependencies
-# =========================
+target_include_directories(chocolaf_console_settings
+  INTERFACE
+    ${CMAKE_CURRENT_LIST_DIR}
+    ${COMMON_FILES_HOME}/common_files
+)
 
-# MSYS2 vs non-MSYS2 toggles on Windows (mirrors CONFIG(MSYS2))
-option(USE_MSYS2 "Use MSYS2 paths for includes/libs on Windows" ON)
+# ---------------------------------------------------------------------------
+# Optional MSYS2 vs non-MSYS2 Windows toggles (mirrors the qmake branches)
+# ---------------------------------------------------------------------------
+# use the -DUSE_MSYS2=ON/OFF flag on command line also, by default it's off\
+# Example: cmake -S . -B build -DUSE_MSYS2=ON/OFF
+option(USE_MSYS2 "Use MSYS2 layout on Windows" OFF)
 
 if(WIN32)
   if(USE_MSYS2)
-    message(STATUS "Using MSYS2 configuration...")
+    message(STATUS "Using MSYS2 configuration (console)")
     target_include_directories(chocolaf_console_settings INTERFACE
       "C:/Dev/msys64/mingw64/include"
       "C:/Dev/msys64/mingw64/include/opencv4"
       "C:/Dev/GNULibs/fmt/bin/include"
-      "C:/Dev/GNULibs/libpqxx/bin/include" "C:/Dev/PostgreSQL/15/include"
+      "C:/Dev/GNULibs/libpqxx/bin/include"
+      "C:/Dev/PostgreSQL/15/include"
     )
-    # link directories
+    link_directories(
+      "C:/Dev/msys64/mingw64/lib"
+      "C:/Dev/GNULibs/fmt/bin/lib"
+      "C:/Dev/GNULibs/libpqxx/bin/lib"
+      "C:/Dev/PostgreSQL/15/lib"
+    )
+    # OPENCV_LIBS = -lopencv_core ...
+    set(_OPENCV_MANUAL_LIBS
+      opencv_core opencv_imgproc opencv_highgui opencv_ml opencv_video
+      opencv_features2d opencv_calib3d opencv_objdetect opencv_videoio
+      opencv_imgcodecs opencv_flann
+    )
+  else()
+    message(STATUS "**NOT** using MSYS2 configuration (console)")
+    target_include_directories(chocolaf_console_settings INTERFACE
+      "C:/Dev/GNULibs/gmp-6.2.1/bin/include"
+      "C:/Dev/OpenCV/build/x86/mingw/install/include"
+      "C:/Dev/GNULibs/fmt/bin/include"
+      "C:/Dev/GNULibs/libpqxx/bin/include"
+      "C:/Dev/PostgreSQL/15/include"
+    )
+    link_directories(
+      "C:/Dev/GNULibs/gmp-6.2.1/bin/lib"
+      "C:/Dev/OpenCV/build/x86/mingw/install/x64/mingw/lib"
+      "C:/Dev/GNULibs/fmt/bin/lib"
+      "C:/Dev/GNULibs/libpqxx/bin/lib"
+      "C:/Dev/PostgreSQL/15/lib"
+    )
+    set(_OPENCV_MANUAL_LIBS
+      opencv_core451 opencv_imgproc451 opencv_highgui451 opencv_ml451 opencv_video451
+      opencv_features2d451 opencv_calib3d451 opencv_objdetect451 opencv_videoio451
+      opencv_imgcodecs451 opencv_flann451
+    )
+  endif()
+else()
+  # unix { INCLUDEPATH += /usr/local/include ; INCLUDEPATH += /usr/include/opencv4 }
+  message(STATUS "Settings for Linux build (console)")
+  target_include_directories(chocolaf_console_settings INTERFACE
+    "/usr/local/include"
+    "/usr/include/opencv4"
+  )
+  set(_OPENCV_MANUAL_LIBS
+    opencv_core opencv_imgproc opencv_highgui opencv_ml opencv_video
+    opencv_features2d opencv_calib3d opencv_objdetect opencv_videoio
+    opencv_imgcodecs opencv_flann
+  )
+endif()
+
+# FMT, OpenCV, PostgreSQL, libpqxx, GMP
+# (QMAKE_LIBS += $${QMAKE_LIB_DIRS} $${STD_LIBS} $${GMP_LIBS} $${OPENCV_LIBS})
+find_package(fmt QUIET)
+if(fmt_FOUND)
+  target_link_libraries(chocolaf_console_settings INTERFACE fmt::fmt)
+endif()
+
+find_package(OpenCV QUIET COMPONENTS core imgproc highgui ml video features2d calib3d objdetect videoio imgcodecs flann)
+if(OpenCV_FOUND)
+  target_include_directories(chocolaf_console_settings INTERFACE ${OpenCV_INCLUDE_DIRS})
+  target_link_libraries(chocolaf_console_settings INTERFACE ${OpenCV_LIBS})
+else()
+  target_link_libraries(chocolaf_console_settings INTERFACE ${_OPENCV_MANUAL_LIBS})
+endif()
+
+find_package(PostgreSQL QUIET)
+if(PostgreSQL_FOUND)
+  target_include_directories(chocolaf_console_settings INTERFACE ${PostgreSQL_INCLUDE_DIRS})
+  target_link_libraries(chocolaf_console_settings INTERFACE ${PostgreSQL_LIBRARIES})
+endif()
+
+find_library(PQXX_LIBRARY NAMES pqxx)
+if(PQXX_LIBRARY)
+  target_link_libraries(chocolaf_console_settings INTERFACE ${PQXX_LIBRARY})
+endif()
+
+find_library(GMP_LIBRARY NAMES gmp)
+find_library(GMPXX_LIBRARY NAMES gmpxx)
+if(GMP_LIBRARY)
+  target_link_libraries(chocolaf_console_settings INTERFACE ${GMP_LIBRARY})
+endif()
+if(GMPXX_LIBRARY)
+  target_link_libraries(chocolaf_console_settings INTERFACE ${GMPXX_LIBRARY})
+endif()
+
+# win32 { LIBS += -lUser32 -lGdi32 -lKernel32 -lDwmapi }
+# unix { STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq }
+if(WIN32)
+  target_link_libraries(chocolaf_console_settings INTERFACE
+    user32 gdi32 kernel32 dwmapi wsock32 ws2_32
+  )
+else()
+  target_link_libraries(chocolaf_console_settings INTERFACE m)
+endif()
+
+# Link Qt modules to interface
+target_link_libraries(chocolaf_console_settings
+  INTERFACE
+    Qt6::Core
+    Qt6::Xml
+    Qt6::Sql
+    Qt6::Network
+)
+
+# SOURCES += $$PWD/common_funcs.cpp
+# HEADERS += $$PWD/common_funcs.h rapidcsv.h argparse.hpp
+set(CHOCOLAF_CONSOLE_SOURCES
+  "${CMAKE_CURRENT_LIST_DIR}/common_funcs.cpp"
+  CACHE INTERNAL "Console common sources"
+)
+set(CHOCOLAF_CONSOLE_HEADERS
+  "${CMAKE_CURRENT_LIST_DIR}/common_funcs.h"
+  "${CMAKE_CURRENT_LIST_DIR}/rapidcsv.h"
+  "${CMAKE_CURRENT_LIST_DIR}/argparse/argparse.hpp"
+  CACHE INTERNAL "Console common headers"
+)
+
+target_sources(chocolaf_console_settings INTERFACE
+  ${CHOCOLAF_CONSOLE_SOURCES}
+  ${CHOCOLAF_CONSOLE_HEADERS}
+)

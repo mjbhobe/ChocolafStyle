@@ -8,7 +8,8 @@ project(step03 LANGUAGES CXX)
 # --- Include the global settings module (converted from common.pro)
 #     This defines the INTERFACE target: chocolaf_settings
 #     and sets Qt, compile options, include dirs, third-party libs, etc.
-include(../../../../../chocolaf/common_files/common.cmake)
+#include(../../../../../chocolaf/common_files/common.cmake)
+include ("$ENV{CHOCOLAF_COMMONFILES_HOME}/common.cmake")
 
 # --- Sources (from .pro)
 set(STEP03_HEADERS
