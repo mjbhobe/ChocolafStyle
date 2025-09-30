@@ -3,13 +3,19 @@
 # defined in the global settings module.
 
 cmake_minimum_required(VERSION 3.21)
+
+#if (WIN32 AND NOT USE_MSYS2)
+#    set(CMAKE_C_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/gcc.exe")
+#    set(CMAKE_CXX_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/g++.exe")
+#endif ()
+
 project(step01 LANGUAGES CXX)
 
 # --- Include the global settings module (converted from common.pro)
 #     This defines the INTERFACE target: chocolaf_settings
 #     and sets Qt, compile options, include dirs, third-party libs, etc.
 #include(../../../../../chocolaf/common_files/common.cmake)
-include ("$ENV{CHOCOLAF_COMMONFILES_HOME}/common.cmake")
+include("$ENV{CHOCOLAF_COMMONFILES_HOME}/common.cmake")
 
 # --- Sources (from .pro)
 # set(STEP05_HEADERS
@@ -18,14 +24,14 @@ include ("$ENV{CHOCOLAF_COMMONFILES_HOME}/common.cmake")
 # )
 
 set(STEP01_SOURCES
-  step01.cc
+        step01.cc
 )
 
 # --- Executable
 add_executable(step01
-  ${STEP01_SOURCES}
-  ${STEP01_HEADERS}         # headers listed for IDE visibility
-  ${CHOCOLAF_QT_RESOURCES}  # ensure .qrc gets compiled (AUTORCC is ON in the module)
+        ${STEP01_SOURCES}
+        ${STEP01_HEADERS}         # headers listed for IDE visibility
+        ${CHOCOLAF_QT_RESOURCES}  # ensure .qrc gets compiled (AUTORCC is ON in the module)
 )
 
 # qmake: INCLUDEPATH += .
@@ -43,4 +49,3 @@ target_link_libraries(step01 PRIVATE chocolaf_settings)
 #   ${CHOCOLAF_COMMON_SOURCES}
 #   ${CHOCOLAF_COMMON_HEADERS}
 # )
-

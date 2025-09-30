@@ -3,6 +3,7 @@
 #include <QHash>
 #include <QObject>
 #include <QSet>
+#include <QMultiMap>
 #include <QTextStream>
 
 QTextStream cout(stdout, QIODeviceBase::WriteOnly);

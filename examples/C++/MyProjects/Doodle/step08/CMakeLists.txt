@@ -3,6 +3,12 @@
 # defined in the global settings module.
 
 cmake_minimum_required(VERSION 3.21)
+
+#if (WIN32 AND NOT USE_MSYS2)
+#    set(CMAKE_C_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/gcc.exe")
+#    set(CMAKE_CXX_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/g++.exe")
+#endif ()
+
 project(step08 LANGUAGES CXX)
 
 # --- Include the global settings module (converted from common.pro)
@@ -54,4 +60,3 @@ target_link_libraries(step08 PRIVATE chocolaf_settings)
 #   ${CHOCOLAF_COMMON_SOURCES}
 #   ${CHOCOLAF_COMMON_HEADERS}
 # )
-

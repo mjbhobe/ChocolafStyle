@@ -17,7 +17,7 @@
 int main(int argc, char **argv)
 {
   QApplication app(argc, argv);
-  Chocolaf::setChocolafStyle(app, "Chocolaf");
+  //Chocolaf::setChocolafStyle(app, "Chocolaf");
 
   // create the GUI
   QMainWindow mainWindow;

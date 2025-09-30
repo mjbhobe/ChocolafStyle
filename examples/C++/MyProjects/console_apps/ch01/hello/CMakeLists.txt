@@ -3,6 +3,13 @@
 # defined in the global settings module.
 
 cmake_minimum_required(VERSION 3.21)
+
+# if (WIN32 AND NOT USE_MSYS2)
+#  set(CMAKE_C_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/gcc.exe")
+#  set(CMAKE_CXX_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/g++.exe")
+# endif()
+
+
 project(hello LANGUAGES CXX)
 
 # --- Include the global settings module (converted from common.pro)
@@ -30,5 +37,3 @@ target_include_directories(hello PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link against the global interface so we inherit Qt, flags, include dirs and libs.
 target_link_libraries(hello PRIVATE chocolaf_console_settings)
-
-

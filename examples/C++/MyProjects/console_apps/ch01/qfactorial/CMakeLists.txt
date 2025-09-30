@@ -9,7 +9,8 @@ cmake_minimum_required(VERSION 3.21)
 #  set(CMAKE_CXX_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/g++.exe")
 # endif()
 
-project(factorial LANGUAGES CXX)
+
+project(qfactorial LANGUAGES CXX)
 
 # --- Include the global settings module (converted from common.pro)
 # This defines the INTERFACE target: chocolaf_settings
@@ -17,22 +18,22 @@ project(factorial LANGUAGES CXX)
 include ("$ENV{CHOCOLAF_COMMONFILES_HOME}/common_console.cmake")
 
 #set(PROJECT_HEADERS
-#    factorial.h
+#    qfactorial.h
 #)
 
 set(PROJECT_SOURCES
-  factorial.cc
+  qfactorial.cc
 )
 
 # --- Executable
-add_executable(factorial
+add_executable(qfactorial
   ${PROJECT_SOURCES}
   ${PROJECT_HEADERS}      # headers listed for IDE visibility
 )
 
 # qmake: INCLUDEPATH += .
 # Keep the current dir in include paths for this target.
-target_include_directories(factorial PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(qfactorial PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link against the global interface so we inherit Qt, flags, include dirs and libs.
-target_link_libraries(factorial PRIVATE chocolaf_console_settings)
+target_link_libraries(qfactorial PRIVATE chocolaf_console_settings)
