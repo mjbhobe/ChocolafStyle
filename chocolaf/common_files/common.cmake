@@ -121,14 +121,14 @@ if (WIN32)
                 "C:/Dev/GNULibs/gmp-6.3.0/bin/include"
                 "C:/Dev/OpenCV/build/x86/mingw/install/include"
                 "C:/Dev/GNULibs/fmt/bin/include"
-                "C:/Dev/GNULibs/libpqxx/bin/include"
+                "C:/Dev/GNULibs/libpqxx/include"
                 "C:/Dev/PostgreSQL/15/include"
         )
         link_directories(
                 "C:/Dev/GNULibs/gmp-6.3.0/bin/lib"
                 "C:/Dev/OpenCV/build/x86/mingw/install/x64/mingw/lib"
                 "C:/Dev/GNULibs/fmt/bin/lib"
-                "C:/Dev/GNULibs/libpqxx/bin/lib"
+                "C:/Dev/GNULibs/libpqxx/lib"
                 "C:/Dev/PostgreSQL/15/lib"
         )
         # Versioned OpenCV 4.5.1 libs per original .pro

@@ -1,5 +1,5 @@
-// templ1.cpp - containers & iterators
-// Compile: g++/clang++ -std=c++23 .... -lstdc++
+// templ1.cpp - show off some template features of C++20+
+// Compile: g++/clang++ -std=c++23 .... -stdlib=libc++
 
 // require C++ 23!
 #if __cplusplus < 202302L
@@ -8,49 +8,45 @@
 #endif
 
 #include <print> // for std::println()
+#include <string>
 #include <typeinfo>
 #include <vector>
 
-int main(void)
-{
-  std::vector<int> x_vals{10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+template <typename T>
+T add_values(T a, T b, T c) {
+  return a + b + c;
+}
 
-  // iterate over vector using [] - index accessor
-  for (int i = 0; i < x_vals.size(); ++i)
-    std::print("{} ", x_vals[i]);
-  std::println("");
+void templ1() {
+  // uniform initialization
+  int a{10}, b{20}, c{30};
 
-  // iterate over vector using at() call
-  for (int i = 0; i < x_vals.size(); ++i)
-    std::print("{} ", x_vals.at(i));
-  std::println("");
+  // add integers with add_values
+  int sum = add_values(a, b, c);
+  std::println("a: {}, b: {}, c: {}, sum: {}", a, b, c, sum);
 
-  // using iterators
-  std::vector<long long> y_vals{10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
-  for (auto it = y_vals.cbegin(); it != y_vals.cend(); ++it)
-    std::print("{} ", *it);
-  std::println("");
-  std::println("Typeof iterator: {}", typeid(y_vals.begin()).name());
-  std::println("Typeof const iterator: {}", typeid(y_vals.cbegin()).name());
+  // add doubles with add_values
+  double d{100.0}, e{200.0}, f{300.0};
+  double sum2 = add_values(d, e, f);
+  std::println("d: {:.2f}, e: {:.2f}, f: {:.2f}, sum: {:.2f}", d, e, f, sum2);
 
-  // using new syntax
-  for (auto v : y_vals)
-    std::print("{} ", v);
-  std::println("");
+  // will work for strings too!
+  std::string s1{"Hello "}, s2{"C++ 23 "}, s3{"world!"};
+  std::string sum3 = add_values(s1, s2, s3);
+  std::println("s1: {:s}, s2: {:s}, s3: {:s}, sum: {:s}", s1, s2, s3, sum3);
+}
 
-  // reverse iteration
-  for (auto it = y_vals.crbegin(); it != y_vals.crend(); ++it)
-    std::print("{} ", *it);
-  std::println("");
+int main(int /* argc*/, char **argv) {
+  int rc{};
 
-  // modify inplace
-  for (auto it = y_vals.begin(); it != y_vals.end(); ++it)
-    *it /= 5.0;
-
-  std::println("y_vals with each element divided by 5");
-  for (auto v : y_vals)
-    std::print("{} ", v);
-  std::println("");
-
-  return EXIT_SUCCESS;
+  try {
+    std::println("\n---------- Results from templ1() ----------\n");
+    templ1();
+  }
+  catch (const std::exception &ex) {
+    rc = 1;
+    std::println("Exception occured in {:s}", argv[0]);
+    std::println("{:s}", ex.what());
+  }
+  return rc;
 }

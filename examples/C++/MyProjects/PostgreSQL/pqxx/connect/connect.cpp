@@ -1,6 +1,6 @@
 // connect.cpp - connect to PostgreSQL using pqxx
 // Tutorial at https://www.tutorialspoint.com/postgresql/postgresql_c_cpp.htm
-#include <fmt/core.h>
+//#include <fmt/core.h>
 #include <iostream>
 #include <pqxx/except>
 #include <pqxx/pqxx>
@@ -12,11 +12,12 @@
 
 const QString getConnectionString()
 {
-  const QString config_file{"config.cfg"};
+  const QString config_file{"../config.cfg"};
   QFile file(config_file);
   if (!file.exists())
+    //throw std::runtime_error("FATAL: could not find config file");
     throw std::runtime_error(
-      fmt::format("FATAL: could not find config file {}. Cannot connect to database!",
+      std::format("FATAL: could not find config file {}. Cannot connect to database!",
         config_file.toStdString().c_str()));
 
   /*
@@ -66,7 +67,7 @@ int main(int argc, char **argv)
       // display the result
       for (auto [id, first_name, last_name] :
         txn.stream<int, std::string_view, std::string_view>(sql)) {
-        std::string outstr = fmt::format("{:6d} {}, {}", id, last_name, first_name);
+        std::string outstr = std::format("{:6d} {}, {}", id, last_name, first_name);
         std::cout << outstr << std::endl;
       }
       txn.commit();

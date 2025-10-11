@@ -1,5 +1,5 @@
 // strings.cpp - testing string functions
-// Compile: g++/clang++ -std=c++23 .... -lstdc++
+// Compile: clang++ -std=c++23 .... -stdlib=libc++
 
 // require C++ 23!
 #if __cplusplus < 202302L
@@ -52,8 +52,8 @@ int main(void)
     // found - replace with s4
     // I need s3 as before after this call, so making copy
     std::string s5{s3};
-    s5.replace(pos2 /* from this pos */, s2.size() /* these many chars */,
-      s4 /* with this */);
+    s5.replace(
+        pos2 /* from this pos */, s2.size() /* these many chars */, s4 /* with this */);
     std::println("After replace: {}", s5);
   }
   else {

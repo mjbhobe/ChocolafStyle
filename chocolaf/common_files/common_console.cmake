@@ -105,14 +105,14 @@ if (WIN32)
                 "C:/Dev/GNULibs/gmp-6.3.0/bin/include"
                 "C:/Dev/OpenCV/build/x86/mingw/install/include"
                 "C:/Dev/GNULibs/fmt/bin/include"
-                "C:/Dev/GNULibs/libpqxx/bin/include"
+                "C:/Dev/GNULibs/libpqxx/include"
                 "C:/Dev/PostgreSQL/15/include"
         )
         link_directories(
                 "C:/Dev/GNULibs/gmp-6.3.0/bin/lib"
                 "C:/Dev/OpenCV/build/x86/mingw/install/x64/mingw/lib"
                 "C:/Dev/GNULibs/fmt/bin/lib"
-                "C:/Dev/GNULibs/libpqxx/bin/lib"
+                "C:/Dev/GNULibs/libpqxx/lib"
                 "C:/Dev/PostgreSQL/15/lib"
         )
         set(_OPENCV_MANUAL_LIBS
@@ -156,10 +156,14 @@ if (PostgreSQL_FOUND)
     target_link_libraries(chocolaf_console_settings INTERFACE ${PostgreSQL_LIBRARIES})
 endif ()
 
-find_library(PQXX_LIBRARY NAMES pqxx)
-if (PQXX_LIBRARY)
-    target_link_libraries(chocolaf_console_settings INTERFACE ${PQXX_LIBRARY})
-endif ()
+if (WIN32)
+    target_link_libraries(chocolaf_console_settings INTERFACE pqxx pq)
+else()
+    find_library(PQXX_LIBRARY NAMES pqxx)
+    if (PQXX_LIBRARY)
+        target_link_libraries(chocolaf_console_settings INTERFACE ${PQXX_LIBRARY})
+    endif ()
+endif()
 
 if (WIN32)
     target_link_libraries(chocolaf_console_settings INTERFACE gmp gmpxx)
