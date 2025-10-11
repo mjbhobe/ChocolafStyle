@@ -6,10 +6,10 @@
 #include <ostream>
 
 // constraint on data-type of Point2D class
-template<typename T>
+template <typename T>
 concept PointCoord2D = std::integral<T> || std::floating_point<T>;
 
-template<PointCoord2D T>
+template <PointCoord2D T>
 class Point2D {
   // custom formatting class
   friend struct std::formatter<Point2D<T>>;
@@ -52,7 +52,7 @@ private:
 };
 
 // formatter (so you can call this in std::format()
-template<typename T>
+template <typename T>
 struct std::formatter<Point2D<T>> : std::formatter<std::string> {
   constexpr auto parse(std::format_parse_context &fpc) { return fpc.begin(); }
 

@@ -11,6 +11,7 @@
 #include <string>
 #include <typeinfo>
 #include <vector>
+#include "Points2D.h"
 
 template <typename T>
 T add_values(T a, T b, T c) {
@@ -36,12 +37,41 @@ void templ1() {
   std::println("s1: {:s}, s2: {:s}, s3: {:s}, sum: {:s}", s1, s2, s3, sum3);
 }
 
+double calc_mean(auto a, auto b, auto c) { return (a + b + c) / 3.0; }
+
+void templ2() {
+  int a{12}, b{28}, c{36};
+
+  double mean1 = calc_mean(a, b, c);
+  std::println("a: {} b: {} c: {} -> mean: {:.3f}", a, b, c, mean1);
+
+  float x{201.1f};
+  long long y{108};
+  unsigned short z{307};
+  // I can pass different types as params are auto
+  double mean2 = calc_mean(x, y, z);
+  std::println("x: {} y: {} z: {} -> mean: {:.3f}", x, y, z, mean2);
+}
+
+void templ3() {
+  // use custom class
+  Point2D<int> p1{10, 20};
+  Point2D<int> p2{30, 40};
+  Point2D<int> p3{50, 60};
+
+  Point2D<int> p4 = add_values(p1, p2, p3);
+  std::println("p1: {} p2: {} p3: {} -> add: {}", p1, p2, p3, p4);
+}
+
+
 int main(int /* argc*/, char **argv) {
   int rc{};
 
   try {
     std::println("\n---------- Results from templ1() ----------\n");
     templ1();
+    templ2();
+    templ3();
   }
   catch (const std::exception &ex) {
     rc = 1;
