@@ -8,39 +8,42 @@
 
 #ifdef Q_OS_WINDOWS
 
-class PaletteSwitcher : public QObject
-{
-   Q_OBJECT
- protected:
-   QApplication *_appInstance;
-   QPalette *_darkPalette, *_lightPalette;
-   bool darkPaletteInUse;
+class PaletteSwitcher : public QObject {
+  Q_OBJECT
 
-   void initializePalettes();
+protected:
+  QApplication *_appInstance;
+  QPalette *_darkPalette, *_lightPalette;
+  bool darkPaletteInUse;
 
- public:
-   PaletteSwitcher(QApplication *appInstance, QObject *parent = nullptr);
-   ~PaletteSwitcher();
+  void initializePalettes();
 
-   void setDarkPalette()
-   {
-      Q_ASSERT(_darkPalette != nullptr);
-      Q_ASSERT(_appInstance != nullptr);
-      // WARNING: this does not appear to refresh all colors immediately
-      _appInstance->setPalette(*_darkPalette);
-      darkPaletteInUse = true;
-   }
+public:
+  PaletteSwitcher(QApplication *appInstance, QObject *parent = nullptr);
 
-   void setLightPalette()
-   {
-      Q_ASSERT(_lightPalette != nullptr);
-      Q_ASSERT(_appInstance != nullptr);
-      // WARNING: this does not appear to refresh all colors immediately
-      _appInstance->setPalette(*_lightPalette);
-      darkPaletteInUse = false;
-   }
-   bool isDarkPaletteInUse() const { return darkPaletteInUse; }
-   void swapPalettes();
+  ~PaletteSwitcher();
+
+  void setDarkPalette()
+  {
+    Q_ASSERT(_darkPalette != nullptr);
+    Q_ASSERT(_appInstance != nullptr);
+    // WARNING: this does not appear to refresh all colors immediately
+    _appInstance->setPalette(*_darkPalette);
+    darkPaletteInUse = true;
+  }
+
+  void setLightPalette()
+  {
+    Q_ASSERT(_lightPalette != nullptr);
+    Q_ASSERT(_appInstance != nullptr);
+    // WARNING: this does not appear to refresh all colors immediately
+    _appInstance->setPalette(*_lightPalette);
+    darkPaletteInUse = false;
+  }
+
+  bool isDarkPaletteInUse() const { return darkPaletteInUse; }
+
+  void swapPalettes();
 };
 
 #else
@@ -48,36 +51,43 @@ class PaletteSwitcher : public QObject
 /**** on non-Windows platform, do nothing!! ****/
 
 // dummy class for non Windows platforms - does nothing!!
-class PaletteSwitcher : public QObject
-{
-   Q_OBJECT
- protected:
-   QPalette *_darkPalette, *_lightPalette;
-   bool darkPaletteInUse;
-   QApplication *_appInstance;
-   void initializePalettes() {}
+class PaletteSwitcher : public QObject {
+  Q_OBJECT
 
- public:
-   PaletteSwitcher(QApplication *appInstance, QObject *parent = nullptr) : QObject(parent)
-   {
-      _appInstance = appInstance;
-      qDebug() << "Warning: this is a do-nothing class on non-Windows platforms!";
-   }
-   ~PaletteSwitcher() {}
+protected:
+  QPalette *_darkPalette, *_lightPalette;
+  bool darkPaletteInUse;
+  QApplication *_appInstance;
 
-   void setDarkPalette()
-   {
-      // do nothing
-   }
+  void initializePalettes()
+  {
+  }
 
-   void setLightPalette()
-   {
-      // do nothing
-   }
-   void swapPalettes()
-   {
-      // do nothing
-   }
+public:
+  PaletteSwitcher(QApplication *appInstance, QObject *parent = nullptr) : QObject(parent)
+  {
+    _appInstance = appInstance;
+    qDebug() << "Warning: this is a do-nothing class on non-Windows platforms!";
+  }
+
+  ~PaletteSwitcher()
+  {
+  }
+
+  void setDarkPalette()
+  {
+    // do nothing
+  }
+
+  void setLightPalette()
+  {
+    // do nothing
+  }
+
+  void swapPalettes()
+  {
+    // do nothing
+  }
 };
 
 #endif // Q_OS_WINDOWS

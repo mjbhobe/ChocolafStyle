@@ -30,7 +30,8 @@ namespace Chocolaf {
   const QString __domain__ = {"namostute.qtpyapps.in"};
   // static QPalette *__palette = getPalette();
 
-  QPalette *getPalette() {
+  QPalette *getPalette()
+  {
     QPalette *palette = new QPalette();
 
     palette->setColor(QPalette::Window,
@@ -54,26 +55,20 @@ namespace Chocolaf {
     palette->setColor(QPalette::LinkVisited, ChocolafPalette::LinkVisited_Color);
     palette->setColor(QPalette::Highlight,
                       ChocolafPalette::Highlight_Color); // highlight color
-    palette->setColor(QPalette::HighlightedText,
-                      ChocolafPalette::HighlightedText_Color);
+    palette->setColor(QPalette::HighlightedText, ChocolafPalette::HighlightedText_Color);
     // colors for disabled elements
-    palette->setColor(QPalette::Disabled,
-                      QPalette::ButtonText,
+    palette->setColor(QPalette::Disabled, QPalette::ButtonText,
                       ChocolafPalette::Disabled_ButtonText_Color);
-    palette->setColor(QPalette::Disabled,
-                      QPalette::WindowText,
+    palette->setColor(QPalette::Disabled, QPalette::WindowText,
                       ChocolafPalette::Disabled_WindowText_Color);
-    palette->setColor(QPalette::Disabled,
-                      QPalette::Text,
-                      ChocolafPalette::Disabled_Text_Color);
-    palette->setColor(QPalette::Disabled,
-                      QPalette::Light,
-                      ChocolafPalette::Disabled_Light_Color);
+    palette->setColor(QPalette::Disabled, QPalette::Text, ChocolafPalette::Disabled_Text_Color);
+    palette->setColor(QPalette::Disabled, QPalette::Light, ChocolafPalette::Disabled_Light_Color);
 
     return palette;
   }
 
-  void setStyleSheet(QApplication &app) {
+  void setStyleSheet(QApplication &app)
+  {
     QFile f(":chocolaf/chocolaf.css");
     if (!f.exists()) {
       printf("Unable to open Chocolaf stylesheet! Falling back on Fusion style.");
@@ -92,7 +87,8 @@ namespace Chocolaf {
     }
   }
 
-  void centerOnScreenWithSize(QWidget &widget, float widthProp, float heightProp) {
+  void centerOnScreenWithSize(QWidget &widget, float widthProp, float heightProp)
+  {
     // center the widget on screen
     QRect screenGeom = QGuiApplication::primaryScreen()->geometry();
     int widgetWidth = int(widthProp * screenGeom.width());
@@ -104,7 +100,8 @@ namespace Chocolaf {
     widget.move(x, y);
   }
 
-  void setChocolafStyle(QApplication &app, const QString &styleName) {
+  void setChocolafStyle(QApplication &app, const QString &styleName)
+  {
     if (styleName == QString("Chocolaf")) {
       app.setStyle("Fusion");
       app.setFont(QApplication::font("QMenu"));
@@ -128,8 +125,7 @@ namespace Chocolaf {
         palette.setColor(QPalette::Base,
                          ChocolafPalette::Base_Color); // background for text entry widgets
         // background color for views with alternating colors
-        palette.setColor(QPalette::AlternateBase,
-                         ChocolafPalette::AlternateBase_Color);
+        palette.setColor(QPalette::AlternateBase, ChocolafPalette::AlternateBase_Color);
         palette.setColor(QPalette::ToolTipBase,
                          ChocolafPalette::ToolTipBase_Color); // background for tooltips
         palette.setColor(QPalette::ToolTipText, ChocolafPalette::ToolTipText_Color);
@@ -143,20 +139,14 @@ namespace Chocolaf {
         palette.setColor(QPalette::LinkVisited, ChocolafPalette::LinkVisited_Color);
         palette.setColor(QPalette::Highlight,
                          ChocolafPalette::Highlight_Color); // highlight color
-        palette.setColor(QPalette::HighlightedText,
-                         ChocolafPalette::HighlightedText_Color);
+        palette.setColor(QPalette::HighlightedText, ChocolafPalette::HighlightedText_Color);
         // colors for disabled elements
-        palette.setColor(QPalette::Disabled,
-                         QPalette::ButtonText,
+        palette.setColor(QPalette::Disabled, QPalette::ButtonText,
                          ChocolafPalette::Disabled_ButtonText_Color);
-        palette.setColor(QPalette::Disabled,
-                         QPalette::WindowText,
+        palette.setColor(QPalette::Disabled, QPalette::WindowText,
                          ChocolafPalette::Disabled_WindowText_Color);
-        palette.setColor(QPalette::Disabled,
-                         QPalette::Text,
-                         ChocolafPalette::Disabled_Text_Color);
-        palette.setColor(QPalette::Disabled,
-                         QPalette::Light,
+        palette.setColor(QPalette::Disabled, QPalette::Text, ChocolafPalette::Disabled_Text_Color);
+        palette.setColor(QPalette::Disabled, QPalette::Light,
                          ChocolafPalette::Disabled_Light_Color);
         // app.setPalette(palette);
         QApplication::setPalette(palette);
@@ -169,22 +159,17 @@ namespace Chocolaf {
 
       darkPalette.setColor(QPalette::Window,
                            WinDarkPalette::Window_Color); // general background color
-      darkPalette
-        .setColor(QPalette::WindowText,
-                  WinDarkPalette::WindowText_Color); // general foreground color
-      darkPalette
-        .setColor(QPalette::Base,
-                  WinDarkPalette::Base_Color); // background for text entry widgets
+      darkPalette.setColor(QPalette::WindowText,
+                           WinDarkPalette::WindowText_Color); // general foreground color
+      darkPalette.setColor(QPalette::Base,
+                           WinDarkPalette::Base_Color); // background for text entry widgets
       // background color for views with alternating colors
-      darkPalette.setColor(QPalette::AlternateBase,
-                           WinDarkPalette::AlternateBase_Color);
-      darkPalette
-        .setColor(QPalette::ToolTipBase,
-                  WinDarkPalette::ToolTipBase_Color); // background for tooltips
+      darkPalette.setColor(QPalette::AlternateBase, WinDarkPalette::AlternateBase_Color);
+      darkPalette.setColor(QPalette::ToolTipBase,
+                           WinDarkPalette::ToolTipBase_Color); // background for tooltips
       darkPalette.setColor(QPalette::ToolTipText, WinDarkPalette::ToolTipText_Color);
-      darkPalette
-        .setColor(QPalette::Text,
-                  WinDarkPalette::Text_Color); // foreground color to use with Base
+      darkPalette.setColor(QPalette::Text,
+                           WinDarkPalette::Text_Color); // foreground color to use with Base
       darkPalette.setColor(QPalette::Button,
                            WinDarkPalette::Button_Color); // pushbutton colors
       darkPalette.setColor(QPalette::ButtonText,
@@ -193,20 +178,14 @@ namespace Chocolaf {
       darkPalette.setColor(QPalette::LinkVisited, WinDarkPalette::LinkVisited_Color);
       darkPalette.setColor(QPalette::Highlight,
                            WinDarkPalette::Highlight_Color); // highlight color
-      darkPalette.setColor(QPalette::HighlightedText,
-                           WinDarkPalette::HighlightedText_Color);
+      darkPalette.setColor(QPalette::HighlightedText, WinDarkPalette::HighlightedText_Color);
       // colors for disabled elements
-      darkPalette.setColor(QPalette::Disabled,
-                           QPalette::ButtonText,
+      darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText,
                            WinDarkPalette::Disabled_ButtonText_Color);
-      darkPalette.setColor(QPalette::Disabled,
-                           QPalette::WindowText,
+      darkPalette.setColor(QPalette::Disabled, QPalette::WindowText,
                            WinDarkPalette::Disabled_WindowText_Color);
-      darkPalette.setColor(QPalette::Disabled,
-                           QPalette::Text,
-                           WinDarkPalette::Disabled_Text_Color);
-      darkPalette.setColor(QPalette::Disabled,
-                           QPalette::Light,
+      darkPalette.setColor(QPalette::Disabled, QPalette::Text, WinDarkPalette::Disabled_Text_Color);
+      darkPalette.setColor(QPalette::Disabled, QPalette::Light,
                            WinDarkPalette::Disabled_Light_Color);
 
       app.setPalette(darkPalette);
@@ -227,8 +206,8 @@ namespace Chocolaf {
   // ===================================================================
   // ChocolafApp - custom application class
   // ===================================================================
-  ChocolafApp::ChocolafApp(int argc, char *argv[])
-    : QApplication(argc, argv) {
+  ChocolafApp::ChocolafApp(int argc, char *argv[]) : QApplication(argc, argv)
+  {
     // Q_ASSERT(__palette != nullptr);
     _palette = getPalette(); //__palette;
     _styleSheet = QString("");
@@ -243,11 +222,13 @@ namespace Chocolaf {
     //      qDebug() << "arg[" << a << "] = " << argv[a];
   }
 
-  ChocolafApp::~ChocolafApp() {
+  ChocolafApp::~ChocolafApp()
+  {
     /* delete _palette;  */
   }
 
-  void ChocolafApp::setStyle(const QString &styleName) {
+  void ChocolafApp::setStyle(const QString &styleName)
+  {
     if (styleName == QString("Chocolaf")) {
       QApplication::setStyle("Fusion");
       setFont(QApplication::font("QMenu"));
@@ -321,22 +302,17 @@ namespace Chocolaf {
 
       darkPalette.setColor(QPalette::Window,
                            WinDarkPalette::Window_Color); // general background color
-      darkPalette
-        .setColor(QPalette::WindowText,
-                  WinDarkPalette::WindowText_Color); // general foreground color
-      darkPalette
-        .setColor(QPalette::Base,
-                  WinDarkPalette::Base_Color); // background for text entry widgets
+      darkPalette.setColor(QPalette::WindowText,
+                           WinDarkPalette::WindowText_Color); // general foreground color
+      darkPalette.setColor(QPalette::Base,
+                           WinDarkPalette::Base_Color); // background for text entry widgets
       // background color for views with alternating colors
-      darkPalette.setColor(QPalette::AlternateBase,
-                           WinDarkPalette::AlternateBase_Color);
-      darkPalette
-        .setColor(QPalette::ToolTipBase,
-                  WinDarkPalette::ToolTipBase_Color); // background for tooltips
+      darkPalette.setColor(QPalette::AlternateBase, WinDarkPalette::AlternateBase_Color);
+      darkPalette.setColor(QPalette::ToolTipBase,
+                           WinDarkPalette::ToolTipBase_Color); // background for tooltips
       darkPalette.setColor(QPalette::ToolTipText, WinDarkPalette::ToolTipText_Color);
-      darkPalette
-        .setColor(QPalette::Text,
-                  WinDarkPalette::Text_Color); // foreground color to use with Base
+      darkPalette.setColor(QPalette::Text,
+                           WinDarkPalette::Text_Color); // foreground color to use with Base
       darkPalette.setColor(QPalette::Button,
                            WinDarkPalette::Button_Color); // pushbutton colors
       darkPalette.setColor(QPalette::ButtonText,
@@ -345,26 +321,19 @@ namespace Chocolaf {
       darkPalette.setColor(QPalette::LinkVisited, WinDarkPalette::LinkVisited_Color);
       darkPalette.setColor(QPalette::Highlight,
                            WinDarkPalette::Highlight_Color); // highlight color
-      darkPalette.setColor(QPalette::HighlightedText,
-                           WinDarkPalette::HighlightedText_Color);
+      darkPalette.setColor(QPalette::HighlightedText, WinDarkPalette::HighlightedText_Color);
       // colors for disabled elements
-      darkPalette.setColor(QPalette::Disabled,
-                           QPalette::ButtonText,
+      darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText,
                            WinDarkPalette::Disabled_ButtonText_Color);
-      darkPalette.setColor(QPalette::Disabled,
-                           QPalette::WindowText,
+      darkPalette.setColor(QPalette::Disabled, QPalette::WindowText,
                            WinDarkPalette::Disabled_WindowText_Color);
-      darkPalette.setColor(QPalette::Disabled,
-                           QPalette::Text,
-                           WinDarkPalette::Disabled_Text_Color);
-      darkPalette.setColor(QPalette::Disabled,
-                           QPalette::Light,
+      darkPalette.setColor(QPalette::Disabled, QPalette::Text, WinDarkPalette::Disabled_Text_Color);
+      darkPalette.setColor(QPalette::Disabled, QPalette::Light,
                            WinDarkPalette::Disabled_Light_Color);
 
       this->setPalette(darkPalette);
 
-      this->setStyleSheet(
-        "QToolTip { color: #ffffff; background-color: #2a82da; border: "
+      this->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: "
         "1px solid white; }");
     }
     else if (QStyleFactory::keys().count(styleName) > 0) {
@@ -378,7 +347,8 @@ namespace Chocolaf {
   }
 
   // static
-  void ChocolafApp::setupForHighDpiScreens() {
+  void ChocolafApp::setupForHighDpiScreens()
+  {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #ifdef Q_OS_WIN
 
@@ -404,34 +374,34 @@ namespace Chocolaf {
   }
 
   // static
-  int ChocolafApp::pixelsToPoints(int pixels) {
+  int ChocolafApp::pixelsToPoints(int pixels)
+  {
     // NOTE: 1 inch == 96 pixels and 1 inch == 72 points
     // hence 96 pixels = 72 points
     return static_cast<int>(pixels * 72 / 96);
   }
 
   // static
-  int ChocolafApp::pointsToPixels(int points) {
+  int ChocolafApp::pointsToPixels(int points)
+  {
     // NOTE: 1 inch == 96 pixels and 1 inch == 72 points
     // hence 96 pixels = 72 points
     return static_cast<int>(points * 96 / 72);
   }
 
   // static
-  void ChocolafApp::setDarkTitlebar(QWidget &win) {
+  void ChocolafApp::setDarkTitlebar(QWidget &win)
+  {
 #ifdef Q_OS_WIN
-    QSettings settings(
-        "HKEY_CURRENT_"
-        "USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
-        QSettings::NativeFormat);
+    QSettings settings("HKEY_CURRENT_"
+                       "USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+                       QSettings::NativeFormat);
     // BOOL setDarkTitlebar = (settings.value("AppsUseLightTheme") == 0) ? TRUE :
     // FALSE;
     BOOL setDarkTitlebar = TRUE;
     if (setDarkTitlebar) {
       HWND hWnd = HWND(win.winId());
-      ::DwmSetWindowAttribute(hWnd,
-                              DWMWA_USE_IMMERSIVE_DARK_MODE,
-                              &setDarkTitlebar,
+      ::DwmSetWindowAttribute(hWnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &setDarkTitlebar,
                               sizeof(setDarkTitlebar));
     }
 #else

@@ -19,10 +19,9 @@ T add_values(T a, T b, T c) {
 }
 
 void templ1() {
-  // uniform initialization
-  int a{10}, b{20}, c{30};
 
   // add integers with add_values
+  int a{10}, b{20}, c{30};
   int sum = add_values(a, b, c);
   std::println("a: {}, b: {}, c: {}, sum: {}", a, b, c, sum);
 
@@ -37,6 +36,8 @@ void templ1() {
   std::println("s1: {:s}, s2: {:s}, s3: {:s}, sum: {:s}", s1, s2, s3, sum3);
 }
 
+// calculate mean for any numeric type
+// NOTE: there is a "gotcha" in this function!
 double calc_mean(auto a, auto b, auto c) { return (a + b + c) / 3.0; }
 
 void templ2() {
@@ -51,6 +52,13 @@ void templ2() {
   // I can pass different types as params are auto
   double mean2 = calc_mean(x, y, z);
   std::println("x: {} y: {} z: {} -> mean: {:.3f}", x, y, z, mean2);
+
+  // compiler error here!!
+  /*
+  std::string s1{"Hello"}, s2{"C++"}, s3{"23"};
+  double mean3 = calc_mean(s1, s2, s3);
+  std::println("s1: {:s} s2: {:s} s3: {:s} -> mean: {:.3f}", s1, s2, s3, mean3);
+  */
 }
 
 void templ3() {
@@ -61,6 +69,8 @@ void templ3() {
 
   Point2D<int> p4 = add_values(p1, p2, p3);
   std::println("p1: {} p2: {} p3: {} -> add: {}", p1, p2, p3, p4);
+
+  // co
 }
 
 

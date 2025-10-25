@@ -1,4 +1,4 @@
-// templ1.cpp - containers & iterators
+// templ2.cpp - containers & iterators
 // Compile: g++/clang++ -std=c++23 .... -stdlib=libc++
 
 // require C++ 23!
