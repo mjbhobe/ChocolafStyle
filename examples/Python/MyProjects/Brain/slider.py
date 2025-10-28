@@ -1,4 +1,5 @@
-""" scrollbar.py: handling scrollbars """
+"""scrollbar.py: handling scrollbars"""
+
 import sys
 import pathlib
 from PyQt6.QtCore import *
@@ -15,7 +16,7 @@ class MainWindow(QMainWindow):
         self.setupUi()
 
     def setupUi(self):
-        self.setMinimumSize(400, 100)
+        self.setMinimumSize(300, 70)
         self.slider = QSlider(Qt.Orientation.Horizontal, self)
         self.slider.setTickPosition(QSlider.TickPosition.TicksBelow)
         self.slider.setRange(0, 100)
@@ -41,6 +42,7 @@ def main():
     app.setStyle("Fusion")
     win = MainWindow()
     win.setWindowTitle("PyQt Slider Demo")
+    win.adjustSize()
     win.show()
 
     return app.exec()

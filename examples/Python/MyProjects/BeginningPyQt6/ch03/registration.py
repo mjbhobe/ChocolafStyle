@@ -1,4 +1,4 @@
-""" registration.py - new user registration """
+"""registration.py - new user registration"""
 
 import sys
 import os
@@ -21,7 +21,7 @@ from qtpy.QtGui import QFont, QPixmap
 
 import chocolaf
 
-_logger = chocolaf.get_logger(pathlib.Path(__file__).name)
+_logger = chocolaf.get_logger(pathlib.Path(__file__))
 
 custom_stylesheet = """
     QMessageBox {

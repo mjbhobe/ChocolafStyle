@@ -1,4 +1,5 @@
-""" hello.py: basic PyQt6 application (Hello World)"""
+"""hello.py: basic PyQt6 application (Hello World)"""
+
 import sys
 import pathlib
 from PyQt6.QtCore import *
@@ -29,6 +30,7 @@ def main():
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     win = MainWidget()
+    win.adjustSize()
     win.show()
 
     return app.exec()

@@ -1,4 +1,5 @@
-""" line_edit.py - example of using a QLineEdit in PyQt6 """
+"""line_edit.py - example of using a QLineEdit in PyQt6"""
+
 import sys
 
 from PyQt6.QtCore import PYQT_VERSION_STR, Qt
@@ -49,7 +50,7 @@ class MainWindow(QWidget):
 
 def main():
     app = QApplication(sys.argv)
-    app.setStyle("Fusion")
+    # app.setStyle("Fusion")
 
     # create the main window
     win = MainWindow()

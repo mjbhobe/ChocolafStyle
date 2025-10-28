@@ -1,8 +1,16 @@
-""" test.py - create the basic PyQt6 application """
+"""test.py - create the basic PyQt6 application"""
+
 import sys
 
 from PyQt6.QtCore import PYQT_VERSION_STR
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QMessageBox
+from PyQt6.QtWidgets import (
+    QApplication,
+    QWidget,
+    QVBoxLayout,
+    QLabel,
+    QPushButton,
+    QMessageBox,
+)
 
 
 class MainWindow(QWidget):
@@ -25,12 +33,14 @@ class MainWindow(QWidget):
         self.setLayout(layout)
 
     def sayHello(self):
-        QMessageBox.information(self, "Hello", f"Hello, welcome to PyQt {PYQT_VERSION_STR}")
+        QMessageBox.information(
+            self, "Hello", f"Hello, welcome to PyQt {PYQT_VERSION_STR}"
+        )
 
 
 def main():
     app = QApplication(sys.argv)
-    app.setStyle("Fusion")
+    # app.setStyle("Fusion")
 
     # create the main window
     win = MainWindow()
