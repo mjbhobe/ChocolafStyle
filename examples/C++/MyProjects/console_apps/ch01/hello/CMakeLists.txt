@@ -9,31 +9,32 @@ cmake_minimum_required(VERSION 3.21)
 #  set(CMAKE_CXX_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/g++.exe")
 # endif()
 
+set(TARGET_NAME hello)
 
-project(hello LANGUAGES CXX)
+
+project(${TARGET_NAME} LANGUAGES CXX)
 
 # --- Include the global settings module (converted from common.pro)
 # This defines the INTERFACE target: chocolaf_settings
 # and sets Qt, compile options, include dirs, third-party libs, etc.
-include ("$ENV{CHOCOLAF_COMMONFILES_HOME}/common_console.cmake")
+include("$ENV{CHOCOLAF_COMMONFILES_HOME}/common_console.cmake")
 
-#set(PROJECT_HEADERS
-#    hello.h
-#)
+set(PROJECT_HEADERS
+)
 
 set(PROJECT_SOURCES
-  hello.cc
+    hello.cc
 )
 
 # --- Executable
-add_executable(hello
-  ${PROJECT_SOURCES}
-  ${PROJECT_HEADERS}      # headers listed for IDE visibility
+add_executable(${TARGET_NAME}
+    ${PROJECT_SOURCES}
+    ${PROJECT_HEADERS}      # headers listed for IDE visibility
 )
 
 # qmake: INCLUDEPATH += .
 # Keep the current dir in include paths for this target.
-target_include_directories(hello PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link against the global interface so we inherit Qt, flags, include dirs and libs.
-target_link_libraries(hello PRIVATE chocolaf_console_settings)
+target_link_libraries(${TARGET_NAME} PRIVATE chocolaf_console_settings)
