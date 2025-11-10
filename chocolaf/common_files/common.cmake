@@ -123,6 +123,7 @@ if (WIN32)
                 "C:/Dev/GNULibs/fmt/bin/include"
                 "C:/Dev/GNULibs/libpqxx/include"
                 "C:/Dev/PostgreSQL/15/include"
+				"C:/Dev/eigen-5.0.0"
         )
         link_directories(
                 "C:/Dev/GNULibs/gmp-6.3.0/bin/lib"
@@ -144,6 +145,7 @@ else () # UNIX
     target_include_directories(chocolaf_settings INTERFACE
             "/usr/local/include"
             "/usr/include/opencv4"
+			"/usr/include/eigen-5.0.0"
     )
     set(_OPENCV_MANUAL_LIBS
             opencv_core opencv_imgproc opencv_highgui opencv_ml opencv_video

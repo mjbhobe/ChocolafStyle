@@ -50,7 +50,7 @@ win32 {
        message("**NOT** using MSYS2 configuration...")
        INCLUDEPATH += C:/Dev/GNULibs/gmp-6.2.1/bin/include
        INCLUDEPATH += C:/Dev/OpenCV/build/x86/mingw/install/include
-       INCLUDEPATH += C:/Dev/GNULibs/fmt/bin/include
+       INCLUDEPATH += C:/Dev/GNULibs/fmt/bin/include C:/Dev/eigen-5.0.0
        INCLUDEPATH += C:/Dev/GNULibs/libpqxx/bin/include C:/Dev/PostgreSQL/15/include
        QMAKE_LIB_DIRS += -LC:/Dev/GNULibs/gmp-6.2.1/bin/lib -LC:/Dev/OpenCV/build/x86/mingw/install/x64/mingw/lib \
           -LC:/Dev/GNULibs/fmt/bin/lib -LC:/Dev/GNULibs/libpqxx/bin/lib -LC:/Dev/PostgreSQL/15/lib
@@ -66,6 +66,9 @@ unix {
    INCLUDEPATH += /usr/local/include
 # for opencv includes
    INCLUDEPATH += /usr/include/opencv4
+# for Eigen library
+   INCLUDEPATH += /usr/include/eigen-5.0.0
+
    OPENCV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video \
          -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_videoio -lopencv_imgcodecs -lopencv_flann
    STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq

@@ -129,6 +129,7 @@ else ()
     target_include_directories(chocolaf_console_settings INTERFACE
             "/usr/local/include"
             "/usr/include/opencv4"
+			"/usr/include/eigen-5.0.0"
     )
     set(_OPENCV_MANUAL_LIBS
             opencv_core opencv_imgproc opencv_highgui opencv_ml opencv_video
