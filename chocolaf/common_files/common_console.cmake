@@ -10,7 +10,8 @@
 
 cmake_minimum_required(VERSION 3.21)
 
-# CONFIG += c++20 → CMake standard settings
+# CONFIG += c++23 → CMake standard settings
+# NOTE: we'll need a C++ 23 standards compiler!!
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -107,6 +108,7 @@ if (WIN32)
                 "C:/Dev/GNULibs/fmt/bin/include"
                 "C:/Dev/GNULibs/libpqxx/include"
                 "C:/Dev/PostgreSQL/15/include"
+                "C:/Dev/eigen-5.0.0"
         )
         link_directories(
                 "C:/Dev/GNULibs/gmp-6.3.0/bin/lib"
@@ -271,4 +273,3 @@ message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
 message(STATUS "CMAKE_LIBRARY_PATH: ${CMAKE_LIBRARY_PATH}")
 message(STATUS "CMAKE_INCLUDE_PATH: ${CMAKE_INCLUDE_PATH}")
 message(STATUS "======================================")
-
