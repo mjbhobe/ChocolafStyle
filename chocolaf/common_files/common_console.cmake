@@ -29,6 +29,12 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Xml Sql Network)
 # INTERFACE target used by all console apps
 add_library(chocolaf_console_settings INTERFACE)
 
+# ---------------------------------------------------------------------------
+# Global compile definitions (from DEFINES += ...)
+# ---------------------------------------------------------------------------
+# Warn on using deprecated Qt APIs
+target_compile_definitions(chocolaf_console_settings INTERFACE QT_DEPRECATED_WARNINGS)
+
 # DEFINES += QT_DEPRECATED_WARNINGS ; CONFIG(release): DEFINES += QT_NO_DEBUG_OUTPUT
 target_compile_definitions(chocolaf_console_settings
         INTERFACE
@@ -40,19 +46,17 @@ target_compile_definitions(chocolaf_console_settings
 
 # QMAKE_CXXFLAGS += -Wno-c11-extensions -Wno-deprecated-anon-enum-enum-conversion ...
 target_compile_options(chocolaf_console_settings
-        INTERFACE
-        $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:
-        -Wno-c11-extensions
-        -Wno-deprecated-anon-enum-enum-conversion
-        -Wno-unused-variable
-        -Wno-unused-parameter
-        >
-        $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wall>
-        $<$<CXX_COMPILER_ID:MSVC>:/W4>
-        $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O0 -g2 -pedantic>
-        $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:MSVC>>:/Od /Z7>
-        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O2 -g0>
-        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:MSVC>>:/O2>
+    INTERFACE
+    # Common
+    $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wno-deprecated-enum-enum-conversion>
+    $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wall>
+    $<$<CXX_COMPILER_ID:MSVC>:/W4>
+    # Debug
+    $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O0 -g2 -pedantic>
+    $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:MSVC>>:/Od /Z7>
+    # Release
+    $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O2 -g0>
+    $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:MSVC>>:/O2 /Z7-> # strip symbols
 )
 
 # DEPENDPATH += . ; INCLUDEPATH += .
@@ -129,7 +133,7 @@ else ()
     target_include_directories(chocolaf_console_settings INTERFACE
             "/usr/local/include"
             "/usr/include/opencv4"
-			"/usr/include/eigen-5.0.0"
+			      "/usr/include/eigen-5.0.0"
     )
     set(_OPENCV_MANUAL_LIBS
             opencv_core opencv_imgproc opencv_highgui opencv_ml opencv_video

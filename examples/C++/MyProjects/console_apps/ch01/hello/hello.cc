@@ -6,7 +6,9 @@
 // This code is meant for learning & educational purposes only!!
 // -------------------------------------------------------------------------
 #include <QTextStream>
+#include <QString>
 #include <format>
+#include <print>
 
 // NOTE: do NOT include <iostream> header!!
 static QTextStream cout(stdout, QIODeviceBase::WriteOnly);
@@ -18,6 +20,11 @@ int main() {
       std::format("You are using Qt Framework version {}", QT_VERSION_STR).c_str()
       << Qt::endl;
    //cout << "You are using Qt Framework version " << QT_VERSION_STR << Qt::endl;
+   // same line using C++23 std::println()
+   std::println("You are using Qt Framework version {}", QT_VERSION_STR);
+   // let's see how QString prints
+   QString hello{"Hello Qt World!"};
+   std::println("{}", hello.toStdString());
 
    return 0;
 }

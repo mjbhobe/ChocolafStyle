@@ -22,7 +22,7 @@ int main(void) {
   std::cout << "Original Matrix: " << std::endl << m << std::endl;
   // std::println("Original Matrix:\n {}\n", m);
 
-  // add a constant matrix (3x3 matrix with all 1.2s)
+ // add a constant matrix (3x3 matrix with all 1.2s)
   MatrixXd c = MatrixXd::Constant(3, 3, 1.2);
   std::cout << std::endl << "Constant Matrix: " << std::endl << c << std::endl;
 
