@@ -4,10 +4,12 @@
 #include <QDebug>
 #include <format>
 #include "mainWindow.h"
+#include "calcDialog.h"
 #include "ui_mainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-  : QMainWindow(parent), ui(new Ui::MainWindow), counter(nullptr) {
+  : QMainWindow(parent), ui(new Ui::MainWindow), counter(nullptr)
+{
   // initialize counter
   counter = new Counter(this);
   // load UI from file
@@ -38,19 +40,28 @@ MainWindow::MainWindow(QWidget *parent)
       counterLabel->setText(QString::number(value));
     }
   );
+  QObject::connect(ui->calcBtn, &QPushButton::clicked,
+    // we'll use a lambda to call the calculator dialog
+    [this]() {
+      CalcDialog calculator(this);
+      calculator.exec();
+    });
 }
 
-MainWindow::~MainWindow() {
+MainWindow::~MainWindow()
+{
   // free up loaded UI definitions
   delete ui;
 }
 
 // slot
-void MainWindow::onClose() {
+void MainWindow::onClose()
+{
   qDebug() << "In MainWindow::onClose()";
   QApplication::exit();
 }
 
-void MainWindow::onCounterBtnClicked() {
+void MainWindow::onCounterBtnClicked()
+{
   // implementation
 }

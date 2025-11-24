@@ -9,6 +9,22 @@
 
 cmake_minimum_required(VERSION 3.21)
 
+# --- Require PROJECT_NAME before using this file ---
+if (NOT DEFINED PROJECT_NAME OR PROJECT_NAME STREQUAL "")
+  message(FATAL_ERROR
+      "Error: PROJECT_NAME variable must be set **before** including common_lib.cmake in CMakeLists.txt file!\n"
+      "Example:\n "
+      "# CMakeLists.txt file...\n"
+      "cmake_minimum_required(VERSION 3.21)\n\n"
+      "# Step1: change name of your project\n"
+      "# [Tip: give it the same name as your executable/shared library(DLL)]\n"
+      "set(PROJECT_NAME Starter02)\n\n"
+      "project(${PROJECT_NAME} LANGUAGES CXX)\n\n"
+      "# --- Include the global settings module\n"
+      "include(" $ENV{CHOCOLAF_COMMONFILES_HOME}/common_lib.cmake")"
+  )
+endif ()
+
 # --- Choose C++ standard (qmake had c++20 in CONFIG but also forced -std=c++23)
 # Pick 23 to match QMAKE_CXXFLAGS; change to 20 if needed.
 set(CMAKE_CXX_STANDARD 23)
@@ -53,6 +69,8 @@ target_compile_definitions(chocolaf_settings
 # ---------------------------------------------------------------------------
 # -std=c++23 is implied via CMAKE_CXX_STANDARD, but keep the extra warning knobs.
 # qmake: -Wno-deprecated-enum-enum-conversion, -pedantic -Wall, O0/O2, g2/g0
+# add -fsanitize=address -fno-omit-frame-pointer to g++/clang++ so AddressSanitizer
+# can detect memory leaks
 target_compile_options(chocolaf_settings
     INTERFACE
     # Common
@@ -61,6 +79,7 @@ target_compile_options(chocolaf_settings
     $<$<CXX_COMPILER_ID:MSVC>:/W4>
     # Debug
     $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O0 -g2 -pedantic>
+#    $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-fsanitize=address -fno-omit-frame-pointer>
     $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:MSVC>>:/Od /Z7>
     # Release
     $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O2 -g0>
@@ -70,12 +89,6 @@ target_compile_options(chocolaf_settings
 # ---------------------------------------------------------------------------
 # Include paths (from INCLUDEPATH += ...)
 # ---------------------------------------------------------------------------
-# NOTE: Prefer find_package for real projects; these mimic the original .pro.
-#target_include_directories(chocolaf_settings
-#        INTERFACE
-#        # qmake had: DEPENDPATH+=. INCLUDEPATH+=. and INCLUDEPATH += $$PWD
-#        ${CMAKE_CURRENT_LIST_DIR}
-#)
 
 # Platform-specific "COMMON_FILES_HOME" (kept as a variable for consumers)
 if (WIN32)
@@ -257,16 +270,6 @@ set(CHOCOLAF_QT_RESOURCES
     CACHE INTERNAL "Qt .qrc files for consumers"
 )
 
-# If you want these files to show up in IDEs when linking the interface target,
-# you can expose them as INTERFACE sources (no compilation is triggered here).
-#target_sources(chocolaf_settings INTERFACE
-#  ${CHOCOLAF_COMMON_SOURCES}
-#  ${CHOCOLAF_COMMON_HEADERS}
-#  ${CHOCOLAF_QT_RESOURCES}
-#)
-
-# Consumers using Qt6 can also do: qt_add_resources(<target> ... ${CHOCOLAF_QT_RESOURCES})
-
 # ---------------------------------------------------------------------------
 # QtAwesome (qmake: CONFIG += fontAwesomeFree; include(QtAwesome/QtAwesome.pri))
 # ---------------------------------------------------------------------------
@@ -280,14 +283,9 @@ if (ENABLE_QTAWESOME)
   set(QTAWESOME_ROOT "${CMAKE_CURRENT_LIST_DIR}/QtAwesome")
 
   if (EXISTS "${QTAWESOME_ROOT}/QtAwesome.cpp")
-    #    add_library(QtAwesome STATIC
-    #        "${QTAWESOME_ROOT}/QtAwesome.cpp"
-    #        "${QTAWESOME_ROOT}/QtAwesome.h"
-    #        "${QTAWESOME_ROOT}/QtAwesomeAnim.cpp"
-    #        "${QTAWESOME_ROOT}/QtAwesomeAnim.h"
-    #    )
-    #target_include_directories(QtAwesome PUBLIC "${QTAWESOME_ROOT}")
+    # add QtAwesome's include directory to include path
     target_include_directories(chocolaf_settings INTERFACE "${QTAWESOME_ROOT}")
+
     # append QtAwesome header files to includes list
     list(APPEND CHOCOLAF_COMMON_HEADERS "${QTAWESOME_ROOT}/QtAwesome.h")
     list(APPEND CHOCOLAF_COMMON_HEADERS "${QTAWESOME_ROOT}/QtAwesomeAnim.h")
@@ -295,23 +293,16 @@ if (ENABLE_QTAWESOME)
         "${CHOCOLAF_COMMON_HEADERS}"
         CACHE INTERNAL "Common sources to be added by consumers" FORCE)
 
-    # # append QtAwesome source files to sources list
+    # append QtAwesome source files to sources list
     list(APPEND CHOCOLAF_COMMON_SOURCES "${QTAWESOME_ROOT}/QtAwesome.cpp")
     list(APPEND CHOCOLAF_COMMON_SOURCES "${QTAWESOME_ROOT}/QtAwesomeAnim.cpp")
     set(CHOCOLAF_COMMON_SOURCES
         "${CHOCOLAF_COMMON_SOURCES}"
         CACHE INTERNAL "Common sources to be added by consumers" FORCE)
 
-    #    target_link_libraries(QtAwesome PUBLIC
-    #        Qt${QT_VERSION_MAJOR}::Core
-    #        Qt${QT_VERSION_MAJOR}::Gui
-    #        Qt${QT_VERSION_MAJOR}::Widgets
-    #    )
-
     # If the repo (or you) provide a .qrc with Font Awesome fonts, add it here:
     if (EXISTS "${QTAWESOME_ROOT}/QtAwesomeFree.qrc")
       # AUTORCC is already ON globally; adding the .qrc is enough
-      #target_sources(QtAwesome PRIVATE "${QTAWESOME_ROOT}/QtAwesomeFree.qrc")
 
       list(APPEND CHOCOLAF_QT_RESOURCES "${QTAWESOME_ROOT}/QtAwesomeFree.qrc")
       set(CHOCOLAF_QT_RESOURCES
@@ -327,6 +318,43 @@ if (ENABLE_QTAWESOME)
     message(WARNING "QtAwesome not found at ${QTAWESOME_ROOT}. Set ENABLE_QTAWESOME=OFF or place sources there.")
   endif ()
 endif ()
+
+# ---------------------------------------------------------------------------
+# Build a real library (DLL on Windows, shared elsewhere)
+# ---------------------------------------------------------------------------
+# >>> Global PIC for shared libs
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+option(BUILD_CHOCOLAF_SHARED "Build a shared library (DLL on Windows)" ON)
+
+if (BUILD_CHOCOLAF_SHARED)
+  if (WIN32)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)  # auto-export symbols in simple cases
+  endif ()
+
+  add_library(chocolaf SHARED
+      ${CHOCOLAF_COMMON_SOURCES}
+      ${CHOCOLAF_COMMON_HEADERS}
+      ${CHOCOLAF_QT_RESOURCES}
+  )
+
+  # Inherit everything from the interface target
+  target_link_libraries(chocolaf PUBLIC chocolaf_settings)
+
+  # Publish public includes for direct consumers of 'chocolaf'
+  target_include_directories(chocolaf
+      PUBLIC
+      ${CMAKE_CURRENT_LIST_DIR}
+      ${COMMON_FILES_HOME}/common_files
+  )
+
+  set_target_properties(chocolaf PROPERTIES
+      OUTPUT_NAME ${PROJECT_NAME}
+      PREFIX ""  # nice DLL/base name on Windows
+  )
+endif ()
+
+
 # --------------------------------------------------------------------------
 # Output directories (qmake DESTDIR/build/debug|release)
 # NOTE: CMake defaults differ; set global dirs to mimic qmake layout.
@@ -340,31 +368,21 @@ foreach (_cfg Debug Release RelWithDebInfo MinSizeRel)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${_CFG} "${_out_base}/${_cfg}")
 endforeach ()
 
+# ---------------------------------------------------------------------------
+# >>> CHANGED: Do NOT attach sources as INTERFACE sources anymore.
+# Doing so would cause executables to compile them again (duplicate symbols)
+# Now the shared library 'chocolaf' owns the .cpp files. If you want IDE
+# visibility only, you may expose HEADERS as interface sources (optional).
+# ---------------------------------------------------------------------------
 
 # If you want these files to show up in IDEs when linking the interface target,
 # you can expose them as INTERFACE sources (no compilation is triggered here).
-target_sources(chocolaf_settings INTERFACE
-    ${CHOCOLAF_COMMON_SOURCES}
-    ${CHOCOLAF_COMMON_HEADERS}
-    ${CHOCOLAF_QT_RESOURCES}
-)
+#target_sources(chocolaf_settings INTERFACE
+#    ${CHOCOLAF_COMMON_SOURCES}
+#    ${CHOCOLAF_COMMON_HEADERS}
+#    ${CHOCOLAF_QT_RESOURCES}
+#)
 
-# qmake also set OBJECTS_DIR/MOC_DIR/RCC_DIR/UI_DIR under DESTDIR.
-# CMake manages moc/rcc/uic in its own build tree; overriding their
-# directories is uncommon and generally unnecessary, so we omit that here.
-# ---------------------------------------------------------------------------
-
-# How to consume this in your CMake project:
-#
-#   include(${CMAKE_SOURCE_DIR}/cmake/ChocolafGlobal.cmake)
-#   add_executable(myapp main.cpp)
-#   target_link_libraries(myapp PRIVATE chocolaf_settings)
-#   target_sources(myapp PRIVATE ${CHOCOLAF_COMMON_SOURCES} ${CHOCOLAF_QT_RESOURCES})
-#   target_include_directories(myapp PRIVATE ${CHOCOLAF_COMMON_HEADERS}) # headers are header-only
-#
-# If OpenCV/fmt/PostgreSQL/libpqxx aren’t auto-found, either:
-#  - set USE_MSYS2 ON and keep the link_directories/include dirs above, or
-#  - provide CMAKE_PREFIX_PATH / *_ROOT hints to their installations.
 
 # --- Debug summary for chocolaf_settings ------------------------------------
 
@@ -386,12 +404,22 @@ set(_choco_sources "${CHOCOLAF_COMMON_SOURCES}")
 # 6. Common resources (all *.qrc files)
 set(_choco_resources "${CHOCOLAF_QT_RESOURCES}")
 
+# 7. --- ADDED: Compiler flags applied to this target ---
+get_target_property(_choco_compile_opts chocolaf_settings INTERFACE_COMPILE_OPTIONS)
+get_target_property(_choco_compile_defs chocolaf_settings INTERFACE_COMPILE_DEFINITIONS)
+
+# 8. --- ADDED: Linker flags applied to this target ---
+get_target_property(_choco_link_opts chocolaf_settings INTERFACE_LINK_OPTIONS)
+
 # Flatten for pretty-printing
 string(REPLACE ";" "\n    " _includes_str "${_choco_includes}")
 string(REPLACE ";" "\n    " _libs_str "${_choco_libs}")
 string(REPLACE ";" "\n    " _choco_headers_str "${_choco_headers}")
 string(REPLACE ";" "\n    " _choco_sources_str "${_choco_sources}")
 string(REPLACE ";" "\n    " _choco_resources_str "${_choco_resources}")
+string(REPLACE ";" "\n    " _compile_opts_str "${_choco_compile_opts}")
+string(REPLACE ";" "\n    " _compile_defs_str "${_choco_compile_defs}")
+string(REPLACE ";" "\n    " _link_opts_str "${_choco_link_opts}")
 
 message(STATUS "====== Chocolaf Common Settings ======")
 message(STATUS "Include dirs:\n    ${_includes_str}")
@@ -400,6 +428,10 @@ message(STATUS "Linked libs:\n    ${_libs_str}")
 message(STATUS "Common includes:\n    ${_choco_headers_str}")
 message(STATUS "Common sources:\n    ${_choco_sources_str}")
 message(STATUS "Common resources:\n    ${_choco_resources_str}")
+message(STATUS "Compiler options:\n    ${_compile_opts_str}")
+message(STATUS "Compiler definitions:\n    ${_compile_defs_str}")
+message(STATUS "Link options:\n    ${_link_opts_str}")
+
 message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
 message(STATUS "CMAKE_LIBRARY_PATH: ${CMAKE_LIBRARY_PATH}")
 message(STATUS "CMAKE_INCLUDE_PATH: ${CMAKE_INCLUDE_PATH}")

@@ -10,26 +10,27 @@
 #include <QtWidgets>
 
 class VLine : public QFrame {
-public:
-  VLine(QWidget* parent = nullptr) : QFrame(parent)
-  {
-    setFrameShape(QFrame::VLine);
-    setFrameShadow(QFrame::Sunken);
-  }
+  public:
+    VLine(QWidget *parent = nullptr)
+      : QFrame(parent)
+    {
+      setFrameShape(QFrame::VLine);
+      setFrameShadow(QFrame::Sunken);
+    }
 };
 
-ImageEditor::ImageEditor(QWidget* parent) :
-  QMainWindow(parent), /* m_pixmap(nullptr), */
-  imageSpinner(nullptr)
+ImageEditor::ImageEditor(QWidget *parent)
+  : QMainWindow(parent), /* m_pixmap(nullptr), */
+    imageSpinner(nullptr)
 {
   setWindowTitle(QString("Qt %1 Image Editor with Chocolaf").arg(QT_VERSION_STR));
-  scaleFactor = 1.0;
-  imageLoaded = false;
-  imageLabel = new QLabel("");
-  imageInfoLabel = new QLabel("");
-  imageCountLabel = new QLabel("");
+  scaleFactor      = 1.0;
+  imageLoaded      = false;
+  imageLabel       = new QLabel("");
+  imageInfoLabel   = new QLabel("");
+  imageCountLabel  = new QLabel("");
   scaleFactorLabel = new QLabel("");
-  scrollArea = new QScrollArea();
+  scrollArea       = new QScrollArea();
 
   imageLabel->setBackgroundRole(QPalette::Base);
   imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -43,7 +44,8 @@ ImageEditor::ImageEditor(QWidget* parent) :
   createActions();
   createMenus();
   createToolbar();
-  statusBar()->showMessage(QString("ImageViewer with Qt %1 and Chocolaf theme").arg(QT_VERSION_STR));
+  statusBar()->showMessage(
+    QString("ImageViewer with Qt %1 and Chocolaf theme").arg(QT_VERSION_STR));
   setupStatusBar();
 
   // set initial size to 4/5 of screen
@@ -52,9 +54,11 @@ ImageEditor::ImageEditor(QWidget* parent) :
   setWindowIcon(QIcon(":/app_icon.png")); // set the main window icon
 }
 
-ImageEditor::~ImageEditor() {}
+ImageEditor::~ImageEditor()
+{
+}
 
-void ImageEditor::closeEvent(QCloseEvent* e) /* override */
+void ImageEditor::closeEvent(QCloseEvent *e) /* override */
 {
   // save all settings before closing
   saveSettings();
@@ -72,7 +76,7 @@ QString getIconPath(QString baseName, bool darkTheme = false)
 void ImageEditor::createActions()
 {
   // initialize FontAwesome for icons
-  fa::QtAwesome* awesome = new fa::QtAwesome(this);
+  fa::QtAwesome *awesome = new fa::QtAwesome(this);
   awesome->initFontAwesome();
 
   QVariantMap options{};
@@ -194,24 +198,25 @@ void ImageEditor::createActions()
 
   aboutQtAction = new QAction("About &Qt...", this);
   aboutQtAction->setStatusTip("Display information about the Qt library");
-  QObject::connect(aboutQtAction, SIGNAL(triggered()), QApplication::instance(), SLOT(aboutQt()));
+  QObject::connect(aboutQtAction, SIGNAL(triggered()), QApplication::instance(),
+    SLOT(aboutQt()));
 }
 
 void ImageEditor::createMenus()
 {
-  QMenu* fileMenu = menuBar()->addMenu("&File");
+  QMenu *fileMenu = menuBar()->addMenu("&File");
   fileMenu->addAction(openAction);
   fileMenu->addAction(printAction);
   fileMenu->addSeparator();
   fileMenu->addAction(exitAction);
 
-  QMenu* editMenu = menuBar()->addMenu("&Edit");
+  QMenu *editMenu = menuBar()->addMenu("&Edit");
   editMenu->addAction(blurAction);
   editMenu->addAction(sharpenAction);
   editMenu->addAction(erodeAction);
   editMenu->addAction(cartoonAction);
 
-  QMenu* viewMenu = menuBar()->addMenu("&View");
+  QMenu *viewMenu = menuBar()->addMenu("&View");
   viewMenu->addAction(zoomInAction);
   viewMenu->addAction(zoomOutAction);
   viewMenu->addSeparator();
@@ -223,14 +228,14 @@ void ImageEditor::createMenus()
   viewMenu->addAction(prevImageAction);
   viewMenu->addAction(nextImageAction);
 
-  QMenu* helpMenu = menuBar()->addMenu("Help");
+  QMenu *helpMenu = menuBar()->addMenu("Help");
   helpMenu->addAction(aboutAction);
   helpMenu->addAction(aboutQtAction);
 }
 
 void ImageEditor::createToolbar()
 {
-  QToolBar* toolBar = addToolBar("&Main");
+  QToolBar *toolBar = addToolBar("&Main");
 
   toolBar->addAction(openAction);
   toolBar->addAction(printAction);
@@ -287,19 +292,20 @@ void ImageEditor::updateStatusBar()
     QImage image = imageLabel->pixmap()->toImage();
 #endif
     auto imageInfoText = QString("%1 x %2 %3")
-                           .arg(image.width())
-                           .arg(image.height())
-                           .arg(image.isGrayscale() ? "grayscale" : "color");
+                         .arg(image.width())
+                         .arg(image.height())
+                         .arg(image.isGrayscale() ? "grayscale" : "color");
     imageInfoLabel->setText(imageInfoText);
     auto sizeWidth = QString("%1").arg(imageSpinner->size()).length();
     QString status = QString("%1 of %2 images")
-                       .arg(imageSpinner->currIndex() + 1, sizeWidth)
-                       .arg(imageSpinner->size(), sizeWidth);
+                     .arg(imageSpinner->currIndex() + 1, sizeWidth)
+                     .arg(imageSpinner->size(), sizeWidth);
     qDebug() << status;
     imageCountLabel->setText(status);
     if (fitToWindowAction->isChecked()) {
       scaleFactorLabel->setText(QString("Zoom: %1").arg("Fit"));
-    } else {
+    }
+    else {
       auto currZoomFactor = int(scaleFactor * 100);
       scaleFactorLabel->setText(QString("Zoom: %1%").arg(currZoomFactor));
     }
@@ -329,7 +335,8 @@ void ImageEditor::loadSettings()
     qDebug() << "Loading from saved settings";
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("state").toByteArray());
-  } else {
+  }
+  else {
     // set default size = 4/5 of screen size
     qDebug() << "Not settings available, setting defaults!";
     resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
@@ -352,12 +359,13 @@ void ImageEditor::scaleImage(double factor /*=-1*/)
   zoomOutAction->setEnabled(scaleFactor > 0.10);
 }
 
-void ImageEditor::adjustScrollBar(QScrollBar* scrollBar, double factor)
+void ImageEditor::adjustScrollBar(QScrollBar *scrollBar, double factor)
 {
-  scrollBar->setValue(int(factor * scrollBar->value() + ((factor - 1) * scrollBar->pageStep() / 2)));
+  scrollBar->setValue(
+    int(factor * scrollBar->value() + ((factor - 1) * scrollBar->pageStep() / 2)));
 }
 
-bool ImageEditor::loadImage(const QString& imagePath)
+bool ImageEditor::loadImage(const QString &imagePath)
 {
   QImageReader reader(imagePath);
   reader.setAutoTransform(true);
@@ -389,7 +397,7 @@ bool ImageEditor::loadImage(const QString& imagePath)
   return true;
 }
 
-void ImageEditor::initializeFileDialog(QFileDialog& dialog, QFileDialog::AcceptMode acceptMode)
+void ImageEditor::initializeFileDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode)
 {
   const QStringList picsLocation = QStandardPaths::standardLocations(
     QStandardPaths::PicturesLocation);
@@ -399,7 +407,7 @@ void ImageEditor::initializeFileDialog(QFileDialog& dialog, QFileDialog::AcceptM
   const QByteArrayList supportedMimeTypes = (acceptMode == QFileDialog::AcceptOpen)
                                               ? QImageReader::supportedMimeTypes()
                                               : QImageWriter::supportedMimeTypes();
-  for (const QByteArray& mimeTypeName : supportedMimeTypes)
+  for (const QByteArray &mimeTypeName: supportedMimeTypes)
     mimeTypeFilters.append(mimeTypeName);
   mimeTypeFilters.sort();
   dialog.setMimeTypeFilters(mimeTypeFilters);
@@ -417,8 +425,11 @@ void ImageEditor::open()
     QStandardPaths::PicturesLocation);
   // if there are multiple pictures locations, pick the last one in the list as
   // the directory in which the dialog will open
-  const QString startingDir = picsLocation.isEmpty() ? QDir::currentPath() : picsLocation.last();
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), startingDir, imageFilters);
+  const QString startingDir = picsLocation.isEmpty()
+                                ? QDir::currentPath()
+                                : picsLocation.last();
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), startingDir,
+    imageFilters);
   if (!fileName.isEmpty() && loadImage(fileName))
     updateActions();
   /*
@@ -447,7 +458,8 @@ void ImageEditor::blurImage()
     imageLabel->setPixmap(matOp.blur());
     imageLabel->adjustSize();
     scaleImage();
-  } else
+  }
+  else
     qDebug() << "blurImage() should not be called if image is not loaded!";
 }
 
@@ -463,7 +475,8 @@ void ImageEditor::sharpenImage()
     imageLabel->setPixmap(matOp.sharpen());
     imageLabel->adjustSize();
     scaleImage();
-  } else
+  }
+  else
     qDebug() << "sharpenImage() should not be called if image is not loaded!";
 }
 
@@ -481,7 +494,8 @@ void ImageEditor::erodeImage()
     imageLabel->setPixmap(matOp.erode());
     imageLabel->adjustSize();
     scaleImage();
-  } else
+  }
+  else
     qDebug() << "erodeImage() should not be called if image is not loaded!";
 }
 
@@ -499,7 +513,8 @@ void ImageEditor::cartoonifyImage()
     imageLabel->setPixmap(matOp.cartoonify());
     imageLabel->adjustSize();
     scaleImage();
-  } else
+  }
+  else
     qDebug() << "cartoonifyImage() should not be called if image is not loaded!";
 }
 
@@ -515,7 +530,8 @@ void ImageEditor::rotateLeft()
     imageLabel->setPixmap(matOp.rotate(90));
     imageLabel->adjustSize();
     scaleImage();
-  } else
+  }
+  else
     qDebug() << "rotateLeft() should not be called if image is not loaded!";
 }
 
@@ -531,7 +547,8 @@ void ImageEditor::rotateRight()
     imageLabel->setPixmap(matOp.rotate(-90));
     imageLabel->adjustSize();
     scaleImage();
-  } else
+  }
+  else
     qDebug() << "rotateLeft() should not be called if image is not loaded!";
 }
 
@@ -567,7 +584,8 @@ void ImageEditor::prevImage()
     QString imagePath = imageSpinner->prevImage();
     if (loadImage(imagePath))
       updateActions();
-  } else {
+  }
+  else {
     if (imageSpinner->atFirst())
       QMessageBox::information(this, "ImageEditor", "Displaying first image in folder!");
   }
@@ -579,7 +597,8 @@ void ImageEditor::nextImage()
     QString imagePath = imageSpinner->nextImage();
     if (loadImage(imagePath))
       updateActions();
-  } else {
+  }
+  else {
     if (imageSpinner->atLast())
       QMessageBox::information(this, "ImageEditor", "Displaying last image in folder!");
   }
@@ -588,9 +607,9 @@ void ImageEditor::nextImage()
 void ImageEditor::about()
 {
   QString str = QString("<p><b>Image Viewer</b> application to view images on desktop.</p>"
-                        "<p>Developed with Qt %1 by Manish Bhobé</p>"
-                        "<p>Uses Chocolaf dark theme for Windows & Linux</p>"
-                        "<p>Free to use, but use at your own risk!!")
-                  .arg(QT_VERSION_STR);
+        "<p>Developed with Qt %1 by Manish Bhobé</p>"
+        "<p>Uses Chocolaf dark theme for Windows & Linux</p>"
+        "<p>Free to use, but use at your own risk!!")
+      .arg(QT_VERSION_STR);
   QMessageBox::about(this, tr("About Image Viewer"), str);
 }

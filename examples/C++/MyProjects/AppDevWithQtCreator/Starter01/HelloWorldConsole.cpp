@@ -8,7 +8,8 @@
 #include <QCoreApplication>
 #include <print>
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   QCoreApplication app(argc, argv);
 
   std::println("Hello World! Welcome to Qt {}", QT_VERSION_STR);

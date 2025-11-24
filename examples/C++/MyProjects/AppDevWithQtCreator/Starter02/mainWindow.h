@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow {
     ~MainWindow() override;
   private slots:
     void onClose();
+    //void onCalculatorClicked();
     void onCounterBtnClicked();
   private:
     Ui::MainWindow *ui;

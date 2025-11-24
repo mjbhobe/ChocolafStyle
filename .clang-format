@@ -15,7 +15,7 @@ BraceWrapping:
   AfterClass: false
   AfterControlStatement: false
   AfterEnum: false
-  AfterFunction: false
+  AfterFunction: true
   AfterNamespace: false
   AfterStruct: false
   AfterUnion: false
@@ -28,7 +28,7 @@ BraceWrapping:
   SplitEmptyRecord: true
   SplitEmptyNamespace: true
 BreakBeforeBraces: Custom
-ColumnLimit: 95
+ColumnLimit: 110
 EmptyLineBeforeAccessModifier: Never
 IncludeCategories: 
   - Regex: '^<.*'

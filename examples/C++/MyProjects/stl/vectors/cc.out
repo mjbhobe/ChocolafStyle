@@ -1,0 +1,406 @@
+vector2.cpp:22:12: error: partial specialization cannot be declared as a friend
+   22 |     friend struct std::formatter<Person, CharT>;
+      |            ^                    ~~~~~~~~~~~~~~~
+vector2.cpp:35:62: error: 'm_name' is a private member of 'Person'
+   35 |           ctx.out(), "{{\"Name\": {}, \"Age\": {}}}", person.m_name, person.m_age);
+      |                                                              ^
+vector2.cpp:18:17: note: declared private here
+   18 |     std::string m_name;
+      |                 ^
+vector2.cpp:35:77: error: 'm_age' is a private member of 'Person'
+   35 |           ctx.out(), "{{\"Name\": {}, \"Age\": {}}}", person.m_name, person.m_age);
+      |                                                                             ^
+vector2.cpp:19:9: note: declared private here
+   19 |     int m_age{0};
+      |         ^
+In file included from vector2.cpp:1:
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4382:22: error: static assertion failed
+ 4382 |       static_assert( output_iterator<_Out, const _CharT&> );
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vector2.cpp:35:14: note: in instantiation of template class 'std::basic_format_context<char, std::back_insert_iterator<std::basic_string<char>>>' requested here
+   35 |           ctx.out(), "{{\"Name\": {}, \"Age\": {}}}", person.m_name, person.m_age);
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:14: note: in instantiation of member function 'std::formatter<Person>::format' requested here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:9: note: in instantiation of requirement here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |         ^~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:89:7: note: while substituting template arguments into constraint expression here
+   89 |           && requires (const _Formatter __cf, _Tp&& __t, _Context __fc)
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   90 |     {
+      |     ~
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   92 |     };
+      |     ~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:103:43: note: while checking the satisfaction of concept '__formattable_with<Person, std::basic_format_context<std::back_insert_iterator<std::basic_string<char>>, char>, std::formatter<Person>, std::basic_format_parse_context<char>>' requested here
+  103 |       = __parsable_with<_Tp, _Context> && __formattable_with<_Tp, _Context>;
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:103:43: note: (skipping 6 contexts in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/type_traits:3559:54: note: during template argument deduction for class template partial specialization 'formatter<_Rg, _CharT>' [with _Rg = std::vector<Person>, _CharT = char]
+ 3559 |   inline constexpr bool is_default_constructible_v = __is_constructible(_Tp);
+      |                                                      ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/type_traits:3559:54: note: in instantiation of template class 'std::formatter<std::vector<Person>>' requested here
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4627:3: note: in instantiation of variable template specialization 'std::is_default_constructible_v<std::formatter<std::vector<Person>>>' requested here
+ 4627 |         (is_default_constructible_v<formatter<_Args, _CharT>> && ...),
+      |          ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4809:4: note: in instantiation of template class 'std::__format::_Checking_scanner<char, std::vector<Person>>' requested here
+ 4809 |           __scanner(_M_str);
+      |           ^
+vector2.cpp:68:16: note: in instantiation of function template specialization 'std::basic_format_string<char, std::vector<Person> &>::basic_format_string<char[13]>' requested here
+   68 |   std::println("People -> {}", people);
+      |                ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4382:22: note: because 'output_iterator<char, const std::back_insert_iterator<std::basic_string<char> > &>' evaluated to false
+ 4382 |       static_assert( output_iterator<_Out, const _CharT&> );
+      |                      ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/iterator_concepts.h:699:31: note: because 'char' does not satisfy 'input_or_output_iterator'
+  699 |     concept output_iterator = input_or_output_iterator<_Iter>
+      |                               ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/iterator_concepts.h:672:33: note: because '*__i' would be invalid: indirection requires pointer operand ('int' invalid)
+  672 |       = requires(_Iter __i) { { *__i } -> __detail::__can_reference; }
+      |                                 ^
+In file included from vector2.cpp:1:
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4382:22: error: static assertion failed
+ 4382 |       static_assert( output_iterator<_Out, const _CharT&> );
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vector2.cpp:35:14: note: in instantiation of template class 'std::basic_format_context<wchar_t, std::back_insert_iterator<std::basic_string<wchar_t>>>' requested here
+   35 |           ctx.out(), "{{\"Name\": {}, \"Age\": {}}}", person.m_name, person.m_age);
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:14: note: in instantiation of member function 'std::formatter<Person, wchar_t>::format' requested here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:9: note: in instantiation of requirement here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |         ^~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:89:7: note: while substituting template arguments into constraint expression here
+   89 |           && requires (const _Formatter __cf, _Tp&& __t, _Context __fc)
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   90 |     {
+      |     ~
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   92 |     };
+      |     ~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:103:43: note: while checking the satisfaction of concept '__formattable_with<Person, std::basic_format_context<std::back_insert_iterator<std::basic_string<wchar_t>>, wchar_t>, std::formatter<Person, wchar_t>, std::basic_format_parse_context<wchar_t>>' requested here
+  103 |       = __parsable_with<_Tp, _Context> && __formattable_with<_Tp, _Context>;
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:103:43: note: (skipping 6 contexts in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/type_traits:3559:54: note: during template argument deduction for class template partial specialization 'formatter<_Rg, _CharT>' [with _Rg = std::vector<Person>, _CharT = wchar_t]
+ 3559 |   inline constexpr bool is_default_constructible_v = __is_constructible(_Tp);
+      |                                                      ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/type_traits:3559:54: note: in instantiation of template class 'std::formatter<std::vector<Person>, wchar_t>' requested here
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4627:3: note: in instantiation of variable template specialization 'std::is_default_constructible_v<std::formatter<std::vector<Person>, wchar_t>>' requested here
+ 4627 |         (is_default_constructible_v<formatter<_Args, _CharT>> && ...),
+      |          ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4809:4: note: in instantiation of template class 'std::__format::_Checking_scanner<wchar_t, std::vector<Person>>' requested here
+ 4809 |           __scanner(_M_str);
+      |           ^
+vector2.cpp:74:36: note: in instantiation of function template specialization 'std::basic_format_string<wchar_t, std::vector<Person> &>::basic_format_string<wchar_t[13]>' requested here
+   74 |   std::wstring wstr2 = std::format(L"People -> {}", people);
+      |                                    ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4382:22: note: because 'output_iterator<wchar_t, const std::back_insert_iterator<std::basic_string<wchar_t> > &>' evaluated to false
+ 4382 |       static_assert( output_iterator<_Out, const _CharT&> );
+      |                      ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/iterator_concepts.h:699:31: note: because 'wchar_t' does not satisfy 'input_or_output_iterator'
+  699 |     concept output_iterator = input_or_output_iterator<_Iter>
+      |                               ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/iterator_concepts.h:672:33: note: because '*__i' would be invalid: indirection requires pointer operand ('int' invalid)
+  672 |       = requires(_Iter __i) { { *__i } -> __detail::__can_reference; }
+      |                                 ^
+vector2.cpp:48:37: error: no member named 'out' in 'std::basic_format_context<char, std::back_insert_iterator<std::basic_string<char>>>'
+   48 |       auto out = std::format_to(ctx.out(), "[");
+      |                                 ~~~ ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:14: note: in instantiation of member function 'std::formatter<std::vector<int>>::format' requested here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:9: note: in instantiation of requirement here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |         ^~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:89:7: note: while substituting template arguments into constraint expression here
+   89 |           && requires (const _Formatter __cf, _Tp&& __t, _Context __fc)
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   90 |     {
+      |     ~
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   92 |     };
+      |     ~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: while checking the satisfaction of concept '__formattable_with<std::vector<int>, std::basic_format_context<std::__format::_Sink_iter<char>, char>, std::formatter<std::vector<int>>, std::basic_format_parse_context<char>>' requested here
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: while substituting template arguments into constraint expression here
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4279:31: note: (skipping 2 contexts in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+ 4279 |           basic_format_arg<_Context> __arg(__v);
+      |                                      ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4290:12: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<char>, char>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<char>, char>>::handle>::_S_make_elt<std::vector<int>>' requested here
+ 4290 |         : _M_args{_S_make_elt(__a)...}
+      |                   ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4340:14: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<char>, char>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<char>, char>>::handle>::_Arg_store<std::vector<int>>' requested here
+ 4340 |       return _Store(__fmt_args...);
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/print:125:9: note: in instantiation of function template specialization 'std::format<std::vector<int> &>' requested here
+  125 |                  std::format(__fmt, std::forward<_Args>(__args)...));
+      |                       ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/print:131:12: note: in instantiation of function template specialization 'std::println<std::vector<int> &>' requested here
+  131 |     { std::println(stdout, __fmt, std::forward<_Args>(__args)...); }
+      |            ^
+vector2.cpp:67:8: note: in instantiation of function template specialization 'std::println<std::vector<int> &>' requested here
+   67 |   std::println("vec1 -> {}", vec1);
+      |        ^
+In file included from vector2.cpp:1:
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4279:31: error: no matching constructor for initialization of 'basic_format_arg<basic_format_context<_Sink_iter<char>, char>>'
+ 4279 |           basic_format_arg<_Context> __arg(__v);
+      |                                      ^     ~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4290:12: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<char>, char>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<char>, char>>::handle>::_S_make_elt<std::vector<int>>' requested here
+ 4290 |         : _M_args{_S_make_elt(__a)...}
+      |                   ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4340:14: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<char>, char>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<char>, char>>::handle>::_Arg_store<std::vector<int>>' requested here
+ 4340 |       return _Store(__fmt_args...);
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/print:125:9: note: in instantiation of function template specialization 'std::format<std::vector<int> &>' requested here
+  125 |                  std::format(__fmt, std::forward<_Args>(__args)...));
+      |                       ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/print:131:12: note: in instantiation of function template specialization 'std::println<std::vector<int> &>' requested here
+  131 |     { std::println(stdout, __fmt, std::forward<_Args>(__args)...); }
+      |            ^
+vector2.cpp:67:8: note: in instantiation of function template specialization 'std::println<std::vector<int> &>' requested here
+   67 |   std::println("vec1 -> {}", vec1);
+      |        ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3722:11: note: candidate constructor (the implicit copy constructor) not viable: no known conversion from 'std::vector<int>' to 'const basic_format_arg<basic_format_context<_Sink_iter<char>, char>>' for 1st argument
+ 3722 |     class basic_format_arg
+      |           ^~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3722:11: note: candidate constructor (the implicit move constructor) not viable: no known conversion from 'std::vector<int>' to 'basic_format_arg<basic_format_context<_Sink_iter<char>, char>>' for 1st argument
+ 3722 |     class basic_format_arg
+      |           ^~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3975:2: note: candidate template ignored: constraints not satisfied [with _Tp = std::vector<int>]
+ 3975 |         basic_format_arg(_Tp& __v) noexcept
+      |         ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: because '__format::__formattable_with<std::vector<int>, std::basic_format_context<std::__format::_Sink_iter<char>, char> >' evaluated to false
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:9: note: because '__cf.format(__t, __fc)' would be invalid
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |         ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3779:7: note: candidate constructor not viable: requires 0 arguments, but 1 was provided
+ 3779 |       basic_format_arg() noexcept : _M_type(__format::_Arg_none) { }
+      |       ^
+vector2.cpp:48:37: error: no member named 'out' in 'std::basic_format_context<char, std::back_insert_iterator<std::basic_string<char>>>'
+   48 |       auto out = std::format_to(ctx.out(), "[");
+      |                                 ~~~ ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:14: note: in instantiation of member function 'std::formatter<std::vector<Person>>::format' requested here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:9: note: in instantiation of requirement here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |         ^~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:89:7: note: while substituting template arguments into constraint expression here
+   89 |           && requires (const _Formatter __cf, _Tp&& __t, _Context __fc)
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   90 |     {
+      |     ~
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   92 |     };
+      |     ~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: while checking the satisfaction of concept '__formattable_with<std::vector<Person>, std::basic_format_context<std::__format::_Sink_iter<char>, char>, std::formatter<std::vector<Person>>, std::basic_format_parse_context<char>>' requested here
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: while substituting template arguments into constraint expression here
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4279:31: note: (skipping 2 contexts in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+ 4279 |           basic_format_arg<_Context> __arg(__v);
+      |                                      ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4290:12: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<char>, char>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<char>, char>>::handle>::_S_make_elt<std::vector<Person>>' requested here
+ 4290 |         : _M_args{_S_make_elt(__a)...}
+      |                   ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4340:14: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<char>, char>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<char>, char>>::handle>::_Arg_store<std::vector<Person>>' requested here
+ 4340 |       return _Store(__fmt_args...);
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/print:125:9: note: in instantiation of function template specialization 'std::format<std::vector<Person> &>' requested here
+  125 |                  std::format(__fmt, std::forward<_Args>(__args)...));
+      |                       ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/print:131:12: note: in instantiation of function template specialization 'std::println<std::vector<Person> &>' requested here
+  131 |     { std::println(stdout, __fmt, std::forward<_Args>(__args)...); }
+      |            ^
+vector2.cpp:68:8: note: in instantiation of function template specialization 'std::println<std::vector<Person> &>' requested here
+   68 |   std::println("People -> {}", people);
+      |        ^
+In file included from vector2.cpp:1:
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4279:31: error: no matching constructor for initialization of 'basic_format_arg<basic_format_context<_Sink_iter<char>, char>>'
+ 4279 |           basic_format_arg<_Context> __arg(__v);
+      |                                      ^     ~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4290:12: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<char>, char>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<char>, char>>::handle>::_S_make_elt<std::vector<Person>>' requested here
+ 4290 |         : _M_args{_S_make_elt(__a)...}
+      |                   ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4340:14: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<char>, char>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<char>, char>>::handle>::_Arg_store<std::vector<Person>>' requested here
+ 4340 |       return _Store(__fmt_args...);
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/print:125:9: note: in instantiation of function template specialization 'std::format<std::vector<Person> &>' requested here
+  125 |                  std::format(__fmt, std::forward<_Args>(__args)...));
+      |                       ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/print:131:12: note: in instantiation of function template specialization 'std::println<std::vector<Person> &>' requested here
+  131 |     { std::println(stdout, __fmt, std::forward<_Args>(__args)...); }
+      |            ^
+vector2.cpp:68:8: note: in instantiation of function template specialization 'std::println<std::vector<Person> &>' requested here
+   68 |   std::println("People -> {}", people);
+      |        ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3722:11: note: candidate constructor (the implicit copy constructor) not viable: no known conversion from 'std::vector<Person>' to 'const basic_format_arg<basic_format_context<_Sink_iter<char>, char>>' for 1st argument
+ 3722 |     class basic_format_arg
+      |           ^~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3722:11: note: candidate constructor (the implicit move constructor) not viable: no known conversion from 'std::vector<Person>' to 'basic_format_arg<basic_format_context<_Sink_iter<char>, char>>' for 1st argument
+ 3722 |     class basic_format_arg
+      |           ^~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3975:2: note: candidate template ignored: constraints not satisfied [with _Tp = std::vector<Person>]
+ 3975 |         basic_format_arg(_Tp& __v) noexcept
+      |         ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: because '__format::__formattable_with<std::vector<Person>, std::basic_format_context<std::__format::_Sink_iter<char>, char> >' evaluated to false
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:9: note: because '__cf.format(__t, __fc)' would be invalid
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |         ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3779:7: note: candidate constructor not viable: requires 0 arguments, but 1 was provided
+ 3779 |       basic_format_arg() noexcept : _M_type(__format::_Arg_none) { }
+      |       ^
+vector2.cpp:48:37: error: no member named 'out' in 'std::basic_format_context<wchar_t, std::back_insert_iterator<std::basic_string<wchar_t>>>'
+   48 |       auto out = std::format_to(ctx.out(), "[");
+      |                                 ~~~ ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:14: note: in instantiation of member function 'std::formatter<std::vector<int>, wchar_t>::format' requested here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:9: note: in instantiation of requirement here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |         ^~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:89:7: note: while substituting template arguments into constraint expression here
+   89 |           && requires (const _Formatter __cf, _Tp&& __t, _Context __fc)
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   90 |     {
+      |     ~
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   92 |     };
+      |     ~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: while checking the satisfaction of concept '__formattable_with<std::vector<int>, std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>, std::formatter<std::vector<int>, wchar_t>, std::basic_format_parse_context<wchar_t>>' requested here
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: while substituting template arguments into constraint expression here
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4279:31: note: while checking constraint satisfaction for template 'basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>' required here
+ 4279 |           basic_format_arg<_Context> __arg(__v);
+      |                                      ^~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4279:31: note: in instantiation of function template specialization 'std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>::basic_format_arg<std::vector<int>>' requested here
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4290:12: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>::handle>::_S_make_elt<std::vector<int>>' requested here
+ 4290 |         : _M_args{_S_make_elt(__a)...}
+      |                   ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4340:14: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>::handle>::_Arg_store<std::vector<int>>' requested here
+ 4340 |       return _Store(__fmt_args...);
+      |              ^
+vector2.cpp:71:28: note: in instantiation of function template specialization 'std::format<std::vector<int> &>' requested here
+   71 |   std::wstring wstr = std::format(L"vec1 -> {}", vec1);
+      |                            ^
+In file included from vector2.cpp:1:
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4279:31: error: no matching constructor for initialization of 'basic_format_arg<basic_format_context<_Sink_iter<wchar_t>, wchar_t>>'
+ 4279 |           basic_format_arg<_Context> __arg(__v);
+      |                                      ^     ~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4290:12: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>::handle>::_S_make_elt<std::vector<int>>' requested here
+ 4290 |         : _M_args{_S_make_elt(__a)...}
+      |                   ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4340:14: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>::handle>::_Arg_store<std::vector<int>>' requested here
+ 4340 |       return _Store(__fmt_args...);
+      |              ^
+vector2.cpp:71:28: note: in instantiation of function template specialization 'std::format<std::vector<int> &>' requested here
+   71 |   std::wstring wstr = std::format(L"vec1 -> {}", vec1);
+      |                            ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3722:11: note: candidate constructor (the implicit copy constructor) not viable: no known conversion from 'std::vector<int>' to 'const basic_format_arg<basic_format_context<_Sink_iter<wchar_t>, wchar_t>>' for 1st argument
+ 3722 |     class basic_format_arg
+      |           ^~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3722:11: note: candidate constructor (the implicit move constructor) not viable: no known conversion from 'std::vector<int>' to 'basic_format_arg<basic_format_context<_Sink_iter<wchar_t>, wchar_t>>' for 1st argument
+ 3722 |     class basic_format_arg
+      |           ^~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3975:2: note: candidate template ignored: constraints not satisfied [with _Tp = std::vector<int>]
+ 3975 |         basic_format_arg(_Tp& __v) noexcept
+      |         ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: because '__format::__formattable_with<std::vector<int>, std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t> >' evaluated to false
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:9: note: because '__cf.format(__t, __fc)' would be invalid
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |         ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3779:7: note: candidate constructor not viable: requires 0 arguments, but 1 was provided
+ 3779 |       basic_format_arg() noexcept : _M_type(__format::_Arg_none) { }
+      |       ^
+vector2.cpp:48:37: error: no member named 'out' in 'std::basic_format_context<wchar_t, std::back_insert_iterator<std::basic_string<wchar_t>>>'
+   48 |       auto out = std::format_to(ctx.out(), "[");
+      |                                 ~~~ ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:14: note: in instantiation of member function 'std::formatter<std::vector<Person>, wchar_t>::format' requested here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |              ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:9: note: in instantiation of requirement here
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |         ^~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:89:7: note: while substituting template arguments into constraint expression here
+   89 |           && requires (const _Formatter __cf, _Tp&& __t, _Context __fc)
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   90 |     {
+      |     ~
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   92 |     };
+      |     ~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: while checking the satisfaction of concept '__formattable_with<std::vector<Person>, std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>, std::formatter<std::vector<Person>, wchar_t>, std::basic_format_parse_context<wchar_t>>' requested here
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: while substituting template arguments into constraint expression here
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4279:31: note: while checking constraint satisfaction for template 'basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>' required here
+ 4279 |           basic_format_arg<_Context> __arg(__v);
+      |                                      ^~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4279:31: note: in instantiation of function template specialization 'std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>::basic_format_arg<std::vector<Person>>' requested here
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4290:12: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>::handle>::_S_make_elt<std::vector<Person>>' requested here
+ 4290 |         : _M_args{_S_make_elt(__a)...}
+      |                   ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4340:14: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>::handle>::_Arg_store<std::vector<Person>>' requested here
+ 4340 |       return _Store(__fmt_args...);
+      |              ^
+vector2.cpp:74:29: note: in instantiation of function template specialization 'std::format<std::vector<Person> &>' requested here
+   74 |   std::wstring wstr2 = std::format(L"People -> {}", people);
+      |                             ^
+In file included from vector2.cpp:1:
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4279:31: error: no matching constructor for initialization of 'basic_format_arg<basic_format_context<_Sink_iter<wchar_t>, wchar_t>>'
+ 4279 |           basic_format_arg<_Context> __arg(__v);
+      |                                      ^     ~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4290:12: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>::handle>::_S_make_elt<std::vector<Person>>' requested here
+ 4290 |         : _M_args{_S_make_elt(__a)...}
+      |                   ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:4340:14: note: in instantiation of function template specialization 'std::__format::_Arg_store<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>, std::basic_format_arg<std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t>>::handle>::_Arg_store<std::vector<Person>>' requested here
+ 4340 |       return _Store(__fmt_args...);
+      |              ^
+vector2.cpp:74:29: note: in instantiation of function template specialization 'std::format<std::vector<Person> &>' requested here
+   74 |   std::wstring wstr2 = std::format(L"People -> {}", people);
+      |                             ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3722:11: note: candidate constructor (the implicit copy constructor) not viable: no known conversion from 'std::vector<Person>' to 'const basic_format_arg<basic_format_context<_Sink_iter<wchar_t>, wchar_t>>' for 1st argument
+ 3722 |     class basic_format_arg
+      |           ^~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3722:11: note: candidate constructor (the implicit move constructor) not viable: no known conversion from 'std::vector<Person>' to 'basic_format_arg<basic_format_context<_Sink_iter<wchar_t>, wchar_t>>' for 1st argument
+ 3722 |     class basic_format_arg
+      |           ^~~~~~~~~~~~~~~~
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3975:2: note: candidate template ignored: constraints not satisfied [with _Tp = std::vector<Person>]
+ 3975 |         basic_format_arg(_Tp& __v) noexcept
+      |         ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3973:11: note: because '__format::__formattable_with<std::vector<Person>, std::basic_format_context<std::__format::_Sink_iter<wchar_t>, wchar_t> >' evaluated to false
+ 3973 |         requires __format::__formattable_with<_Tp, _Context>
+      |                  ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/bits/formatfwd.h:91:9: note: because '__cf.format(__t, __fc)' would be invalid
+   91 |       { __cf.format(__t, __fc) } -> same_as<typename _Context::iterator>;
+      |         ^
+/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/format:3779:7: note: candidate constructor not viable: requires 0 arguments, but 1 was provided
+ 3779 |       basic_format_arg() noexcept : _M_type(__format::_Arg_none) { }
+      |       ^
+13 errors generated.

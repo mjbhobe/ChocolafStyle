@@ -6,37 +6,30 @@ cmake_minimum_required(VERSION 3.21)
 
 # Step1: change name of your project
 # [Tip: give it the same name as your executable]
-set(PROJECT_NAME Starter02)
+set(PROJECT_NAME vectors2_iter)
 
 project(${PROJECT_NAME} LANGUAGES CXX)
 
 # --- Include the global settings module (converted from common.pro)
-include("$ENV{CHOCOLAF_COMMONFILES_HOME}/common.cmake")
+include("$ENV{CHOCOLAF_COMMONFILES_HOME}/common_console.cmake")
 
 # Step2: add dependencies of your project under these sub-sections
 
 set(PROJECT_HEADERS
     # list all H (header) files here (leave empty if no headers!)
     # NOTE: file names are case sensitive (especially on *nix)
-    mainWindow.h
-    Counter.h
-    calcDialog.h
+    stl_utils.h
 )
 
 set(PROJECT_SOURCES
     # list all source files (*.c | *.cpp)
     # NOTE: file names are case sensitive (especially on *nix)
-    mainWindow.cpp
-    Counter.cpp
-    calcDialog.cpp
-    main.cpp
+    vector2_iter.cpp
 )
 
 set(PROJECT_UI_FILES
     # list all UI (forms etc) files here (leave empty if no UI files)
     # NOTE: file names are case sensitive (especially on *nix)
-    mainWindow.ui
-    calcDialog.ui
 )
 
 set(PROJECT_RESOURCES_FILES
@@ -57,5 +50,5 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link against the global interface so we inherit Qt, flags, include dirs and libs.
-target_link_libraries(${PROJECT_NAME} PRIVATE chocolaf_settings)
+target_link_libraries(${PROJECT_NAME} PRIVATE chocolaf_console_settings)
 
