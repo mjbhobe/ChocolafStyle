@@ -51,12 +51,12 @@ T random_pick_from_vector(const std::vector<T> &vec)
 
 // ------------------------------------------------------------------------------------
 // custom formatter for std::vector<T> so you can use it like above with C++23's
-// std::print() and std::println() functions. Should work with both std::string &
-// std::wstring
+// std::print() and std::println() functions.
+// Works with both std::string & std::wstring
 // ------------------------------------------------------------------------------------
 
 template<typename T, typename CharT>
-struct std::formatter<std::vector<T>, CharT> {
+struct std::formatter<std::vector<T>, CharT> : std::formatter<CharT> {
     constexpr auto parse(std::basic_format_parse_context<CharT> &ctx) { return ctx.begin(); }
 
     template<typename FormatContext>
