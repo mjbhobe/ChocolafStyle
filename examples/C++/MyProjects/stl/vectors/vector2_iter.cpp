@@ -50,8 +50,7 @@ class Person {
     int age() const { return m_age; }
     // member modifiers
     void setName(const std::string &newName) { m_name = newName; }
-    // ignoring checks for now
-    void setAge(int newAge) { m_age = newAge; }
+    void setAge(int newAge) { m_age = newAge; } // ignoring checks for now
   private:
     std::string m_name;
     int m_age{0};
@@ -71,11 +70,11 @@ struct std::formatter<Person, CharT> {
 
 void add_to_vector(std::vector<Person> &people, int how_many)
 {
-  // flip lock as long as I insert
+  // lock vector (flip mutex) a long as I am inserting into it
   std::lock_guard<std::mutex> guard(vecMutex);
   std::vector<std::string> names{"Anupa", "Nupoor", "Manish", "Sunila", "Jagdish"};
 
-  // let's create 'how_many' random entries into people vector
+  // let's create 'how_many' random entries and append to people vector
   // using a back_inserter (or output iterator)
   std::generate_n(std::back_inserter(people), how_many, [&]() mutable {
     std::string name = random_pick_from_vector(names);
@@ -86,7 +85,8 @@ void add_to_vector(std::vector<Person> &people, int how_many)
 
 void print_vector(const std::vector<Person> &v, const std::string &prompt = "")
 {
-  // flip mutex as long as I finish printing
+  // lock vector (flip mutex) as long as I am printing vector
+  // (so no other thread can modify vector while I am printing it!)
   std::lock_guard<std::mutex> guard(vecMutex);
   std::println("{} {}", prompt, v);
 }

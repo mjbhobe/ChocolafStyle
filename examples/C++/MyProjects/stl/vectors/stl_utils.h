@@ -39,6 +39,8 @@ size_t random_int(size_t min, size_t max)
   static std::random_device rd;                            // seed
   static std::mt19937 gen(rd());                           // Mersenne Twister engine
   std::uniform_int_distribution<size_t> distrib(min, max); // range(min,max) - both inclusive
+  // size_t num = distrib(gen);
+  // std::cout << "Generated " << num;
   return distrib(gen);
 }
 
@@ -48,6 +50,19 @@ T random_pick_from_vector(const std::vector<T> &vec)
   size_t rand_index = random_int(0, vec.size() - 1);
   return vec[rand_index];
 }
+
+template<typename T>
+std::vector<T> random_vec(size_t num_elems, size_t min = 0, size_t max = 100)
+{
+  // generate vector of num_elem random integers between min & max
+  std::vector<T> vec;
+  vec.reserve(num_elems);
+  std::generate_n(std::back_inserter(vec), num_elems, [&]() mutable { return random_int(min, max); });
+  // for (size_t i = 0; i < num_elems; i++)
+  //   vec.push_back(static_cast<T>(random_int(min, max)));
+  return vec;
+}
+
 
 // ------------------------------------------------------------------------------------
 // custom formatter for std::vector<T> so you can use it like above with C++23's
