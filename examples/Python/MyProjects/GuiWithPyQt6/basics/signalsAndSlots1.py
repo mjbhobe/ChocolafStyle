@@ -7,6 +7,7 @@
 * Use at your own risk!!
 
 """
+
 import sys
 import os
 import pathlib
@@ -48,17 +49,16 @@ class MainWindow(QMainWindow):
 
     def button_clicked(self):
         self.button1.setIcon(
-            self.icon_on if self.button1.isChecked()
-            else self.icon_off
+            self.icon_on if self.button1.isChecked() else self.icon_off
         )
         self.button1.setText(
             "You Clicked Me!" if self.button1.isChecked() else "Click Me"
         )
 
 
-# app = QApplication(sys.argv)
-app = chocolaf.ChocolafApp(sys.argv)
-app.setStyle("WindowsDark")
+app = QApplication(sys.argv)
+# app = chocolaf.ChocolafApp(sys.argv)
+# app.setStyle("WindowsDark")
 # app.setStyle("Fusion")
 
 # here is the window

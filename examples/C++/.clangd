@@ -1,0 +1,8 @@
+# default clang++ compiler flags
+CompileFlags:
+	Add: [
+		"-std=c++23",
+		"-Wall",
+		"-fsanitize=address",
+		"-fno-omit-frame-pointer"
+	]

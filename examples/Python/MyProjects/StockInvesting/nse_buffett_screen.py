@@ -19,7 +19,7 @@ Usage:
 import warnings
 warnings.filterwarnings("ignore")
 
-import os
+import os, sys
 import math
 import numpy as np
 import pandas as pd
@@ -284,10 +284,13 @@ def main():
         raise SystemExit(f"Ticker file not found: {TICKER_FILE}")
 
     symbols = pd.read_csv(TICKER_FILE)["symbol"].dropna().astype(str).str.strip().tolist()
+    print(f"Loaded symbols: {symbols}")
+
     results = []
 
     for sym in symbols:
         try:
+            print(f"Analysing symbol {sym}...")
             tkr = yf.Ticker(sym)
             price = latest_price(tkr)
             info = tkr.info or {}

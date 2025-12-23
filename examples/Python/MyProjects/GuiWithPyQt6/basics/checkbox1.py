@@ -6,6 +6,7 @@
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
 """
+
 import sys
 import os
 import pathlib
@@ -48,9 +49,9 @@ class MainWindow(QMainWindow):
         )
 
 
-# app = QApplication(sys.argv)
-app = chocolaf.ChocolafApp(sys.argv)
-app.setStyle("WindowsDark")
+app = QApplication(sys.argv)
+# app = chocolaf.ChocolafApp(sys.argv)
+# app.setStyle("WindowsDark")
 
 # here is the window
 win = MainWindow()

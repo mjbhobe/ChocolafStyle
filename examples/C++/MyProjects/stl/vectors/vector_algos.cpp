@@ -57,7 +57,7 @@ void sorting_demo()
       Person("Corbin", 45),
   };
   // lambda for sorting: sort by names ascending; if names equal, sort by age ascending
-  auto compareByName = [](const Person &a, const Person &b) {
+  auto compareByName = [](const Person &a, const Person &b) -> bool {
     return (a.name == b.name ? a.age < b.age : a.name < b.name);
     // return a.name < b.name;
   };
@@ -70,10 +70,76 @@ void sorting_demo()
     std::cout << p << std::endl;
 }
 
+void searching_demo()
+{
+  // linear search (always guaranteed to find value, if it exists)
+  std::vector<int> rand_vec = random_vec<int>(10);
+  int index                 = random_int(0, 9); // pick a random index
+  int val                   = rand_vec.at(index);
+
+  // for linear search we use std::find(vec.begin(), vec.end(), value_to_find);
+  std::println("Try searching for {} in vector {}", val, rand_vec);
+  auto it = std::find(rand_vec.begin(), rand_vec.end(), val);
+  if (it == rand_vec.end())
+    std::cout << "   " << val << " not found!" << std::endl;
+  else
+    std::cout << "   Found " << val << " at index " << (it - rand_vec.begin()) << std::endl;
+
+  // binary search is much faster for arbit sized vectors, but it requires that
+  // vector be sorted, else we get unpredictable results
+  std::sort(rand_vec.begin(), rand_vec.end());
+  if (std::binary_search(rand_vec.begin(), rand_vec.end(), val))
+    std::cout << "Found " << val << std::endl;
+  else
+    std::cout << "   " << val << " not found!" << std::endl;
+
+  // unfortunately std::binary_search() returns a boolean & does not
+  // return a position within the vector, you should use std::lower_bound()
+  // or std::upper_bound()
+  // std::lower_bound() returns iterator to first element that is NOT less than
+  // the search value (i.e. is >= search_value). You must check if iterator hold value
+  // searched by you - vector must be sorted
+  std::cout << "Using std::lower(...) to search in sorted array..." << std::endl;
+  auto iter = std::lower_bound(rand_vec.begin(), rand_vec.end(), val);
+  if (*iter == val)
+    std::cout << "Found " << val << " at position " << (iter - rand_vec.begin()) << std::endl;
+  else
+    std::cout << val << " not found!" << std::endl;
+}
+
+void test_other_algos()
+{
+  // copying vectors
+  std::println("Testing std::copy(...)");
+  std::vector<int> rand_vec = random_vec<int>(10);
+  std::vector<int> vec2(rand_vec.capacity());
+  // now copy rand_vec to vec2
+  std::copy(rand_vec.begin(), rand_vec.end(), vec2.begin());
+  std::println("  - Source vector: {}", rand_vec);
+  std::println("  - Copied vector: {}", vec2);
+
+  // reversing vector
+  std::println("Testing std::reverse(...)");
+  std::println("  - Source vector: {}", vec2);
+  std::reverse(vec2.begin(), vec2.end());
+  std::println("  - After reversing: {}", vec2);
+
+  // rotating vector
+  std::println("Testing std::rotate(...)");
+  std::vector<int> vec3(rand_vec.capacity());
+  std::copy(rand_vec.begin(), rand_vec.end(), vec3.begin());
+  std::println("  - Source vector: {}", vec3);
+  // now rotate
+  std::rotate(vec3.begin(), vec3.begin() + 4, vec3.end());
+  std::println("  - Rotated vector: {}", vec3);
+}
+
 
 int main(void)
 {
-  sorting_demo();
+  // sorting_demo();
+  // searching_demo();
+  test_other_algos();
 
   return EXIT_SUCCESS;
 }
