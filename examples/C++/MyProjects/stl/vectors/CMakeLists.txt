@@ -24,6 +24,7 @@ set(PROJECT_HEADERS
 set(PROJECT_SOURCES
     # list all source files (*.c | *.cpp)
     # NOTE: file names are case sensitive (especially on *nix)
+    stl_utils.cpp
     vector2_iter.cpp
 )
 

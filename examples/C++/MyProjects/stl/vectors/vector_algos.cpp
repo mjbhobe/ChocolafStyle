@@ -74,7 +74,7 @@ void searching_demo()
 {
   // linear search (always guaranteed to find value, if it exists)
   std::vector<int> rand_vec = random_vec<int>(10);
-  int index                 = random_int(0, 9); // pick a random index
+  int index                 = random_int_between(0, 9); // pick a random index
   int val                   = rand_vec.at(index);
 
   // for linear search we use std::find(vec.begin(), vec.end(), value_to_find);
@@ -93,17 +93,20 @@ void searching_demo()
   else
     std::cout << "   " << val << " not found!" << std::endl;
 
-  // unfortunately std::binary_search() returns a boolean & does not
-  // return a position within the vector, you should use std::lower_bound()
-  // or std::upper_bound()
+  // unfortunately std::binary_search() returns a boolean & does not return a position 
+  // within the vector where it found the value. To find positions, you should use 
+  // std::lower_bound() or std::upper_bound() instead.
   // std::lower_bound() returns iterator to first element that is NOT less than
-  // the search value (i.e. is >= search_value). You must check if iterator hold value
-  // searched by you - vector must be sorted
+  // the search value (i.e. is >= search_value). 
+  // NOTE: You must check if iterator holds value searched by you - vector must be sorted
   std::cout << "Using std::lower(...) to search in sorted array..." << std::endl;
   auto iter = std::lower_bound(rand_vec.begin(), rand_vec.end(), val);
   if (*iter == val)
+    // you must check if iterator holds value searched by you!
     std::cout << "Found " << val << " at position " << (iter - rand_vec.begin()) << std::endl;
   else
+    // otherwise std::lower_bound() indicates position where value should be inserted
+    // to maintain sorted order
     std::cout << val << " not found!" << std::endl;
 }
 
@@ -125,7 +128,7 @@ void test_other_algos()
   std::println("  - After reversing: {}", vec2);
 
   // rotating vector
-  std::println("Testing std::rotate(...)");
+  std::println("Testing std::rotate(...)"); 
   std::vector<int> vec3(rand_vec.capacity());
   std::copy(rand_vec.begin(), rand_vec.end(), vec3.begin());
   std::println("  - Source vector: {}", vec3);

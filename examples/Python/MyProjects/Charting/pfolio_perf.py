@@ -6,7 +6,7 @@ import pandas as pd
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QTableView,
                              QHeaderView, QVBoxLayout, QWidget)
 from PyQt6.QtCore import Qt, QAbstractTableModel, QModelIndex, QDateTime, QTimeZone
-from PyQt6.QtGui import QPalette, QFont, QColor, QPainter
+from PyQt6.QtGui import QPalette, QFont, QColor, QPainter, QBrush
 from PyQt6.QtCharts import QChart, QChartView, QLineSeries, QDateTimeAxis, QValueAxis
 
 from download_stocks_data import get_quarterly_performance_report
@@ -183,6 +183,7 @@ class PerformanceChart(QMainWindow):
         pen.setWidth(3)
         pen.setColor(QColor("#00FF00"))  # Bright Green
         series.setPen(pen)
+        text_brush = QBrush(QColor(grid_color))
 
         for d, v in zip(dates, values):
             dt = QDateTime.fromString(d, "dd-MMM-yy")
@@ -203,12 +204,16 @@ class PerformanceChart(QMainWindow):
         axis_x.setFormat("dd-MMM-yy")
         axis_x.setTitleText("Date")
         axis_x.setGridLineColor(QColor(grid_color))
+        axis_x.setLabelsBrush(text_brush)
+        axis_x.setTitleBrush(text_brush)
         chart.addAxis(axis_x, Qt.AlignmentFlag.AlignBottom)
         series.attachAxis(axis_x)
 
         axis_y = QValueAxis()
         axis_y.setTitleText("Value")
         axis_y.setGridLineColor(QColor(grid_color))
+        axis_y.setLabelsBrush(text_brush)
+        axis_y.setTitleBrush(text_brush)
         chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)
         series.attachAxis(axis_y)
 
@@ -266,10 +271,13 @@ class MainWindow(QMainWindow):
         dates = []
         values = []
 
+        # look for Closing price entries
+        closing_price_col = "Close_"
+
         for col in self.model._data.columns:
-            if col.startswith("Value_"):
-                # Extract date from "Value_dd-Mmm-yy"
-                date_str = col.replace("Value_", "")
+            if col.startswith(closing_price_col):
+                # Extract date from "Close_dd-Mmm-yy"
+                date_str = col.replace(closing_price_col, "")
                 val = df_row[col]
                 if pd.notna(val):
                     dates.append(date_str)
