@@ -12,13 +12,13 @@ import pandas as pd
 from datetime import datetime
 from rich.console import Console
 
-DATA_FILE_PATH = Path(__file__).parent / "holdings_mjb.csv"
+# DATA_FILE_PATH = Path(__file__).parent / "holdings_mjb.csv"
 console = Console()
 
 
-def get_quarterly_performance_report_(csv_file):
+def get_quarterly_performance_report(csv_file_path: Path) -> pd.DataFrame:
     # 1. Load tickers and quantities from CSV
-    portfolio_df = pd.read_csv(csv_file)
+    portfolio_df = pd.read_csv(csv_file_path)
     # Strip whitespace just in case the CSV has spaces after commas
     portfolio_df.columns = portfolio_df.columns.str.strip()
     portfolio_df['SYMBOL'] = portfolio_df['SYMBOL'].str.strip()

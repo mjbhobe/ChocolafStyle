@@ -15,6 +15,9 @@ console = Console()
 
 # path to holdings file
 DATA_FILE_PATH = Path(__file__).parent / "holdings_mjb.csv"
+if not DATA_FILE_PATH.exists():
+    console.print(f"[red]ERROR: Holdings file ({str(DATA_FILE_PATH)}) not found! Please check path.[/red]")
+    sys.exit(1)
 
 # Sets locale to your choice to display floats/ints (e.g., 'en_US', 'de_DE', etc.)
 try:

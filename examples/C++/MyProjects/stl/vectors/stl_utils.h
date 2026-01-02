@@ -34,7 +34,7 @@ std::ostream &operator<<(std::ostream &ost, const std::vector<T> &vec)
 }
 
 // generate a random integer between lower & upper (both inclusive!)
-size_t random_int_between(size_t lower = 0, size_t upper = 100)
+inline size_t random_int_between(size_t lower = 0, size_t upper = 100)
 {
   static std::random_device rd;                            // seed
   static std::mt19937 gen(rd());                           // Mersenne Twister engine

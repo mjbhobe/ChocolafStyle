@@ -75,9 +75,16 @@ logger.info(
     f"{END_DATE.strftime('%d-%b-%Y')}"
 )
 
-# set to India locale for correct number & currency formats
-locale.setlocale(locale.LC_ALL, "en_IN.utf8")
-# sys.exit(-1)
+# set to India locale for correct number & currency formats, if available (else fallback to default)
+try:
+    locale.setlocale(locale.LC_ALL, 'en_IN.UTF-8')
+except locale.Error:
+    # Fallback for systems that might use a slightly different string format
+    try:
+        locale.setlocale(locale.LC_ALL, 'en_IN')
+    except locale.Error:
+        console.print("[red]NOTE: Locale \'en_IN\' not supported on this system. Falling back to default.[/red]")
+        locale.setlocale(locale.LC_ALL, '')
 
 
 def show_candlestick(
@@ -192,7 +199,7 @@ def download_stock_prices(
         pfolio_df = pd.DataFrame()
         # Start Modification - 19-Apr-2024 --------------------
 
-        # for symbol in holdings["PFOLIO"]:
+        # for symbol in holdings["SYMBOL"]:
         #     logger.info(f"Downloading {symbol} data from {start_date} to {end_date}...")
         #     stock_df = yfinance.download(
         #         symbol, start=start_date, end=end_date, progress=False
@@ -200,13 +207,13 @@ def download_stock_prices(
         #     if len(stock_df) != 0:
         #         pfolio_df[symbol] = stock_df["Close"]
         # try downloading all in one shot
-        all_symbols = " ".join(symb for symb in list(holdings["PFOLIO"]))
+        all_symbols = " ".join(symb for symb in list(holdings["SYMBOL"]))
         logger.info(f"Portfolio symbols: {all_symbols}")
         logger.info(
             f"Downloading above symbols data from {start_date} to {end_date}..."
         )
         all_stocks_df = yfinance.download(all_symbols, start=start_date, end=end_date)
-        for symbol in holdings["PFOLIO"]:
+        for symbol in holdings["SYMBOL"]:
             if len(all_stocks_df["Close"][symbol]) != 0:
                 pfolio_df[symbol] = all_stocks_df["Close"][symbol]
             else:
@@ -360,24 +367,78 @@ class PandasTableModel(QAbstractTableModel):
                 )
 
 
+# class MyTableView(QTableView):
+#     def __init__(self):
+#         super(MyTableView, self).__init__()
+#         self.doubleClicked.connect(self.on_double_clicked)
+
+#     def on_double_clicked(self, index):
+#         model = self.model()
+#         try:
+#             symbol = model._data.index[index.row()]
+#         except IndexError:
+#             # most likely double clicked on "Total" row
+#             symbol = "Unk"
+#         logger.info(
+#             f"You double clicked in cell {index.row()}-{index.column()} with symbol {symbol}"
+#         )
+#         if symbol != "Unk":
+#             show_candlestick(symbol)
+#             # show_plot(symbol)
+
 class MyTableView(QTableView):
     def __init__(self):
         super(MyTableView, self).__init__()
         self.doubleClicked.connect(self.on_double_clicked)
+        # Enable extended selection to allow dragging across ranges
+        self.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
 
     def on_double_clicked(self, index):
         model = self.model()
         try:
             symbol = model._data.index[index.row()]
         except IndexError:
-            # most likely double clicked on "Total" row
             symbol = "Unk"
-        logger.info(
-            f"You double clicked in cell {index.row()}-{index.column()} with symbol {symbol}"
-        )
+        logger.info(f"You double clicked in cell {index.row()}-{index.column()} with symbol {symbol}")
         if symbol != "Unk":
             show_candlestick(symbol)
-            # show_plot(symbol)
+
+    def keyPressEvent(self, event):
+        # Check for Ctrl+C (or Cmd+C on macOS)
+        if event.matches(QKeySequence.StandardKey.Copy):
+            self.copy_selection_to_clipboard()
+        else:
+            super().keyPressEvent(event)
+
+    def copy_selection_to_clipboard(self):
+        selection = self.selectionModel().selectedIndexes()
+        if not selection:
+            return
+
+        # Sort indexes by row, then by column
+        selection.sort(key=lambda x: (x.row(), x.column()))
+
+        copy_text = ""
+        current_row = selection[0].row()
+        
+        row_data = []
+        for index in selection:
+            if index.row() != current_row:
+                # New row: join accumulated row data with tabs and add to copy_text
+                copy_text += "\t".join(row_data) + "\n"
+                row_data = []
+                current_row = index.row()
+            
+            # Fetch the text displayed in the cell
+            value = self.model().data(index, Qt.ItemDataRole.DisplayRole)
+            row_data.append(str(value))
+
+        # Add the final row
+        copy_text += "\t".join(row_data)
+
+        # Send to system clipboard
+        QApplication.clipboard().setText(copy_text)
+        logger.info("Selection copied to clipboard in Excel-friendly format.")
 
 
 class MainWindow(QMainWindow):
@@ -404,9 +465,10 @@ DAY_WINDOW = 10
 
 if __name__ == "__main__":
     chocolaf.enable_hi_dpi()
-    app = chocolaf.ChocolafApp(sys.argv)
-    # app.setStyle("Chocolaf")
-    app.setStyle("Fusion")
+    app = QApplication(sys.argv)
+    # app = chocolaf.ChocolafApp(sys.argv)
+    # # app.setStyle("Chocolaf")
+    # app.setStyle("Fusion")
 
     parser = argparse.ArgumentParser()
     # on command line pass --zoom 1.2 to increase font size by 20%
