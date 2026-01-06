@@ -411,34 +411,50 @@ class MyTableView(QTableView):
             super().keyPressEvent(event)
 
     def copy_selection_to_clipboard(self):
+        """ copies selected values , including column headings to clibpoard as TAB delimited text,
+        which can be pasted into Excel """
+
+        # do I have text selected?
         selection = self.selectionModel().selectedIndexes()
         if not selection:
             return
 
-        # Sort indexes by row, then by column
+        # 1. Sort indexes by row, then by column to maintain layout
         selection.sort(key=lambda x: (x.row(), x.column()))
 
-        copy_text = ""
-        current_row = selection[0].row()
+        # 2. Get unique columns in the selection to build the header row
+        unique_cols = sorted(list(set(index.column() for index in selection)))
         
+        headers = []
+        for col in unique_cols:
+            # Get horizontal header text for the selected columns
+            header_text = self.model().headerData(
+                col, Qt.Orientation.Horizontal, Qt.ItemDataRole.DisplayRole
+            )
+            headers.append(str(header_text))
+
+        # 3. Build the final copy string starting with headers
+        copy_text = "\t".join(headers) + "\n"
+        
+        current_row = selection[0].row()
         row_data = []
+        
         for index in selection:
             if index.row() != current_row:
-                # New row: join accumulated row data with tabs and add to copy_text
                 copy_text += "\t".join(row_data) + "\n"
                 row_data = []
                 current_row = index.row()
             
-            # Fetch the text displayed in the cell
+            # Fetch formatted text from the model
             value = self.model().data(index, Qt.ItemDataRole.DisplayRole)
             row_data.append(str(value))
 
-        # Add the final row
+        # Add the final data row
         copy_text += "\t".join(row_data)
 
-        # Send to system clipboard
+        # 4. Output to system clipboard
         QApplication.clipboard().setText(copy_text)
-        logger.info("Selection copied to clipboard in Excel-friendly format.")
+        logger.info("Selection with headers copied to clipboard.") 
 
 
 class MainWindow(QMainWindow):
