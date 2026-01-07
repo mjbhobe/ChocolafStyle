@@ -3,6 +3,9 @@ import random
 import logging
 import pathlib
 from datetime import datetime
+from rich.logging import RichHandler
+from rich.console import Console
+from rich.theme import Theme
 
 import numpy as np
 
@@ -29,6 +32,7 @@ def seed_all(seed=None):
         # pick a random uint31 seed
         seed = random.randint(np.iinfo(np.uint31).min, np.iinfo(np.uint32).max)
     random.seed(seed)
+    np.random.seed(seed)
     os.environ["PYTHONHASHSEED"] = str(seed)
     return seed
 
@@ -81,7 +85,9 @@ def pixelsToPoints(pixels):
     return int(pixels * 72 / 96)
 
 
-def get_logger(file_path: pathlib.Path, level: int = logging.INFO) -> logging.Logger:
+def get_logger(
+    file_path: pathlib.Path, level: int = logging.INFO, custom_theme: Theme = None
+) -> logging.Logger:
     """
     gets a standard logger with 2 handlers - a stream handler (console) and a file handler.
     The stream handler respects the level passed in as a parameter, whereas the file-handler
@@ -94,6 +100,7 @@ def get_logger(file_path: pathlib.Path, level: int = logging.INFO) -> logging.Lo
             (file logging creates a log file in the logs subfolder of this path)
         level (optional, int - default = logging.INFO) - the logging level of the stream (console) logger
             (level of file logger is always set to logging.DEBUG)
+        custom_theme (optional, Theme - default = None) - custom theme for the logger (applied to console handler only!)
 
     @returns:
         logging.Logger - the logger objects, which should be passed to the Trainer object to log progress
@@ -122,9 +129,26 @@ def get_logger(file_path: pathlib.Path, level: int = logging.INFO) -> logging.Lo
     )
 
     # create handlers
-    stream_handler = logging.StreamHandler()
+    # stream_handler = logging.StreamHandler()
+    # replace stream handler with console handler for colorful logging to console
+    if custom_theme is None:
+        custom_theme = Theme({
+            "logging.level.debug": "green",
+            "logging.level.info": "sky_blue1",
+            "logging.level.warning": "orange3",
+            "logging.level.error": "red",
+            "logging.level.critical": "bright_red",
+        })
+    custom_console = Console(theme=custom_theme)
+    stream_handler = RichHandler(
+        console=custom_console, 
+        markup=True,
+        show_level=True,
+        show_time=True, 
+        show_path=True,
+    )
     stream_handler.setLevel(level)
-    stream_handler.setFormatter(formatter)
+    # stream_handler.setFormatter(formatter)
 
     file_handler = logging.FileHandler(log_path)
     file_handler.setLevel(logging.DEBUG)
@@ -137,26 +161,6 @@ def get_logger(file_path: pathlib.Path, level: int = logging.INFO) -> logging.Lo
     logger.propagate = False
 
     return logger
-
-
-# def get_logger(logger_name: str, level: int = logging.INFO) -> logging.Logger:
-#     """Return the logger with the name specified by logger_name arg.
-
-#     Args:
-#         logger_name: The name of logger.
-
-#     Returns:
-#         Logger reformatted for this package.
-#     """
-#     logger = logging.getLogger(logger_name)
-#     logger.propagate = False
-#     logger.setLevel(level)
-#     ch = logging.StreamHandler()
-#     ch.setFormatter(
-#         logging.Formatter("[%(name)s] [%(levelname)s] [%(asctime)s] %(message)s")
-#     )
-#     logger.addHandler(ch)
-#     return logger
 
 
 def centerOnScreenWithSize(

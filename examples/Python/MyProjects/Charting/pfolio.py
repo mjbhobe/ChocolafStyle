@@ -301,6 +301,9 @@ class PandasTableModel(QAbstractTableModel):
 
         # value = self._data.iloc[index.row(), index.column()]
 
+        if role == Qt.ItemDataRole.EditRole:
+            return value
+
         if role == Qt.ItemDataRole.DisplayRole:
             # special formatting for floats, ints and dates
             if isinstance(value, str):
@@ -367,25 +370,6 @@ class PandasTableModel(QAbstractTableModel):
                 )
 
 
-# class MyTableView(QTableView):
-#     def __init__(self):
-#         super(MyTableView, self).__init__()
-#         self.doubleClicked.connect(self.on_double_clicked)
-
-#     def on_double_clicked(self, index):
-#         model = self.model()
-#         try:
-#             symbol = model._data.index[index.row()]
-#         except IndexError:
-#             # most likely double clicked on "Total" row
-#             symbol = "Unk"
-#         logger.info(
-#             f"You double clicked in cell {index.row()}-{index.column()} with symbol {symbol}"
-#         )
-#         if symbol != "Unk":
-#             show_candlestick(symbol)
-#             # show_plot(symbol)
-
 class MyTableView(QTableView):
     def __init__(self):
         super(MyTableView, self).__init__()
@@ -445,8 +429,9 @@ class MyTableView(QTableView):
                 row_data = []
                 current_row = index.row()
             
-            # Fetch formatted text from the model
-            value = self.model().data(index, Qt.ItemDataRole.DisplayRole)
+            # Fetch raw text from the model (i.e. excluding locale-specific formatting)
+            #value = self.model().data(index, Qt.ItemDataRole.DisplayRole)
+            value = self.model().data(index, Qt.ItemDataRole.EditRole)
             row_data.append(str(value))
 
         # Add the final data row
