@@ -11,9 +11,9 @@ import sys
 import os
 import argparse
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtSql import *
+from PyQt6.QtCore import *
+from PyQt6.QtWidgets import *
+from PyQt6.QtSql import *
 
 import chocolaf
 

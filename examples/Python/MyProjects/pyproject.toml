@@ -46,6 +46,7 @@ dependencies = [
     "scipy>=1.16.3",
     "seaborn>=0.13.2",
     "spacy>=3.8.11",
+    "sqlalchemy>=2.0.46",
     "statsmodels>=0.14.6",
     "streamlit>=1.52.2",
     "sympy>=1.14.0",
