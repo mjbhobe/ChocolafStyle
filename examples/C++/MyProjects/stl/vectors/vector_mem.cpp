@@ -9,7 +9,7 @@
 // ----------------------------------------------------------------------
 
 // required a c++23 compiler!
-#if __cplusplus < 202302L
+#if __cplusplus < 202302L && (!defined(_MSVC_LANG) || _MSVC_LANG < 202004L)
 #error This code required a C++23 standards compliant C++ compiler.
 #error Please enable C++23 support (e.g. For g++/clang++ use -std=c++23)
 #endif

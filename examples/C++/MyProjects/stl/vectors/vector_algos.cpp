@@ -9,9 +9,9 @@
 // ----------------------------------------------------------------------
 
 // required a c++23 compiler!
-#if __cplusplus < 202302L
+#if __cplusplus < 202302L && (!defined(_MSVC_LANG) || _MSVC_LANG < 202004L)
 #error This code required a C++23 standards compliant C++ compiler.
-#error Please enable C++23 support (e.g. For g++/clang++ use -std=c++23)
+#error Please enable C++23 support (e.g. For g++/clang++/cl use -std=c++23 or /std:c++23)
 #endif
 
 #include <algorithm>
@@ -93,11 +93,11 @@ void searching_demo()
   else
     std::cout << "   " << val << " not found!" << std::endl;
 
-  // unfortunately std::binary_search() returns a boolean & does not return a position 
-  // within the vector where it found the value. To find positions, you should use 
+  // unfortunately std::binary_search() returns a boolean & does not return a position
+  // within the vector where it found the value. To find positions, you should use
   // std::lower_bound() or std::upper_bound() instead.
   // std::lower_bound() returns iterator to first element that is NOT less than
-  // the search value (i.e. is >= search_value). 
+  // the search value (i.e. is >= search_value).
   // NOTE: You must check if iterator holds value searched by you - vector must be sorted
   std::cout << "Using std::lower(...) to search in sorted array..." << std::endl;
   auto iter = std::lower_bound(rand_vec.begin(), rand_vec.end(), val);
@@ -128,7 +128,7 @@ void test_other_algos()
   std::println("  - After reversing: {}", vec2);
 
   // rotating vector
-  std::println("Testing std::rotate(...)"); 
+  std::println("Testing std::rotate(...)");
   std::vector<int> vec3(rand_vec.capacity());
   std::copy(rand_vec.begin(), rand_vec.end(), vec3.begin());
   std::println("  - Source vector: {}", vec3);

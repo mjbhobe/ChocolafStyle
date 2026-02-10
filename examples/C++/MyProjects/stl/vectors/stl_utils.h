@@ -9,7 +9,7 @@
 #define __Stl_Utils_h__
 
 // require C++23 compiler!!
-#if __cplusplus < 202302L
+#if __cplusplus < 202302L && (!defined(_MSVC_LANG) || _MSVC_LANG < 202004L)
 #error This code required a C++23 standards compliant C++ compiler.
 #error Please enable C++23 support (e.g. For g++/clang++ use -std=c++23)
 #endif
@@ -36,8 +36,8 @@ std::ostream &operator<<(std::ostream &ost, const std::vector<T> &vec)
 // generate a random integer between lower & upper (both inclusive!)
 inline size_t random_int_between(size_t lower = 0, size_t upper = 100)
 {
-  static std::random_device rd;                            // seed
-  static std::mt19937 gen(rd());                           // Mersenne Twister engine
+  static std::random_device rd;                                // seed
+  static std::mt19937 gen(rd());                               // Mersenne Twister engine
   std::uniform_int_distribution<size_t> distrib(lower, upper); // range(min,max) - both inclusive
   return distrib(gen);
 }
@@ -56,9 +56,7 @@ std::vector<T> random_vec(size_t num_elems, size_t lower = 0, size_t upper = 100
   std::vector<T> vec;
   vec.reserve(num_elems);
   std::generate_n(
-    std::back_inserter(vec), num_elems,
-    [&]() mutable { return random_int_between(lower, upper); }
-  );
+      std::back_inserter(vec), num_elems, [&]() mutable { return random_int_between(lower, upper); });
   // for (size_t i = 0; i < num_elems; i++)
   //   vec.push_back(static_cast<T>(random_int_between(min, max)));
   return vec;

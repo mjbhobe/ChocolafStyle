@@ -1,0 +1,24 @@
+// Using the Visual C++ compiler (19.41) on Windows 11 to 
+// compile code for C++ 23
+
+// bare minimum command line
+cl /std:c++latest /Zc:__cplusplus main.cpp
+
+
+// fully optimized code
+cl /EHsc /std:c++latest /O2 /Oi /Ot /GL /Zc:__cplusplus /DNDEBUG main.cpp /link /LTCG
+
+// full debug build
+cl /EHsc /std:c++latest /Zi /Od /RTC1 /MTd /D_DEBUG main.cpp
+
+
+NOTE: by default VC++ creates main.exe if source code is main.cpp
+To specify name of output exe, append the /Fe<<output_file_name>>.exe [note, not space after /Fe]
+
+
+// change the guard above your code as follows:
+
+#if __cplusplus < 202302L && (!defined(_MSVC_LANG) || _MSVC_LANG < 202004L)
+#error This code required a C++23 standards compliant C++ compiler.
+#error Please enable C++23 support (e.g. For g++/clang++/cl use -std=c++23 or /std:c++23)
+#endif
