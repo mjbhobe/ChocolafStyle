@@ -10,6 +10,7 @@
 import sys
 import os
 import pathlib
+import random
 from PIL import Image
 from PIL.ImageQt import ImageQt
 
@@ -21,7 +22,11 @@ import chocolaf
 
 APP_PATH = os.path.dirname(__file__)
 HOME_DIR = str(pathlib.Path.home())
-IMAGE_PATH = pathlib.Path(APP_PATH) / "images" / "Muffin.jpg"
+IMAGE_PATHS = [
+    pathlib.Path(APP_PATH) / "images" / "Muffin.jpg",
+    pathlib.Path(APP_PATH) / "images" / "Mojo.jpg",
+]
+IMAGE_PATH = IMAGE_PATHS[random.randint(0, len(IMAGE_PATHS) - 1)]
 Window_Title = f"PyQt {PYQT_VERSION_STR} QPixmap: {IMAGE_PATH.name}"
 
 
@@ -32,7 +37,7 @@ class MainWindow(QMainWindow):
         image = Image.open(str(IMAGE_PATH))
         image = image.resize((512, 256))
         # for some reason, image is being displayed upside down
-        image = image.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+        # image = image.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
         qim = ImageQt(image)
         pixmap = QPixmap.fromImage(qim)
         self.label = QLabel()

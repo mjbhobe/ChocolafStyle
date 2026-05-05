@@ -1,7 +1,12 @@
 // ----------------------------------------------------------------------
 // vector_mem.cpp - vectors & memory management
 // (NOTE: we use utility functions in stl_utils.h)
+//
+// illustrates vector functions like size(), capacity(), shrink_to_fit()
+// and reserve()
+//
 // compile: clang++ -std=c++23 -fsanitize=address -fno-omit-frame-pointer ...
+// NOTE: on Windows 11 don't use flags other than -std=c++23
 // ----------------------------------------------------------------------
 //
 // @Author: Manish Bhobe
@@ -14,15 +19,12 @@
 #error Please enable C++23 support (e.g. For g++/clang++ use -std=c++23)
 #endif
 
-#include <algorithm>
 #include <chrono>
-#include <iostream>
-#include <iterator>
 #include <mutex>
 #include <print>
 #include <string>
-#include <thread>
 #include <vector>
+#include <iostream>
 #include "stl_utils.h"
 
 void size_and_capacity()
@@ -30,21 +32,25 @@ void size_and_capacity()
   std::vector<int> myVec;
 
   // check size & capacity before doing anything
-  std::println("Initial size: {} - initial capacity: {}", myVec.size(), myVec.capacity());
+  std::println("Default std::vector() constructor -> Initial size: {} - initial capacity: {}", myVec.size(), myVec.capacity());
 
   // add 10 items & keep checking size & capacity after each add
   for (auto i = 0; i < 10; i++) {
     myVec.push_back(i);
     std::println("After adding {} -> size: {} - capacity: {}", i, myVec.size(), myVec.capacity());
   }
+  std::cout << "Vector after above operations: " << myVec << std::endl;
 
   // resize vector & check size & capacity
   myVec.resize(5);
   std::println("\nAfter resize(5) -> size: {} - capacity: {}", myVec.size(), myVec.capacity());
+  std::cout << "re-sized vector: " << myVec << std::endl;
+
 
   // shrink to fit & check
   myVec.shrink_to_fit();
   std::println("\nAfter shrink_to_fit() -> size: {} - capacity: {}", myVec.size(), myVec.capacity());
+  std::cout << "shrink_to_fit() vector: " << myVec << " (NOTE: same content, but size==capacity)" << std::endl;
 
   // add one more element & check
   myVec.push_back(44);

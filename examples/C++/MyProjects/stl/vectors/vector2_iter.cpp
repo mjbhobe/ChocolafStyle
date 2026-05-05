@@ -78,7 +78,7 @@ void add_to_vector(std::vector<Person> &people, int how_many)
   // using a back_inserter (or output iterator)
   std::generate_n(std::back_inserter(people), how_many, [&]() mutable {
     std::string name = random_pick_from_vector(names);
-    size_t age       = random_int(10, 100);
+    size_t age       = random_int_between(10, 100);
     return Person(name, age);
   });
 }
@@ -102,7 +102,7 @@ int main(void)
   // using a back_inserter (or output iterator)
   std::generate_n(std::back_inserter(people), 20, [&]() mutable {
     std::string name = random_pick_from_vector(names);
-    size_t age       = random_int(10, 100);
+    size_t age       = random_int_between(10, 100);
     return Person(name, age);
   });
 

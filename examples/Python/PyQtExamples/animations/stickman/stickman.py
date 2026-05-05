@@ -4,8 +4,9 @@
 * stickman.py: displays a stick figure that can chill, dance, jump or play dead
 * @author (Chocolaf): Manish Bhobé
 *
-* PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
-* displaying widgets using Chocolaf & other styles
+* PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets,
+* with changes done for * displaying widgets using Chocolaf & other styles
+*
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
@@ -55,10 +56,10 @@
 import sys
 import math
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtPrintSupport import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+from PyQt6.QtPrintSupport import *
 
 import chocolaf
 

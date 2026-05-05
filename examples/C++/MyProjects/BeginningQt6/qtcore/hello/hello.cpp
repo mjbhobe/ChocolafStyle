@@ -1,11 +1,11 @@
-#include <print>
 #include <QtCore>
+#include <QTextStream>
 
 int main(int argc, char **argv)
 {
   QCoreApplication app(argc, argv);
+  QTextStream cout(stdout);
 
-  std::println(std::format("Hello! Welcome to Qt programming.\n"
-        "You are using Qt {}", QT_VERSION_STR);
+  cout << QString("Hello! Welcome to Qt programming.\nYou are using Qt %1").arg(QT_VERSION_STR);
   return EXIT_SUCCESS;
 }

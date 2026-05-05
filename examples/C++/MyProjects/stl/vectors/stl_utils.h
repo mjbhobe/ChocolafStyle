@@ -14,11 +14,13 @@
 #error Please enable C++23 support (e.g. For g++/clang++ use -std=c++23)
 #endif
 
+#include <algorithm>
 #include <format>
 #include <iostream>
 #include <print>
 #include <random>
 #include <vector>
+#include <ranges>
 
 // function to enable you to do std::cout << vector_instance
 template<typename T>
@@ -48,6 +50,7 @@ T random_pick_from_vector(const std::vector<T> &vec)
   size_t rand_index = random_int_between(0, vec.size() - 1);
   return vec[rand_index];
 }
+
 
 template<typename T>
 std::vector<T> random_vec(size_t num_elems, size_t lower = 0, size_t upper = 100)

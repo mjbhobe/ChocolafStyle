@@ -128,6 +128,8 @@ if (WIN32)
         "C:/Dev/msys64/mingw64/include"
         "C:/Dev/msys64/mingw64/include/opencv4"
         "C:/Dev/GNULibs/fmt/bin/include"
+        "C:/Dev/GNULibs/libpqxx/bin/include"
+        "C:/Dev/PostgreSQL/15/include"
     )
     # Library search hints (prefer find_package; these mirror -L entries)
     # If you must use -L, you can set CMAKE_<LANG>_STANDARD_LIBRARIES or link_directories,

@@ -75,7 +75,7 @@ namespace Chocolaf {
       app.setStyle("Fusion");
     }
     else {
-      f.open(QFile::ReadOnly | QFile::Text);
+      (void)f.open(QFile::ReadOnly | QFile::Text);
       QTextStream ts(&f);
       app.setStyleSheet(ts.readAll());
       // also set color palette
@@ -112,7 +112,7 @@ namespace Chocolaf {
         QApplication::setStyle("Fusion");
       }
       else {
-        f.open(QFile::ReadOnly | QFile::Text);
+        (void)f.open(QFile::ReadOnly | QFile::Text);
         QTextStream ts(&f);
         app.setStyleSheet(ts.readAll());
 
@@ -239,9 +239,14 @@ namespace Chocolaf {
         QApplication::setStyle("Fusion");
       }
       else {
-        f.open(QFile::ReadOnly | QFile::Text);
-        QTextStream ts(&f);
-        setStyleSheet(ts.readAll());
+        if (f.open(QFile::ReadOnly | QFile::Text)) {
+          QTextStream ts(&f);
+          setStyleSheet(ts.readAll());
+        }
+        else {
+          printf("Unable to interpret Chocolaf stylesheet! Falling back on Fusion style.");
+          QApplication::setStyle("Fusion");
+        }
 
         /*  QPalette palette;
 
