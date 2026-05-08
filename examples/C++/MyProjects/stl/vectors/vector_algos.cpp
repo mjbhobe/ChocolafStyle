@@ -2,8 +2,8 @@
 // vector_algos.cpp - vectors & STL algorithms
 // (NOTE: we use utility functions in stl_utils.h)
 //
-// illustrates vector functions like sort(), find()
-// and reserve()
+// illustrates vector functions like sort(), find(), binary_search(),
+//  lower_bound(), copy(), reverse() and rotate()
 //
 // compile: clang++ -std=c++23 -fsanitize=address -fno-omit-frame-pointer ...
 // NOTE: on Windows 11 don't use flags other than -std=c++23

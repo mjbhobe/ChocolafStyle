@@ -18,13 +18,15 @@ include("$ENV{CHOCOLAF_COMMONFILES_HOME}/common_console.cmake")
 set(PROJECT_HEADERS
     # list all H (header) files here (leave empty if no headers!)
     # NOTE: file names are case sensitive (especially on *nix)
-    stl_utils.h
+    ../utils/stl_utils.h
+    ../utils/logging.h
 )
 
 set(PROJECT_SOURCES
     # list all source files (*.c | *.cpp)
     # NOTE: file names are case sensitive (especially on *nix)
-    stl_utils.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../utils/stl_utils.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../utils/logging.cpp
     vector2_iter.cpp
 )
 
@@ -48,7 +50,7 @@ add_executable(${PROJECT_NAME}
 )
 
 # Keep the current dir in include paths for this target.
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../utils)
 
 # Link against the global interface so we inherit Qt, flags, include dirs and libs.
 target_link_libraries(${PROJECT_NAME} PRIVATE chocolaf_console_settings)

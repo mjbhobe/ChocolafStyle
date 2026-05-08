@@ -13,11 +13,14 @@
 // Code shared for learning purposes only! Use at your own risk
 // ----------------------------------------------------------------------
 
-// required a c++23 compiler!
+// requires a c++23 compiler!
 #if __cplusplus < 202302L && (!defined(_MSVC_LANG) || _MSVC_LANG < 202004L)
 #error This code required a C++23 standards compliant C++ compiler.
 #error Please enable C++23 support (e.g. For g++/clang++ use -std=c++23)
 #endif
+
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_DEBUG
+#include <spdlog/spdlog.h>
 
 #include <chrono>
 #include <mutex>
@@ -26,6 +29,7 @@
 #include <vector>
 #include <iostream>
 #include "stl_utils.h"
+#include "logging.h"
 
 void size_and_capacity()
 {
@@ -69,7 +73,7 @@ void test_reserve()
     vec1.push_back(i);
   auto end                              = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapse1 = end - start;
-  std::println("\nWithout reserve operation took {} seconds", elapse1.count());
+  SPDLOG_INFO("\nWithout reserve operation took {} seconds", elapse1.count());
 
 
   // now try adding with reserve
@@ -80,12 +84,13 @@ void test_reserve()
     vec2.push_back(i);
   auto end2                             = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapse2 = end2 - start2;
-  std::println("\nWith reserve operation took {} seconds", elapse2.count());
-  std::println("\nIt took {} seconds less than befors", elapse1.count() - elapse2.count());
+  SPDLOG_INFO("With reserve operation took {} seconds", elapse2.count());
+  SPDLOG_INFO("It took {} seconds less than befors", elapse1.count() - elapse2.count());
 }
 
 int main(void)
 {
+  setup_logger();
   // show size & capacity usage
   size_and_capacity();
   // test how reserve saves time

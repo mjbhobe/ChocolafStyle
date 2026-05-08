@@ -18,20 +18,19 @@ project(step01 LANGUAGES CXX)
 include("$ENV{CHOCOLAF_COMMONFILES_HOME}/common.cmake")
 
 # --- Sources (from .pro)
-# set(STEP05_HEADERS
-#   DrawWindow.h
-#   Line.h
-# )
+set(STEP01_HEADERS
+
+)
 
 set(STEP01_SOURCES
-        step01.cc
+  step01.cc
 )
 
 # --- Executable
 add_executable(step01
-        ${STEP01_SOURCES}
-        ${STEP01_HEADERS}         # headers listed for IDE visibility
-        ${CHOCOLAF_QT_RESOURCES}  # ensure .qrc gets compiled (AUTORCC is ON in the module)
+  ${STEP01_SOURCES}
+  ${STEP01_HEADERS}         # headers listed for IDE visibility
+  ${CHOCOLAF_QT_RESOURCES}  # ensure .qrc gets compiled (AUTORCC is ON in the module)
 )
 
 # qmake: INCLUDEPATH += .
