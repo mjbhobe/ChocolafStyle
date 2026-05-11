@@ -18,6 +18,7 @@
 #include <format>
 #include <iostream>
 #include <print>
+#include <concepts>
 #include <random>
 #include <vector>
 #include <ranges>
@@ -43,6 +44,38 @@ inline size_t random_int_between(size_t lower = 0, size_t upper = 100)
   std::uniform_int_distribution<size_t> distrib(lower, upper); // range(min,max) - both inclusive
   return distrib(gen);
 }
+
+// random select a float between lower (inclusive) & upper (exclusive)
+inline double random_float_between(double lower = 0.0, double upper = 100.0)
+{
+  static std::random_device rd;         // seed
+  static std::mt19937 gen(rd());        // Mersenne Twister engine
+
+  // Use real_distribution for float/double
+  std::uniform_real_distribution<double> distrib(lower, upper);
+
+  return distrib(gen);
+}
+
+/**
+ * Generates a random number between lower and upper.
+ * If T is integral: [lower, upper] (inclusive)
+ * If T is floating point: [lower, upper) (upper exclusive)
+ */
+/*
+template <std::arithmetic T>
+T random_number_between(T lower, T upper) {
+  static std::random_device rd;
+  static std::mt19937 gen(rd());
+
+  if constexpr (std::integral<T>) {
+    std::uniform_int_distribution<T> distrib(lower, upper);
+    return distrib(gen);
+  } else {
+    std::uniform_real_distribution<T> distrib(lower, upper);
+    return distrib(gen);
+  }
+} */
 
 template<typename T>
 T random_pick_from_vector(const std::vector<T> &vec)

@@ -140,3 +140,11 @@ $> sudo pacman -S spdlog
 ```
 
 ### On Windows
+<<TODO>>
+
+## Compiling our programs
+Most of the programs in these tutorials are single file programs (some of them will link with 1-2 other 'utilities' programs). We don't use make files or CMakeList.txt files for compilation, but use simple command line compiling both on Windows & Linux
+
+### On Linux
+<< TODO >>
+
