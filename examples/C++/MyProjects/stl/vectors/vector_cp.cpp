@@ -20,12 +20,12 @@
 #endif
 
 #include <algorithm>
+#include <array>
 #include <iostream>
 #include <iterator>
 #include <print>
 #include <string>
 #include <vector>
-#include <array>
 #include "stl_utils.h"
 
 class Person {
@@ -34,7 +34,7 @@ class Person {
     friend std::ostream &operator<<(std::ostream &ost, const Person &p)
     {
       std::string s = std::format("{} ({} ${:.2f})", p.m_name, p.m_age, p.m_salary);
-      //ost << p.name << " (" << p.age << " " ")";
+      // ost << p.name << " (" << p.age << " " ")";
       ost << s;
       return ost;
     }
@@ -42,10 +42,10 @@ class Person {
     // member accessors
     const std::string &name() const { return m_name; }
     int age() const { return m_age; }
-    double salary() const { return m_salary;}
+    double salary() const { return m_salary; }
     // member modifiers
     void setName(const std::string &newName) { m_name = newName; }
-    void setAge(int newAge) { m_age = newAge; } // ignoring checks for now
+    void setAge(int newAge) { m_age = newAge; }          // ignoring checks for now
     void setSalary(double newSal) { m_salary = newSal; } // ignoring checks for now
   private:
     std::string m_name;
@@ -56,21 +56,21 @@ class Person {
 template<typename CharT>
 struct std::formatter<Person, CharT> {
 
-  constexpr auto parse(std::basic_format_parse_context<CharT> &ctx) { return ctx.begin(); }
+    constexpr auto parse(std::basic_format_parse_context<CharT> &ctx) { return ctx.begin(); }
 
-  template<typename FormatContext>
-  auto format(const Person &person, FormatContext &ctx) const
-  {
-    return std::format_to(ctx.out(), "{{\"Name\": {}, \"Age\": {}, \"Salary\": {.2f}}}",
-      person.name(), person.age(), p.salary());
-  }
+    template<typename FormatContext>
+    auto format(const Person &person, FormatContext &ctx) const
+    {
+      return std::format_to(ctx.out(), "{{\"Name\": {}, \"Age\": {}, \"Salary\": {.2f}}}", person.name(),
+          person.age(), p.salary());
+    }
 };
 
 
 // generates a random integer between lower & upper bounds (both inclusive)
 // that is NOT present in vector.
 //
-int random_int_not_in_vector(const std::vector<int>& vec, int lower, int upper)
+int random_int_not_in_vector(const std::vector<int> &vec, int lower, int upper)
 {
   // filter out forbidden values (i.e. contents of vec)
   std::vector<int> forbidden_values = vec;
@@ -100,11 +100,8 @@ int random_int_not_in_vector(const std::vector<int>& vec, int lower, int upper)
 void comparator_demo()
 {
   // generate a vector of 10 Person Objects
-  std::vector<std::string> names{
-    "Anupa", "Nupoor", "Manish", "Sunila", "Jagdish",
-    "Dattatray", "Ameeta", "Aditya", "Sanjivi", "Aashka",
-    "Aarti", "Atool", "Awani", "Aadnya"
-  };
+  std::vector<std::string> names{"Anupa", "Nupoor", "Manish", "Sunila", "Jagdish", "Dattatray", "Ameeta",
+      "Aditya", "Sanjivi", "Aashka", "Aarti", "Atool", "Awani", "Aadnya"};
   std::vector<Person> people{};
 
   // let's create 15 random entries into people vector
@@ -117,7 +114,6 @@ void comparator_demo()
   });
 
   std::println("Original vector: {}", people);
-
 }
 
 int main(void)

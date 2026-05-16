@@ -19,24 +19,22 @@
 #error Please enable C++23 support (e.g. For g++/clang++ use -std=c++23)
 #endif
 
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_DEBUG
-#include <spdlog/spdlog.h>
-
 #include <chrono>
+#include <iostream>
 #include <mutex>
 #include <print>
 #include <string>
 #include <vector>
-#include <iostream>
-#include "stl_utils.h"
 #include "logging.h"
+#include "stl_utils.h"
 
 void size_and_capacity()
 {
   std::vector<int> myVec;
 
   // check size & capacity before doing anything
-  std::println("Default std::vector() constructor -> Initial size: {} - initial capacity: {}", myVec.size(), myVec.capacity());
+  std::println("Default std::vector() constructor -> Initial size: {} - initial capacity: {}", myVec.size(),
+      myVec.capacity());
 
   // add 10 items & keep checking size & capacity after each add
   for (auto i = 0; i < 10; i++) {
@@ -54,7 +52,8 @@ void size_and_capacity()
   // shrink to fit & check
   myVec.shrink_to_fit();
   std::println("\nAfter shrink_to_fit() -> size: {} - capacity: {}", myVec.size(), myVec.capacity());
-  std::cout << "shrink_to_fit() vector: " << myVec << " (NOTE: same content, but size==capacity)" << std::endl;
+  std::cout << "shrink_to_fit() vector: " << myVec << " (NOTE: same content, but size==capacity)"
+            << std::endl;
 
   // add one more element & check
   myVec.push_back(44);
@@ -73,7 +72,7 @@ void test_reserve()
     vec1.push_back(i);
   auto end                              = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapse1 = end - start;
-  SPDLOG_INFO("\nWithout reserve operation took {} seconds", elapse1.count());
+  LOG_INFO("%s", std::format("\nWithout reserve operation took {} seconds", elapse1.count()).c_str());
 
 
   // now try adding with reserve
@@ -84,13 +83,14 @@ void test_reserve()
     vec2.push_back(i);
   auto end2                             = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapse2 = end2 - start2;
-  SPDLOG_INFO("With reserve operation took {} seconds", elapse2.count());
-  SPDLOG_INFO("It took {} seconds less than befors", elapse1.count() - elapse2.count());
+  LOG_INFO("%s", std::format("With reserve operation took {} seconds", elapse2.count()).c_str());
+  LOG_INFO(
+      "%s", std::format("It took {} seconds less than before", elapse1.count() - elapse2.count()).c_str());
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
-  setup_logger();
+  setup_logging(argc, argv);
   // show size & capacity usage
   size_and_capacity();
   // test how reserve saves time

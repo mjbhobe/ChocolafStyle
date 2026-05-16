@@ -20,12 +20,12 @@
 #endif
 
 #include <algorithm>
+#include <array>
 #include <iostream>
 #include <iterator>
 #include <print>
 #include <string>
 #include <vector>
-#include <array>
 #include "stl_utils.h"
 
 class Person {
@@ -45,7 +45,7 @@ class Person {
 // generates a random integer between lower & upper bounds (both inclusive)
 // that is NOT present in vector.
 //
-int random_int_not_in_vector(const std::vector<int>& vec, int lower, int upper)
+int random_int_not_in_vector(const std::vector<int> &vec, int lower, int upper)
 {
   // filter out forbidden values (i.e. contents of vec)
   std::vector<int> forbidden_values = vec;
@@ -110,13 +110,13 @@ void searching_demo()
   // linear search (always guaranteed to find value, if it exists)
   std::vector<int> rand_vec = random_vec<int>(10);
   int index                 = random_int_between(0, 9); // pick a random index
-  std::array test_vals = {
-    rand_vec.at(index),     // value existing in vector
-    random_int_not_in_vector(rand_vec, 50, 100),  // value not existing in vector
+  std::array test_vals      = {
+      rand_vec.at(index),                          // value existing in vector
+      random_int_not_in_vector(rand_vec, 50, 100), // value not existing in vector
   };
 
   // for linear search we use std::find(vec.begin(), vec.end(), value_to_find);
-  for (const auto &val : test_vals) {
+  for (const auto &val: test_vals) {
     std::println("Try searching for {} in vector {} using std::find(...) [linear search]", val, rand_vec);
     auto it = std::find(rand_vec.begin(), rand_vec.end(), val);
     if (it == rand_vec.end())
@@ -128,7 +128,7 @@ void searching_demo()
   // binary search is much faster for arbit sized vectors, but it requires that
   // vector be sorted, else we get unpredictable results
   std::sort(rand_vec.begin(), rand_vec.end());
-  for (const auto &val : test_vals) {
+  for (const auto &val: test_vals) {
     std::println("Try searching for {} in vector {} using std::binary_search(...) [faster]", val, rand_vec);
     if (std::binary_search(rand_vec.begin(), rand_vec.end(), val))
       std::cout << "Found " << val << std::endl;
@@ -143,16 +143,17 @@ void searching_demo()
   // the search value (i.e. is >= search_value).
   // NOTE: You must check if iterator holds value searched by you - vector must be sorted
   std::cout << "Using std::lower_bound(...) to search in sorted array & get position..." << std::endl;
-  for (const auto &val : test_vals) {
-    std::println("Try searching for {} in vector {} using std::lower_bound(...) [get position too]", val, rand_vec);
+  for (const auto &val: test_vals) {
+    std::println(
+        "Try searching for {} in vector {} using std::lower_bound(...) [get position too]", val, rand_vec);
     auto iter = std::lower_bound(rand_vec.begin(), rand_vec.end(), val);
     if (*iter == val)
-        // you must check if iterator holds value searched by you!
-        std::cout << "Found " << val << " at position " << (iter - rand_vec.begin()) << std::endl;
+      // you must check if iterator holds value searched by you!
+      std::cout << "Found " << val << " at position " << (iter - rand_vec.begin()) << std::endl;
     else
-        // otherwise std::lower_bound() indicates position where value should be inserted
-        // to maintain sorted order
-        std::cout << val << " not found!" << std::endl;
+      // otherwise std::lower_bound() indicates position where value should be inserted
+      // to maintain sorted order
+      std::cout << val << " not found!" << std::endl;
   }
 }
 

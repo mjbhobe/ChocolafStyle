@@ -9,10 +9,11 @@ QTextStream cout(stdout, QIODeviceBase::WriteOnly);
 QTextStream cerr(stderr, QIODeviceBase::WriteOnly);
 QTextStream cin(stdin, QIODeviceBase::ReadOnly);
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   QCoreApplication a(argc, argv);
-  const int RETIREMENT_AGE{60};
-  const int PLATINUM_JUBLEE{75};
+  constexpr int RETIREMENT_AGE{60};
+  constexpr int PLATINUM_JUBLEE{75};
 
   // display today's date
   QDate today = QDate::currentDate();
@@ -20,49 +21,42 @@ int main(int argc, char *argv[]) {
   cout << "Today is " << today.toString() << Qt::endl;
   // my favourite format
   cout << "Expressed differently, it's " << today.toString("dd-MMM-yy");
-  // here is the default format
+  // here is the default format explicitly stated
   cout << " OR " << today.toString("ddd MMM dd yyyy");
   // really long format
-  cout << " OR " << today.toString("dddd MMMM dd yyyy")
-       << " if you want all details" << Qt::endl;
+  cout << " OR " << today.toString("dddd MMMM dd yyyy") << " if you want all details" << Qt::endl;
 
   QDate bday(1969, 6, 22); // yeah, I'm really old :(
-  cout << "I was born on " << bday.toString("dd-MMM-yy")
-       << " which makes me approximately " << today.year() - bday.year()
-       << " years old! (Maaaaaan...that's palaeolithic old :D!!)" << Qt::endl;
+  cout << "I was born on " << bday.toString("dd-MMM-yy") << " which makes me approximately "
+       << today.year() - bday.year() << " years old! (Maaaaaan...that's palaeolithic old :D!!)" << Qt::endl;
   // QDate today = today;
-  cout << "I have been alive for " << bday.daysTo(today) << " days (beat that!)"
-       << Qt::endl;
+  cout << "I have been alive for " << bday.daysTo(today) << " days (beat that!)" << Qt::endl;
   // how many days to my next birthday?
-  auto year = (today.month() > bday.month()) ? today.year() + 1 : today.year();
+  auto year      = (today.month() > bday.month()) ? today.year() + 1 : today.year();
   QDate nextBday = QDate(year, bday.month(), bday.day());
-  cout << "There are " << today.daysTo(nextBday)
-       << " days until my next birthday (" << nextBday.toString("dd-MMM-yy")
-       << ")" << Qt::endl;
+  cout << "There are " << today.daysTo(nextBday) << " days until my next birthday ("
+       << nextBday.toString("dd-MMM-yy") << ")" << Qt::endl;
   auto yearsOld{today.year() - bday.year()};
-  cout << "Another " << RETIREMENT_AGE - yearsOld
-       << " years till retirement, and " << PLATINUM_JUBLEE - yearsOld
-       << " years to go and celebrate my platinum jublee!!" << Qt::endl;
-  auto wifeys_bday = QDate(1976, 1, 22);
-  year =
-      (today.month() > wifeys_bday.month()) ? today.year() + 1 : today.year();
-  auto wifeys_next_bday = QDate(year, wifeys_bday.month(), wifeys_bday.day());
+  cout << "Another " << RETIREMENT_AGE - yearsOld << " years till retirement, and "
+       << PLATINUM_JUBLEE - yearsOld << " years to go and celebrate my platinum jublee!!" << Qt::endl;
+
+  // check wifey's birthday
+  auto wifeys_bday              = QDate(1976, 1, 22);
+  year                          = (today.month() >= wifeys_bday.month()) ? today.year() + 1 : today.year();
+  auto wifeys_next_bday         = QDate(year, wifeys_bday.month(), wifeys_bday.day());
   auto days_to_wifeys_next_bday = today.daysTo(wifeys_next_bday);
-  cout << "My wife's birthday is coming up in "
-       << (days_to_wifeys_next_bday <= 30 ? "just " : "")
-       << days_to_wifeys_next_bday << " days"
-       << (days_to_wifeys_next_bday <= 30 ? "!! " : ". ") << "It's on "
+  cout << "My wife's birthday is coming up in " << (days_to_wifeys_next_bday <= 30 ? "just " : "")
+       << days_to_wifeys_next_bday << " days" << (days_to_wifeys_next_bday <= 30 ? "!! " : ". ") << "It's on "
        << wifeys_next_bday.toString("dd-MMM-yy");
   if (days_to_wifeys_next_bday <= 30)
     cout << " and I have not though of a gift yet. I'm screwed!!";
   cout << Qt::endl;
-  auto daughters_bday = QDate(2007, 5, 8);
-  year = (today.month() > daughters_bday.month()) ? today.year() + 1
-                                                  : today.year();
-  auto daughters_next_bday =
-      QDate(year, daughters_bday.month(), daughters_bday.day());
-  cout << "My daughter's birthday is coming up in "
-       << today.daysTo(daughters_next_bday) << " days. It's on "
+
+  // check daughter's birthday
+  auto daughters_bday      = QDate(2007, 5, 8);
+  year                     = (today.month() >= daughters_bday.month()) ? today.year() + 1 : today.year();
+  auto daughters_next_bday = QDate(year, daughters_bday.month(), daughters_bday.day());
+  cout << "My daughter's birthday is coming up in " << today.daysTo(daughters_next_bday) << " days. It's on "
        << daughters_next_bday.toString("dd-MMM-yy");
   if (today.daysTo(daughters_next_bday) <= 30)
     cout << " and I have not though of a gift yet. I'm screwed!!";

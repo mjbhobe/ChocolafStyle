@@ -1,3 +1,16 @@
+#pragma once
+#include "loguru.hpp"
+
+void setup_logging(int argc, char *argv[], bool log_to_file = false);
+
+#define LOG_DEBUG(...) LOG_F(1, __VA_ARGS__)
+#define LOG_INFO(...) LOG_F(INFO, __VA_ARGS__)
+#define LOG_WARN(...) LOG_F(WARNING, __VA_ARGS__)
+#define LOG_ERROR(...) LOG_F(ERROR, __VA_ARGS__)
+#define LOG_CRITICAL(...) LOG_F(FATAL, __VA_ARGS__)
+
+
+/*
 //
 // Created by manis on 07-May-26.
 //
@@ -15,3 +28,4 @@ void setup_logger(
 );
 
 #endif //__STL_LOGGING_HPP__
+*/
