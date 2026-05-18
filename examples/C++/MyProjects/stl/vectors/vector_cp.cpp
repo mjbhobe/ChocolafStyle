@@ -43,7 +43,7 @@ class Person {
     const std::string &name() const { return m_name; }
     int age() const { return m_age; }
     double salary() const { return m_salary; }
-    // member modifiers
+    // member modifiers - for simplicity there are no checks there!
     void setName(const std::string &newName) { m_name = newName; }
     void setAge(int newAge) { m_age = newAge; }          // ignoring checks for now
     void setSalary(double newSal) { m_salary = newSal; } // ignoring checks for now
@@ -61,8 +61,8 @@ struct std::formatter<Person, CharT> {
     template<typename FormatContext>
     auto format(const Person &person, FormatContext &ctx) const
     {
-      return std::format_to(ctx.out(), "{{\"Name\": {}, \"Age\": {}, \"Salary\": {.2f}}}", person.name(),
-          person.age(), p.salary());
+      return std::format_to(ctx.out(), "{{\"Name\": {}, \"Age\": {}, \"Salary\": {:.2f}}}", person.name(),
+          person.age(), person.salary());
     }
 };
 

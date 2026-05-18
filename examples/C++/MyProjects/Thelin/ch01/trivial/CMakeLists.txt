@@ -5,10 +5,11 @@
 cmake_minimum_required(VERSION 3.21)
 
 # if (WIN32 AND NOT USE_MSYS2)
-#  set(CMAKE_C_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/gcc.exe")
+#  set(CMAKE_C_COMPILER "C:/Dev/llvm-mingw-20250924-ucrt-x86_64/bin/gcc.exe")
 #  set(CMAKE_CXX_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/g++.exe")
 # endif()
 
+set(PROJECT_NAME, trivial)
 project(trivial LANGUAGES CXX)
 
 # --- Include the global settings module (converted from common.pro)
@@ -25,14 +26,14 @@ set(PROJECT_SOURCES
 )
 
 # --- Executable
-add_executable(trivial
+add_executable(${PROJECT_NAME}
   ${PROJECT_SOURCES}
   ${PROJECT_HEADERS}      # headers listed for IDE visibility
 )
 
 # qmake: INCLUDEPATH += .
 # Keep the current dir in include paths for this target.
-target_include_directories(trivial PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link against the global interface so we inherit Qt, flags, include dirs and libs.
-target_link_libraries(trivial PRIVATE chocolaf_console_settings)
+target_link_libraries(${PROJECT_NAME} PRIVATE chocolaf_console_settings)

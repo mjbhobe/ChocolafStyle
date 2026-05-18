@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.21)
 
 # Step1: change name of your project
 # [Tip: give it the same name as your executable]
-set(PROJECT_NAME vectors2_iter)
+set(PROJECT_NAME vector_cp)
 
 project(${PROJECT_NAME} LANGUAGES CXX)
 
@@ -18,8 +18,9 @@ include("$ENV{CHOCOLAF_COMMONFILES_HOME}/common_console.cmake")
 set(PROJECT_HEADERS
     # list all H (header) files here (leave empty if no headers!)
     # NOTE: file names are case sensitive (especially on *nix)
-    ../utils/stl_utils.h
-    ../utils/logging.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/../utils/stl_utils.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/../utils/logging.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/../utils/loguru.hpp
 )
 
 set(PROJECT_SOURCES
@@ -27,7 +28,8 @@ set(PROJECT_SOURCES
     # NOTE: file names are case sensitive (especially on *nix)
     ${CMAKE_CURRENT_SOURCE_DIR}/../utils/stl_utils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../utils/logging.cpp
-    vector2_iter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../utils/loguru.cpp
+    vector_cp.cpp
 )
 
 set(PROJECT_UI_FILES
@@ -53,5 +55,5 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../utils)
 
 # Link against the global interface so we inherit Qt, flags, include dirs and libs.
-target_link_libraries(${PROJECT_NAME} PRIVATE chocolaf_console_settings)
+target_link_libraries(${PROJECT_NAME} PRIVATE chocolaf_settings)
 
