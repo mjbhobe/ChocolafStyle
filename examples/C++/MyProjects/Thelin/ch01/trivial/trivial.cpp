@@ -12,5 +12,7 @@ int main(int /*argc*/, char ** /*argv*/)
 {
   cout << "Hello Qt " << QT_VERSION_STR << " World!" << Qt::endl;
   cout << std::format("std::format -> Hello Qt {} World!\n", QT_VERSION_STR).c_str();
+  cout << QString::fromStdString(
+    std::format("QString::fromStdString -> Hello Qt {} World!\n", QT_VERSION_STR));
   return 0;
 }

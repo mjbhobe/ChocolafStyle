@@ -36,4 +36,4 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link against the global interface so we inherit Qt, flags, include dirs and libs.
-target_link_libraries(${PROJECT_NAME} PRIVATE chocolaf_console_settings)
+target_link_libraries(${PROJECT_NAME} PRIVATE chocolaf_settings)

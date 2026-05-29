@@ -26,8 +26,8 @@ if (NOT DEFINED PROJECT_NAME OR PROJECT_NAME STREQUAL "")
   )
 endif ()
 
-# CONFIG += c++23 → CMake standard settings
 # NOTE: we'll need a C++ 23 standards compiler!!
+# CONFIG += c++23 → CMake standard settings
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -158,8 +158,11 @@ else ()
       "/usr/include/opencv4"
       "/usr/include/eigen-5.0.0"
   )
+# [Start] OpenCV changes to fix build breaks on Linux with Qt 6.x ------------------------------
+# (removed opencv_highgui from the libraries list) - was there after opencv_imgproc
+# this change impacts Linux builds only!
   set(_OPENCV_MANUAL_LIBS
-      opencv_core opencv_imgproc opencv_highgui opencv_ml opencv_video
+      opencv_core opencv_imgproc opencv_ml opencv_video
       opencv_features2d opencv_calib3d opencv_objdetect opencv_videoio
       opencv_imgcodecs opencv_flann
   )
@@ -170,27 +173,73 @@ endif ()
 find_package(fmt QUIET)
 if (fmt_FOUND)
   target_link_libraries(chocolaf_settings INTERFACE fmt::fmt)
+else ()
+    # Fallback for manual link topologies
+    target_link_libraries(chocolaf_settings INTERFACE fmt)
 endif ()
 
-find_package(OpenCV QUIET COMPONENTS core imgproc highgui ml video features2d calib3d objdetect videoio imgcodecs flann)
-if (OpenCV_FOUND)
-  target_include_directories(chocolaf_settings INTERFACE ${OpenCV_INCLUDE_DIRS})
-  target_link_libraries(chocolaf_settings INTERFACE ${OpenCV_LIBS})
+# [Start] OpenCV changes to fix build breaks on Linux with Qt 6.x ------------------------------
+#
+# # OpenCV (use if available; otherwise fall back to manual lib list above)
+# find_package(OpenCV QUIET COMPONENTS core imgproc highgui ml video features2d calib3d objdetect videoio imgcodecs flann)
+# if (OpenCV_FOUND)
+#   target_include_directories(chocolaf_settings INTERFACE ${OpenCV_INCLUDE_DIRS})
+#   target_link_libraries(chocolaf_settings INTERFACE ${OpenCV_LIBS})
+# else ()
+#   # Manual OpenCV link names (as in the .pro) if find_package fails
+#   target_link_libraries(chocolaf_settings INTERFACE ${_OPENCV_MANUAL_LIBS})
+# endif ()
+
+# ---------------------------------------------------------------------------
+# OpenCV (Platform-Specific Component Routing)
+# ---------------------------------------------------------------------------
+if (WIN32)
+    # Keep highgui enabled for Windows hosts
+    find_package(OpenCV QUIET COMPONENTS core imgproc highgui ml video features2d calib3d objdetect videoio imgcodecs flann)
 else ()
-  target_link_libraries(chocolaf_settings INTERFACE ${_OPENCV_MANUAL_LIBS})
+    # Linux build: Omit highgui to prevent Qt 6.10.2 private symbol collisions
+    find_package(OpenCV QUIET COMPONENTS core imgproc ml video features2d calib3d objdetect videoio imgcodecs flann)
+    message(STATUS "[Chocolaf] Linux detected: Excluding highgui to preserve Qt6 ABI stability.")
 endif ()
+
+if (OpenCV_FOUND)
+    target_include_directories(chocolaf_settings INTERFACE ${OpenCV_INCLUDE_DIRS})
+    target_link_libraries(chocolaf_settings INTERFACE ${OpenCV_LIBS})
+else ()
+    # Fall back to manual library mapping lists if package configuration fails
+    target_link_libraries(chocolaf_settings INTERFACE ${_OPENCV_MANUAL_LIBS})
+endif ()
+# [End] OpenCV changes to fix build breaks on Linux with Qt 6.x ------------------------------
 
 find_package(PostgreSQL QUIET)
 if (PostgreSQL_FOUND)
   target_include_directories(chocolaf_settings INTERFACE ${PostgreSQL_INCLUDE_DIRS})
   target_link_libraries(chocolaf_settings INTERFACE ${PostgreSQL_LIBRARIES})
+else ()
+    # Linux fallback if find_package fails but files exist in /usr/lib
+    if (NOT WIN32)
+        target_link_libraries(chocolaf_settings INTERFACE pq)
+    endif ()
 endif ()
 
 # libpqxx (no standard CMake package in many distros; link by name if available)
 # You may set PQXX_ROOT or rely on link_directories above.
-find_library(PQXX_LIBRARY NAMES pqxx)
-if (PQXX_LIBRARY)
-  target_link_libraries(chocolaf_settings INTERFACE ${PQXX_LIBRARY})
+# find_library(PQXX_LIBRARY NAMES pqxx)
+# if (PQXX_LIBRARY)
+#   target_link_libraries(chocolaf_settings INTERFACE ${PQXX_LIBRARY})
+# endif ()
+
+# Modern clean check for libpqxx
+find_package(libpqxx QUIET)
+if (libpqxx_FOUND)
+    target_link_libraries(chocolaf_settings INTERFACE libpqxx::pqxx)
+else ()
+    find_library(PQXX_LIBRARY NAMES pqxx)
+    if (PQXX_LIBRARY)
+        target_link_libraries(chocolaf_settings INTERFACE ${PQXX_LIBRARY})
+    else ()
+        target_link_libraries(chocolaf_settings INTERFACE pqxx)
+    endif ()
 endif ()
 
 if (WIN32)
@@ -214,6 +263,11 @@ if (WIN32)
   )
 else ()
   target_link_libraries(chocolaf_settings INTERFACE m)
+  # CRITICAL: Forces g++ to resolve C++23 std::println binary symbols
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+      target_link_libraries(chocolaf_settings INTERFACE stdc++exp)
+      message(STATUS "Appending -lstdc++exp for GCC C++23 runtime support")
+  endif ()
 endif ()
 
 # Link Qt modules to interface

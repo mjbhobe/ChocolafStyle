@@ -24,7 +24,7 @@ INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += console debug_and_release c++20
+CONFIG += console debug_and_release c++23
 QT += core xml sql network
 QT -= gui
 greaterThan(QT_MAJOR_VERSION, 4): QT -= widgets
@@ -71,7 +71,8 @@ unix {
 
    OPENCV_LIBS = -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_ml -lopencv_video \
          -lopencv_features2d -lopencv_calib3d -lopencv_objdetect -lopencv_videoio -lopencv_imgcodecs -lopencv_flann
-   STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq
+   # NOTE: for C++23 compile with g++, use -lstdc++exp, not -lstdc++
+   STD_LIBS = -lm -lstdc++exp -lfmt -lpqxx -lpq
 }
 
 GMP_LIBS = -lgmp -lgmpxx
