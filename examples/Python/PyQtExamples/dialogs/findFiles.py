@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 """
 * findFiles.py - find files dialog
-* @author (Chocolaf): Manish Bhobé
 *
-* PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
-* displaying widgets using Chocolaf & other styles
+* PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets,
+* with changes done for displaying widgets using Chocolaf & other styles.
+* We have used qtpy abstraction layer to automatically detect which Qt binding is installed
+* in the current Python environment and matche the imports seamlessly.
+*
+* @author (Chocolaf): Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
@@ -223,9 +226,13 @@ class Window(QDialog):
 
 
 if __name__ == "__main__":
-    chocolaf.enable_hi_dpi()
-    app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # chocolaf.enable_hi_dpi()
+    # app = chocolaf.ChocolafApp(sys.argv)
+    # app.setStyle("Chocolaf")
+    app = QApplication(sys.argv)
+    # To enable Chocolaf style, comment out the line immediately above
+    # AND uncomment the 3 lines above that line.
+
     window = Window()
     window.show()
     sys.exit(app.exec())

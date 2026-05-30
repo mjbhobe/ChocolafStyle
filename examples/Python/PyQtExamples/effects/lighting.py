@@ -1,9 +1,12 @@
 """
 * lighting.py - lighting & shadow effect using QGraphicsView
-* @author (Chocolaf): Manish Bhobé
 *
-* PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets, with changes done for
-* displaying widgets using Chocolaf & other styles
+* PyQt demo code taken from https://github.com/baoboa/pyqt5/tree/master/examples/widgets,
+* with changes done for displaying widgets using Chocolaf & other styles.
+* We have used qtpy abstraction layer to automatically detect which Qt binding is installed
+* in the current Python environment and matche the imports seamlessly.
+*
+* @author (Chocolaf): Manish Bhobé
 * My experiments with Python, PyQt, Data Science & Deep Learning
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
@@ -53,9 +56,9 @@
 import math
 import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
 
 import chocolaf
 
