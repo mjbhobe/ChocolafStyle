@@ -35,6 +35,12 @@ QMAKE_CXXFLAGS += -std=c++23 -Wno-deprecated-enum-enum-conversion
 QMAKE_CXXFLAGS_DEBUG += -O0 -g2 -pedantic -Wall
 QMAKE_CXXFLAGS_RELEASE += -O2 -g0 -Wall
 
+# for debug builds add sanitizer flags to detect mem leaks
+CONFIG(debug, debug|release) {
+    QMAKE_CXXFLAGS += -fsanitize=address -fno-omit-frame-pointer
+    QMAKE_LFLAGS   += -fsanitize=address
+}
+
 win32 {
     CONFIG(MSYS2) {
        message("Using MSYS2 configuration...")
