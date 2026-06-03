@@ -3,6 +3,7 @@
 #include <QDate>
 #include <QDebug>
 #include <QFile>
+#include <QFileInfo>
 #include <QTextStream>
 #include <curl/curl.h>
 #include <iostream>
@@ -21,12 +22,13 @@ struct AppConfig {
     std::map<QString, std::vector<std::pair<QDate, double>>> downloadedData;
 };
 
-std::map<QString, int> readPortfolioCSV()
+std::map<QString, int> readPortfolioCSV(const QString &path)
 {
   std::map<QString, int> portfolio;
-  QFile file("portfolio.csv");
+  // QFile file("portfolio.csv");
+  QFile file(path);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    std::cerr << "Error: Could not open portfolio.csv in execution directory.\n";
+    std::cerr << "Error: Could not open portfilio file: (" << path.toStdString().c_str() << ")!\n";
     return portfolio;
   }
 
@@ -53,9 +55,12 @@ int main(int argc, char *argv[])
 
   std::string startOpt = "";
   std::string endOpt   = "";
+  std::string pfileOp  = "";
 
-  cliApp.add_option("--start", startOpt, "Start date in dd-MMM-yyyy format");
-  cliApp.add_option("--end", endOpt, "End date in dd-MMM-yyyy format");
+  cliApp.add_option("--start", startOpt,
+      "Start date in dd-MMM-yyyy format (optional - default = today's date minus 30 days)");
+  cliApp.add_option("--end", endOpt, "End date in dd-MMM-yyyy format (optional - default = today's date)");
+  cliApp.add_option("--pfile", pfileOp, "Path to portfolio file (optional - default = ./portfolio.csv)");
 
   try {
     cliApp.parse(argc, argv);
@@ -83,8 +88,46 @@ int main(int argc, char *argv[])
     startDate = englishLocale.toDate(QString::fromStdString(startOpt), "dd-MMM-yyyy");
   }
 
+  // process portfilio file path
+  QString pfolioPath;
+  if (pfileOp.empty()) {
+    // portfilio path not specified, assume ./portfolio.csv
+    pfolioPath = QString("./portfolio.csv");
+  }
+  else {
+    pfolioPath = QString::fromStdString(pfileOp);
+  }
+
+
+  /* more specific parsing of cmd line params
   if (!startDate.isValid() || !endDate.isValid() || startDate > endDate) {
     std::cerr << "Error: Invalid date range configurations evaluated.\n";
+    return -1;
+  }
+  */
+  if (!startDate.isValid()) {
+    std::cerr << "Error: Invalid start date (" << startOpt
+              << ") - expecting dd-MMM-yyyy format (e.g. 01-Apr-2025)\n";
+    return -1;
+  }
+
+  if (!endDate.isValid()) {
+    std::cerr << "Error: Invalid end date (" << endOpt
+              << ") - expecting dd-MMM-yyyy format (e.g. 01-Apr-2025)\n";
+    return -1;
+  }
+
+  if (startDate >= endDate) {
+    std::cerr << "Error: Invalid date range! Start Date (" << startOpt << ") must be <= End Date (" << endOpt
+              << ")\n";
+    return -1;
+  }
+
+  // check portfilio file path
+  QFileInfo fileInfo(pfolioPath);
+  if (!fileInfo.exists()) {
+    std::cerr << "Error: Invalid portfolio path! (" << pfolioPath.toStdString().c_str()
+              << ") is invalid or does not exist!\n";
     return -1;
   }
 
@@ -92,9 +135,9 @@ int main(int argc, char *argv[])
   QString endDateStr   = englishLocale.toString(endDate, "dd-MMM-yyyy");
 
   // 2. Read Portfolio
-  auto portfolio = readPortfolioCSV();
+  auto portfolio = readPortfolioCSV(pfolioPath);
   if (portfolio.empty()) {
-    std::cerr << "No assets parsed. Exiting application.\n";
+    std::cerr << "No portfilio assets parsed. Exiting application.\n";
     return -1;
   }
 

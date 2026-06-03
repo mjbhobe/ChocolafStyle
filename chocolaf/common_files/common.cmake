@@ -266,6 +266,21 @@ else ()
     endif ()
 endif ()
 
+# add curl library
+# --- Find and link CURL (libcurl) ---
+find_package(CURL QUIET)
+if (CURL_FOUND)
+    target_include_directories(chocolaf_settings INTERFACE ${CURL_INCLUDE_DIRS})
+    target_link_libraries(chocolaf_settings INTERFACE ${CURL_LIBRARIES})
+else ()
+    # Fallback to linking by name if find_package fails
+    if (WIN32)
+        target_link_libraries(chocolaf_settings INTERFACE libcurl)
+    else ()
+        target_link_libraries(chocolaf_settings INTERFACE curl)
+    endif ()
+endif ()
+
 
 if (WIN32)
   target_link_libraries(chocolaf_settings INTERFACE gmp gmpxx)

@@ -13,6 +13,8 @@ class MainWindow(QWidget):
     def initializeUi(self):
         # self.setGeometry(200, 100, 400, 300)
         self.setWindowTitle(f"Welcome to PyQt {PYQT_VERSION_STR}")
+        # Geom = (left, top, width, height) in pixels!
+        self.setGeometry(200, 100, 400, 300)
         self.setupMainWindow()
 
     def setupMainWindow(self):

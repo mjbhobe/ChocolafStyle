@@ -1,8 +1,9 @@
+#include "DataFetcher.h"
 #include <QDateTime>
+#include <QDebug>
 #include <QLocale>
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
-#include "DataFetcher.h"
 
 using json = nlohmann::json;
 
@@ -13,11 +14,14 @@ DataFetcher::DataFetcher(QString ticker, QString startDateStr, QString endDateSt
 
 qint64 DataFetcher::convertToUnixTimestamp(const QString &dateStr)
 {
+  // Step1: convert QString value in dd-MMM-yyyy format to a QDate object.
   QLocale englishLocale(QLocale::English, QLocale::UnitedStates);
   QDate date = englishLocale.toDate(dateStr, "dd-MMM-yyyy");
   if (!date.isValid())
     return -1;
+  // Step2: convert that date to UTC DateTime object
   QDateTime dateTime(date, QTime(0, 0), Qt::UTC);
+  // Step3: convert that UTC DateTime to a Unix timestamp
   return dateTime.toSecsSinceEpoch();
 }
 
@@ -56,7 +60,9 @@ std::vector<std::pair<QDate, double>> DataFetcher::fetchSynchronously()
     return extractedPoints;
 
   try {
+    qDebug() << "readBuffer -> \n" << readBuffer.c_str();
     auto parsedJson = json::parse(readBuffer);
+    //qDebug() << "parsedJson -> \n" << parsedJson;
     if (!parsedJson.contains("chart") || parsedJson["chart"]["result"].is_null())
       return extractedPoints;
 

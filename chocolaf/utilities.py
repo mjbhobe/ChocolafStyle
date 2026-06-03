@@ -59,9 +59,10 @@ def enable_hi_dpi() -> None:
 def pointsToPixels(points):
     """
     Converts font size from points to pixels
-    NOTE: We know that 1 inch = 96 pixels and 1 inch = 72 points
+    NOTE: We know that 1 inch = 96 pixels (physicalDpi) and 1 inch = 72 points (logicalDpi)
     Hence, 96 pixels = 72 points
-    So, x points = x * 96 / 72 pixels"""
+    So, x points = x * 96 / 72 pixels [i.e. x * (physicalDpi/logicalDpi)]
+    """
     # default_pix_per_inch = 96 if sys.platform == "win32" else 72
     # default_font_dpi = os.getenv("QT_FONT_DPI", default_pix_per_inch)
     # screenDpi = QGuiApplication.primaryScreen().physicalDotsPerInch()
@@ -75,21 +76,25 @@ def pointsToPixels(points):
 def pixelsToPoints(pixels):
     """
     Converts font size from pixels to points
-    NOTE: We know that 1 inch = 96 pixels and 1 inch = 72 points
+    NOTE: We know that 1 inch = 96 pixels (physicalDpi) and 1 inch = 72 points (logicalDpi)
     Hence, 96 pixels = 72 points
-    So, x pixels = x * 72 / 96 points"""
+    So, x pixels = x * 72 / 96 pixels [i.e. x * (logicalDpi/physicalDpi)]
+    """
     # default_pix_per_inch = 96 if sys.platform == "win32" else 72
     # default_font_dpi = os.getenv("QT_FONT_DPI", default_pix_per_inch)
     # screenDpi = QGuiApplication.primaryScreen().physicalDotsPerInch()
     # return int((pixels / default_font_dpi) * screenDpi)
-    return int(pixels * 72 / 96)
+    widget: QWidget = QWidget()
+    # physicalDpiY, logicalDpiY = widget.physicalDpiY(), widget.logicalDpiY()
+    return int(pixels * widget.logicalDpiY() / widget.physicalDpiY())
+    # return int(pixels * 72 / 96)
 
 
 def get_logger(
     file_path: pathlib.Path, level: int = logging.INFO, custom_theme: Theme = None
 ) -> logging.Logger:
     """
-    gets a standard logger with 2 handlers - a stream handler (console) and a file handler.
+    Gets a standard logger with 2 handlers - a stream handler (console) and a file handler.
     The stream handler respects the level passed in as a parameter, whereas the file-handler
     always sets logging level to logging.DEBUG (to log all messages to file).
     Both handlers use the same formatter, which logs with following format:

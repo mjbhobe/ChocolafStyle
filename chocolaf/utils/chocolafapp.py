@@ -182,7 +182,7 @@ class ChocolafApp(QApplication):
     @staticmethod
     def setupAppForHighDpiScreens():
         """enables scaling for high DPI screens"""
-        from PyQt5 import QtCore
+        from qtpy import QtCore
 
         if sys.platform == "win32":
             # Windows only

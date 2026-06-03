@@ -11,9 +11,9 @@
 """
 import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
 
 import chocolaf
 from chocolaf.utils.chocolafapp import ChocolafApp
@@ -24,7 +24,9 @@ class HexSpinBox(QSpinBox):
         super(HexSpinBox, self).__init__(parent)
         self.setRange(0, 65535)  # FFFF
         # allow upto 8 chars from {0-9} or {A-F} or {a-f}
-        self.validator = QRegExpValidator(QRegExp("[0-9A-Fa-f]{1,8}"))
+        # self.validator = QRegExpValidator(QRegExp("[0-9A-Fa-f]{1,8}"))
+        self.validator = QRegularExpressionValidator(QRegularExpression("[0-9A-Fa-f]{1,8}"))
+
 
     def validate(self, text: str, pos: int):
         return self.validator.validate(text, pos)

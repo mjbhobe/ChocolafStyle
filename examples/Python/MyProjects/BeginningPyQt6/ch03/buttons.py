@@ -17,9 +17,9 @@ class MainWindow(QWidget):
 
     def setupMainWindow(self):
         self.times_pressed = 0
-        self.name_label = QLabel("Don't press the button", self)
+        self.name_label = QLabel("Warning! Don't press the button", self)
         self.name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.name_label.move(60, 30)
+        self.name_label.move(35, 30)
 
         self.button = QPushButton("Click me!", self)
         self.button.move(80, 70)
@@ -29,10 +29,10 @@ class MainWindow(QWidget):
         self.times_pressed += 1
 
         if self.times_pressed == 1:
-            self.name_label.setText("Why'd you press me?")
+            self.name_label.setText("Why did you press the button?")
         if self.times_pressed == 2:
-            self.name_label.setText("I'm warning you.")
-            self.button.setText("Feelin' Lucky?")
+            self.name_label.setText("I'm warning you!!!")
+            self.button.setText("Feelin' Lucky huh?")
             self.button.adjustSize()
             self.button.move(70, 70)
         if self.times_pressed == 3:
