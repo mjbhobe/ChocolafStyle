@@ -1,38 +1,40 @@
-# CMakeLists.txt
-# Builds an executable and consumes the shared "chocolaf_settings" interface
-# defined in the global settings module.
+# CMakeLists.txt for factorial (converted from qmake .pro)
 
 cmake_minimum_required(VERSION 3.21)
 
-# if (WIN32 AND NOT USE_MSYS2)
-#  set(CMAKE_C_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/gcc.exe")
-#  set(CMAKE_CXX_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/g++.exe")
-# endif()
+set(MY_TARGET_NAME factorial)
+project(${MY_TARGET_NAME} LANGUAGES CXX)
 
-project(factorial LANGUAGES CXX)
+message(STATUS "CHOCOLAF_COMMONFILES_HOME = $ENV{CHOCOLAF_COMMONFILES_HOME}")
 
-# --- Include the global settings module (converted from common.pro)
-# This defines the INTERFACE target: chocolaf_settings
-# and sets Qt, compile options, include dirs, third-party libs, etc.
+# --- Pull in global common settinsg for console builds
 include ("$ENV{CHOCOLAF_COMMONFILES_HOME}/common_console.cmake")
 
-#set(PROJECT_HEADERS
-#    factorial.h
-#)
-
-set(PROJECT_SOURCES
-  factorial.cc
+# --- Header files, if any (your own *.h files) -----
+set(PROJECT_HEADERS
 )
 
-# --- Executable
-add_executable(factorial
-  ${PROJECT_SOURCES}
-  ${PROJECT_HEADERS}      # headers listed for IDE visibility
+# --- Source files, if any (your own *.cpp files) -----
+set(PROJECT_SOURCES
+    factorial.cc
+)
+
+# --- Source files, if any (your own *.qrc files) -----
+set(PROJECT_RESOURCES
+
+)
+
+# --- Executable  to build -----------------------------
+add_executable(${PROJECT_NAME}
+    ${PROJECT_SOURCES}
+    ${PROJECT_HEADERS}         # headers listed for IDE visibility
+    ${PROJECT_RESOURCES}
 )
 
 # qmake: INCLUDEPATH += .
 # Keep the current dir in include paths for this target.
-target_include_directories(factorial PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link against the global interface so we inherit Qt, flags, include dirs and libs.
-target_link_libraries(factorial PRIVATE chocolaf_console_settings)
+target_link_libraries(${PROJECT_NAME} PRIVATE chocolaf_settings)
+
