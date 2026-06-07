@@ -1,21 +1,16 @@
 // ---------------------------------------------------------------------
-// hello.cc - simple Hello World program with Qt Core
+// hello_std.cc - simple Hello World program with Std C++
 //
 // @author: Manish Bhobe
 // My experiments with C++/STL and Qt Framework
 // Code shared for learning purposes only!
 // ----------------------------------------------------------------------
-#include <QtCore>
+#include <iostream>
 #include <cstdlib>
-
-// NOTE: DO NOT include <iostream> header!!
-static QTextStream cout(stdout, QIODevice::WriteOnly);
 
 int main(int argc, char **argv)
 {
-   QCoreApplication app(argc, argv);
-
-   cout << "Hello World! Welcome to Qt " << QT_VERSION_STR << Qt::endl;
+   std::cout << "Hello World! Welcome to Qt " << std::endl;
 
    return EXIT_SUCCESS;
 }

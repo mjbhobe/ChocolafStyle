@@ -8,6 +8,7 @@
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
 """
+
 import sys
 import os
 import pathlib
@@ -17,9 +18,9 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from argparse import ArgumentParser
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
 
 from chocolaf.palettes import ChocolafPalette
 from chocolaf.utils.chocolafapp import ChocolafApp
@@ -28,65 +29,74 @@ APP_PATH = os.path.dirname(__file__)
 Window_Title = f"PyQt {PYQT_VERSION_STR} Weather application"
 HOME_DIR = str(pathlib.Path.home())
 
-API_KEY = '609e577f6c5eeac1a9a6c42875bbc0ec'
-CITY = 'Mumbai'
-WEATHER_URL = 'http://api.openweathermap.org/data/2.5/weather?q={}&appid={}'
+API_KEY = "609e577f6c5eeac1a9a6c42875bbc0ec"
+CITY = "Mumbai"
+WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?q={}&appid={}"
+
 
 def time_format_for_location(utc_with_tz):
     local_time = datetime.utcfromtimestamp(utc_with_tz)
     return local_time
 
-def getWeather(city='Mumbai'):
+
+def getWeather(city="Mumbai"):
     request_url = WEATHER_URL.format(city, API_KEY)
     response = requests.get(request_url)
     weather_info = response.json()
     print(weather_info)
     weather_data = {}  # response dict
 
-    weather_data['cod'] = weather_info['cod']
+    weather_data["cod"] = weather_info["cod"]
 
-    if weather_info['cod'] == 200:
+    if weather_info["cod"] == 200:
         kelvin = 273.0
         # @see: https://openweathermap.org/current for documentation
-        weather_data['city'] = weather_info['name'] + ', ' + weather_info['sys']['country']
-        weather_data['weather_main'] = str(weather_info['weather'][0]['description']).title() #['main']
-        weather_data['weather_icon'] = weather_info['weather'][0]['icon']
-        weather_data['temp'] = int(float(weather_info['main']['temp']) - kelvin)
-        weather_data['feels_like_temp'] = int(float(weather_info['main']['feels_like']) - kelvin)
-        weather_data['temp_min'] = int(float(weather_info['main']['temp_min']) - kelvin)
-        weather_data['temp_max'] = int(float(weather_info['main']['temp_max']) - kelvin)
-        weather_data['pressure'] = weather_info['main']['pressure']
-        weather_data['humidity'] = weather_info['main']['humidity']
-        weather_data['visibility'] = weather_info['visibility']
-        weather_data['wind_speed'] = weather_info['wind']['speed'] # * 3.6
-        weather_data['wind_direction'] = weather_info['wind']['deg']
-        weather_data['timezone'] = weather_info['timezone']
-        weather_data['cloudy'] = weather_info['clouds']['all']
-        weather_data['description'] = weather_info['weather'][0]['description']
-        weather_data['date'] = weather_info['dt']
-        weather_data['sunrise_time'] = weather_info['sys']['sunrise']
-        weather_data['sunset_time'] = weather_info['sys']['sunset']
+        weather_data["city"] = (
+            weather_info["name"] + ", " + weather_info["sys"]["country"]
+        )
+        weather_data["weather_main"] = str(
+            weather_info["weather"][0]["description"]
+        ).title()  # ['main']
+        weather_data["weather_icon"] = weather_info["weather"][0]["icon"]
+        weather_data["temp"] = int(float(weather_info["main"]["temp"]) - kelvin)
+        weather_data["feels_like_temp"] = int(
+            float(weather_info["main"]["feels_like"]) - kelvin
+        )
+        weather_data["temp_min"] = int(float(weather_info["main"]["temp_min"]) - kelvin)
+        weather_data["temp_max"] = int(float(weather_info["main"]["temp_max"]) - kelvin)
+        weather_data["pressure"] = weather_info["main"]["pressure"]
+        weather_data["humidity"] = weather_info["main"]["humidity"]
+        weather_data["visibility"] = weather_info["visibility"]
+        weather_data["wind_speed"] = weather_info["wind"]["speed"]  # * 3.6
+        weather_data["wind_direction"] = weather_info["wind"]["deg"]
+        weather_data["timezone"] = weather_info["timezone"]
+        weather_data["cloudy"] = weather_info["clouds"]["all"]
+        weather_data["description"] = weather_info["weather"][0]["description"]
+        weather_data["date"] = weather_info["dt"]
+        weather_data["sunrise_time"] = weather_info["sys"]["sunrise"]
+        weather_data["sunset_time"] = weather_info["sys"]["sunset"]
     else:
         print(f"Weather info for city {city} not found!")
     return weather_data
+
 
 def getCities():
     # @see: https://medium.com/geekculture/web-scraping-tables-in-python-using-beautiful-soup-8bbc31c5803e
     # for example of using beautifulsoup4 to load HTML table into pandas dataframe
     cities_url = "https://worldpopulationreview.com/world-cities"
     data = requests.get(cities_url).text
-    soup = BeautifulSoup(data, 'html.parser')
-    table = soup.find('table', class_='table')
+    soup = BeautifulSoup(data, "html.parser")
+    table = soup.find("table", class_="table")
     cities = []
-    for row in table.tbody.find_all('tr'):
-        columns = row.find_all('td')
+    for row in table.tbody.find_all("tr"):
+        columns = row.find_all("td")
         # cols are: Rank, Name, Country, 2022 Population, 2021 Population, Change
         cities.append(columns[1].text.strip())
     return sorted(cities)
 
 
 class WeatherWidget(QWidget):
-    def __init__(self, weather_data_dict, parent:QWidget=None):
+    def __init__(self, weather_data_dict, parent: QWidget = None):
         super(WeatherWidget, self).__init__(parent)
         self.setupUi()
         self.displayWeatherData(weather_data_dict)
@@ -158,29 +168,36 @@ class WeatherWidget(QWidget):
         self.setLayout(mainLayout)
 
     def displayWeatherData(self, weather_data):
-        pixmap = self.loadWeatherIcon(weather_data['weather_icon'])
+        pixmap = self.loadWeatherIcon(weather_data["weather_icon"])
         self.iconLabel.setPixmap(pixmap.scaled(80, 80))
         self.city.setText(f"<html><h1>{weather_data['city']}</h1></html>")
 
-        timezone = weather_data['timezone']
-        weather_info_date = time_format_for_location(weather_data['date'] + timezone)
+        timezone = weather_data["timezone"]
+        weather_info_date = time_format_for_location(weather_data["date"] + timezone)
         labelText = f"<html>On {weather_info_date.strftime('%a, %d %b, %Y - %I:%M %p')}<br/><b>{weather_data['weather_main']}</b></html>"
         self.weatherMain.setText(labelText)
 
         self.tempValueLabel.setText(f"<html>{weather_data['temp']} &deg;C</html>")
-        self.feelsLikeTempValueLabel.setText(f"<html>{weather_data['feels_like_temp']} &deg;C</html>")
-        self.minTempValueLabel.setText(f"<html>{weather_data['temp_min']} &deg;C</html>")
-        self.maxTempValueLabel.setText(f"<html>{weather_data['temp_max']} &deg;C</html>")
+        self.feelsLikeTempValueLabel.setText(
+            f"<html>{weather_data['feels_like_temp']} &deg;C</html>"
+        )
+        self.minTempValueLabel.setText(
+            f"<html>{weather_data['temp_min']} &deg;C</html>"
+        )
+        self.maxTempValueLabel.setText(
+            f"<html>{weather_data['temp_max']} &deg;C</html>"
+        )
         self.pressureValueLabel.setText(f"<html>{weather_data['pressure']}</html>")
         self.humidityValueLabel.setText(f"<html>{weather_data['humidity']} %</html>")
 
-        sunrise_time = time_format_for_location(weather_data['sunrise_time'] + timezone)
-        sunrise_time_str = sunrise_time.strftime('%I:%M %p')
-        sunset_time = time_format_for_location(weather_data['sunset_time'] + timezone)
-        sunset_time_str = sunset_time.strftime('%I:%M %p')
+        sunrise_time = time_format_for_location(weather_data["sunrise_time"] + timezone)
+        sunrise_time_str = sunrise_time.strftime("%I:%M %p")
+        sunset_time = time_format_for_location(weather_data["sunset_time"] + timezone)
+        sunset_time_str = sunset_time.strftime("%I:%M %p")
 
         self.sunriseTimeValueLabel.setText(f"<html>{sunrise_time_str}</html>")
         self.sunsetTimeValueLabel.setText(f"<html>{sunset_time_str}</html>")
+
 
 class WeatherWindow(QWidget):
     def __init__(self, weather_data_dict, city):
@@ -219,9 +236,13 @@ class WeatherWindow(QWidget):
         city = self.citiesCombo.currentText()
         print(f"New selected city {city}")
         weather_data = getWeather(city)
-        if weather_data['cod'] != 200:
-            QMessageBox.critical(self, "Error!", f"Weather data for {city} is not available!\r\nPlease choose another city",
-                                 QMessageBox.Ok)
+        if weather_data["cod"] != 200:
+            QMessageBox.critical(
+                self,
+                "Error!",
+                f"Weather data for {city} is not available!\r\nPlease choose another city",
+                QMessageBox.Ok,
+            )
         else:
             print(weather_data)
             self.weather_widget.displayWeatherData(weather_data)
@@ -233,8 +254,13 @@ class WeatherWindow(QWidget):
 if __name__ == "__main__":
     # parse command line arguments
     ap = ArgumentParser()
-    ap.add_argument("-c", "--city", required=False, default="Mumbai",
-                    help="Enter name of city to display weather")
+    ap.add_argument(
+        "-c",
+        "--city",
+        required=False,
+        default="Mumbai",
+        help="Enter name of city to display weather",
+    )
     args = vars(ap.parse_args())
 
     ChocolafApp.setupAppForHighDpiScreens()

@@ -11,9 +11,9 @@ import os
 import pathlib
 import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
 
 from chocolaf.utils.chocolafapp import ChocolafApp
 

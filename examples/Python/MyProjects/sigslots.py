@@ -8,11 +8,12 @@
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
 """
+
 import os
 import pathlib
 import sys
 
-from PyQt5.QtWidgets import *
+from qtpy.QtWidgets import *
 
 from chocolaf.utils.chocolafapp import ChocolafApp
 

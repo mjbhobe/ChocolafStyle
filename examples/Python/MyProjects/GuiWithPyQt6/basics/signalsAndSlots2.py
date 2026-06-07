@@ -7,6 +7,7 @@
 * Use at your own risk!!
 
 """
+
 import sys
 import os
 import pathlib
@@ -36,7 +37,7 @@ MESSAGES = [
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-        self.icon = qta.icon("fa.check")
+        self.icon = qta.icon("msc.check", color="#A3BE8C")
         self.button = QPushButton(self.icon, "Click Me")
         self.label = QLabel("Keep clicking the button to see a new message")
         self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -63,7 +64,9 @@ class MainWindow(QMainWindow):
             msgBox: QMessageBox = QMessageBox()
             msgBox.setText(MESSAGES[-1])
             msgBox.setWindowTitle("That was your last warning!")
-            msgBox.setInformativeText("The application will close now because you didn't listen")
+            msgBox.setInformativeText(
+                "The application will close now because you didn't listen"
+            )
             msgBox.setStandardButtons(QMessageBox.Close)
             msgBox.setIcon(QMessageBox.Critical)
             msgBox.exec()

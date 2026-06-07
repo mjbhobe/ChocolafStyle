@@ -10,8 +10,8 @@ import os
 import pathlib
 import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtWidgets import *
 
 import chocolaf
 from chocolaf.utils.chocolafapp import ChocolafApp
@@ -75,7 +75,8 @@ class Form(QWidget):
             # self.fruitsList.addItem(fruit)
             self.fruitsList.addItem(listWidgetItem)
 
-        self.closeBtn.clicked.connect(qApp.exit)
+        # self.closeBtn.clicked.connect(qApp.exit)
+        self.closeBtn.clicked.connect(QApplication.exit)
 
         self.setFocusProxy(self.fruitsList)
 

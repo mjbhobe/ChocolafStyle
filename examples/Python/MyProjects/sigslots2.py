@@ -8,9 +8,10 @@
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
 """
+
 import sys
 
-from PyQt5.QtWidgets import *
+from qtpy.QtWidgets import *
 
 from chocolaf.utils.chocolafapp import ChocolafApp
 
@@ -26,7 +27,7 @@ class Form(QWidget):
             layout.addWidget(button)
         closeBtn = QPushButton("Close")
         closeBtn.setDefault(True)
-        closeBtn.clicked.connect(qApp.exit)
+        closeBtn.clicked.connect(QApplication.exit)
         self.label = QLabel("Which clostBtn clicked?")
         layout.addWidget(self.label)
         self.setLayout(layout)

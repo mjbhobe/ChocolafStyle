@@ -17,9 +17,10 @@ locale.setlocale(locale.LC_ALL, "")
 import sys
 import os
 import urllib.request
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
+
 
 class Form(QDialog):
 
@@ -61,16 +62,16 @@ class Form(QDialog):
     def updateUi(self):
         to = self.toComboBox.currentText()
         from_ = self.fromComboBox.currentText()
-        amount = ((self.rates[from_] / self.rates[to]) *
-                  self.fromSpinBox.value())
+        amount = (self.rates[from_] / self.rates[to]) * self.fromSpinBox.value()
         self.toLabel.setText(locale.format("%0.2f", amount, True))
 
     def getdata(self):  # Idea taken from the Python Cookbook
         self.rates = {}
         try:
             date = "Unknown"
-            data = urllib.request.urlopen("http://www.bankofcanada.ca"
-                                          "/en/markets/csv/exchange_eng.csv").read()
+            data = urllib.request.urlopen(
+                "http://www.bankofcanada.ca" "/en/markets/csv/exchange_eng.csv"
+            ).read()
             for line in data.decode("utf-8", "replace").split("\n"):
                 line = line.rstrip()
                 if not line or line.startswith(("#", "Closing ")):
@@ -112,9 +113,10 @@ def main():
     app.setStyle("Chocolaf")
 
     form = Form()
-    #form.setStyleSheet(loadStyleSheet())
+    # form.setStyleSheet(loadStyleSheet())
     form.show()
     app.exec()
+
 
 """
 NOTE: this example requires that you get a free API key from Exchange Rates
@@ -123,11 +125,11 @@ following URL to get a 2-week free access to API endpoint
 https://www.exchangerate-api.com/docs/authentication
 """
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import requests
 
     # Where USD is the base currency you want to use
-    url = 'https://v6.exchangerate-api.com/v6/aa604cd77971987229134fb7/latest/USD'
+    url = "https://v6.exchangerate-api.com/v6/aa604cd77971987229134fb7/latest/USD"
 
     # Making our request
     response = requests.get(url)

@@ -7,6 +7,7 @@
 * Use at your own risk!!
 
 """
+
 import sys
 import os
 import pathlib
@@ -43,7 +44,7 @@ frameworks = {
     "Lightning": 12,
     "H2O": 13,
     "Kaldi": 14,
-    "TensorflowJS": 15
+    "TensorflowJS": 15,
 }
 
 
@@ -57,8 +58,10 @@ class MainWindow(QMainWindow):
         random.shuffle(framework_names)
         self.combo.addItems(framework_names)
         self.label2 = QLabel("")
-        self.label2.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-        close_icon = qta.icon("fa.close")
+        self.label2.setAlignment(
+            Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter
+        )
+        close_icon = qta.icon("msc.close")
         self.button = QPushButton(close_icon, "Quit!")
         self.setupUi()
 

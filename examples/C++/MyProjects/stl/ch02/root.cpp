@@ -3,9 +3,9 @@
 // to compile: g++ -std=c++23 ... -stdlib=libc++
 
 #include <stdlib.h>
-#include <iostream.h>
-#include <iomanip.h>
-#include <math.h>
+#include <iostream>
+#include <iomanip>
+#include <cmath>
 
 int main(void) {
   const float num{11.55};

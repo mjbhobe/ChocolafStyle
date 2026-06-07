@@ -11,6 +11,7 @@
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
 """
+
 import os
 import sys
 import pathlib
@@ -87,7 +88,7 @@ class TextEditorWindow(QMainWindow):
             self.loadTextFile(fileName)
 
     def setupEditor(self):
-        editorFontPointSize = chocolaf.pixelsToPoints(16)
+        editorFontPointSize = chocolaf.pixelsToPoints(12)
         logger.info(f"Setting editor font size to {editorFontPointSize} points")
         editor_font_names = "The Sans Mono-"  # Consolas, SF Mono, Menlo, Monaco, DejaVu Sans Mono, Monospace"
         logger.info(f"Using {editorFontPointSize} point font for editor")

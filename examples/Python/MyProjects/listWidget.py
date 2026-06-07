@@ -9,11 +9,12 @@
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
 """
+
 import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
 
 import chocolaf
 from chocolaf.utils.chocolafapp import ChocolafApp
@@ -46,8 +47,8 @@ class ListWidgetWindow(QWidget):
 if __name__ == "__main__":
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    # app.setStyle("Chocolaf")
-    app.setStyle("Fusion")
+    app.setStyle("Chocolaf")
+    # app.setStyle("Fusion")
 
     win = ListWidgetWindow()
     win.show()

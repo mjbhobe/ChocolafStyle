@@ -8,9 +8,9 @@
 
 import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
 
 import chocolaf
 from chocolaf.utils.chocolafapp import ChocolafApp
@@ -71,7 +71,8 @@ class TabDemoWindow(QWidget):
 def main():
     ChocolafApp.setupAppForHighDpiScreens()
     app = ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf")
+    # app.setStyle("Chocolaf")
+    app.setStyle("Fusion")
 
     ex = TabDemoWindow()
     ex.show()

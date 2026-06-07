@@ -52,8 +52,8 @@
 
 import sys
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtWidgets import *
 
 import chocolaf
 
@@ -173,7 +173,7 @@ class Window(QWidget):
 def main():
     chocolaf.enable_hi_dpi()
     app = chocolaf.ChocolafApp(sys.argv)
-    app.setStyle("WindowsDark")
+    # app.setStyle("WindowsDark")
 
     win = Window()
     # win.setStyleSheet(app.getStyleSheet("Chocolaf"))

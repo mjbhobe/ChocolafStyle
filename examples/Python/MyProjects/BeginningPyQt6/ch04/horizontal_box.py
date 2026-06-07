@@ -1,14 +1,20 @@
 """
 horizontal_box.py - illustrated use of QHBoxLayout
 
-@auhor: Manish Bhobe
+@author: Manish Bhobe
 My Experiments with Python and PyQt
 Code shared for learning purposes only!
 """
+
 import sys
 from PyQt6.QtCore import PYQT_VERSION_STR
 from PyQt6.QtWidgets import (
-    QApplication, QWidget, QLabel, QLineEdit, QPushButton, QHBoxLayout
+    QApplication,
+    QWidget,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QHBoxLayout,
 )
 
 
@@ -21,7 +27,7 @@ class MainWindow(QWidget):
         """setup the GUI"""
         self.setMinimumWidth(500)
         self.setFixedHeight(60)
-        self.setWindowTitle(f"PyQt{PYQT_VERSION_STR} - QHBoxLayout Demo")
+        self.setWindowTitle(f"PyQt {PYQT_VERSION_STR} - QHBoxLayout Demo")
         self.setupMainWindow()
 
     def setupMainWindow(self):
@@ -47,16 +53,10 @@ class MainWindow(QWidget):
         """slot for name_edit.textEdited signal"""
         # check length & content entered into text box
         # text length > 0 and text must contain only alphanumeric content
-        if (len(text) > 0) \
-            and all(t.isalpha() or t.isdigit() for t in text):
+        if (len(text) > 0) and all(t.isalpha() or t.isdigit() for t in text):
             self.accept_button.setEnabled(True)
         else:
             self.accept_button.setEnabled(False)
-
-
-
-
-
 
 
 def main():

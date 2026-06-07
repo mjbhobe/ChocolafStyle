@@ -54,10 +54,10 @@ import pathlib
 import sys
 import unicodedata
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtPrintSupport import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
+from qtpy.QtPrintSupport import *
 
 import chocolaf
 

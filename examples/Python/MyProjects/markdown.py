@@ -1,5 +1,5 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QTextEdit
+from qtpy.QtWidgets import QApplication, QTextEdit
 
 text = """
 # Markdown Demo

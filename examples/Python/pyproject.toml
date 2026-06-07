@@ -34,6 +34,7 @@ dependencies = [
     "pyqt6-charts>=6.10.0",
     "pyqt6-qscintilla>=2.14.1",
     "pyqtdarktheme>=1.2.1",
+    "python-dotenv>=1.2.2",
     "qdarkstyle>=3.2.3",
     "qtawesome>=1.4.0",
     "qtconsole>=5.7.0",

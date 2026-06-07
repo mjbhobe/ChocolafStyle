@@ -1,4 +1,17 @@
 // factorial.cc - calculate factorial of any +ve number
+//
+// NOTE: we are using the gmp/gmpxx libraries to make that possible.
+// For a perspective on why we are using gmp/gmpxx
+// a> because it can handle any arbit precision integers
+// b> Standard C++ will max out at max value of unsigned long long, which
+// is roughly 18,446,744,073,709,551,615 (which is no more than 20!)
+// clang++/g++ extensions, offer __int128 data types, unsigned __int128
+// will max out at 34!
+
+// @author: Manish Bhobe
+// My experiments with C++/STL and Qt Framework
+// Code is shared for learning purposes only!
+// ---------------------------------------------------------------------
 #include <gmp.h>
 #include <gmpxx.h>
 
