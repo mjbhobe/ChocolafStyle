@@ -2,28 +2,28 @@
 // ============================================================================
 // mainWindow.py: custom QMainWindow derived class for main window
 //
-// Tutorial - PyQt5 Doodle Application
-// Based on a similar tutorial for Borland ObjectWindows Library (OWL)
+// Tutorial - PyQt6 Doodle Application
+// Based on a similar tutorial for Borland(R) ObjectWindows(TM) Library (OWL)
 // @author: Manish Bhobé
 // My experiments with the Qt Framework. Use at your own risk!!
 // ============================================================================
 """
 
 import sys
-from PyQt6.QtCore import *
-from PyQt6.QtGui import *
-from PyQt6.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-        self.setWindowTitle("PyQt5 Doodle - Step02: Handling Events")
+        self.setWindowTitle("PyQt6 Doodle - Step02: Handling Events")
         self.messageLabel = QLabel(
             "Left or Right click anywhere inside the client area of window", parent=self
         )
         self.messageLabel.setGeometry(10, 5, 500, 50)
-        self.resize(QGuiApplication.primaryScreen().availableSize() * 4 / 5)
+        self.resize(QGuiApplication.primaryScreen().availableSize() * 2 / 5)
 
     # operating system Events
     def closeEvent(self, e: QCloseEvent) -> None:

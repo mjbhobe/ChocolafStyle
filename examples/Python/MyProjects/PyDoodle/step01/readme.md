@@ -1,7 +1,7 @@
-# PyQt5 Doodle Tutorial
+# PyQt6 Doodle Tutorial
 
 ## Step 1 - Creating the basic window
-In this step, we will create the basic window within which the doodles will be drawn. Our main window will be a class derived from the `PyQt5.QtWidgets.QMainWindow`.
+In this step, we will create the basic window within which the doodles will be drawn. Our main window will be a class derived from the `PyQt6.QtWidgets.QMainWindow`.
 
 In this step, the application does nothing else but display the main window, which can be minimized, maximized, resized and moved around. In the subsequent steps, we will gradually add more and more functionality to the application.
 
@@ -14,9 +14,9 @@ In this step, the application does nothing else but display the main window, whi
 ```python
 # step01/mainWindow.py - main window of application
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 
 class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -34,26 +34,27 @@ For this step, just the constructor `__init__()` method is enough. In this metho
 
 ```python
 # step01/step01.py: driver module
-import sys
-from PyQt5.QtGui import *
+import platform
+
+import qtpy
+
 from mainWindow import *
 
-# code to import Chocolaf theme files
-from chocolaf.palettes import ChocolafPalette
-from chocolaf.utils.pyqtapp import ChocolafApp
+__version__ = "1.0"
+
 
 def main():
-    # NOTE: ChocolafApp is a class derived from QApplication
-    app = ChocolafApp(sys.argv)
-    app.setStyle("Chocolaf") # use Chocolaf theme
-    # alternately, if you do not wish to use Chocolaf styling, you
-    # can replace the above 2 lines with the line below
-    # app = QApplication(sys.argv)
+    app = QApplication(sys.argv)
+    app.setStyle("Fusion")
+    print(
+        f"PyQt Doodle - running with Python {platform.python_version()}, "
+        + f"Qt {qtpy.QT_VERSION}, PyQt {qtpy.PYQT_VERSION} on {platform.system()}"
+    )
 
     mainWindow = MainWindow()
     mainWindow.show()
 
-    sys.exit(app.exec_())
+    return app.exec()
 
 
 if __name__ == "__main__":
@@ -69,8 +70,7 @@ This is a simple high level window which can be moved, resized, minimized, maxim
 
 <hr/>
 
-<span style="color:blue">This completes Step1 of our tutorial.</span>  In the next step we will add code to handle operating system events.
+<span style="color:skyblue">This completes Step1 of our tutorial.</span>  In the next step we will add code to handle operating system events.
 
 ## **NOTE**
-- All code has been developed & tested on a Windows 10 and a Linux machine running KDE Plasma 5.24 (Manjaro Linux). **I have not tested this code on a Mac (as I don't own one :( )**. Screen-shots captured alternate between Windows 10 & KDE Plasma.
-- The code uses a custom dark-chocolate theme (Chocolaf), developed by your's truly.
+- All code has been developed & tested on a Windows 11 and a Linux machine running KDE Plasma 6.x (Manjaro Linux). **I have not tested this code on a Mac (as I don't own one :( )**. Screen-shots captured alternate between Windows & KDE Plasma.

@@ -137,19 +137,21 @@ def get_logger(
     # stream_handler = logging.StreamHandler()
     # replace stream handler with console handler for colorful logging to console
     if custom_theme is None:
-        custom_theme = Theme({
-            "logging.level.debug": "green",
-            "logging.level.info": "sky_blue1",
-            "logging.level.warning": "orange3",
-            "logging.level.error": "red",
-            "logging.level.critical": "bright_red",
-        })
+        custom_theme = Theme(
+            {
+                "logging.level.debug": "green",
+                "logging.level.info": "sky_blue1",
+                "logging.level.warning": "orange3",
+                "logging.level.error": "red",
+                "logging.level.critical": "bright_red",
+            }
+        )
     custom_console = Console(theme=custom_theme)
     stream_handler = RichHandler(
-        console=custom_console, 
+        console=custom_console,
         markup=True,
         show_level=True,
-        show_time=True, 
+        show_time=True,
         show_path=True,
     )
     stream_handler.setLevel(level)
@@ -180,3 +182,39 @@ def centerOnScreenWithSize(
     x: int = int((screenGeom.width() - widget.width()) / 2)
     y: int = int((screenGeom.height() - widget.height()) / 2)
     widget.move(x, y)
+
+
+def create_base_font(point_size: int = 10) -> QFont:
+    """
+    Creates a point_size base font utilizing a prioritized fallback list
+    of preferred system font families.
+
+    Args:
+        - point_size (int): The desired point size for the base font. Default is 10.
+    Returns:
+
+    """
+    # 1. Initialize an empty QFont
+    base_font = QFont()
+
+    # 2. Assign the fallback sequence (Qt checks them left-to-right)
+    font_fallbacks = [
+        "SF Pro Display",  # macOS modern system UI display font
+        "SF Pro Text",  # macOS modern system UI body font
+        ".AppleSystemUIFont",  # macOS explicit internal framework hook
+        "Segoe UI Variable",  # Windows 11 default UI font (Variable engine)
+        "Segoe UI",  # Windows 10 & legacy Windows UI fallback
+        "Ubuntu Sans",  # Ubuntu 24.04+ modern default desktop font
+        "Ubuntu",  # Ubuntu legacy desktop environment font
+        "Noto Sans",  # Fedora, Arch, and generic KDE/Plasma desktop fallback
+        "Helvetica Neue",  # macOS legacy interface fallback
+        "Helvetica",  # Cross-platform Unix/X11 safety standard
+        "Arial",  # Universal commercial consumer fallback
+        "sans-serif",  # Root generic fallback handled by Qt's matcher engine
+    ]
+    base_font.setFamilies(font_fallbacks)
+
+    # 3. Set the baseline point size to 10
+    base_font.setPointSize(point_size)
+
+    return base_font
