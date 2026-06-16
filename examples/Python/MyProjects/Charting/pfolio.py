@@ -8,6 +8,7 @@
 * The code is made available for illustration purposes only.
 * Use at your own risk!!
 """
+
 import sys
 import os
 import argparse
@@ -25,7 +26,6 @@ import datetime
 import locale
 
 import chocolaf
-
 
 logger = chocolaf.get_logger(pathlib.Path(__file__))
 
@@ -77,14 +77,16 @@ logger.info(
 
 # set to India locale for correct number & currency formats, if available (else fallback to default)
 try:
-    locale.setlocale(locale.LC_ALL, 'en_IN.UTF-8')
+    locale.setlocale(locale.LC_ALL, "en_IN.UTF-8")
 except locale.Error:
     # Fallback for systems that might use a slightly different string format
     try:
-        locale.setlocale(locale.LC_ALL, 'en_IN')
+        locale.setlocale(locale.LC_ALL, "en_IN")
     except locale.Error:
-        console.print("[red]NOTE: Locale \'en_IN\' not supported on this system. Falling back to default.[/red]")
-        locale.setlocale(locale.LC_ALL, '')
+        console.print(
+            "[red]NOTE: Locale 'en_IN' not supported on this system. Falling back to default.[/red]"
+        )
+        locale.setlocale(locale.LC_ALL, "")
 
 
 def show_candlestick(
@@ -104,27 +106,197 @@ def show_candlestick(
     days_past = min(days_past, LOOKBACK_WINDOW)  # can't be > LOOKBACK_WINDOW!
     # End Modification (12-Apr-24):
 
-    df = yfinance.download(symbol, start=start_date, end=end_date, progress=False)
+    df = yfinance.download(
+        symbol, start=start_date, end=end_date, progress=False, auto_adjust=True
+    )
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
     df = df.reset_index()
     df["Date"] = pd.to_datetime(df["Date"])
     df = df.set_index("Date")
+
+    # EMA-50 and EMA-200 (golden/death cross pair), computed on full history
+    # so the displayed window isn't missing early values
+    #
+    # Golden cross: EMA50 crosses UP through EMA200 (below -> above).
+    #   Bullish signal - short-term momentum has turned up enough to overtake
+    #   the long-term trend; often read as the start of a new uptrend.
+    # Death cross: EMA50 crosses DOWN through EMA200 (above -> below).
+    #   Bearish signal - short-term momentum has weakened below the long-term
+    #   trend; often read as the start of a new downtrend.
+    #
+    # Caveats for long-term investment use:
+    # 1. Lagging indicator - both EMAs average past prices (EMA200 especially
+    #    lags), so by the time a cross appears, much of the move may have
+    #    already happened. It confirms a trend change more than predicts one.
+    # 2. The 90-day plot window (days_past) is just a display slice - EMAs
+    #    are computed on the full downloaded history above, so values are
+    #    accurate. But you won't see the months of prior price action that
+    #    would show whether the lines converged meaningfully or were just
+    #    chopping near each other.
+    # 3. Best used as a confirmation signal (add/hold/start a position in an
+    #    established trend) rather than a precise entry timer, and is prone
+    #    to false signals ("whipsaws") in sideways/choppy markets. Combine
+    #    with broader trend/volume confirmation rather than acting on it alone.
+    df["EMA50"] = df["Close"].ewm(span=50, adjust=False).mean()
+    df["EMA200"] = df["Close"].ewm(span=200, adjust=False).mean()
+
+    plot_df = df[-days_past:]
+    ema_plots = [
+        mpf.make_addplot(plot_df["EMA50"], color="darkviolet", width=2, label="EMA 50"),
+        mpf.make_addplot(plot_df["EMA200"], color="blue", width=2, label="EMA 200"),
+    ]
 
     # use mplfinance to plot the candlestick
     # mpf.figure(figsize=fig_size)
     # title = f"{symbol} chart from {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
     title = f"{symbol} chart for last {days_past} days"
     mpf.plot(
-        df[-days_past:],
+        plot_df,
         type="candle",
         style=style,
         volume=show_volume,
         title=title,
         figratio=fig_size,
+        addplot=ema_plots,
         # returnfig=True,
     )
     # fig.tight_layout()
 
     # plt.show()
+
+
+def show_candlestick2(
+    symbol: str,
+    days_past: int = LOOKBACK_WINDOW,
+    start_date: datetime.datetime = START_DATE,
+    end_date: datetime.datetime = END_DATE,
+    style="yahoo",
+    show_volume=True,
+    fig_size=(20, 10),
+):
+    import matplotlib.pyplot as plt
+    import mplfinance as mpf
+
+    # Start Modification (12-Apr-24):
+    # modification - days_past must be in range (1, LOOKBACK_WINDOW)
+    days_past = max(1, days_past)  # make any -ve value == 1
+    days_past = min(days_past, LOOKBACK_WINDOW)  # can't be > LOOKBACK_WINDOW!
+    # End Modification (12-Apr-24):
+
+    df = yfinance.download(
+        symbol, start=start_date, end=end_date, progress=False, auto_adjust=True
+    )
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
+    df = df.reset_index()
+    df["Date"] = pd.to_datetime(df["Date"])
+    df = df.set_index("Date")
+
+    # EMA-50 and EMA-200 (golden/death cross pair), computed on full history
+    # so the displayed window isn't missing early values
+    #
+    # Golden cross: EMA50 crosses UP through EMA200 (below -> above).
+    #   Bullish signal - short-term momentum has turned up enough to overtake
+    #   the long-term trend; often read as the start of a new uptrend.
+    # Death cross: EMA50 crosses DOWN through EMA200 (above -> below).
+    #   Bearish signal - short-term momentum has weakened below the long-term
+    #   trend; often read as the start of a new downtrend.
+    #
+    # Caveats for long-term investment use:
+    # 1. Lagging indicator - both EMAs average past prices (EMA200 especially
+    #    lags), so by the time a cross appears, much of the move may have
+    #    already happened. It confirms a trend change more than predicts one.
+    # 2. The 90-day plot window (days_past) is just a display slice - EMAs
+    #    are computed on the full downloaded history above, so values are
+    #    accurate. But you won't see the months of prior price action that
+    #    would show whether the lines converged meaningfully or were just
+    #    chopping near each other.
+    # 3. Best used as a confirmation signal (add/hold/start a position in an
+    #    established trend) rather than a precise entry timer, and is prone
+    #    to false signals ("whipsaws") in sideways/choppy markets. Combine
+    #    with broader trend/volume confirmation rather than acting on it alone.
+    df["EMA50"] = df["Close"].ewm(span=50, adjust=False).mean()
+    df["EMA200"] = df["Close"].ewm(span=200, adjust=False).mean()
+
+    # MACD(12, 26, 9): fast EMA - slow EMA, signal = EMA of MACD line,
+    # histogram = MACD line - signal line
+    ema12 = df["Close"].ewm(span=12, adjust=False).mean()
+    ema26 = df["Close"].ewm(span=26, adjust=False).mean()
+    df["MACD"] = ema12 - ema26
+    df["MACD_signal"] = df["MACD"].ewm(span=9, adjust=False).mean()
+    df["MACD_hist"] = df["MACD"] - df["MACD_signal"]
+
+    # RSI(14): Wilder's smoothing (ewm with alpha=1/14) of average gains/losses
+    delta = df["Close"].diff()
+    gain = delta.clip(lower=0)
+    loss = -delta.clip(upper=0)
+    avg_gain = gain.ewm(alpha=1 / 14, adjust=False).mean()
+    avg_loss = loss.ewm(alpha=1 / 14, adjust=False).mean()
+    rs = avg_gain / avg_loss
+    df["RSI"] = 100 - (100 / (1 + rs))
+
+    plot_df = df[-days_past:]
+    ema_plots = [
+        mpf.make_addplot(plot_df["EMA50"], color="darkviolet", width=1, label="EMA 50"),
+        mpf.make_addplot(plot_df["EMA200"], color="blue", width=1, label="EMA 200"),
+    ]
+    macd_plots = [
+        # histogram listed first so it's drawn below the MACD/signal lines
+        # 'width' for a bar plot sets bar width (not line thickness in px)
+        mpf.make_addplot(plot_df["MACD_hist"], panel=2, type="bar", color="lightgray"),
+        mpf.make_addplot(
+            plot_df["MACD"],
+            panel=2,
+            color="blue",
+            width=1,
+            ylabel="MACD",
+            label="MACD(12, 26, close, 9)",
+        ),
+        mpf.make_addplot(plot_df["MACD_signal"], panel=2, color="red", width=1),
+    ]
+    rsi_plots = [
+        mpf.make_addplot(
+            plot_df["RSI"],
+            panel=3,
+            color="darkviolet",
+            width=1,
+            ylabel="RSI",
+            label="RSI(14)",
+        ),
+    ]
+
+    # 5 equal height units total: candle+volume+EMA panels (0,1) get 3 units
+    # combined (price=2, volume=1), MACD panel (2) gets 1 unit, RSI panel (3)
+    # gets 1 unit.
+    title = f"{symbol} chart for last {days_past} days"
+    fig, axlist = mpf.plot(
+        plot_df,
+        type="candle",
+        style=style,
+        volume=show_volume,
+        # va="top" anchors the title just above the plot area (small gap
+        # below), while y=0.95 leaves a visible gap above it to the window
+        # edge (instead of mplfinance's default near-0.98, flush-to-top y)
+        title={"title": title, "y": 0.95, "va": "top"},
+        figratio=fig_size,
+        addplot=ema_plots + macd_plots + rsi_plots,
+        panel_ratios=(2, 1, 1, 1),
+        xrotation=0,
+        # shrink the blank margins mplfinance reserves by default so panels
+        # fill more of the window (top/bottom: 0.12/0.18 of fig height,
+        # left/right: 0.18/0.10 of fig width)
+        scale_padding={"top": 0.7, "bottom": 0.35, "left": 0.5, "right": 0.4},
+        returnfig=True,
+    )
+
+    # shade the 30-70 RSI band; RSI panel (id 3) primary axis is axlist[6]
+    # (each panel contributes a (primary, secondary) pair to axlist)
+    rsi_ax = axlist[6]
+    rsi_ax.set_ylim(0, 100)  # fix range so the 30-70 band is sized correctly
+    rsi_ax.axhspan(30, 70, facecolor="violet", alpha=0.3)
+
+    plt.show()
 
 
 def show_plot(symbol: str, fig_size=(10, 6)):
@@ -383,9 +555,11 @@ class MyTableView(QTableView):
             symbol = model._data.index[index.row()]
         except IndexError:
             symbol = "Unk"
-        logger.info(f"You double clicked in cell {index.row()}-{index.column()} with symbol {symbol}")
+        logger.info(
+            f"You double clicked in cell {index.row()}-{index.column()} with symbol {symbol}"
+        )
         if symbol != "Unk":
-            show_candlestick(symbol)
+            show_candlestick2(symbol)
 
     def keyPressEvent(self, event):
         # Check for Ctrl+C (or Cmd+C on macOS)
@@ -395,8 +569,8 @@ class MyTableView(QTableView):
             super().keyPressEvent(event)
 
     def copy_selection_to_clipboard(self):
-        """ copies selected values , including column headings to clibpoard as TAB delimited text,
-        which can be pasted into Excel """
+        """copies selected values , including column headings to clibpoard as TAB delimited text,
+        which can be pasted into Excel"""
 
         # do I have text selected?
         selection = self.selectionModel().selectedIndexes()
@@ -408,7 +582,7 @@ class MyTableView(QTableView):
 
         # 2. Get unique columns in the selection to build the header row
         unique_cols = sorted(list(set(index.column() for index in selection)))
-        
+
         headers = []
         for col in unique_cols:
             # Get horizontal header text for the selected columns
@@ -419,18 +593,18 @@ class MyTableView(QTableView):
 
         # 3. Build the final copy string starting with headers
         copy_text = "\t".join(headers) + "\n"
-        
+
         current_row = selection[0].row()
         row_data = []
-        
+
         for index in selection:
             if index.row() != current_row:
                 copy_text += "\t".join(row_data) + "\n"
                 row_data = []
                 current_row = index.row()
-            
+
             # Fetch raw text from the model (i.e. excluding locale-specific formatting)
-            #value = self.model().data(index, Qt.ItemDataRole.DisplayRole)
+            # value = self.model().data(index, Qt.ItemDataRole.DisplayRole)
             value = self.model().data(index, Qt.ItemDataRole.EditRole)
             row_data.append(str(value))
 
@@ -439,7 +613,7 @@ class MyTableView(QTableView):
 
         # 4. Output to system clipboard
         QApplication.clipboard().setText(copy_text)
-        logger.info("Selection with headers copied to clipboard.") 
+        logger.info("Selection with headers copied to clipboard.")
 
 
 class MainWindow(QMainWindow):

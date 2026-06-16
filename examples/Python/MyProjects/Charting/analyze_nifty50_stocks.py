@@ -6,37 +6,71 @@ My experiments with Python, AI and Generative AI
 Code shared for learning purposes only!
 """
 
+import os
 import yfinance as yf
 import pandas as pd
-import openai
 import numpy as np
 from dotenv import load_dotenv
+from openai import OpenAI
 
 # load API keys from .env file
-load_dotenv()
+load_dotenv(override=True)
 
-# NIFTY 50 stock symbols (as per NSE)
+# create instance of LLM
+openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# NIFTY 50 stock symbols (as per NSE as of Juen 2026)
 nifty50_symbols = [
-    "RELIANCE.NS",
-    "TCS.NS",
-    "INFY.NS",
-    "HDFCBANK.NS",
-    "ICICIBANK.NS",
-    "HINDUNILVR.NS",
-    "ITC.NS",
-    "KOTAKBANK.NS",
-    "SBIN.NS",
-    "BHARTIARTL.NS",
+    "ADANIENT.NS",
+    "ADANIPORTS.NS",
+    "APOLLOHOSP.NS",
     "ASIANPAINT.NS",
-    "BAJFINANCE.NS",
-    "HCLTECH.NS",
-    "LT.NS",
     "AXISBANK.NS",
+    "BAJAJ-AUTO.NS",
+    "BAJAJFINSV.NS",
+    "BAJFINANCE.NS",
+    "BEL.NS",
+    "BHARTIARTL.NS",
+    "BPCL.NS",
+    "BRITANNIA.NS",
+    "CIPLA.NS",
+    "COALINDIA.NS",
+    "DIVISLAB.NS",
+    "DRREDDY.NS",
+    "EICHERMOT.NS",
+    "GRASIM.NS",
+    "HCLTECH.NS",
+    "HDFCBANK.NS",
+    "HDFCLIFE.NS",
+    "HEROMOTOCO.NS",
+    "HINDALCO.NS",
+    "HINDUNILVR.NS",
+    "ICICIBANK.NS",
+    "INDUSINDBK.NS",
+    "INFY.NS",
+    "ITC.NS",
+    "JSWSTEEL.NS",
+    "KOTAKBANK.NS",
+    "LT.NS",
+    "LTM.NS",  # LTI Mindtree - On Yahoo Finance its LTM.NS but on NSE its LTIM.NS
+    "M&M.NS",
     "MARUTI.NS",
-    "SUNPHARMA.NS",
-    "TITAN.NS",
-    "WIPRO.NS",
     "NESTLEIND.NS",
+    "NTPC.NS",
+    "ONGC.NS",
+    "POWERGRID.NS",
+    "RELIANCE.NS",
+    "SBILIFE.NS",
+    "SBIN.NS",
+    "SUNPHARMA.NS",
+    "TATACONSUM.NS",
+    "TMCV.NS",  # new symbol for TATA Motors
+    "TATASTEEL.NS",
+    "TCS.NS",
+    "TECHM.NS",
+    "TITAN.NS",
+    "ULTRACEMCO.NS",
+    "WIPRO.NS",
 ]
 
 
@@ -125,16 +159,15 @@ def evaluate_stock(stock):
 stocks_df["Investment Recommendation"] = stocks_df.apply(evaluate_stock, axis=1)
 print(stocks_df)
 
-# Display Data
-# import ace_tools as tools
-#
-# tools.display_dataframe_to_user(name="NIFTY 50 Stock Analysis", dataframe=stocks_df)
-
 
 # Use OpenAI to generate recommendations
 def get_openai_recommendation(stock):
+
+    print(f"OpenAI analyzing stock {stock['Symbol']}")
+
     prompt = f"""
-    Analyze the following stock based on key fundamental metrics and determine if it is a good long-term investment:
+    Analyze the following stock based on key fundamental metrics and determine if it is 
+    a good long-term investment:
 
     Company: {stock['Company']}
     Market Cap: {stock['Market Cap (Cr)']} Cr
@@ -149,18 +182,28 @@ def get_openai_recommendation(stock):
     Dividend Yield: {stock['Dividend Yield (%)']}%
     EV/EBITDA: {stock['EV/EBITDA']}
 
-    Based on these factors, provide a **detailed investment recommendation** stating whether it is a **buy, hold, or avoid**. Explain the reasons in an investor-friendly language.
+    Based on these factors, provide a a> short/quick recommendation AND b> a detailed investment analysis and recommendation in proper markdown format, stating whether it is a **buy, hold, or avoid**, explaining the reasons in an investor-friendly language.
+
+    Return response as a JSON object with the following structure:
+    {{
+        "symbol": the stock symbol,
+        "short_recommendation": <<your short/quick recommendation>>,
+        "detailed_analysis": <<your detailed investment analysis and recommendation in markdown format>>
+    }}
     """
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
+    response = openai.chat.completions.create(
+        model="gpt-5-nano",
+        # temperature=0.0,
         messages=[
             {"role": "system", "content": "You are a financial investment expert."},
             {"role": "user", "content": prompt},
         ],
     )
 
-    return response["choices"][0]["message"]["content"]
+    response = response.choices[0].message.content.strip()
+    print(f"OpenAI recommendation for {stock['Symbol']}:\n {response}")
+    return response
 
 
 # Generate AI Recommendations for Top 5 stocks
@@ -168,13 +211,19 @@ top_stocks = stocks_df[stocks_df["Investment Recommendation"] == "✅ Strong Buy
     5
 )
 
-ai_recommendations = []
-for _, stock in top_stocks.iterrows():
-    recommendation = get_openai_recommendation(stock)
-    ai_recommendations.append(
-        {"Company": stock["Company"], "AI Recommendation": recommendation}
-    )
+# for testing
+top_stocks = stocks_df.head(2)
 
-# Convert to DataFrame and Display
-ai_recommendations_df = pd.DataFrame(ai_recommendations)
-print(ai_recommendations_df)
+if len(top_stocks) == 0:
+    print("No strong buy stocks found based on the criteria.")
+else:
+    ai_recommendations = []
+    for _, stock in top_stocks.iterrows():
+        recommendation = get_openai_recommendation(stock)
+        ai_recommendations.append(
+            {"Company": stock["Company"], "AI Recommendation": recommendation}
+        )
+
+    # Convert to DataFrame and Display
+    ai_recommendations_df = pd.DataFrame(ai_recommendations)
+    print(ai_recommendations_df)
