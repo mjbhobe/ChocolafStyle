@@ -89,9 +89,10 @@ class MainWindow(QMainWindow):
         self.label2.setText(text)
 
 
-# app = QApplication(sys.argv)
-app = chocolaf.ChocolafApp(sys.argv)
-app.setStyle("WindowsDark")
+app = QApplication(sys.argv)
+app.setStyle("Fusion")
+# app = chocolaf.ChocolafApp(sys.argv)
+# app.setStyle("WindowsDark")
 
 # here is the window
 win = MainWindow()

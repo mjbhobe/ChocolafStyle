@@ -12,16 +12,16 @@ Code shared for learning purposes only!
 """
 
 import sys
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QDate
 from PyQt6.QtCore import PYQT_VERSION_STR
 from PyQt6.QtWidgets import (
     QApplication,
     QWidget,
     QLabel,
-    QComboBox,
-    QSpinBox,
-    QHBoxLayout,
-    QVBoxLayout,
+    QLineEdit,
+    QCheckBox,
+    QTextEdit,
+    QGridLayout,
 )
 from PyQt6.QtGui import QFont
 

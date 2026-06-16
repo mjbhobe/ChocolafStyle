@@ -13,12 +13,14 @@
 #include <vector>
 #include "Points2D.h"
 
-template <typename T>
-T add_values(T a, T b, T c) {
+template<typename T>
+T add_values(T a, T b, T c)
+{
   return a + b + c;
 }
 
-void templ1() {
+void templ1()
+{
 
   // add integers with add_values
   int a{10}, b{20}, c{30};
@@ -40,7 +42,8 @@ void templ1() {
 // NOTE: there is a "gotcha" in this function!
 double calc_mean(auto a, auto b, auto c) { return (a + b + c) / 3.0; }
 
-void templ2() {
+void templ2()
+{
   int a{12}, b{28}, c{36};
 
   double mean1 = calc_mean(a, b, c);
@@ -61,7 +64,8 @@ void templ2() {
   */
 }
 
-void templ3() {
+void templ3()
+{
   // use custom class
   Point2D<int> p1{10, 20};
   Point2D<int> p2{30, 40};
@@ -74,7 +78,8 @@ void templ3() {
 }
 
 
-int main(int /* argc*/, char **argv) {
+int main(int /* argc*/, char **argv)
+{
   int rc{};
 
   try {

@@ -28,7 +28,7 @@ BraceWrapping:
   SplitEmptyRecord: true
   SplitEmptyNamespace: true
 BreakBeforeBraces: Custom
-ColumnLimit: 110
+ColumnLimit: 80
 EmptyLineBeforeAccessModifier: Never
 IncludeCategories: 
   - Regex: '^<.*'

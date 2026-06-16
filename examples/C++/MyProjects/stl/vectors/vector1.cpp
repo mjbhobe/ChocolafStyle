@@ -25,7 +25,7 @@ class Person {
     Person() = default;
     Person(const std::string &name, int age) : m_name{name}, m_age{age} {}
     // default destructor will do - this is only to illustrate destructor is being called
-    ~Person() { std::println("Destructor for {{\"Name: \"{}, \"Age: \"{}}} called!", m_name, m_age); }
+    ~Person() {} // std::println("Destructor for {{\"Name: \"{}, \"Age: \"{}}} called!", m_name, m_age); }
     // helper function to display name to std::ostream&
     friend std::ostream &operator<<(std::ostream &ost, const Person &person)
     {
@@ -43,6 +43,7 @@ class Person {
     int m_age{0};
 };
 
+// helper function that will allow us to use std::print[ln](person)
 template<typename CharT>
 struct std::formatter<Person, CharT> {
 
@@ -68,7 +69,7 @@ int main(void)
   std::vector<int> vec5(10);
   int value = 0;
   // initialize vector with 10 even numbers starting with 2
-  std::generate(vec5.begin(), vec5.end(), [&value]() { return value += 2; });
+  std::generate(vec5.begin(), vec5.end(), [&value]() -> int { return value += 2; });
   // you can also copy-initialize a vector, like so
   std::vector<int> vec6(vec5); // initialize vec6 from vec5
   // how about a vector with user-defined class
@@ -79,18 +80,24 @@ int main(void)
       {"Sunila", 83},
   };
 
-  // display vectors
-  std::cout << vec2 << std::endl;
-  std::cout << vec3 << std::endl;
-  std::cout << vec4 << std::endl;
-  std::cout << vec5 << std::endl;
-  std::cout << vec6 << std::endl;
-  std::cout << people << std::endl;
-  std::println("***** >>> Person: {}", people.at(2));
-  std::println("***** >>> Persons: {}", people);
+  /*
+    // display vectors
+    std::cout << vec2 << std::endl;
+    std::cout << vec3 << std::endl;
+    std::cout << vec4 << std::endl;
+    std::cout << vec5 << std::endl;
+    std::cout << vec6 << std::endl;
+    // C++20 onwards you can also use std::print[ln](vector)
+    // std::cout << people << std::endl;
+    std::println("People vector: {}", people);
+    std::println("***** >>> Person: {}", people.at(2));
+    std::println("***** >>> Persons: {}", people);
+
 
   // randomly accessing members of class ---------------------------------------
   std::println("\n// randomly accessing members of class ---------------------------------------");
+  // C++20 onwards you can also use std::print[ln](vector)
+  std::println("Original vector: {}", people);
   // using index based access
   // NOTE: index-based access DOES NOT throw an exception for invalid out-of-bound index
   const auto person = people[2];
@@ -99,10 +106,10 @@ int main(void)
   // it is best to use the at(..) function to access elements - at() throws exception
   // for out-of-bounds access
   try {
-    const auto person2 = people.at(2); // valid index!
-    std::cout << person2 << std::endl; // this line will work!
-    const auto person7 = people.at(7); // invalid index!
-    std::cout << person7 << std::endl; // this line will not execute!!
+    const auto person2 = people.at(2);                          // valid index!
+    std::cout << "Person at index 2: " << person2 << std::endl; // this line will work!
+    const auto person7 = people.at(7);                          // invalid index!
+    std::cout << "Person at index 7: " << person7 << std::endl; // this line will not execute!!
   }
   catch (const std::exception &e) {
     std::cerr << "Exception " << typeid(e).name() << ": " << e.what() << std::endl;
@@ -113,32 +120,41 @@ int main(void)
   // how many elements in vector? ---------------------------------------
   std::println("\n// how many elements in vector? ---------------------------------------");
   std::println("Vector initialized with generator has {} elements", vec5.size());
-  std::println("We have {} people signing up for the Advanced C++ course!", people.size());
+  std::println("We have {} elements in the people vector!", people.size());
+  */
 
   // adding/removing elements from vectors ------------------------------
-  std::println("\n// adding/removing elements from vectors ------------------------------");
+  std::println("\n// Adding elements from vectors ------------------------------");
   std::println("vec4 BEFORE adding elements: {}", vec4);
   // add some elements using push_back
   vec4.push_back(44);
   vec4.push_back(55);
-  std::println("vec4 AFTER adding elements: {}", vec4);
+  std::println("vec4 AFTER adding elements 44 & 45 using push_back(): {}", vec4);
   std::println("Adding 66 at 3rd position (i.e vec4[2])");
   vec4.insert(vec4.begin() + 2, 66);
-  std::println("vec4 AFTER inserting 66: {}", vec4);
+  std::println("vec4 AFTER inserting 66 at 3rd position using insert(): {}", vec4);
+
   // using emplace() and emplace_back() avoids un-neccessary copies, especially for
   // user-defined classes
-  std::println("Adding {{\"Jagdish\",85}} at end of persons vector using emplace_back()");
+  std::println("\n// Using emplace() and emplace_back() ------------------------------");
+  // C++20 onwards you can also use std::print[ln](vector)
+  std::println("Original vector: {}", people);
+
+  std::println("Adding {{\"Jagdish\",85}} using emplace_back() - will add at end of vector");
   people.emplace_back("Jagdish", 85);
   std::println("Now people vector is: {}", people);
   std::println("Adding {{\"Dattatray\",83}} at 3rd position using emplace()");
   people.emplace(people.begin() + 2, "Dattatray", 83);
   std::println("Now people vector is: {}", people);
 
+  std::println("\n// finding & removing elements from vectors ------------------------------");
+  std::cout << "Adding a lot of \"Manish's\" to the vector..." << std::endl;
   // let's add some more Manish's to the people vector
   people.emplace(people.begin() + 4, "Manish", 65);
   people.emplace(people.begin() + 2, "Manish", 65);
   people.emplace_back("Manish", 45);
   people.emplace_back("Manish", 47);
+
   std::println("People vector for erase/remove operations:\n{}", people);
 
   Person to_erase{"Manish", 65};
@@ -154,13 +170,15 @@ int main(void)
   std::cout << "NOTE: there are " << count << " entries with Manish and age >= 40 && age <= 60" << std::endl;
   auto remove_count = std::erase_if(
       people, [](const Person &p) { return p.name() == "Manish" && p.age() >= 40 && p.age() <= 60; });
-  std::cout << "After erasing " << remove_count << " entries, vector is: " << people << std::endl;
+  std::cout << "After erasing " << remove_count << " entries, vector is : " << people << std::endl;
   // clear all entries
   std::println("Calling clear() on people collection");
   people.clear();
+  std::println("people collection after calling clear() : {}", people);
+
   // and now add one entry
   people.emplace_back("Emplace Back", 75);
-
+  std::println("people collection after adding 1 entry : {}", people);
 
   return EXIT_SUCCESS;
 }
