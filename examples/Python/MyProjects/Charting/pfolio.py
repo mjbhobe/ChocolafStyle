@@ -57,7 +57,7 @@ END_DATE = END_DATE if td is None else END_DATE + td
 # Start Modification (12-Apr-24):
 # I need a lookback of at least LOOKBACK_WINDOW days for plotting, so modify the start date
 # if days between start_date & end_date < 90. Push back start_date to before 01-Apr-YYYY
-LOOKBACK_WINDOW = 90
+LOOKBACK_WINDOW = 120  # 90
 FOR_MJB = True
 
 # adjust START_DATE to date LOOKBACK_WINDOW days before END_DATE
