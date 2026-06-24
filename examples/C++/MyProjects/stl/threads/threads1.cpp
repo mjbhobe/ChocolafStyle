@@ -1,4 +1,4 @@
-#include <iostream>
+#include <print>
 #include <thread>
 
 constexpr int NUM_TIMES = 500;
@@ -6,13 +6,15 @@ constexpr int NUM_TIMES = 500;
 void func1()
 {
   for (int i = 0; i < NUM_TIMES; i++)
-    std::cout << "+";
+    if (i % 2 == 0)
+      std::print("{:3d} ", i);
 }
 
 void func2()
 {
   for (int i = 0; i < NUM_TIMES; i++)
-    std::cout << "-";
+    if (i % 2 != 0)
+      std::print("{:3d} ", i);
 }
 
 

@@ -1,5 +1,12 @@
+// ------------------------------------------------------------------------------
 // Hello.cpp - cannonical Hello World!
-// compile: clang++ -std=c++23 Hello.cpp -o Hello -stdlib=libc++
+// compile:
+//   (On Windows) clang++ -std=c++23 Hello.cpp -o Hello -stdlib=libc++
+//   (On Max/*nix) clang++ -std=c++23 Hello.cpp -o Hello -lstdc++
+//
+// @author: Manish Bhobe
+// My experiments with C/C++/STL and Qt. Code shared for learning purposed only!
+// ------------------------------------------------------------------------------
 #include <print>
 
 int main(void)
