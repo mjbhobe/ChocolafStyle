@@ -23,10 +23,22 @@ std::ostream &operator<<(std::ostream &ost, const std::vector<T> &vec)
 int main()
 {
   std::vector<int> vec{1, 2, 3};
-  std::string s{"This is a vector"};
+  std::string s{"This is a demo of vectors in C++ STL"};
 
-  // std::cout << s << ": " << x[0] << ", " << x[1] << ", " << x[2] <<
-  // std::endl;
-  // std::println("{}: {}", s, std::views::all(vec));
-  std::cout << vec << std::endl;
+  std::cout << s << std::endl;
+
+  std::cout << "Original vector: " << vec << std::endl;
+  // naive way to take sum of all elements
+  long sum = 0;
+  for (auto e: vec)
+    sum += e;
+  std::cout << "Sum of all elements: " << sum << std::endl;
+
+  // manipulating all elements of a vector
+  // let's say I want to square each element
+  for (auto &e: vec)
+    e = e * e;
+  std::cout << "Squared vector: " << vec << std::endl;
+
+  return EXIT_SUCCESS;
 }
