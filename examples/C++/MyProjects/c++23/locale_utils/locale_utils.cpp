@@ -313,8 +313,51 @@ namespace LocaleUtils {
     if (U_FAILURE(status))
       return "[Spellout conversion failed]";
 
-    icu::UnicodeString res;
-    formatter.format(value, res);
+    // Large doubles lose exact binary precision in their fractional bits.
+    // Some locales' spellout rules (e.g. Russian) expand that residual
+    // floating-point noise into a garbled fraction instead of reading the
+    // visible digits. Splitting the value keeps the fraction within the
+    // double's precision budget regardless of the integer part's magnitude.
+    double int_part_raw;
+    double frac_part_raw = std::round(std::modf(value, &int_part_raw) * 100.0);
+
+    icu::UnicodeString whole_words;
+    formatter.format(int_part_raw, whole_words);
+
+    if (frac_part_raw == 0.0) {
+      std::string out;
+      whole_words.toUTF8String(out);
+      return out;
+    }
+
+    // The "point"/"virgule"/"целых" connector word is only produced by ICU
+    // when spelling out a whole-plus-fraction pair together, and for some
+    // locales its grammatical form depends on the whole part (e.g. Russian
+    // agrees the connector's case with the last digit). We recover the
+    // connector by spelling a small, precision-safe stand-in that shares the
+    // real integer part's last two digits, then stripping the stand-in's own
+    // (independently spelled) prefix from that result.
+    // Known limitation: Russian additionally mutates the stand-in's own
+    // gender when followed by "целая"/"целых" (e.g. "один" -> "одна" for
+    // values ending in 1, "два" -> "две" for values ending in 2), which this
+    // prefix-strip cannot detect. Numbers ending in those digits fall back to
+    // the stand-in's own phrasing prepended ahead of the true integer words.
+    double stand_in =
+        static_cast<double>(static_cast<int64_t>(std::abs(int_part_raw)) % 100);
+    icu::UnicodeString stand_in_words;
+    formatter.format(stand_in, stand_in_words);
+
+    icu::UnicodeString combined_small;
+    formatter.format(stand_in + std::abs(frac_part_raw) / 100.0, combined_small);
+
+    icu::UnicodeString connector_and_fraction = combined_small;
+    if (combined_small.startsWith(stand_in_words) &&
+        combined_small.length() > stand_in_words.length()) {
+      connector_and_fraction =
+          combined_small.tempSubString(stand_in_words.length() + 1);
+    }
+
+    icu::UnicodeString res = whole_words + " " + connector_and_fraction;
     std::string out;
     res.toUTF8String(out);
     return out;
