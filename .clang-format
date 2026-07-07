@@ -3,7 +3,7 @@
 Language: Cpp
 BasedOnStyle: LLVM
 AlignAfterOpenBracket: DontAlign
-AlignConsecutiveAssignments: true
+AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignOperands: false
 AlignTrailingComments: true
