@@ -5,6 +5,7 @@
 If you've spent five-plus years writing C++, you've probably written a hundred variants of this function:
 
 ```cpp
+// tests/number_test/number_test1.cpp
 #include <iostream>
 
 int main() {
@@ -24,12 +25,12 @@ Compile and run it, and you get exactly what you'd expect:
 ```
 Value: 3.45739e+10
 Enter a number: 34573892785.34
-You entered: 34573892785.34
+You entered: 3.45739e+10
 ```
 
 Two things are already wrong here, and neither is a compiler bug.
 
-First, `std::cout`'s default float formatting silently switched to scientific notation once the magnitude got large enough — `3.45739e+10` is not what any end user wants to see on an invoice or a dashboard. Second, even if we force fixed notation, the output has **no thousands separators** and uses a **dot** as the decimal marker. That's the "C" locale — the one every C++ stream is born with, regardless of what operating system, region, or language the person running your program actually uses.
+First, `std::cout`'s default float formatting silently switched to scientific notation once the magnitude got large enough — `3.45739e+10` is not what any end user wants to see on an invoice or a dashboard. Second, even if we force fixed notation, the output has **no thousands separators** and uses a **dot** as the decimal marker. That's the standard "C" locale — the one every C++ stream is born with, regardless of what operating system, region, or language the person running your program actually uses!
 
 Now put this program in front of an accountant in Paris, an engineer in Mumbai, or an analyst in Moscow:
 
@@ -51,6 +52,7 @@ This is the first article in a four-part series where we build a small, professi
 C++'s standard library isn't blind to this problem — `std::locale` and its `std::numpunct` facet exist precisely to teach `iostream` how to format numbers per-region:
 
 ```cpp
+// tests/number_test/number_test2.cpp
 #include <iostream>
 #include <locale>
 
