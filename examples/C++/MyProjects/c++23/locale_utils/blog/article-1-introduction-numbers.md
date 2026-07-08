@@ -2,7 +2,7 @@
 
 ### Why the number `34573892785.34` is not the same number everywhere
 
-If you've spent five-plus years writing C++, you've probably written a hundred variants of this function:
+If you've spent enough time writing C++, you've probably written a hundred variants of this function:
 
 ```cpp
 // tests/number_test/number_test1.cpp
@@ -28,9 +28,9 @@ Enter a number: 34573892785.34
 You entered: 3.45739e+10
 ```
 
-Two things are already wrong here, and neither is a compiler bug.
+Two things are already wrong here, **and neither is a compiler bug**.
 
-First, `std::cout`'s default float formatting silently switched to scientific notation once the magnitude got large enough — `3.45739e+10` is not what any end user wants to see on an invoice or a dashboard. Second, even if we force fixed notation, the output has **no thousands separators** and uses a **dot** as the decimal marker. That's the standard "C" locale — the one every C++ stream is born with, regardless of what operating system, region, or language the person running your program actually uses!
+First, `std::cout`'s default float formatting silently switched to scientific notation once the magnitude got large enough — `3.45739e+10` is not what any end user wants to see on an invoice or a dashboard. Second, even if we force fixed notation, the output has **no thousands separators** and uses a **dot** as the decimal marker. That's the standard "C" locale alright — the one every C++ stream is born with, regardless of what operating system, region, or language the person running your program actually uses!
 
 Now put this program in front of an accountant in Paris, an engineer in Mumbai, or an analyst in Moscow:
 
@@ -59,20 +59,54 @@ C++'s standard library isn't blind to this problem — `std::locale` and its `st
 int main() {
     constexpr double large_value = 34573892785.34;
     try {
-        std::locale::global(std::locale(""));   // adopt the OS/user locale
+        // adopt user's default locale settings
+        std::locale::global(std::locale(""));   
         std::cout.imbue(std::locale());
     } catch (const std::runtime_error&) {
         std::cerr << "Requested locale not installed on this system\n";
     }
 
     std::cout << std::fixed << large_value << '\n';
+    // or with C++23 compiler you can use the following code
+    // NOTE: the L in the {:.3Lf} specifier! If you use
+    // just {:.3f} it will default to "C" locale even when you
+    // have std::locale::global(std::locale("")) in your code
+    std::println("Value: {:.3Lf}", large_value);
     return 0;
 }
 ```
 
-This works — *when the target locale happens to be installed on the machine running your binary*. And that's exactly where it falls apart for a professional, cross-platform application:
+> **📌 Setting your default locale**
+>
+> `std::locale("")` in the code above adopts whatever locale the *environment* is currently set to — it doesn't pick one for you. Here's how to check or set that default on each platform - open your terminal (or command shell/Power shell on Windows) and run the following commands
+>
+> **Manjaro / Ubuntu / Fedora (Linux)**
+> ```bash
+> locale -a                      # list installed locales
+> sudo locale-gen en_IN.UTF-8    # generate one if it's missing (Ubuntu/Manjaro)
+> sudo dnf reinstall glibc-langpack-en glibc-langpack-hi   # Fedora equivalent
+> export LC_ALL=en_IN.UTF-8      # set for the current shell session
+> ```
+> To make it permanent, add the `export LC_ALL=...` line to `~/.bashrc` / `~/.zshrc`, or set `LANG=en_IN.UTF-8` system-wide in `/etc/locale.conf` (or via `localectl set-locale`).
+>
+> **macOS**
+> ```bash
+> locale -a                   # list installed locales
+> export LC_ALL=en_IN.UTF-8      # set for the current shell session
+> ```
+> macOS ships its locale data with the OS, so there's nothing to generate — just export the variable, or add it to `~/.zshrc` to make it stick.
+>
+> **Windows**<br/>
+> Windows locales aren't environment variables — they're set in **Settings → Time & Language → Language & region**, or from PowerShell:
+> ```powershell
+> Set-WinSystemLocale en-IN
+> Set-Culture en-IN
+> ```
+> A sign-out/sign-in (or reboot) is usually required for the change to take effect system-wide.
 
-- **Locale names aren't portable.** Linux/macOS expect POSIX names like `en_IN.UTF-8`; MSVC expects `en-IN` or `English_India`. `std::locale("en_IN")` that works on your Manjaro box will throw `std::runtime_error` on a fresh Windows install.
+The C++ code above works — *when the target locale happens to be installed on the machine running your binary*. For example, it will display number in India specific format `34,57,38,92,785.33996` if your default locale is set to `en_IN.UTF-8` (Linux/Mac) or `en-IN` (Windows) as described above. And that's exactly where it falls apart for a professional, cross-platform application:
+
+- **Locale names aren't portable.** Linux/macOS expect POSIX names like `en_IN.UTF-8`; MSVC expects `en-IN` or `English_India`. `std::locale("en_IN")` that works on a Linux box will throw `std::runtime_error` on a fresh Windows install.
 - **Locale data must be installed, and often isn't.** A minimal Docker container or a locked-down corporate Windows image frequently ships with only one or two locales generated. You cannot guarantee `ru_RU` or `hi_IN` exists on the target machine.
 - **`std::numpunct` can't express every grouping rule.** It supports a single repeating group size. It has no way to say "group by 3, then by 2, then by 2" — which is exactly India's lakh/crore rule. There is no standard-library path to correct Indian number formatting, full stop.
 - **There's no standard spellout facility at all.** Converting `34573892785.34` into "thirty-four billion five hundred seventy-three million..." isn't something `<locale>` does in any locale, in any language.
@@ -83,7 +117,7 @@ None of this is a knock on the standard library — `std::locale` was designed i
 
 ### Installing ICU and nlohmann/json
 
-We'll need two libraries throughout this series: **ICU** for locale-aware formatting, parsing, and spellout, and **nlohmann/json** for externalizing configuration (currency names, plural rules, etc. — starting in Part 2). Install both now:
+We'll need two libraries throughout this series: **ICU** for locale-aware formatting, parsing, and spellout, and **nlohmann/json** for externalizing configuration (currency names, plural rules, etc. — starting in Part 2). Let's see how to install both these now:
 
 **Manjaro / Arch Linux**
 ```bash
@@ -113,6 +147,15 @@ export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig:$PKG_CONFIG_PATH"
 vcpkg install icu nlohmann-json
 vcpkg integrate install
 ```
+
+> **📌 Further reading: vcpkg + MSVC**
+>
+> If you're new to vcpkg on Windows, these official guides walk through the full setup:
+>
+> - [Install and use packages with CMake in Visual Studio](https://learn.microsoft.com/en-us/vcpkg/get_started/get-started-vs) — Microsoft's tutorial for wiring vcpkg into a CMake project from inside Visual Studio.
+> - [vcpkg in CMake projects](https://learn.microsoft.com/en-us/vcpkg/users/buildsystems/cmake-integration) — how the `vcpkg.cmake` toolchain file and `CMakePresets.json` fit together.
+> - [vcpkg is Now Included with Visual Studio](https://devblogs.microsoft.com/cppblog/vcpkg-is-now-included-with-visual-studio/) — C++ Team Blog post on the vcpkg that now ships in-box with VS.
+> - [microsoft/vcpkg on GitHub](https://github.com/microsoft/vcpkg) — source, issue tracker, and the full package registry.
 
 To keep the build identical across all four platforms, we drive everything through **CMake** rather than hand-written per-platform compiler flags:
 
@@ -227,6 +270,146 @@ bool parse_number(const std::string &input, double &out_value,
 
 Both functions accept an empty `locale_name`, in which case ICU falls back to `getDefault()` — the locale `initialize_system_locale()` set up from the host OS's environment at startup. This gives callers a sane zero-argument default while still allowing an explicit override, which is exactly what we need for the demo below.
 
+### Proving it works: a round-trip test
+
+Before moving on, let's put `format_number` and `parse_number` under an actual test rather than taking the earlier code snippets on faith. `tests/number_test/number_test3.cpp` formats our recurring `34573892785.34` value in four locales, parses each formatted string back into a `double`, and checks that the round trip lands exactly where it started. It also throws a non-numeric string at `parse_number` to confirm it fails rather than silently returning garbage:
+
+```cpp
+// tests/number_test/number_test3.cpp
+#include <cmath>
+#include <print>
+#include <vector>
+#include "locale_utils.h"
+
+namespace {
+
+  bool nearly_equal(double a, double b, double epsilon = 1e-6)
+  {
+    return std::fabs(a - b) < epsilon;
+  }
+
+} // namespace
+
+int main()
+{
+  // use the user's locale settings
+  LocaleUtils::initialize_system_locale();
+
+  constexpr double large_value = 34573892785.34;
+  int failures = 0;
+
+  std::println("--- Round-trip: format_number() -> parse_number() ---");
+  for (const auto &locale_id : {"en_US", "fr_FR", "ru_RU", "en_IN"}) {
+    std::string formatted = LocaleUtils::format_number(large_value, locale_id);
+
+    double parsed_value{};
+    bool ok = LocaleUtils::parse_number(formatted, parsed_value, locale_id);
+    bool round_trip_ok = ok && nearly_equal(parsed_value, large_value);
+
+    std::println("[{}] formatted = \"{}\", parsed = {}, round-trip {}",
+        locale_id, formatted, parsed_value, round_trip_ok ? "OK" : "FAILED");
+
+    if (!round_trip_ok)
+      ++failures;
+  }
+
+  std::println("\nSimulated I/O for en_IN locale...");
+  // let's pretend user entered these values on command line when prompted
+  // and we read that in as a string with std::getline()
+  // for en_IN locale, the first 2 should parse ok - rest should fail
+  std::vector<std::string> num_values{
+    "34,57,38,92,785.34", // ok
+    "34573892785.34",     // ok
+    "34,573,892,785.34",  // fail
+    "34 573 892 785,34"   // fail
+  };
+  const std::string locale_id = "en_IN";
+  for (const auto val : num_values) {
+    double parsed_value{};
+
+    bool ok = LocaleUtils::parse_number(val, parsed_value, locale_id);    
+    if (ok) {
+      std::println("Number entered as {} parsed successfully as {}", val, parsed_value);
+    } else {
+      std::println("Error parsing {} using locale_id {}", val, locale_id);
+    }
+  }
+
+
+  std::println("\n--- Rejecting garbage input ---");
+  double bogus_value{};
+  bool bogus_ok =
+      LocaleUtils::parse_number("not-a-number", bogus_value, "en_US");
+  std::println("parse_number(\"not-a-number\") -> {} ({})", bogus_ok,
+      bogus_ok ? "unexpectedly succeeded" : "correctly rejected");
+
+  if (bogus_ok)
+    ++failures;
+
+  std::println("\n{} check(s) failed.", failures);
+  return failures == 0 ? 0 : 1;
+}
+```
+
+This test pulls in `locale_utils.h`/`locale_utils.cpp` from the project root, so it needs its own small `CMakeLists.txt` alongside it in `tests/number_test/`:
+
+```cmake
+# tests/number_test/CMakeLists.txt
+cmake_minimum_required(VERSION 3.24)
+project(number_test3 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(ICU REQUIRED icu-i18n icu-uc)
+find_package(nlohmann_json REQUIRED)
+
+add_executable(number_test3
+    number_test3.cpp
+    ../../locale_utils.cpp
+)
+
+target_include_directories(number_test3 PRIVATE ${ICU_INCLUDE_DIRS} ../..)
+target_link_libraries(number_test3 PRIVATE ${ICU_LIBRARIES} nlohmann_json::nlohmann_json)
+```
+
+Build and run it from `tests/number_test/`:
+
+```bash
+# initialize the build using clang++ compiler (run one time)
+cmake -S . -B build -DCMAKE_CXX_COMPILER=clang++
+# run the actual build (run until build is successful - fix compiler errors & re-run)
+cmake --build build --target number_test3
+# run the executable after successful build
+./build/number_test3
+```
+
+Which produces:
+
+```
+--- Round-trip: format_number() -> parse_number() ---
+[en_US] formatted = "34,573,892,785.34", parsed = 34573892785.34, round-trip OK
+[fr_FR] formatted = "34 573 892 785,34", parsed = 34573892785.34, round-trip OK
+[ru_RU] formatted = "34 573 892 785,34", parsed = 34573892785.34, round-trip OK
+[en_IN] formatted = "34,57,38,92,785.34", parsed = 34573892785.34, round-trip OK
+
+Simulated I/O for en_IN locale...
+Number entered as 34,57,38,92,785.34 parsed successfully as 34573892785.34
+Number entered as 34573892785.34 parsed successfully as 34573892785.34
+Error parsing 34,573,892,785.34 using locale_id en_IN
+Number entered as 34 573 892 785,34 parsed successfully as 34
+
+--- Rejecting garbage input ---
+parse_number("not-a-number") -> false (correctly rejected)
+
+0 check(s) failed.
+```
+
+Four locales, one code path, zero manual grouping logic — and a confirmation that `parse_number` rejects nonsense input instead of quietly returning `0.0`. With formatting and parsing now verified, let's look at a subtler bug that only shows up once we start spelling numbers out as words.
+
+---
+
 ### A real-world gotcha: floating point meets grammar
 
 The fourth function, `expand_number_to_words`, uses ICU's `RuleBasedNumberFormat` in `URBNF_SPELLOUT` mode — the same engine that reads amounts aloud on automated phone systems. A naive implementation just hands the double straight to ICU:
@@ -237,7 +420,7 @@ icu::UnicodeString res;
 formatter.format(value, res);   // looks fine... until it doesn't
 ```
 
-This works for English and French. For Russian, feeding it `34573892785.34` directly produces nonsense: the spellout rules read out an eight-digit fraction like *"...тридцать три миллиона девятьсот девяносто девять тысяч шестьсот тридцать четыре стомиллионных"* — roughly "...thirty-three million nine hundred ninety-nine thousand six hundred thirty-four hundred-millionths". That's not a translation bug; it's IEEE 754 leaking into your UI text.
+This works for English and French. For Russian, feeding it `34573892785.34` directly produces nonsense: the spellout rules read out an eight-digit fraction like *"...тридцать три миллиона девятьсот девяносто девять тысяч шестьсот тридцать четыре стомиллионных"* — roughly "...thirty-three million nine hundred ninety-nine thousand six hundred thirty-four hundred-millionths". That's not a translation bug; it's IEEE 754 leaking into your UI text!
 
 Here's why: `34573892785.34` cannot be represented exactly as a `double`. Print it with full precision and you get `34573892785.33999633789...` — the fractional part carries roughly six microunits of binary rounding noise. English and French spellout rules read the fraction digit-by-digit from the rounded display value, so the noise is invisible. Russian's rule set instead computes the fraction as an *exact* rational number from the double's raw bits — and once the integer part uses up most of a `double`'s ~15-17 significant decimal digits, that noise becomes visible as extra, meaningless fraction digits.
 
@@ -292,6 +475,7 @@ For our worked example (`...785.34` — ending in 5, no gender exception), the o
 With the library in place, the entire application-facing code for reading and displaying a locale-correct number is this small:
 
 ```cpp
+// tests/number_test/number_test4.cpp
 #include <print>
 #include "locale_utils.h"
 
@@ -315,6 +499,17 @@ int main() {
         parsed_value, ok ? "OK" : "FAILED");
   }
 }
+```
+
+Build and run it from `tests/number_test/`:
+
+```bash
+# initialize the build using clang++ compiler (run one time)
+cmake -S . -B build -DCMAKE_CXX_COMPILER=clang++
+# run the actual build (run until build is successful - fix compiler errors & re-run)
+cmake --build build --target number_test4
+# run the executable after successful build
+./build/number_test4
 ```
 
 Running it produces:
