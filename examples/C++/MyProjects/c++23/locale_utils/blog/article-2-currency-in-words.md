@@ -2,7 +2,7 @@
 
 ### Why `$34,573,892,785.34` is three bugs waiting to happen
 
-Part 1 fixed how we display and parse plain numbers. Currency looks like the same problem wearing a different hat — until you try it:
+Part 1 fixed how we display and parse plain numbers. Currency looks like the same problem wearing a different hat until you try it:
 
 ```cpp
 #include <iostream>
@@ -14,7 +14,11 @@ int main() {
 }
 ```
 
-Three things are wrong before we've even left `main()`. First, the `$` is hardcoded — this program can never show a Euro, a Ruble, or a Rupee without a rewrite. Second, `std::cout`'s default float formatting still applies, so large amounts collapse into `3.45739e+10` exactly as in Part 1. Third — and this is the one that's easy to miss — even a "fixed" version with the right symbol and grouping is still wrong for large parts of the world, because **currency isn't just a number with a symbol glued on**:
+Three things are wrong before we've even left `main()`.
+
+1. First, the `$` is hardcoded. This program can never show a Euro, a Ruble, or a Rupee without a rewrite. 
+2. Second, `std::cout`'s default float formatting still applies, so large amounts collapse into `3.45739e+10` exactly as in Part 1.
+3. Third, and this is the one that's easy to miss — even a "fixed" version with the right symbol and grouping is still wrong for large parts of the world because **currency isn't just a number with a symbol glued on**.
 
 | Locale | Correct display | Notes |
 |---|---|---|
@@ -23,7 +27,7 @@ Three things are wrong before we've even left `main()`. First, the `$` is hardco
 | Russia (`ru_RU`) | `34 573 892 785,34 ₽` | symbol follows, space-grouped like French |
 | India (`en_IN`) | `₹34,57,38,92,785.34` | lakh/crore grouping, symbol leads |
 
-Symbol position, spacing, and grouping all vary independently per locale — and that's before we even get to currencies like the Japanese yen or Korean won, which have **zero** minor-unit digits, or the Kuwaiti dinar, which has **three**. None of this is guessable from the amount alone; it has to come from real locale and currency data.
+Symbol position, spacing, and grouping all vary independently per locale — and that's before we even get to currencies like the Japanese yen or Korean won, which have **zero** minor-unit digits, or the Kuwaiti dinar, which has **three**. None of this is guessable from the amount alone. It has to come from real locale and currency data.
 
 ---
 
@@ -38,9 +42,9 @@ std::cout << std::showbase << std::put_money(3457389278534L) << '\n';
 // -> ₹34,57,38,92,785.34
 ```
 
-That much actually works on this machine — so, to be precise about the critique (Part 1 argued `std::numpunct` can't express irregular grouping at all; for lakh/crore specifically, glibc's repeat-last-group encoding happens to cover it). What `moneypunct` — and the rest of `<locale>` — genuinely cannot do, in any locale, on any platform, is this:
+That works here because `en_IN.utf8` happens to be installed on this machine — which is exactly the fragility Part 1 warned about: the same code throws `std::runtime_error` the moment that locale isn't present, with no fallback. What `moneypunct` and the rest of `<locale>` genuinely cannot do, in any locale, on any platform, is this:
 
-- **It has no spellout facility.** Just like Part 1's `std::numpunct`, there is no standard-library path from `34573892785.34` to *"thirty-four billion ... dollars and thirty-four cents"* — not in English, not in any language.
+- **It has no spellout facility.** Just like Part 1's `std::numpunct`, there is no standard-library path from `34573892785.34` to *"thirty-four billion ... dollars and thirty-four cents"*. Not in English, not in any language.
 - **It has no notion of grammatical number.** "1 dollar" vs. "2 dollars" is a plural-agreement problem, not a formatting-punctuation problem, and `<locale>` was never designed to answer "what's the correct word for the unit name at this quantity, in this language."
 
 Formatting the digits correctly (`format_currency`) and getting a locale-correct sentence out of an amount (`expand_currency_to_words`) are genuinely different problems. ICU gives us a clean path to both; the rest of this article builds them into `LocaleUtils`.

@@ -20,15 +20,16 @@ int main(void)
 
   try {
     // adopt user's default locale settings
-    std::locale::global(std::locale(""));
-    std::cout.imbue(std::locale());
+    std::locale user_loc("");       // get user's locale
+    std::locale::global(user_loc);  // set it as global locale
+    std::cout.imbue(user_loc);      // make cout use it
   }
   catch (const std::runtime_error &err) {
     std::cerr << "Requested locale not installed on system!\n";
   }
 
   std::cout << std::fixed << std::setprecision(3) << large_value << "\n";
-  // or with C++23 compiler you can use the following code
+  // or with C++23 compiler you could also the following code
   // NOTE: the L in the {:.3Lf} specifier! If you use
   // just {:.3f} it will default to "C" locale even when you
   // have std::locale::global(std::locale("")) in your code

@@ -57,7 +57,7 @@ int main()
     "34 573 892 785,34"   // fail
   };
   const std::string locale_id = "en_IN";
-  for (const auto val : num_values) {
+  for (const auto &val: num_values) {
     double parsed_value{};
 
     bool ok = LocaleUtils::parse_number(val, parsed_value, locale_id);    

@@ -30,7 +30,7 @@ You entered: 3.45739e+10
 
 Two things are already wrong here, **and neither is a compiler bug**.
 
-First, `std::cout`'s default float formatting silently switched to scientific notation once the magnitude got large enough — `3.45739e+10` is not what any end user wants to see on an invoice or a dashboard. Second, even if we force fixed notation, the output has **no thousands separators** and uses a **dot** as the decimal marker. That's the standard "C" locale alright — the one every C++ stream is born with, regardless of what operating system, region, or language the person running your program actually uses!
+First, `std::cout`'s default float formatting silently switched to scientific notation once the magnitude got large enough. `3.45739e+10` is not what any end user wants to see on an invoice or a dashboard. Second, even if we force fixed notation, the output has **no thousands separators** and uses a **dot** as the decimal marker. That's the standard "C" locale — the one every C++ stream is born with, regardless of what operating system, region, or language the person running your program actually uses!
 
 Now put this program in front of an accountant in Paris, an engineer in Mumbai, or an analyst in Moscow:
 
@@ -41,7 +41,7 @@ Now put this program in front of an accountant in Paris, an engineer in Mumbai, 
 | Russia (`ru_RU`) | `34 573 892 785,34` | `3.45739e+10` |
 | USA (`en_US`) | `34,573,892,785.34` | `3.45739e+10` |
 
-Notice that India doesn't just swap the separator characters — it groups digits differently altogether (2-2-3, the *lakh/crore* system, not the 3-3-3 "thousands/millions" grouping the rest of the table uses). This is why "just replace `,` with `.`" is not a fix; it's a trap that half-solves the problem and quietly breaks for a fifth of the world's population.
+Notice that India doesn't just swap the separator character,it groups digits differently altogether (2-2-3, the *lakh/crore* system, not the 3-3-3 "thousands/millions" grouping the rest of the table uses). This is why "just replace `,` with `.`" is not a fix; it's a trap that half-solves the problem and quietly breaks for a fifth of the world's population.
 
 This is the first article in a four-part series where we build a small, professional, cross-platform C++23 utility library — `LocaleUtils` — that correctly reads and displays numbers, currency, dates, and times for any locale. All code targets **C++23**, compiles cleanly with **clang++, GCC, and MSVC** with no `#ifdef`-per-compiler branching, and runs on Linux, macOS, and Windows. The full source lives in the companion Git repository; this article walks through the *architecture* and the *critical* code, not every line.
 
@@ -59,9 +59,10 @@ C++'s standard library isn't blind to this problem — `std::locale` and its `st
 int main() {
     constexpr double large_value = 34573892785.34;
     try {
-        // adopt user's default locale settings
-        std::locale::global(std::locale(""));   
-        std::cout.imbue(std::locale());
+      // adopt user's default locale settings
+      std::locale user_loc("");       // get user's locale
+      std::locale::global(user_loc);  // set it as global locale
+      std::cout.imbue(user_loc);      // make cout use it
     } catch (const std::runtime_error&) {
         std::cerr << "Requested locale not installed on this system\n";
     }
@@ -76,39 +77,52 @@ int main() {
 }
 ```
 
-> **📌 Setting your default locale**
+> **📌 How to set your default locale**
 >
-> `std::locale("")` in the code above adopts whatever locale the *environment* is currently set to — it doesn't pick one for you. Here's how to check or set that default on each platform - open your terminal (or command shell/Power shell on Windows) and run the following commands
+> `std::locale("")` in the code above adopts whatever locale the *environment* is currently set to — it doesn't pick one for you. Here's how to check or set that default locale on each platform: 
+>
+> Open your terminal (or command shell/Power shell on Windows) and run the following commands. In the example below, I am setting locale to `en_IN.UTF-8` (India locale). Replace this with the locale code of your choice. Refer to [Locale Helper link](https://lh.2xlibre.net/locales/).
 >
 > **Manjaro / Ubuntu / Fedora (Linux)**
 > ```bash
-> locale -a                      # list installed locales
-> sudo locale-gen en_IN.UTF-8    # generate one if it's missing (Ubuntu/Manjaro)
-> sudo dnf reinstall glibc-langpack-en glibc-langpack-hi   # Fedora equivalent
-> export LC_ALL=en_IN.UTF-8      # set for the current shell session
+> # list installed locales on your system
+> locale -a 
+> # On Ubuntu/Manjaro run following command
+> sudo locale-gen en_IN.UTF-8
+> # On Fedora run this command instead    
+> sudo dnf reinstall glibc-langpack-en glibc-langpack-hi   
+> # don't forget this (on Manjaro/Ubuntu/Fedora)
+> # set for the current shell session
+>       
 > ```
-> To make it permanent, add the `export LC_ALL=...` line to `~/.bashrc` / `~/.zshrc`, or set `LANG=en_IN.UTF-8` system-wide in `/etc/locale.conf` (or via `localectl set-locale`).
+> The above lines just install the locale & related files into your Linux OS. To make this locale permanent **for your login**, add the following line to `~/.bashrc` / `~/.zshrc`
+>```bash
+> export LC_ALL=en_IN.UTF-8
+>```
+> For a machine used by multiple users, add the above line to the `/etc/locale.conf` (or via `localectl set-locale`). This enables the locale for all users.
 >
 > **macOS**
 > ```bash
-> locale -a                   # list installed locales
-> export LC_ALL=en_IN.UTF-8      # set for the current shell session
+> locale -a  # list all installed locales
+> # set for the current shell session
+> export LC_ALL=en_IN.UTF-8      
 > ```
 > macOS ships its locale data with the OS, so there's nothing to generate — just export the variable, or add it to `~/.zshrc` to make it stick.
 >
 > **Windows**<br/>
-> Windows locales aren't environment variables — they're set in **Settings → Time & Language → Language & region**, or from PowerShell:
-> ```powershell
+> Windows locales aren't environment variables. They're set in **Settings → Time & Language → Language & region**, or from PowerShell. Open a Powershell and run following lines
+>```powershell
 > Set-WinSystemLocale en-IN
 > Set-Culture en-IN
 > ```
 > A sign-out/sign-in (or reboot) is usually required for the change to take effect system-wide.
 
-The C++ code above works — *when the target locale happens to be installed on the machine running your binary*. For example, it will display number in India specific format `34,57,38,92,785.33996` if your default locale is set to `en_IN.UTF-8` (Linux/Mac) or `en-IN` (Windows) as described above. And that's exactly where it falls apart for a professional, cross-platform application:
+After that digression, let's get back to our C++ code. The code above will *only when the target locale happens to be installed on the machine running your binary*. For example, it will display number in India specific format `34,57,38,92,785.33996` if your default locale is set to `en_IN.UTF-8` (Linux/Mac) or `en-IN` (Windows) as described above. 
+
+And that's exactly where it falls apart for a professional, cross-platform application:
 
 - **Locale names aren't portable.** Linux/macOS expect POSIX names like `en_IN.UTF-8`; MSVC expects `en-IN` or `English_India`. `std::locale("en_IN")` that works on a Linux box will throw `std::runtime_error` on a fresh Windows install.
 - **Locale data must be installed, and often isn't.** A minimal Docker container or a locked-down corporate Windows image frequently ships with only one or two locales generated. You cannot guarantee `ru_RU` or `hi_IN` exists on the target machine.
-- **`std::numpunct` can't express every grouping rule.** It supports a single repeating group size. It has no way to say "group by 3, then by 2, then by 2" — which is exactly India's lakh/crore rule. There is no standard-library path to correct Indian number formatting, full stop.
 - **There's no standard spellout facility at all.** Converting `34573892785.34` into "thirty-four billion five hundred seventy-three million..." isn't something `<locale>` does in any locale, in any language.
 
 None of this is a knock on the standard library — `std::locale` was designed in an era before Unicode's CLDR (Common Locale Data Repository) existed. But for a modern, professional application, we need a library that ships its own locale data instead of depending on what the OS happens to have installed, so behavior is *identical* across Manjaro, Ubuntu, Fedora, macOS, and Windows without a single platform `#ifdef`. That library is **ICU** (International Components for Unicode) — the same locale engine behind Chrome, Android, and the ICU-backed parts of macOS and Windows themselves.
@@ -156,6 +170,7 @@ vcpkg integrate install
 > - [vcpkg in CMake projects](https://learn.microsoft.com/en-us/vcpkg/users/buildsystems/cmake-integration) — how the `vcpkg.cmake` toolchain file and `CMakePresets.json` fit together.
 > - [vcpkg is Now Included with Visual Studio](https://devblogs.microsoft.com/cppblog/vcpkg-is-now-included-with-visual-studio/) — C++ Team Blog post on the vcpkg that now ships in-box with VS.
 > - [microsoft/vcpkg on GitHub](https://github.com/microsoft/vcpkg) — source, issue tracker, and the full package registry.
+><br/><br/>
 
 To keep the build identical across all four platforms, we drive everything through **CMake** rather than hand-written per-platform compiler flags:
 
@@ -172,12 +187,28 @@ find_package(nlohmann_json REQUIRED)
 
 add_executable(locale_utils_demo
     locale_utils.cpp
+    # this is your code file - add all your
+    # code files here
     main.cpp
 )
 
 target_include_directories(locale_utils_demo PRIVATE ${ICU_INCLUDE_DIRS})
 target_link_libraries(locale_utils_demo PRIVATE ${ICU_LIBRARIES} nlohmann_json::nlohmann_json)
 ```
+
+To build your code, run the following command on the terminal (VS Code [with appropriate C++ extensions], CLion, and Qt Creator offer native support for CMake files - you can always use these IDEs instead of running from command line).
+
+```bash
+cmake -S . -B build
+```
+
+On Linux/Mac, you may notice that CMake "picks" up the `gcc` compiler to build your code. If you want to use a specific compiler, such as `clang++`, modify the buiild command as follows:
+
+```bash
+cmake -S . -B build -DCMAKE_CXX_COMPILER=clang++
+```
+
+(Replace `clang++` with `g++` if you notice that CMake is picking up `clang++` and you want to use `g++` instead)
 
 On Windows with vcpkg, the same `CMakeLists.txt` works unchanged as long as you configure with the vcpkg toolchain file:
 
@@ -547,7 +578,7 @@ Look closely at the India row: `34,57,38,92,785.34` — 2-2-2-3 lakh/crore group
 ### Summary
 
 - The default C++ stream locale (the "C" locale) formats numbers with no thousands grouping and a dot decimal separator — it matches no real user's expectations and silently switches to scientific notation for large magnitudes.
-- `std::locale` / `std::numpunct` can adopt the OS locale, but this is unreliable across platforms: locale names aren't portable between POSIX and Windows, the target locale may not be installed, and `std::numpunct` cannot express irregular grouping rules like India's lakh/crore system.
+- `std::locale` / `std::numpunct` can adopt the OS locale, but this is unreliable across platforms: locale names aren't portable between POSIX and Windows, and the target locale may not be installed at all.
 - **ICU** solves this by shipping its own CLDR-derived locale data, giving identical behavior across Manjaro, Ubuntu, Fedora, macOS, and Windows without any platform-specific code.
 - We wrapped ICU behind a small `LocaleUtils` namespace so application code only ever sees `std::string`/`double`, never an `icu::` type directly.
 - `format_number` and `parse_number` provide locale-correct display and round-trip parsing; `expand_number_to_words` spells numbers out in the target language.
