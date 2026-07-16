@@ -14,6 +14,8 @@
 #include <vector>
 #include "locale_utils.h"
 
+namespace locu = LocaleUtils;
+
 namespace {
 
   bool nearly_equal(double a, double b, double epsilon = 1e-6)
@@ -26,17 +28,17 @@ namespace {
 int main()
 {
   // use the user's locale settings
-  LocaleUtils::initialize_system_locale();
+  locu::initialize_system_locale();
 
   constexpr double large_value = 34573892785.34;
   int failures = 0;
 
   std::println("--- Round-trip: format_number() -> parse_number() ---");
   for (const auto &locale_id : {"en_US", "fr_FR", "ru_RU", "en_IN"}) {
-    std::string formatted = LocaleUtils::format_number(large_value, locale_id);
+    std::string formatted = locu::format_number(large_value, locale_id);
 
     double parsed_value{};
-    bool ok = LocaleUtils::parse_number(formatted, parsed_value, locale_id);
+    bool ok = locu::parse_number(formatted, parsed_value, locale_id);
     bool round_trip_ok = ok && nearly_equal(parsed_value, large_value);
 
     std::println("[{}] formatted = \"{}\", parsed = {}, round-trip {}",
@@ -48,8 +50,9 @@ int main()
 
   std::println("\nSimulated I/O for en_IN locale...");
   // let's pretend user entered these values on command line when prompted
-  // and we read that in as a string with std::getline()
-  // for en_IN locale, the first 2 should parse ok - rest should fail
+  // and we read that in as a string with std::getline() or via some GUI text input widget
+  // We'll try to parse the value as a double for en_IN locale. 
+  // The first 2 should parse ok - rest should fail.
   std::vector<std::string> num_values{
     "34,57,38,92,785.34", // ok
     "34573892785.34",     // ok
@@ -60,7 +63,7 @@ int main()
   for (const auto &val: num_values) {
     double parsed_value{};
 
-    bool ok = LocaleUtils::parse_number(val, parsed_value, locale_id);    
+    bool ok = locu::parse_number(val, parsed_value, locale_id);    
     if (ok) {
       std::println("Number entered as {} parsed successfully as {}", val, parsed_value);
     } else {
@@ -72,7 +75,7 @@ int main()
   std::println("\n--- Rejecting garbage input ---");
   double bogus_value{};
   bool bogus_ok =
-      LocaleUtils::parse_number("not-a-number", bogus_value, "en_US");
+      locu::parse_number("not-a-number", bogus_value, "en_US");
   std::println("parse_number(\"not-a-number\") -> {} ({})", bogus_ok,
       bogus_ok ? "unexpectedly succeeded" : "correctly rejected");
 

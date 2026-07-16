@@ -7,6 +7,10 @@
 // Code shared for learning purposes only! Use at your own risk.
 // ============================================================================
 
+#if !defined(_MSC_VER) && !defined(__clang__) && !defined(__GNUC__)
+  #error "Unsupported compiler. LocaleUtils requires MSVC, Clang, or GCC."
+#endif
+
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
@@ -139,10 +143,15 @@ namespace LocaleUtils {
 
     icu::Formattable result;
     icu::UnicodeString u_input = icu::UnicodeString::fromUTF8(input);
-    nf->parse(u_input, result, status);
+    icu::ParsePosition parse_pos(0);
+    nf->parse(u_input, result, parse_pos);
 
-    if (U_FAILURE(status))
+    // Enforce absolute consumption: if the parser stops before the end of
+    // the string, it is an incomplete parsing failure (matches
+    // parse_currency/parse_date behavior).
+    if (parse_pos.getIndex() == 0 || parse_pos.getIndex() != u_input.length())
       return false;
+
     out_value = result.getDouble(status);
     return U_SUCCESS(status);
   }

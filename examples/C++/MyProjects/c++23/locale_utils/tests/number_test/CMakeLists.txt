@@ -1,3 +1,6 @@
+# NOTE: Although LocaleUtils files require C++ compiler that
+# supports C++17 or more, these test files use C++23 standard!
+
 cmake_minimum_required(VERSION 3.24)
 project(number_test3 LANGUAGES CXX)
 
@@ -7,6 +10,29 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(ICU REQUIRED icu-i18n icu-uc)
 find_package(nlohmann_json REQUIRED)
+
+# ----------------------------------------------
+# read/write large numbers with default locale
+# ----------------------------------------------
+add_executable(number_test1    
+    number_test1.cpp
+    ../../locale_utils.cpp
+)
+
+target_include_directories(number_test1 PRIVATE ${ICU_INCLUDE_DIRS} ../..)
+target_link_libraries(number_test1 PRIVATE ${ICU_LIBRARIES} nlohmann_json::nlohmann_json)
+
+
+# ----------------------------------------------
+# read/write large numbers with default locale
+# ----------------------------------------------
+add_executable(number_test2    
+    number_test2.cpp
+    ../../locale_utils.cpp
+)
+
+target_include_directories(number_test2 PRIVATE ${ICU_INCLUDE_DIRS} ../..)
+target_link_libraries(number_test2 PRIVATE ${ICU_LIBRARIES} nlohmann_json::nlohmann_json)
 
 # ----------------------------------------------
 # parse/display numbers in locale format

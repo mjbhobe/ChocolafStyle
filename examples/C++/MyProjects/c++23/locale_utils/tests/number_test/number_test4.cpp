@@ -11,23 +11,25 @@
 #include <print>
 #include "locale_utils.h"
 
+namespace locu = LocaleUtils;
+
 int main()
 {
-  LocaleUtils::initialize_system_locale();
+  locu::initialize_system_locale();
 
   constexpr double large_value = 34573892785.34;
 
   for (const auto &locale_id: {"en_US", "fr_FR", "ru_RU", "en_IN"}) {
     std::println("--- {} ---", locale_id);
     std::println(
-        "Display : {}", LocaleUtils::format_number(large_value, locale_id));
+        "Display : {}", locu::format_number(large_value, locale_id));
     std::println("Spelled : {}",
-        LocaleUtils::expand_number_to_words(large_value, locale_id));
+        locu::expand_number_to_words(large_value, locale_id));
 
     // Round-trip: parse the display string straight back into a double.
     double parsed_value{};
-    std::string displayed = LocaleUtils::format_number(large_value, locale_id);
-    bool ok = LocaleUtils::parse_number(displayed, parsed_value, locale_id);
+    std::string displayed = locu::format_number(large_value, locale_id);
+    bool ok = locu::parse_number(displayed, parsed_value, locale_id);
     std::println(
         "Parsed  : {} (round-trip {})", parsed_value, ok ? "OK" : "FAILED");
   }

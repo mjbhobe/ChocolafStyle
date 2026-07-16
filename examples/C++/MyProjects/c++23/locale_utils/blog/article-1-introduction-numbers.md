@@ -196,16 +196,46 @@ target_include_directories(locale_utils_demo PRIVATE ${ICU_INCLUDE_DIRS})
 target_link_libraries(locale_utils_demo PRIVATE ${ICU_LIBRARIES} nlohmann_json::nlohmann_json)
 ```
 
-To build your code, run the following command on the terminal (VS Code [with appropriate C++ extensions], CLion, and Qt Creator offer native support for CMake files - you can always use these IDEs instead of running from command line).
+> **📌 A Note on C++ version**
+>
+> While the LocaleUtils files (`locale_utils.h` & `locale_utils.cpp`) do not use any C++20 or C++23 features, you are free to use any version of C++ (>= C++17 of course!) in your own applications.
+>
+> You can set the C++ version in your application's `CMakeLists.txt` by modifying the following line:
+>
+> `set(CMAKE_CXX_STANDARD 17)` -- change 17 to your version of choice (like 20 or 23). Make sure that this is >= 17!
+> <br/>
+
+
+To build your application code, run the following two commands on the terminal in succession. The first command will create the build files, and the 2nd command will actuall build your target.
+
+**NOTE**: VS Code (with appropriate C++ extensions), CLion, and Qt Creator offer native support for CMake files - you can always use these IDEs instead of running from command line.
 
 ```bash
-cmake -S . -B build
+# generate build files for debug/release targets - run one of the following
+# can't create both configs at the same time!
+cmake -S . -B build-debug -DCMAKE_BUILD_TYPE=Debug # debug build
+OR
+cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release  # release build
+
+# build the target - run one of these commands
+cmake --build build-debug   # build debug version in build-debug folder
+OR
+cmake --build build-release   # build release version in build-release folder
 ```
 
-On Linux/Mac, you may notice that CMake "picks" up the `gcc` compiler to build your code. If you want to use a specific compiler, such as `clang++`, modify the buiild command as follows:
+On Linux/Mac, you can choose to use `GNU C++ (g++)` or `clang++` compiler. Here is how you specify your favourite compiler when generating build files
 
 ```bash
-cmake -S . -B build -DCMAKE_CXX_COMPILER=clang++
+# generate debug build files in build-debug sub-folder using clang++
+cmake -S . -B build-debug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ 
+OR
+# generate release build files in build-release sub-folder using clang++
+cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release  # release build
+
+# and then run your build as before
+cmake --build build-debug   # build debug version in build-debug folder
+OR
+cmake --build build-release   # build release version in build-release folder
 ```
 
 (Replace `clang++` with `g++` if you notice that CMake is picking up `clang++` and you want to use `g++` instead)

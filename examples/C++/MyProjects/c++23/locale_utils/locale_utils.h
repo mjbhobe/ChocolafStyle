@@ -8,6 +8,10 @@
 // ============================================================================
 #pragma once
 
+#if !defined(_MSC_VER) && !defined(__clang__) && !defined(__GNUC__)
+  #error "Unsupported compiler. LocaleUtils requires MSVC, Clang, or GCC."
+#endif
+
 #include <chrono>
 #include <string>
 #include <vector>
