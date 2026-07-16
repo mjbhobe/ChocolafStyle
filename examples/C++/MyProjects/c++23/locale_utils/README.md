@@ -1,6 +1,6 @@
 # LocaleUtils
 
-A small C++23 library that wraps ICU to provide locale-aware number, currency,
+A small C++17 library that wraps ICU to provide locale-aware number, currency,
 and date/time formatting and parsing, plus "spelled out in words" number and
 currency expansion (e.g. `123456` -> `"one hundred twenty-three thousand four
 hundred fifty-six"`). Currency word expansion is driven by a JSON profile
@@ -27,7 +27,7 @@ An empty `locale` argument uses the process's default ICU locale.
 
 ## Build & Install
 
-Requires a C++23 compiler, [ICU](https://icu.unicode.org/), and
+Requires a C++17 compiler, [ICU](https://icu.unicode.org/), and
 [nlohmann-json](https://github.com/nlohmann/json). Produces a shared library
 (`locale_utils`), installs the public header, and installs
 `locales_config.json` to a location the library finds automatically at

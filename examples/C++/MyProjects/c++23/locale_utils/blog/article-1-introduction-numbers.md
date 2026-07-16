@@ -43,7 +43,7 @@ Now put this program in front of an accountant in Paris, an engineer in Mumbai, 
 
 Notice that India doesn't just swap the separator character,it groups digits differently altogether (2-2-3, the *lakh/crore* system, not the 3-3-3 "thousands/millions" grouping the rest of the table uses). This is why "just replace `,` with `.`" is not a fix; it's a trap that half-solves the problem and quietly breaks for a fifth of the world's population.
 
-This is the first article in a four-part series where we build a small, professional, cross-platform C++23 utility library — `LocaleUtils` — that correctly reads and displays numbers, currency, dates, and times for any locale. All code targets **C++23**, compiles cleanly with **clang++, GCC, and MSVC** with no `#ifdef`-per-compiler branching, and runs on Linux, macOS, and Windows. The full source lives in the companion Git repository; this article walks through the *architecture* and the *critical* code, not every line.
+This is the first article in a four-part series where we build a small, professional, cross-platform C++17 utility library — `LocaleUtils` — that correctly reads and displays numbers, currency, dates, and times for any locale. All code targets **C++17**, compiles cleanly with **clang++, GCC, and MSVC** with no `#ifdef`-per-compiler branching, and runs on Linux, macOS, and Windows. The full source lives in the companion Git repository; this article walks through the *architecture* and the *critical* code, not every line.
 
 ---
 
@@ -178,7 +178,7 @@ To keep the build identical across all four platforms, we drive everything throu
 cmake_minimum_required(VERSION 3.24)
 project(locale_utils LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(PkgConfig REQUIRED)
@@ -217,7 +217,7 @@ cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/
 cmake --build build
 ```
 
-No compiler-specific code, no `#ifdef _MSC_VER` — CMake and `pkg-config`/vcpkg absorb the platform differences so `locale_utils.cpp` stays clean C++23.
+No compiler-specific code, no `#ifdef _MSC_VER` — CMake and `pkg-config`/vcpkg absorb the platform differences so `locale_utils.cpp` stays clean C++17.
 
 ---
 

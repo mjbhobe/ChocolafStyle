@@ -3,7 +3,7 @@
  * @brief Enterprise-grade automation validation harness for LocaleUtils using
  * Google Test.
  *
- * Compile: $> clang++ -std=c++23 -O2 -Wall -g0 locale_utils.cpp \
+ * Compile: $> clang++ -std=c++17 -O2 -Wall -g0 locale_utils.cpp \
  *     locale_utils_test.cpp -o automated_suite -lstdc++ -licuuc \
  *     -licui18n -lgtest lpthread
  * Run (after successful compilation): $> ./automated_suite

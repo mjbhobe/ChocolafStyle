@@ -1,6 +1,6 @@
 // ============================================================================
 // locale_utils.cpp - Multi-platform i18n utility implementation
-// Compatible with C++23 (GCC, Clang, MSVC) on Windows, Linux, and macOS.
+// Compatible with C++17 (GCC, Clang, MSVC) on Windows, Linux, and macOS.
 //
 // @author: Manish Bhobe
 // My experiments with C/C++, STL, Qt Framework
