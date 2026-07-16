@@ -1,7 +1,14 @@
 // ============================================================================
 // locale_utils.cpp - Multi-platform i18n utility implementation
+// Compatible with C++23 (GCC, Clang, MSVC) on Windows, Linux, and macOS.
+//
+// @author: Manish Bhobe
+// My experiments with C/C++, STL, Qt Framework
+// Code shared for learning purposes only! Use at your own risk.
 // ============================================================================
+
 #include <cmath>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <locale>
@@ -20,7 +27,67 @@
 #include <unicode/smpdtfmt.h>
 #include <unicode/ucurr.h>
 
+#if defined(_WIN32)
+  #define WIN32_LEAN_AND_MEAN
+  #include <windows.h>
+#endif
+
 namespace LocaleUtils {
+
+  namespace {
+
+    // Locates locales_config.json regardless of the caller's current working
+    // directory, so the library still finds its data file once installed
+    // system-wide (e.g. under /usr/include + /usr/share) rather than run
+    // from this project's own folder.
+    //
+    // Linux/macOS: the install prefix is stable (FHS convention), so the
+    // path is baked in at compile time via LOCALE_UTILS_DATA_DIR.
+    // Windows: there is no such convention -- deployments are typically
+    // "copy the dll next to the exe" -- so the path is resolved at runtime
+    // relative to locale_utils.dll's own location instead.
+    // LOCALE_UTILS_CONFIG, if set, always overrides both.
+    std::string resolve_config_file_path()
+    {
+      if (const char *override_path = std::getenv("LOCALE_UTILS_CONFIG"))
+        return override_path;
+
+#if defined(_WIN32)
+      HMODULE this_module = nullptr;
+      if (GetModuleHandleExA(
+              GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                  GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+              reinterpret_cast<LPCSTR>(&resolve_config_file_path),
+              &this_module)) {
+        char path_buf[MAX_PATH];
+        DWORD len = GetModuleFileNameA(this_module, path_buf, MAX_PATH);
+        if (len > 0 && len < MAX_PATH) {
+          std::string module_dir(path_buf, len);
+          module_dir = module_dir.substr(0, module_dir.find_last_of("\\/"));
+
+          std::string beside_module = module_dir + "\\locales_config.json";
+          if (std::ifstream(beside_module).good())
+            return beside_module;
+
+          std::string installed_layout =
+              module_dir + "\\..\\share\\locale_utils\\locales_config.json";
+          if (std::ifstream(installed_layout).good())
+            return installed_layout;
+        }
+      }
+#elif defined(LOCALE_UTILS_DATA_DIR)
+      std::string installed_path =
+          std::string(LOCALE_UTILS_DATA_DIR) + "/locales_config.json";
+      if (std::ifstream(installed_path).good())
+        return installed_path;
+#endif
+
+      // Dev/test fallback: run from the source/build directory before
+      // installing.
+      return "locales_config.json";
+    }
+
+  } // namespace
 
   bool initialize_system_locale()
   {
@@ -38,7 +105,7 @@ namespace LocaleUtils {
     }
   }
 
-  std::string format_number(double value, const std::string &locale_name)
+  std::string format_number(double value, const std::string &locale_name /*= ""*/)
   {
     UErrorCode status = U_ZERO_ERROR;
     icu::Locale icu_loc = locale_name.empty()
@@ -58,7 +125,7 @@ namespace LocaleUtils {
   }
 
   bool parse_number(const std::string &input, double &out_value,
-      const std::string &locale_name)
+      const std::string &locale_name /*= ""*/)
   {
     UErrorCode status = U_ZERO_ERROR;
     icu::Locale icu_loc = locale_name.empty()
@@ -81,7 +148,7 @@ namespace LocaleUtils {
   }
 
   bool parse_currency(const std::string &currency_str, double &out_value,
-      const std::string &locale_name)
+      const std::string &locale_name /*= ""*/)
   {
     UErrorCode status = U_ZERO_ERROR;
     icu::Locale icu_loc = locale_name.empty()
@@ -113,7 +180,7 @@ namespace LocaleUtils {
 
   bool parse_date(const std::string &date_str,
       std::chrono::system_clock::time_point &out_time,
-      const std::string &locale_name)
+      const std::string &locale_name /*= ""*/)
   {
     UErrorCode status = U_ZERO_ERROR;
     icu::Locale icu_loc = locale_name.empty()
@@ -146,7 +213,7 @@ namespace LocaleUtils {
 
   bool parse_date_time(const std::string &date_time_str,
       std::chrono::system_clock::time_point &out_time,
-      const std::string &locale_name)
+      const std::string &locale_name /*= ""*/)
   {
     UErrorCode status = U_ZERO_ERROR;
     icu::Locale icu_loc = locale_name.empty()
@@ -177,7 +244,7 @@ namespace LocaleUtils {
     return true;
   }
 
-  std::string format_currency(double value, const std::string &locale_name)
+  std::string format_currency(double value, const std::string &locale_name /*= ""*/)
   {
     UErrorCode status = U_ZERO_ERROR;
     icu::Locale icu_loc = locale_name.empty()
@@ -197,7 +264,7 @@ namespace LocaleUtils {
   }
 
   std::string format_date_time(const std::chrono::system_clock::time_point &tp,
-      bool date_only, const std::string &locale_name)
+      bool date_only /*= false*/, const std::string &locale_name /*= ""*/)
   {
     UErrorCode status = U_ZERO_ERROR;
     icu::Locale icu_loc = locale_name.empty()
@@ -224,7 +291,7 @@ namespace LocaleUtils {
   }
 
   std::string format_short_date_time(std::chrono::system_clock::time_point time,
-      const std::string &locale_name)
+      const std::string &locale_name /*= ""*/)
   {
     UErrorCode status = U_ZERO_ERROR;
     icu::Locale icu_loc = locale_name.empty()
@@ -274,7 +341,7 @@ namespace LocaleUtils {
       std::string &major_s, std::string &major_p, std::string &minor_s,
       std::string &minor_p, std::string &conjunction)
   {
-    std::ifstream file("locales_config.json");
+    std::ifstream file(resolve_config_file_path());
     if (!file.is_open())
       return false;
 
@@ -302,7 +369,7 @@ namespace LocaleUtils {
   // implementations remain as previously provided ...
 
   std::string expand_number_to_words(
-      double value, const std::string &locale_name)
+      double value, const std::string &locale_name /*= ""*/)
   {
     UErrorCode status = U_ZERO_ERROR;
     icu::Locale icu_loc = locale_name.empty()
@@ -364,7 +431,7 @@ namespace LocaleUtils {
   }
 
   std::string expand_currency_to_words(
-      double amount, const std::string &locale_name)
+      double amount, const std::string &locale_name /*= ""*/)
   {
     UErrorCode status = U_ZERO_ERROR;
     icu::Locale icu_loc = locale_name.empty()
