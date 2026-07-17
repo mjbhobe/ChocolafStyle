@@ -19,6 +19,7 @@
   #endif
 #endif
 
+#include <cstdio>
 #include <iostream>
 #include <print>
 
@@ -29,6 +30,7 @@ int main(void)
 
   std::cout << "Enter a number: ";
   double user_value{};
+  ::fflush(stdin);
   std::cin >> user_value;
   std::cout << "You entered: " << user_value << '\n';
   // check what println prints for large numbers (C++23 feature)
