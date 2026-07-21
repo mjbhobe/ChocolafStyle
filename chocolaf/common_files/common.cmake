@@ -183,7 +183,8 @@ else () # UNIX
 # this change impacts Linux builds only!
   set(_OPENCV_MANUAL_LIBS
       opencv_core opencv_imgproc opencv_ml opencv_video
-      opencv_features2d opencv_calib3d opencv_objdetect opencv_videoio
+	  # opencv_features2d opencv_calib3d opencv_objdetect opencv_videoio
+      opencv_objdetect opencv_videoio
       opencv_imgcodecs opencv_flann
   )
 endif ()

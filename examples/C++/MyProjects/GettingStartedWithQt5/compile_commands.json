@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/mjbhobe/code/git-projects/ChocolafStyle/examples/C++/MyProjects/GettingStartedWithQt5/cmake-build-release",
+  "command": "/usr/bin/clang++ -DNOMINMAX -DPQXX_SHARED -DQT_CORE_LIB -DQT_DEPRECATED_WARNINGS -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_NO_DEBUG_OUTPUT -DQT_SQL_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DWIN32_LEAN_AND_MEAN -I/home/mjbhobe/code/git-projects/ChocolafStyle/examples/C++/MyProjects/GettingStartedWithQt5/cmake-build-release/hello_qt_world_autogen/include -I/home/mjbhobe/code/git-projects/ChocolafStyle/examples/C++/MyProjects/GettingStartedWithQt5 -I/home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf/common_files -I/usr/include/opencv4 -I/usr/include/eigen-5.0.0 -I/usr/include/postgresql/server -I/home/mjbhobe/code/git-projects/ChocolafStyle/chocolaf/common_files/QtAwesome -isystem /usr/include/opencv5 -isystem /usr/include/qt6/QtCore -isystem /usr/include/qt6 -isystem /usr/lib/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtGui -isystem /usr/include/qt6/QtXml -isystem /usr/include/qt6/QtSql -isystem /usr/include/qt6/QtNetwork -isystem /usr/include/qt6/QtSvg -isystem /usr/include/qt6/QtWidgets -O3 -DNDEBUG -std=c++23 -Wno-deprecated-enum-enum-conversion -Wall -O2 -g0 -fno-direct-access-external-data -o CMakeFiles/hello_qt_world.dir/hello_qt_world/main.cpp.o -c /home/mjbhobe/code/git-projects/ChocolafStyle/examples/C++/MyProjects/GettingStartedWithQt5/hello_qt_world/main.cpp",
+  "file": "/home/mjbhobe/code/git-projects/ChocolafStyle/examples/C++/MyProjects/GettingStartedWithQt5/hello_qt_world/main.cpp",
+  "output": "CMakeFiles/hello_qt_world.dir/hello_qt_world/main.cpp.o"
+}
+]
