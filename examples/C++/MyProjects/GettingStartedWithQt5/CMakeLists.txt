@@ -59,3 +59,25 @@ add_executable(widgets_labels
 
 target_include_directories(widgets_labels PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(widgets_labels PRIVATE chocolaf_settings)
+
+# ----------------------------------------------------------------------------------
+# Layouts - grid layouts
+# ----------------------------------------------------------------------------------
+
+add_executable(layouts_gridlayout
+        ./layouts/gridlayout/main.cpp
+)
+
+target_include_directories(layouts_gridlayout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(layouts_gridlayout PRIVATE chocolaf_settings)
+
+# ----------------------------------------------------------------------------------
+# Layouts - form layouts
+# ----------------------------------------------------------------------------------
+
+add_executable(layouts_formlayout
+        ./layouts/formlayout/main.cpp
+)
+
+target_include_directories(layouts_formlayout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(layouts_formlayout PRIVATE chocolaf_settings)
