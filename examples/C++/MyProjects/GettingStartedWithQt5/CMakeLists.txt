@@ -81,3 +81,26 @@ add_executable(layouts_formlayout
 
 target_include_directories(layouts_formlayout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(layouts_formlayout PRIVATE chocolaf_settings)
+
+# ----------------------------------------------------------------------------------
+# Layouts - vbox layout
+# ----------------------------------------------------------------------------------
+
+add_executable(layouts_vboxlayout
+        ./layouts/vboxlayout/main.cpp
+)
+
+target_include_directories(layouts_vboxlayout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(layouts_vboxlayout PRIVATE chocolaf_settings)
+
+# ----------------------------------------------------------------------------------
+# Layouts - hbox layout
+# ----------------------------------------------------------------------------------
+
+add_executable(layouts_hboxlayout
+        ./layouts/hboxlayout/main.cpp
+)
+
+target_include_directories(layouts_hboxlayout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(layouts_hboxlayout PRIVATE chocolaf_settings)
+
