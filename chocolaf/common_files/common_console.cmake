@@ -136,6 +136,8 @@ if (WIN32)
         "C:/Dev/GNULibs/libpqxx/include"
         "C:/Dev/PostgreSQL/15/include"
         "C:/Dev/eigen-5.0.0"
+        "C:/Dev/GNULibs/boost_1_91_0"
+        "C:/Dev/GNULibs/QuantLib-1.43/include"
     )
     link_directories(
         "C:/Dev/GNULibs/gmp-6.3.0/bin/lib"
@@ -143,6 +145,7 @@ if (WIN32)
         "C:/Dev/GNULibs/fmt/bin/lib"
         "C:/Dev/GNULibs/libpqxx/lib"
         "C:/Dev/PostgreSQL/15/lib"
+        "C:/Dev/GNULibs/QuantLib-1.43/lib"
     )
     set(_OPENCV_MANUAL_LIBS
         opencv_core451 opencv_imgproc451 opencv_highgui451 opencv_ml451 opencv_video451
@@ -274,7 +277,7 @@ endif ()
 # unix { STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq }
 if (WIN32)
   target_link_libraries(chocolaf_settings INTERFACE
-      user32 gdi32 kernel32 dwmapi wsock32 ws2_32 wsock32
+      user32 gdi32 kernel32 dwmapi wsock32 ws2_32 wsock32 Quantlib
   )
 else ()
   target_link_libraries(chocolaf_settings INTERFACE m)

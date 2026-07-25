@@ -155,6 +155,8 @@ if (WIN32)
         "C:/Dev/GNULibs/libpqxx/include"
         "C:/Dev/PostgreSQL/15/include"
         "C:/Dev/eigen-5.0.0"
+        "C:/Dev/GNULibs/boost_1_91_0"
+        "C:/Dev/GNULibs/QuantLib-1.43/include"
     )
     link_directories(
         "C:/Dev/GNULibs/gmp-6.3.0/bin/lib"
@@ -162,6 +164,7 @@ if (WIN32)
         "C:/Dev/GNULibs/fmt/bin/lib"
         "C:/Dev/GNULibs/libpqxx/lib"
         "C:/Dev/PostgreSQL/15/lib"
+        "C:/Dev/GNULibs/QuantLib-1.43/lib"
     )
     # Versioned OpenCV 4.5.1 libs per original .pro
     set(_OPENCV_MANUAL_LIBS
@@ -301,7 +304,7 @@ endif ()
 # ---------------------------------------------------------------------------
 if (WIN32)
   target_link_libraries(chocolaf_settings INTERFACE
-      user32 gdi32 kernel32 dwmapi shcore ws2_32 wsock32
+      user32 gdi32 kernel32 dwmapi shcore ws2_32 wsock32 Quantlib
   )
 else ()
   # qmake had: -lm -lstdc++ part of STD_LIBS on *nix

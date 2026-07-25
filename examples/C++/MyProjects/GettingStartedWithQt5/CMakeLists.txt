@@ -104,3 +104,20 @@ add_executable(layouts_hboxlayout
 target_include_directories(layouts_hboxlayout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(layouts_hboxlayout PRIVATE chocolaf_settings)
 
+# ----------------------------------------------------------------------------------
+# Custom QMainWindow derived window
+# ----------------------------------------------------------------------------------
+
+add_executable(windows_and_dialogs_mainwin
+    ./windows_and_dialogs/mainwindow/main.cpp
+    ./windows_and_dialogs/mainwindow/mainwindow.h
+    ./windows_and_dialogs/mainwindow/mainwindow.cpp
+)
+
+target_compile_definitions(windows_and_dialogs_mainwin PRIVATE
+    IMAGES_PATH="${IMAGES_PATH}"
+)
+
+target_include_directories(windows_and_dialogs_mainwin PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(windows_and_dialogs_mainwin PRIVATE chocolaf_settings)
+
