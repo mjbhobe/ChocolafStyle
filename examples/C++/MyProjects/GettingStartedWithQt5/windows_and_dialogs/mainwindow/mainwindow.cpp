@@ -3,10 +3,11 @@
 #include <QLabel>
 #include <QMainWindow>
 #include <QMenuBar>
+#include <QMessageBox>
 #include <QPixmap>
 #include <QString>
-#include <QMessageBox>
 #include <QToolBar>
+#include <print>
 #include "mainwindow.h"
 
 #ifndef IMAGES_PATH
@@ -14,7 +15,7 @@
 #endif
 
 MainWindow::MainWindow()
-  : QMainWindow(), m_fileMenu{nullptr}, m_helpMenu{nullptr}
+    : QMainWindow(), m_fileMenu{nullptr}, m_helpMenu{nullptr}
 {
   m_label = new QLabel("Central Widget of MainWindow");
   m_label->setAlignment(Qt::AlignmentFlag::AlignCenter);
@@ -31,6 +32,7 @@ MainWindow::MainWindow()
 
 void MainWindow::createActions()
 {
+  std::println("IMAGES_PATH = {}", IMAGES_PATH);
   QPixmap newIcon(QString(IMAGES_PATH) + "/file_new.png");
   QPixmap openIcon(QString(IMAGES_PATH) + "/file_open.png");
   QPixmap exitIcon(QString(IMAGES_PATH) + "/exit.png");
@@ -55,14 +57,19 @@ void MainWindow::createActions()
 
   // setup signals & slots
   QObject::connect(
-    m_quitAction, &QAction::triggered, this, &QApplication::quit);
-  QObject::connect(m_aboutAction, &QAction::triggered, this, &MainWindow::about);
+      m_newAction, &QAction::triggered, this, &MainWindow::fileNew);
+  QObject::connect(
+      m_openAction, &QAction::triggered, this, &MainWindow::fileOpen);
+  QObject::connect(
+      m_quitAction, &QAction::triggered, this, &QApplication::quit);
+  QObject::connect(
+      m_aboutAction, &QAction::triggered, this, &MainWindow::about);
 }
 
 void MainWindow::about()
 {
   // Title of the dialog
-  QString title = "About Application";
+  QString title = windowTitle();
 
   // Rich text / HTML content for the body
   constexpr std::string_view rawHtmlTemplate = R"(
@@ -75,4 +82,16 @@ void MainWindow::about()
 
   // Display the about box
   QMessageBox::about(this, title, QString::fromStdString(text));
+}
+
+void MainWindow::fileNew()
+{
+  QMessageBox::information(this, windowTitle(),
+      QString("You clicked File->New\nYet to be implemented!"));
+}
+
+void MainWindow::fileOpen()
+{
+  QMessageBox::information(this, windowTitle(),
+      QString("You clicked File->Open\nYet to be implemented!"));
 }

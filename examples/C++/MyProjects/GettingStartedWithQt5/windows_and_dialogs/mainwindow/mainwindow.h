@@ -9,29 +9,29 @@ class QLabel;
 class QToolBar;
 
 class MainWindow : public QMainWindow {
-  Q_OBJECT
+    Q_OBJECT
+  public:
+    MainWindow();
+  private:
+    void createActions();
 
-public:
-  MainWindow();
+    QLabel *m_label;
+    // menus & actions
+    QMenu *m_fileMenu;
+    QMenu *m_helpMenu;
+    QToolBar *m_toolBar;
+    QAction *m_newAction;
+    QAction *m_openAction;
+    QAction *m_saveAction;
+    QAction *m_quitAction;
+    QAction *m_cancelAction;
+    QAction *m_aboutAction;
+    QAction *m_aboutQtAction;
 
-private:
-  void createActions();
-
-  QLabel *m_label;
-  // menus & actions
-  QMenu *m_fileMenu;
-  QMenu *m_helpMenu;
-  QToolBar *m_toolBar;
-  QAction *m_newAction;
-  QAction *m_openAction;
-  QAction *m_saveAction;
-  QAction *m_quitAction;
-  QAction *m_cancelAction;
-  QAction *m_aboutAction;
-  QAction *m_aboutQtAction;
-
-private slots:
-  void about();
+  private slots:
+    void fileNew();
+    void fileOpen();
+    void about();
 };
 
 

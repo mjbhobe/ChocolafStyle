@@ -9,9 +9,9 @@
 #   cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++
 #
 #   run build
-#   cmake --build cmake-build-debug --target number_testX && ./cmake-build-debug/number_testX
+#   cmake --build cmake-build-debug --target targetX && ./cmake-build-debug/build/Release/targetX
 #   OR
-#   cmake --build cmake-build-release --target number_testX && ./cmake-build-release/number_testX
+#   cmake --build cmake-build-release --target targetX && ./cmake-build-release/build/Release/targetX
 #
 # Author: Manish Bhobe
 # My experiments with C/C++, STL and Qt Framework
@@ -115,9 +115,28 @@ add_executable(windows_and_dialogs_mainwin
 )
 
 target_compile_definitions(windows_and_dialogs_mainwin PRIVATE
-    IMAGES_PATH="${IMAGES_PATH}"
+    # IMAGES_PATH="${IMAGES_PATH}"
+    IMAGES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/windows_and_dialogs/mainwindow"
 )
 
 target_include_directories(windows_and_dialogs_mainwin PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(windows_and_dialogs_mainwin PRIVATE chocolaf_settings)
+
+# ----------------------------------------------------------------------------------
+# Custom QMainWindow derived window with data entry form
+# ----------------------------------------------------------------------------------
+
+add_executable(windows_and_dialogs_mainwin_form
+    ./windows_and_dialogs/mainwindow_form/main.cpp
+    ./windows_and_dialogs/mainwindow_form/mainwindow.h
+    ./windows_and_dialogs/mainwindow_form/mainwindow.cpp
+)
+
+target_compile_definitions(windows_and_dialogs_mainwin_form PRIVATE
+    # IMAGES_PATH="${IMAGES_PATH}"
+    IMAGES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/windows_and_dialogs/mainwindow_form"
+)
+
+target_include_directories(windows_and_dialogs_mainwin_form PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(windows_and_dialogs_mainwin_form PRIVATE chocolaf_settings)
 
