@@ -36,7 +36,7 @@ class MainWindow : public QMainWindow {
     bool saveData();
     std::tuple<bool, QStandardItemModel *> loadData(QObject *parent = nullptr);
 
-
+    // members
     QWidget *m_centralWidget;
     QLineEdit *m_txtName;
     QDateEdit *m_txtDob;
@@ -62,6 +62,7 @@ class MainWindow : public QMainWindow {
     void fileOpen();
     void saveRecord();
     void clearFields();
+    void enableDisableSave();
     void about();
 };
 

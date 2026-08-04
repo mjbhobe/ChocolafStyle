@@ -346,8 +346,13 @@ QVBoxLayout *MainWindow::createDataEntryForm()
   m_btnSave->setText(m_saveAction->text());
   m_btnSave->setIcon(m_saveAction->icon());
   m_btnSave->setToolTip("Save Record");
+  m_btnSave->setEnabled(false);
   QObject::connect(
       m_btnSave, &QPushButton::clicked, this, &MainWindow::saveRecord);
+  QObject::connect(
+      m_txtName, &QLineEdit::textChanged, this, &MainWindow::enableDisableSave);
+  QObject::connect(m_txtPhoneNo, &QLineEdit::textChanged, this,
+      &MainWindow::enableDisableSave);
   m_btnClearAll = new QPushButton(this);
   m_btnClearAll->setText(m_clearAction->text());
   m_btnClearAll->setIcon(m_clearAction->icon());
@@ -459,4 +464,13 @@ void MainWindow::clearFields()
   m_txtName->clear();
   m_txtDob->setDate(QDate::currentDate());
   m_txtPhoneNo->clear();
+}
+
+void MainWindow::enableDisableSave()
+{
+  // enable save when values entered in all form fields
+  // else keep it disables
+  bool enabled = (!m_txtName->text().isEmpty() && !m_txtDob->text().isEmpty() &&
+      !m_txtPhoneNo->text().isEmpty());
+  m_btnSave->setEnabled(enabled);
 }
