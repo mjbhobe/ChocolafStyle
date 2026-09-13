@@ -5,7 +5,10 @@
 # This file DOES NOT build anything; it defines an INTERFACE target that
 # exports compile options/defines, include paths and link libs for consumers
 # Use as include file on your CMakeLists.txt for CONSOLE applications only!
-# Converted from common.pro file using OpenAI-GPT-5
+#
+# @author: Manish Bhobe
+# My experiments with C/C++ and Qt Framework
+# Code shared for learning purposes only!
 # ---------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.21)
@@ -43,16 +46,16 @@ find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Xml Sql Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Xml Sql Network)
 
 # INTERFACE target used by all console apps
-add_library(chocolaf_settings INTERFACE)
+add_library(chocolaf_console_settings INTERFACE)
 
 # ---------------------------------------------------------------------------
 # Global compile definitions (from DEFINES += ...)
 # ---------------------------------------------------------------------------
 # Warn on using deprecated Qt APIs
-target_compile_definitions(chocolaf_settings INTERFACE QT_DEPRECATED_WARNINGS)
+target_compile_definitions(chocolaf_console_settings INTERFACE QT_DEPRECATED_WARNINGS)
 
 # DEFINES += QT_DEPRECATED_WARNINGS ; CONFIG(release): DEFINES += QT_NO_DEBUG_OUTPUT
-target_compile_definitions(chocolaf_settings
+target_compile_definitions(chocolaf_console_settings
     INTERFACE
     QT_DEPRECATED_WARNINGS
     CONSOLE_MODE               # from QMAKE_CXXFLAGS += -DCONSOLE_MODE
@@ -67,7 +70,7 @@ target_compile_definitions(chocolaf_settings
 # qmake: -Wno-deprecated-enum-enum-conversion, -pedantic -Wall, O0/O2, g2/g0
 # add -fsanitize=address -fno-omit-frame-pointer to g++/clang++ to debug config
 # so AddressSanitizer can detect memory leaks
-target_compile_options(chocolaf_settings
+target_compile_options(chocolaf_console_settings
     INTERFACE
     # Common
     $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wno-deprecated-enum-enum-conversion>
@@ -92,7 +95,7 @@ else ()
       CACHE PATH "Common files root (Unix)")
 endif ()
 
-target_include_directories(chocolaf_settings
+target_include_directories(chocolaf_console_settings
     INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}
     ${COMMON_FILES_HOME}/common_files
@@ -108,7 +111,7 @@ option(USE_MSYS2 "Use MSYS2 layout on Windows" OFF)
 if (WIN32)
   if (USE_MSYS2)
     message(STATUS "Using MSYS2 configuration (console)")
-    target_include_directories(chocolaf_settings INTERFACE
+    target_include_directories(chocolaf_console_settings INTERFACE
         "C:/Dev/msys64/mingw64/include"
         "C:/Dev/msys64/mingw64/include/opencv4"
         "C:/Dev/GNULibs/fmt/bin/include"
@@ -129,7 +132,7 @@ if (WIN32)
     )
   else ()
     message(STATUS "**NOT** using MSYS2 configuration (console)")
-    target_include_directories(chocolaf_settings INTERFACE
+    target_include_directories(chocolaf_console_settings INTERFACE
         "C:/Dev/GNULibs/gmp-6.3.0/bin/include"
         "C:/Dev/OpenCV/build/x86/mingw/install/include"
         "C:/Dev/GNULibs/fmt/bin/include"
@@ -156,18 +159,26 @@ if (WIN32)
 else ()
   # unix { INCLUDEPATH += /usr/local/include ; INCLUDEPATH += /usr/include/opencv4 }
   message(STATUS "Settings for Linux build (console)")
-  target_include_directories(chocolaf_settings INTERFACE
+  target_include_directories(chocolaf_console_settings INTERFACE
       "/usr/local/include"
-      "/usr/include/opencv4"
+      # "/usr/include/opencv4"
+      "/usr/include/opencv5"
       "/usr/include/eigen-5.0.0"
   )
 # [Start] OpenCV changes to fix build breaks on Linux with Qt 6.x ------------------------------
 # (removed opencv_highgui from the libraries list) - was there after opencv_imgproc
 # this change impacts Linux builds only!
+
+# changed for OpenCV5
+#  set(_OPENCV_MANUAL_LIBS
+#      opencv_core opencv_imgproc opencv_ml opencv_video
+#      opencv_features2d opencv_calib3d opencv_objdetect opencv_videoio
+#      opencv_imgcodecs opencv_flann
+#  )
   set(_OPENCV_MANUAL_LIBS
       opencv_core opencv_imgproc opencv_ml opencv_video
-      opencv_features2d opencv_calib3d opencv_objdetect opencv_videoio
-      opencv_imgcodecs opencv_flann
+      opencv_features opencv_geometry opencv_calib opencv_stereo
+      opencv_objdetect opencv_videoio opencv_imgcodecs
   )
 endif ()
 
@@ -175,10 +186,10 @@ endif ()
 # (QMAKE_LIBS += $${QMAKE_LIB_DIRS} $${STD_LIBS} $${GMP_LIBS} $${OPENCV_LIBS})
 find_package(fmt QUIET)
 if (fmt_FOUND)
-  target_link_libraries(chocolaf_settings INTERFACE fmt::fmt)
+  target_link_libraries(chocolaf_console_settings INTERFACE fmt::fmt)
 else ()
     # Fallback for manual link topologies
-    target_link_libraries(chocolaf_settings INTERFACE fmt)
+    target_link_libraries(chocolaf_console_settings INTERFACE fmt)
 endif ()
 
 # [Start] OpenCV changes to fix build breaks on Linux with Qt 6.x ------------------------------
@@ -186,11 +197,11 @@ endif ()
 # # OpenCV (use if available; otherwise fall back to manual lib list above)
 # find_package(OpenCV QUIET COMPONENTS core imgproc highgui ml video features2d calib3d objdetect videoio imgcodecs flann)
 # if (OpenCV_FOUND)
-#   target_include_directories(chocolaf_settings INTERFACE ${OpenCV_INCLUDE_DIRS})
-#   target_link_libraries(chocolaf_settings INTERFACE ${OpenCV_LIBS})
+#   target_include_directories(chocolaf_console_settings INTERFACE ${OpenCV_INCLUDE_DIRS})
+#   target_link_libraries(chocolaf_console_settings INTERFACE ${OpenCV_LIBS})
 # else ()
 #   # Manual OpenCV link names (as in the .pro) if find_package fails
-#   target_link_libraries(chocolaf_settings INTERFACE ${_OPENCV_MANUAL_LIBS})
+#   target_link_libraries(chocolaf_console_settings INTERFACE ${_OPENCV_MANUAL_LIBS})
 # endif ()
 
 # ---------------------------------------------------------------------------
@@ -206,22 +217,22 @@ else ()
 endif ()
 
 if (OpenCV_FOUND)
-    target_include_directories(chocolaf_settings INTERFACE ${OpenCV_INCLUDE_DIRS})
-    target_link_libraries(chocolaf_settings INTERFACE ${OpenCV_LIBS})
+    target_include_directories(chocolaf_console_settings INTERFACE ${OpenCV_INCLUDE_DIRS})
+    target_link_libraries(chocolaf_console_settings INTERFACE ${OpenCV_LIBS})
 else ()
     # Fall back to manual library mapping lists if package configuration fails
-    target_link_libraries(chocolaf_settings INTERFACE ${_OPENCV_MANUAL_LIBS})
+    target_link_libraries(chocolaf_console_settings INTERFACE ${_OPENCV_MANUAL_LIBS})
 endif ()
 # [End] OpenCV changes to fix build breaks on Linux with Qt 6.x ------------------------------
 
 find_package(PostgreSQL QUIET)
 if (PostgreSQL_FOUND)
-  target_include_directories(chocolaf_settings INTERFACE ${PostgreSQL_INCLUDE_DIRS})
-  target_link_libraries(chocolaf_settings INTERFACE ${PostgreSQL_LIBRARIES})
+  target_include_directories(chocolaf_console_settings INTERFACE ${PostgreSQL_INCLUDE_DIRS})
+  target_link_libraries(chocolaf_console_settings INTERFACE ${PostgreSQL_LIBRARIES})
 else ()
     # Linux fallback if find_package fails but files exist in /usr/lib
     if (NOT WIN32)
-        target_link_libraries(chocolaf_settings INTERFACE pq)
+        target_link_libraries(chocolaf_console_settings INTERFACE pq)
     endif ()
 endif ()
 
@@ -229,19 +240,19 @@ endif ()
 # You may set PQXX_ROOT or rely on link_directories above.
 # find_library(PQXX_LIBRARY NAMES pqxx)
 # if (PQXX_LIBRARY)
-#   target_link_libraries(chocolaf_settings INTERFACE ${PQXX_LIBRARY})
+#   target_link_libraries(chocolaf_console_settings INTERFACE ${PQXX_LIBRARY})
 # endif ()
 
 # Modern clean check for libpqxx
 find_package(libpqxx QUIET)
 if (libpqxx_FOUND)
-    target_link_libraries(chocolaf_settings INTERFACE libpqxx::pqxx)
+    target_link_libraries(chocolaf_console_settings INTERFACE libpqxx::pqxx)
 else ()
     find_library(PQXX_LIBRARY NAMES pqxx)
     if (PQXX_LIBRARY)
-        target_link_libraries(chocolaf_settings INTERFACE ${PQXX_LIBRARY})
+        target_link_libraries(chocolaf_console_settings INTERFACE ${PQXX_LIBRARY})
     else ()
-        target_link_libraries(chocolaf_settings INTERFACE pqxx)
+        target_link_libraries(chocolaf_console_settings INTERFACE pqxx)
     endif ()
 endif ()
 
@@ -249,47 +260,47 @@ endif ()
 # --- Find and link CURL (libcurl) ---
 find_package(CURL QUIET)
 if (CURL_FOUND)
-    target_include_directories(chocolaf_settings INTERFACE ${CURL_INCLUDE_DIRS})
-    target_link_libraries(chocolaf_settings INTERFACE ${CURL_LIBRARIES})
+    target_include_directories(chocolaf_console_settings INTERFACE ${CURL_INCLUDE_DIRS})
+    target_link_libraries(chocolaf_console_settings INTERFACE ${CURL_LIBRARIES})
 else ()
     # Fallback to linking by name if find_package fails
     if (WIN32)
-        target_link_libraries(chocolaf_settings INTERFACE libcurl)
+        target_link_libraries(chocolaf_console_settings INTERFACE libcurl)
     else ()
-        target_link_libraries(chocolaf_settings INTERFACE curl)
+        target_link_libraries(chocolaf_console_settings INTERFACE curl)
     endif ()
 endif ()
 
 if (WIN32)
-  target_link_libraries(chocolaf_settings INTERFACE gmp gmpxx)
+  target_link_libraries(chocolaf_console_settings INTERFACE gmp gmpxx)
 else ()
   find_library(GMP_LIBRARY NAMES gmp)
   find_library(GMPXX_LIBRARY NAMES gmpxx)
   if (GMP_LIBRARY)
-    target_link_libraries(chocolaf_settings INTERFACE ${GMP_LIBRARY})
+    target_link_libraries(chocolaf_console_settings INTERFACE ${GMP_LIBRARY})
   endif ()
   if (GMPXX_LIBRARY)
-    target_link_libraries(chocolaf_settings INTERFACE ${GMPXX_LIBRARY})
+    target_link_libraries(chocolaf_console_settings INTERFACE ${GMPXX_LIBRARY})
   endif ()
 endif ()
 
 # win32 { LIBS += -lUser32 -lGdi32 -lKernel32 -lDwmapi }
 # unix { STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq }
 if (WIN32)
-  target_link_libraries(chocolaf_settings INTERFACE
+  target_link_libraries(chocolaf_console_settings INTERFACE
       user32 gdi32 kernel32 dwmapi wsock32 ws2_32 wsock32 Quantlib
   )
 else ()
-  target_link_libraries(chocolaf_settings INTERFACE m)
+  target_link_libraries(chocolaf_console_settings INTERFACE m)
   # CRITICAL: Forces g++ to resolve C++23 std::println binary symbols
   if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-      target_link_libraries(chocolaf_settings INTERFACE stdc++exp)
+      target_link_libraries(chocolaf_console_settings INTERFACE stdc++exp)
       message(STATUS "Appending -lstdc++exp for GCC C++23 runtime support")
   endif ()
 endif ()
 
 # Link Qt modules to interface
-target_link_libraries(chocolaf_settings
+target_link_libraries(chocolaf_console_settings
     INTERFACE
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Xml
@@ -310,7 +321,7 @@ set(CHOCOLAF_CONSOLE_HEADERS
     CACHE INTERNAL "Common headers to be added by consumers"
 )
 
-target_sources(chocolaf_settings INTERFACE
+target_sources(chocolaf_console_settings INTERFACE
     ${CHOCOLAF_CONSOLE_SOURCES}
     ${CHOCOLAF_CONSOLE_HEADERS}
 )
@@ -325,7 +336,7 @@ target_sources(chocolaf_settings INTERFACE
 #
 #   include(${CMAKE_SOURCE_DIR}/cmake/ChocolafGlobal.cmake)
 #   add_executable(myapp main.cpp)
-#   target_link_libraries(myapp PRIVATE chocolaf_settings)
+#   target_link_libraries(myapp PRIVATE chocolaf_console_settings)
 #   target_sources(myapp PRIVATE ${CHOCOLAF_COMMON_SOURCES} ${CHOCOLAF_QT_RESOURCES})
 #   target_include_directories(myapp PRIVATE ${CHOCOLAF_COMMON_HEADERS}) # headers are header-only
 #
@@ -333,13 +344,13 @@ target_sources(chocolaf_settings INTERFACE
 #  - set USE_MSYS2 ON and keep the link_directories/include dirs above, or
 #  - provide CMAKE_PREFIX_PATH / *_ROOT hints to their installations.
 
-# --- Debug summary for chocolaf_settings ------------------------------------
+# --- Debug summary for chocolaf_console_settings ------------------------------------
 
 # 1. Include directories
-get_target_property(_choco_includes chocolaf_settings INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(_choco_includes chocolaf_console_settings INTERFACE_INCLUDE_DIRECTORIES)
 
 # 2. Linked libraries
-get_target_property(_choco_libs chocolaf_settings INTERFACE_LINK_LIBRARIES)
+get_target_property(_choco_libs chocolaf_console_settings INTERFACE_LINK_LIBRARIES)
 
 # 3. Search paths (used by link_directories() etc.)
 get_directory_property(_link_dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} LINK_DIRECTORIES)
@@ -354,11 +365,11 @@ set(_choco_sources "${CHOCOLAF_COMMON_SOURCES}")
 set(_choco_resources "${CHOCOLAF_QT_RESOURCES}")
 
 # 7. --- ADDED: Compiler flags applied to this target ---
-get_target_property(_choco_compile_opts chocolaf_settings INTERFACE_COMPILE_OPTIONS)
-get_target_property(_choco_compile_defs chocolaf_settings INTERFACE_COMPILE_DEFINITIONS)
+get_target_property(_choco_compile_opts chocolaf_console_settings INTERFACE_COMPILE_OPTIONS)
+get_target_property(_choco_compile_defs chocolaf_console_settings INTERFACE_COMPILE_DEFINITIONS)
 
 # 8. --- ADDED: Linker flags applied to this target ---
-get_target_property(_choco_link_opts chocolaf_settings INTERFACE_LINK_OPTIONS)
+get_target_property(_choco_link_opts chocolaf_console_settings INTERFACE_LINK_OPTIONS)
 
 # Flatten for pretty-printing
 string(REPLACE ";" "\n    " _includes_str "${_choco_includes}")

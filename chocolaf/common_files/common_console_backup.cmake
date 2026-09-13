@@ -1,14 +1,11 @@
 # ---------------------------------------------------------------------------
-# common.cmake
+# common_console.cmake
 #
-# Global settings file for compiler/linker/includes etc. for GUI targets
+# Global settings file for compiler/linker/includes etc.
 # This file DOES NOT build anything; it defines an INTERFACE target that
-# exports compile options/defines, include paths and link libs for consumers.
-# Use as include file on your CMakeLists.txt for GUI applications only!
-#
-# @author: Manish Bhobe
-# My experiments with C/C++ & Qt Framework.
-# Code shared for learning purposes only! Use at own risk.
+# exports compile options/defines, include paths and link libs for consumers
+# Use as include file on your CMakeLists.txt for CONSOLE applications only!
+# Converted from common.pro file using OpenAI-GPT-5
 # ---------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.21)
@@ -25,34 +22,27 @@ if (NOT DEFINED PROJECT_NAME OR PROJECT_NAME STREQUAL "")
       "set(PROJECT_NAME <<your_project_name>>)\n\n"
       "project(${PROJECT_NAME} LANGUAGES CXX)\n\n"
       "# --- Include the global settings module\n"
-      "include(\"$ENV{CHOCOLAF_COMMONFILES_HOME}/common.cmake\")"
+      "include(\"$ENV{CHOCOLAF_COMMONFILES_HOME}/common_console.cmake\")"
   )
 endif ()
 
-
-# --- Choose C++ standard (qmake had c++20 in CONFIG but also forced -std=c++23)
-# Pick 23 to match QMAKE_CXXFLAGS; change to 20 if needed.
+# NOTE: we'll need a C++ 23 standards compiler!!
+# CONFIG += c++23 → CMake standard settings
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# --- Enable Qt's auto tools globally (mimics qmake's moc/uic/rcc handling)
+# qmake AUTO features (moc, uic, rcc)
+# CONFIG += console → (default in CMake, no GUI bundle)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-# ---------------------------------------------------------------------------
-# Qt components (from: QT += core gui xml sql network svg; +widgets if Qt>=5)
-# ---------------------------------------------------------------------------
-# Try Qt6 first, then Qt5, with the listed components.
-# find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Xml Sql Network Svg Widgets)
-# QT += core gui xml sql network svg widgets
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Gui Xml Sql Network Svg Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Xml Sql Network Svg Widgets)
+# QT += core xml sql network ; QT -= gui widgets
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Xml Sql Network)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Xml Sql Network)
 
-# ---------------------------------------------------------------------------
-# Interface target that carries all usage requirements
-# ---------------------------------------------------------------------------
+# INTERFACE target used by all console apps
 add_library(chocolaf_settings INTERFACE)
 
 # ---------------------------------------------------------------------------
@@ -61,10 +51,11 @@ add_library(chocolaf_settings INTERFACE)
 # Warn on using deprecated Qt APIs
 target_compile_definitions(chocolaf_settings INTERFACE QT_DEPRECATED_WARNINGS)
 
-# Disable qDebug() output in Release (from: CONFIG(release): DEFINES += QT_NO_DEBUG_OUTPUT)
+# DEFINES += QT_DEPRECATED_WARNINGS ; CONFIG(release): DEFINES += QT_NO_DEBUG_OUTPUT
 target_compile_definitions(chocolaf_settings
     INTERFACE
     QT_DEPRECATED_WARNINGS
+    CONSOLE_MODE               # from QMAKE_CXXFLAGS += -DCONSOLE_MODE
     $<$<CONFIG:Release>:QT_NO_DEBUG_OUTPUT>
     $<$<BOOL:WIN32>:NOMINMAX WIN32_LEAN_AND_MEAN>
 )
@@ -84,24 +75,15 @@ target_compile_options(chocolaf_settings
     $<$<CXX_COMPILER_ID:MSVC>:/W4>
     # Debug
     $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O0 -g2 -pedantic>
-    #    $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-fsanitize=address -fno-omit-frame-pointer>
+#    $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-fsanitize=address -fno-omit-frame-pointer>
     $<$<AND:$<CONFIG:Debug>,$<CXX_COMPILER_ID:MSVC>>:/Od /Z7>
     # Release
     $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-O2 -g0>
     $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:MSVC>>:/O2 /Z7-> # strip symbols
 )
 
-# ---------------------------------------------------------------------------
-# Include paths (from INCLUDEPATH += ...)
-# ---------------------------------------------------------------------------
-# NOTE: Prefer find_package for real projects; these mimic the original .pro.
-#target_include_directories(chocolaf_settings
-#        INTERFACE
-#        # qmake had: DEPENDPATH+=. INCLUDEPATH+=. and INCLUDEPATH += $$PWD
-#        ${CMAKE_CURRENT_LIST_DIR}
-#)
-
-# Platform-specific "COMMON_FILES_HOME" (kept as a variable for consumers)
+# DEPENDPATH += . ; INCLUDEPATH += .
+# INCLUDEPATH += $${COMMON_FILES_HOME}/common_files
 if (WIN32)
   set(COMMON_FILES_HOME "c:/Dev/Code/git-projects/ChocolafStyle/chocolaf"
       CACHE PATH "Common files root (Windows)")
@@ -112,7 +94,6 @@ endif ()
 
 target_include_directories(chocolaf_settings
     INTERFACE
-    # qmake had: DEPENDPATH+=. INCLUDEPATH+=. and INCLUDEPATH += $$PWD
     ${CMAKE_CURRENT_LIST_DIR}
     ${COMMON_FILES_HOME}/common_files
 )
@@ -122,11 +103,11 @@ target_include_directories(chocolaf_settings
 # ---------------------------------------------------------------------------
 # use the -DUSE_MSYS2=ON/OFF flag on command line also, by default it's off\
 # Example: cmake -S . -B build -DUSE_MSYS2=ON/OFF
-option(USE_MSYS2 "Use MSYS2 include/lib layout on Windows" OFF)
+option(USE_MSYS2 "Use MSYS2 layout on Windows" OFF)
 
 if (WIN32)
   if (USE_MSYS2)
-    message(STATUS "Using MSYS2 configuration...")
+    message(STATUS "Using MSYS2 configuration (console)")
     target_include_directories(chocolaf_settings INTERFACE
         "C:/Dev/msys64/mingw64/include"
         "C:/Dev/msys64/mingw64/include/opencv4"
@@ -134,23 +115,20 @@ if (WIN32)
         "C:/Dev/GNULibs/libpqxx/bin/include"
         "C:/Dev/PostgreSQL/15/include"
     )
-    # Library search hints (prefer find_package; these mirror -L entries)
-    # If you must use -L, you can set CMAKE_<LANG>_STANDARD_LIBRARIES or link_directories,
-    # but target-specific absolute libs are safer. We'll keep link_directories minimal:
     link_directories(
         "C:/Dev/msys64/mingw64/lib"
         "C:/Dev/GNULibs/fmt/bin/lib"
         "C:/Dev/GNULibs/libpqxx/bin/lib"
         "C:/Dev/PostgreSQL/15/lib"
     )
-    # OpenCV libs (if not found by find_package)
+    # OPENCV_LIBS = -lopencv_core ...
     set(_OPENCV_MANUAL_LIBS
         opencv_core opencv_imgproc opencv_highgui opencv_ml opencv_video
         opencv_features2d opencv_calib3d opencv_objdetect opencv_videoio
         opencv_imgcodecs opencv_flann
     )
   else ()
-    message(STATUS "**NOT** using MSYS2 configuration...")
+    message(STATUS "**NOT** using MSYS2 configuration (console)")
     target_include_directories(chocolaf_settings INTERFACE
         "C:/Dev/GNULibs/gmp-6.3.0/bin/include"
         "C:/Dev/OpenCV/build/x86/mingw/install/include"
@@ -169,46 +147,32 @@ if (WIN32)
         "C:/Dev/PostgreSQL/15/lib"
         "C:/Dev/GNULibs/QuantLib-1.43/lib"
     )
-    # Versioned OpenCV 4.5.1 libs per original .pro
     set(_OPENCV_MANUAL_LIBS
         opencv_core451 opencv_imgproc451 opencv_highgui451 opencv_ml451 opencv_video451
         opencv_features2d451 opencv_calib3d451 opencv_objdetect451 opencv_videoio451
         opencv_imgcodecs451 opencv_flann451
     )
   endif ()
-else () # UNIX
-  message(STATUS "Settings for Linux build")
-  # include for gmp.h, gmpxx.h and for OpenCV headers
+else ()
+  # unix { INCLUDEPATH += /usr/local/include ; INCLUDEPATH += /usr/include/opencv4 }
+  message(STATUS "Settings for Linux build (console)")
   target_include_directories(chocolaf_settings INTERFACE
       "/usr/local/include"
-      # "/usr/include/opencv4"
-      "/usr/include/opencv5"
+      "/usr/include/opencv4"
       "/usr/include/eigen-5.0.0"
   )
 # [Start] OpenCV changes to fix build breaks on Linux with Qt 6.x ------------------------------
 # (removed opencv_highgui from the libraries list) - was there after opencv_imgproc
 # this change impacts Linux builds only!
-
-# changes to OpenCV5
-#  set(_OPENCV_MANUAL_LIBS
-#      opencv_core opencv_imgproc opencv_ml opencv_video
-#	  # opencv_features2d opencv_calib3d opencv_objdetect opencv_videoio
-#      opencv_objdetect opencv_videoio
-#      opencv_imgcodecs opencv_flann
-#  )
   set(_OPENCV_MANUAL_LIBS
       opencv_core opencv_imgproc opencv_ml opencv_video
-      opencv_features opencv_geometry opencv_calib opencv_stereo
-      opencv_objdetect opencv_videoio
-      opencv_imgcodecs
+      opencv_features2d opencv_calib3d opencv_objdetect opencv_videoio
+      opencv_imgcodecs opencv_flann
   )
-  
 endif ()
 
-# ---------------------------------------------------------------------------
-# Prefer find_package for 3rd party dependencies (recommended)
-# ---------------------------------------------------------------------------
-# FMT
+# FMT, OpenCV, PostgreSQL, libpqxx, GMP
+# (QMAKE_LIBS += $${QMAKE_LIB_DIRS} $${STD_LIBS} $${GMP_LIBS} $${OPENCV_LIBS})
 find_package(fmt QUIET)
 if (fmt_FOUND)
   target_link_libraries(chocolaf_settings INTERFACE fmt::fmt)
@@ -250,8 +214,6 @@ else ()
 endif ()
 # [End] OpenCV changes to fix build breaks on Linux with Qt 6.x ------------------------------
 
-
-# PostgreSQL / libpq
 find_package(PostgreSQL QUIET)
 if (PostgreSQL_FOUND)
   target_include_directories(chocolaf_settings INTERFACE ${PostgreSQL_INCLUDE_DIRS})
@@ -263,8 +225,8 @@ else ()
     endif ()
 endif ()
 
-# # libpqxx (no standard CMake package in many distros; link by name if available)
-# # You may set PQXX_ROOT or rely on link_directories above.
+# libpqxx (no standard CMake package in many distros; link by name if available)
+# You may set PQXX_ROOT or rely on link_directories above.
 # find_library(PQXX_LIBRARY NAMES pqxx)
 # if (PQXX_LIBRARY)
 #   target_link_libraries(chocolaf_settings INTERFACE ${PQXX_LIBRARY})
@@ -298,7 +260,6 @@ else ()
     endif ()
 endif ()
 
-
 if (WIN32)
   target_link_libraries(chocolaf_settings INTERFACE gmp gmpxx)
 else ()
@@ -312,16 +273,13 @@ else ()
   endif ()
 endif ()
 
-# ---------------------------------------------------------------------------
-# System libs (from: LIBS += -lUser32 -lGdi32 -lKernel32 -lDwmapi -lShcore, etc.)
-# ---------------------------------------------------------------------------
+# win32 { LIBS += -lUser32 -lGdi32 -lKernel32 -lDwmapi }
+# unix { STD_LIBS = -lm -lstdc++ -lfmt -lpqxx -lpq }
 if (WIN32)
   target_link_libraries(chocolaf_settings INTERFACE
-      user32 gdi32 kernel32 dwmapi shcore ws2_32 wsock32 Quantlib
+      user32 gdi32 kernel32 dwmapi wsock32 ws2_32 wsock32 Quantlib
   )
 else ()
-  # qmake had: -lm -lstdc++ part of STD_LIBS on *nix
-  # Link to m where needed; libstdc++ is implicit when using g++/clang++
   target_link_libraries(chocolaf_settings INTERFACE m)
   # CRITICAL: Forces g++ to resolve C++23 std::println binary symbols
   if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -330,133 +288,33 @@ else ()
   endif ()
 endif ()
 
-# ---------------------------------------------------------------------------
-# Link Qt to the interface so consumers get it
-# ---------------------------------------------------------------------------
+# Link Qt modules to interface
 target_link_libraries(chocolaf_settings
     INTERFACE
     Qt${QT_VERSION_MAJOR}::Core
-    Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::Xml
     Qt${QT_VERSION_MAJOR}::Sql
     Qt${QT_VERSION_MAJOR}::Network
-    Qt${QT_VERSION_MAJOR}::Svg
-    Qt${QT_VERSION_MAJOR}::Widgets
 )
 
-# ---------------------------------------------------------------------------
-# Sources/Headers/Resources lists (from SOURCES +=, HEADERS +=, RESOURCES +=)
-# NOTE: We expose these as variables for consumers to add to their targets.
-# ---------------------------------------------------------------------------
-set(CHOCOLAF_COMMON_SOURCES
+# SOURCES += $$PWD/common_funcs.cpp
+# HEADERS += $$PWD/common_funcs.h rapidcsv.h argparse.hpp
+set(CHOCOLAF_CONSOLE_SOURCES
     "${CMAKE_CURRENT_LIST_DIR}/common_funcs.cpp"
-    "${CMAKE_CURRENT_LIST_DIR}/chocolaf.cpp"
-    CACHE INTERNAL "Common sources to be added by consumers"
+    CACHE INTERNAL "Console common sources"
 )
-set(CHOCOLAF_COMMON_HEADERS
+set(CHOCOLAF_CONSOLE_HEADERS
     "${CMAKE_CURRENT_LIST_DIR}/common_funcs.h"
-    "${CMAKE_CURRENT_LIST_DIR}/chocolaf.h"
     "${CMAKE_CURRENT_LIST_DIR}/argparse/argparse.hpp"
     "${CMAKE_CURRENT_LIST_DIR}/rapidcsv.h"
     CACHE INTERNAL "Common headers to be added by consumers"
 )
-# qmake: RESOURCES += $$PWD/../styles/chocolaf/chocolaf.qrc
-set(CHOCOLAF_QT_RESOURCES
-    "${CMAKE_CURRENT_LIST_DIR}/../styles/chocolaf/chocolaf.qrc"
-    CACHE INTERNAL "Qt .qrc files for consumers"
-)
 
-# If you want these files to show up in IDEs when linking the interface target,
-# you can expose them as INTERFACE sources (no compilation is triggered here).
-#target_sources(chocolaf_settings INTERFACE
-#  ${CHOCOLAF_COMMON_SOURCES}
-#  ${CHOCOLAF_COMMON_HEADERS}
-#  ${CHOCOLAF_QT_RESOURCES}
-#)
-
-# Consumers using Qt6 can also do: qt_add_resources(<target> ... ${CHOCOLAF_QT_RESOURCES})
-
-# ---------------------------------------------------------------------------
-# QtAwesome (qmake: CONFIG += fontAwesomeFree; include(QtAwesome/QtAwesome.pri))
-# ---------------------------------------------------------------------------
-
-# ---- QtAwesome (vendored sources beside this file) ---------------------------
-# Turn on/off globally
-option(ENABLE_QTAWESOME "Build and link QtAwesome icon helper" ON)
-
-if (ENABLE_QTAWESOME)
-  # Path: QtAwesome is a sibling of this common.cmake file
-  set(QTAWESOME_ROOT "${CMAKE_CURRENT_LIST_DIR}/QtAwesome")
-
-  if (EXISTS "${QTAWESOME_ROOT}/QtAwesome.cpp")
-    #    add_library(QtAwesome STATIC
-    #        "${QTAWESOME_ROOT}/QtAwesome.cpp"
-    #        "${QTAWESOME_ROOT}/QtAwesome.h"
-    #        "${QTAWESOME_ROOT}/QtAwesomeAnim.cpp"
-    #        "${QTAWESOME_ROOT}/QtAwesomeAnim.h"
-    #    )
-    #target_include_directories(QtAwesome PUBLIC "${QTAWESOME_ROOT}")
-    target_include_directories(chocolaf_settings INTERFACE "${QTAWESOME_ROOT}")
-    # append QtAwesome header files to includes list
-    list(APPEND CHOCOLAF_COMMON_HEADERS "${QTAWESOME_ROOT}/QtAwesome.h")
-    list(APPEND CHOCOLAF_COMMON_HEADERS "${QTAWESOME_ROOT}/QtAwesomeAnim.h")
-    set(CHOCOLAF_COMMON_HEADERS
-        "${CHOCOLAF_COMMON_HEADERS}"
-        CACHE INTERNAL "Common sources to be added by consumers" FORCE)
-
-    # # append QtAwesome source files to sources list
-    list(APPEND CHOCOLAF_COMMON_SOURCES "${QTAWESOME_ROOT}/QtAwesome.cpp")
-    list(APPEND CHOCOLAF_COMMON_SOURCES "${QTAWESOME_ROOT}/QtAwesomeAnim.cpp")
-    set(CHOCOLAF_COMMON_SOURCES
-        "${CHOCOLAF_COMMON_SOURCES}"
-        CACHE INTERNAL "Common sources to be added by consumers" FORCE)
-
-    #    target_link_libraries(QtAwesome PUBLIC
-    #        Qt${QT_VERSION_MAJOR}::Core
-    #        Qt${QT_VERSION_MAJOR}::Gui
-    #        Qt${QT_VERSION_MAJOR}::Widgets
-    #    )
-
-    # If the repo (or you) provide a .qrc with Font Awesome fonts, add it here:
-    if (EXISTS "${QTAWESOME_ROOT}/QtAwesomeFree.qrc")
-      # AUTORCC is already ON globally; adding the .qrc is enough
-      #target_sources(QtAwesome PRIVATE "${QTAWESOME_ROOT}/QtAwesomeFree.qrc")
-
-      list(APPEND CHOCOLAF_QT_RESOURCES "${QTAWESOME_ROOT}/QtAwesomeFree.qrc")
-      set(CHOCOLAF_QT_RESOURCES
-          "${CMAKE_CURRENT_LIST_DIR}/../styles/chocolaf/chocolaf.qrc"
-          CACHE INTERNAL "Qt .qrc files for consumers" FORCE
-      )
-    endif ()
-
-    # Make all consumers of chocolaf_settings get QtAwesome automatically
-    # target_link_libraries(chocolaf_settings INTERFACE QtAwesome)
-    message(STATUS "QtAwesome enabled from: ${QTAWESOME_ROOT}")
-  else ()
-    message(WARNING "QtAwesome not found at ${QTAWESOME_ROOT}. Set ENABLE_QTAWESOME=OFF or place sources there.")
-  endif ()
-endif ()
-# --------------------------------------------------------------------------
-# Output directories (qmake DESTDIR/build/debug|release)
-# NOTE: CMake defaults differ; set global dirs to mimic qmake layout.
-# ---------------------------------------------------------------------------
-# Use ${CMAKE_BINARY_DIR}/build/<config> to separate artifacts
-set(_out_base "${CMAKE_BINARY_DIR}/build")
-foreach (_cfg Debug Release RelWithDebInfo MinSizeRel)
-  string(TOUPPER "${_cfg}" _CFG)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_CFG} "${_out_base}/${_cfg}")
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${_CFG} "${_out_base}/${_cfg}")
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${_CFG} "${_out_base}/${_cfg}")
-endforeach ()
-
-
-# If you want these files to show up in IDEs when linking the interface target,
-# you can expose them as INTERFACE sources (no compilation is triggered here).
 target_sources(chocolaf_settings INTERFACE
-    ${CHOCOLAF_COMMON_SOURCES}
-    ${CHOCOLAF_COMMON_HEADERS}
-    ${CHOCOLAF_QT_RESOURCES}
+    ${CHOCOLAF_CONSOLE_SOURCES}
+    ${CHOCOLAF_CONSOLE_HEADERS}
 )
+
 
 # qmake also set OBJECTS_DIR/MOC_DIR/RCC_DIR/UI_DIR under DESTDIR.
 # CMake manages moc/rcc/uic in its own build tree; overriding their

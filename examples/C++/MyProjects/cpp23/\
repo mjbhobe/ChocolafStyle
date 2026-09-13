@@ -1,0 +1,454 @@
+" My Vim configuration
+" @see https://gist.github.com/rocarvaj/2513367
+"
+"
+" @see: https://realpython.com/vim-and-python-a-match-made-in-heaven/#vundle
+set nocompatible
+filetype off
+
+
+" this is a fix for a known bug in GVim on Java files
+let g:java_ignore_markdown = 1
+
+" set runtime path to include Vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" add your plugins between being() & end()...
+" once complete, restart vim & then run :PluginInstall to [re-]install plugins
+
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tmhedberg/SimplyFold'
+"Bundle 'Valloric/YouCompleteMe'
+"Plugin 'vim-syntastic/syntastic'
+"Plugin 'nvie/vim-flake8'
+Plugin 'vim-scripts/indentpython.vim'
+"Plugin 'vim-autoformat/vim-autoformat'
+Plugin 'devsjc/vim-jb'
+Bundle 'noah/vim256-color'
+Bundle 'catppuccin/vim'
+Plugin 'iamcco/markdown-preview.nvim'
+
+" for IDE like functionality
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } } " Fuzzy Finder base
+Plugin 'junegunn/fzf.vim'                             " FZF Vim integration
+Plugin 'preservim/nerdtree'                           " Project Explorer
+Plugin 'neoclide/coc.nvim', {'branch': 'release'}     " LSP Client Core
+Plugin 'sheerun/vim-polyglot'                         " Fast Syntax Highlighting
+
+
+call vundle#end()
+
+set foldmethod=indent
+set foldlevel=99
+" force terminal to split below
+set splitbelow
+" force exact true color rendering
+if (has("termguicolors"))
+	set termguicolors
+endif
+" enable code folding with spacebar
+" nnoremap <space> za
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+let python_highlight_all=1
+syntax on
+set encoding=utf-8
+" [End] @see: https://realpython.com/vim-and-python-a-match-made-in-heaven/#vundle
+
+" disable vi compatibility (emulation of old bugs)
+set nocompatible
+" use indentation of previous line
+set autoindent
+" use intelligent indentation for C
+set smartindent
+" Use 4 tabstops by default & use TABs
+set tabstop=4
+set shiftwidth=4
+" Do not wrap lines by default (textwidth=0)
+" for popular languages C/C++/Java/Python we have custom settings below
+set textwidth=0
+" set nowrap
+" turn syntax highlighting on
+syntax on
+" turn line numbers on
+set number
+" highlight matching braces
+set showmatch
+" intelligent comments
+set comments=sl:/*,mb:\ *,elx:\ */
+" don't wrap text in window
+set nowrap
+" Show a confirmation dialog instead of erroring out on unsaved
+" changes or running terminal jobs, when quitting
+set confirm
+
+" enable MS Windows like keystrokes
+source $VIMRUNTIME/mswin.vim
+behave mswin
+source $VIMRUNTIME/indent/xml.vim
+
+" NERDTree settings
+" Show hidden files (dotfiles) by default
+let NERDTreeShowHidden=1
+
+" Set a fixed width for the NERDTree panel
+let g:NERDTreeWinSize=30
+
+" Close vim automatically if NERDTree is the only window left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | quit | endif
+
+" Toggle NERDTree with F2 (avoids clashing with mswin.vim's Ctrl mappings)
+nnoremap <silent> <F2> :NERDTreeToggle<CR>
+
+" Press Esc to leave terminal-job mode and enter terminal-normal mode
+" (only inside terminal buffers, doesn't affect normal Vim Esc behavior elsewhere)
+tnoremap <Esc> <C-\><C-n>
+
+
+" font
+"set gfn=Droid\ Sans\ Mono\ 10
+"set gfn=DejaVu\ Sans\ Mono\ Book\ 13px
+"set gfn=Source\ Code\ Pro\ 10
+"set gfn=Courier\ 10\ Pitch\ 11
+"set gfn=Roboto\ Mono\ 10
+"set gfn=Inconsolata-dz\ 11
+"set gfn=Meslo\ LG\ L\ DZ\ 12px
+"set gfn=Hack\ 14px
+"set gfn=Courier10\ BT\ Roman\ 11
+"set gfn=Menlo\ 13.6px
+"set gfn=Consolas\ 15.2px
+"set gfn=The\ Sans\ Mono-\ Regular\ 14.2px
+
+if has("gui_running")
+    if has("win32") || has("win64")
+        set gfn=The\ Sans\ Mono:h11
+    else
+        set gfn=The\ Sans\ Mono-\ Regular\ 17px
+        "set gfn=SF\ Mono\ Regular\ 17px
+    endif
+endif
+
+set linespace=6
+
+" NOTE: colorscheme moved out of this conditinal block
+" am now using catppuccin mocha
+if has("gui_running")
+	" running the GUI version GVim
+	  set columns=130
+	  set lines=30
+	  set t_Co=256
+	  set background=dark
+	  " colorscheme mysticaltutor
+else
+	  set t_Co=256
+	  set background=dark
+	  " colorscheme jb
+	  "colorscheme habamax
+endif
+
+let g:catppuccin_flavor = "mocha" " Options: latte, frappe, macchiato, mocha
+colorscheme catppuccin
+
+" settings by filetype
+filetype plugin indent on
+
+" Disable automatic comment leader insertion when pressing <Enter> (r) 
+" or using o/O (o) for all file types.
+autocmd FileType * setlocal formatoptions-=r formatoptions-=o
+
+autocmd Filetype c setlocal ts=2 sw=2 expandtab cindent nowrap textwidth=90
+autocmd Filetype cpp setlocal ts=2 sw=2 expandtab cindent nowrap textwidth=90
+autocmd FileType cmake setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab cindent nowrap textwidth=90
+autocmd Filetype java setlocal ts=2 sw=2 expandtab cindent nowrap textwidth=90
+autocmd Filetype xml setlocal ts=3 sw=3 expandtab cindent nowrap textwidth=90
+autocmd Filetype txt setlocal ts=4 sw=4 softtabstop=4 expandtab cindent nowrap textwidth=90
+" auto wrap markdown files to window width
+autocmd Filetype markdown setlocal wrap linebreak
+autocmd Filetype python setlocal ts=4 sw=4 softtabstop=4 expandtab cindent nowrap textwidth=90
+autocmd Filetype python setlocal commentstring=\ #\ %s
+" compiling & error checking for Java files
+autocmd Filetype java setlocal makeprg=$JAVA_HOME/bin/javac\ %<.java
+" Sun/Oracle's Java compiler's error format is like line below:
+" Demo.java:21: error: height is not public in Component; cannot be accessed from outside package
+autocmd Filetype java setlocal efm=%f:%l:\ error:%m
+" compiling & error checking for C/C++ files
+"autocmd Filetype c setlocal makeprg=clang\ -Wall\ -Wextra\ -pedantic\ -O2\ -g3\ %\ -o\ %<\ -lm
+"autocmd Filetype cpp setlocal makeprg=clang++\ -std=c++23\ -Wall\ -Wextra\ -pedantic\ -O2\ -g3\ %\ -o\ %<\ -lstdc++\ -lm\ -lgmp\ -lgmpxx\ -lpqxx
+" g++ error message looks like line below
+" sortfile.cc:18:16: error: ‘std::ifstream’ has no member named ‘readLine’
+autocmd Filetype cc setlocal efm=%f:%l:%c:\ error:%m
+
+"@see: http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
+"this allows me to apply different syntax to certain regions of a text file
+"Example: when interspercing code within a text document
+
+function! TextEnableCodeSnippet(filetype,start,end,textSnipHl) abort
+  " Usage: Add markers @begin=<language>@ and @end=<language>@
+  " to mark the text where syntax highlighting for <language> should be
+  " applied. Replace <language> with known languages, like c, cpp, python etc
+  let ft=toupper(a:filetype)
+  let group='textGroup'.ft
+  if exists('b:current_syntax')
+    let s:current_syntax=b:current_syntax
+    " Remove current syntax definition, as some syntax files (e.g. cpp.vim)
+    " do nothing if b:current_syntax is defined.
+    unlet b:current_syntax
+  endif
+  execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
+  try
+    execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
+  catch
+  endtry
+  if exists('s:current_syntax')
+    let b:current_syntax=s:current_syntax
+  else
+    unlet b:current_syntax
+  endif
+  execute 'syntax region textSnip'.ft.'
+  \ matchgroup='.a:textSnipHl.'
+  \ start="'.a:start.'" end="'.a:end.'"
+  \ contains=@'.group
+endfunction
+
+call TextEnableCodeSnippet('c','@begin=c@','@end=c@','SpecialComment')
+call TextEnableCodeSnippet('cpp','@begin=cpp@','@end=cpp@','SpecialComment')
+call TextEnableCodeSnippet('java','@begin=java@','@end=java@','SpecialComment')
+call TextEnableCodeSnippet('python','@begin=python@','@end=python@','SpecialComment')
+call TextEnableCodeSnippet('python','#{{{python','#python}}}','SpecialComment')
+"set foldmethod=marker
+
+" syntax-colorscheme to use (location /usr/share/vim/vim74/colors)
+"colorscheme textmate
+"colorscheme spyder
+"colorscheme tango2
+"colorscheme eclipse
+"colorscheme mysticaltutor
+" colorscheme jb
+"colorscheme catppuccin_mocha
+" colorscheme habamax
+
+"@see: https://vi.stackexchange.com/questions/5188/how-do-i-run-a-specific-vim-command-when-opening-a-file-with-a-given-extension
+au BufReadPost,BufNewFile *.txt call TextEnableCodeSnippet('python','@begin=python@','@end=python@','SpecialComment')
+
+"@see: https://stackoverflow.com/questions/48981900/auto-formatting-code-in-vim-when-saving-cpp-file
+"function FormatBuffer()
+"  if &modified && !empty(findfile('.clang-format', expand('%:p:h') . ';'))
+"    let cursor_pos = getpos('.')
+"    :%!/home/mjbhobe/Qt/Tools/QtCreator/libexec/qtcreator/clang/bin/clang-format
+"    call setpos('.', cursor_pos)
+"  endif
+"endfunction
+"
+""autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.vert,*.frag :call FormatBuffer()
+"
+"function FormatBufferPy()
+"	let cursor_pos = getpos('.')
+"	:%!black -q %
+"	call setpos('.', cursor_pos)
+"endfunction
+"
+""autocmd BufWritePre *.py :call FormatBufferPy()
+"
+"" for autoformat plugin
+"let g:autoformat_enabled = 1
+"let g:formatters_python = ['black']
+"autocmd BufWritePre *.py :Format
+"
+"
+
+" from ChatGPT - format C/C++ files safely with clang-format on save
+" Safely run clang-format before saving. Abort if it fails.
+autocmd BufWritePre *.c,*.cpp,*.h,*.hpp call s:ClangFormatSafe()
+
+function! s:ClangFormatSafe() abort
+  if executable('clang-format')
+    " Get full buffer text and send to clang-format
+    let l:formatted = system('clang-format --style=file', join(getline(1,'$'), "\n"))
+    if v:shell_error != 0
+      echohl ErrorMsg
+      echom "clang-format failed! Save aborted."
+      echohl None
+      " Abort writing file
+      throw 'clang-format failed'
+    else
+      " Replace buffer with formatted text if OK
+      let l:view = winsaveview()
+      silent! %delete _
+      call setline(1, split(l:formatted, "\n"))
+      call winrestview(l:view)
+    endif
+  endif
+endfunction
+
+
+" from ChatGPT - format Python files safely with ruff on save
+" Safely run ruff before saving. Abort if it fails.
+autocmd BufWritePre *.py call s:RuffFormatSafe()
+
+
+function! s:RuffFormatSafe() abort
+    if executable('ruff')
+        " Get the full buffer text as a single string, joined by newlines.
+        let l:buffer_content = join(getline(1,'$'), "\n")
+
+        " Execute ruff format.
+        " '--stdin-filename' is used to tell ruff the file type/name,
+        " enabling it to respect per-file configuration in pyproject.toml.
+        let l:formatted = system('ruff format --stdin-filename '.shellescape(expand('%:p')), l:buffer_content)
+
+        " Check the exit status of the external command.
+        if v:shell_error != 0
+            echohl ErrorMsg
+            echom "Ruff formatting failed! Save aborted. (Check ruff output for details)"
+            echohl None
+
+            " Abort the save operation immediately.
+            throw 'Ruff formatting failed'
+        else
+            " --- SUCCESS ---
+            " 1. Preserve cursor position and view state.
+            let l:view = winsaveview()
+
+            " 2. Clear the current buffer silently.
+            silent! %delete _
+
+            " 3. Replace buffer content with the formatted text.
+            " We need to split the output back into lines.
+            call setline(1, split(l:formatted, "\n"))
+
+            " 4. Restore cursor position and view state.
+            call winrestview(l:view)
+        endif
+    endif
+endfunction
+
+
+" --- CoC GENERAL CONFIGURATION (For Completion Popups and Help) ---
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1] =~ '\s'
+endfunction
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif coc#rpc#running()
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
+" --- END CoC GENERAL CONFIGURATION ---
+
+" --- Startup layout: fullscreen + NERDTree + terminal ---
+
+if has("gui_running")
+	" Maximize the gvim window on Linux (requires wmctrl installed)
+	if has("win32") || has("win64")
+		autocmd GUIEnter * simalt ~x
+	else
+		autocmd GUIEnter * call system('wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz')
+	endif
+endif
+
+function! s:StartupLayout()
+  " Open NERDTree on the left
+  NERDTree
+
+  " Move focus to the main editing window (right of NERDTree)
+  wincmd l
+
+  " Open a terminal split spanning the full width, at the bottom
+  if has('terminal')
+    botright terminal
+	" Resize to 1/3 of the total window height
+    execute 'resize ' . (&lines / 3)
+  endif
+
+  " Return focus to the editing window, not the terminal
+  wincmd k
+endfunction
+
+autocmd VimEnter * call s:StartupLayout()
+
+
+" --- Toggle Terminal like VS Code (Ctrl + `) ---
+function! ToggleTerminal() abort
+  " 1. Search for an existing terminal buffer
+  let l:term_buf = -1
+  for l:buf in filter(range(1, bufnr('$')), 'bufexists(v:val)')
+    if getbufvar(l:buf, '&buftype') ==# 'terminal'
+      let l:term_buf = l:buf
+      break
+    endif
+  endfor
+
+  " 2. Check if that terminal buffer is currently visible in any window
+  let l:term_win = (l:term_buf != -1) ? bufwinnr(l:term_buf) : -1
+
+  if l:term_win != -1
+    " Terminal is visible
+    if winnr() == l:term_win
+      " If we are currently inside the terminal window, hide it
+      hide
+    else
+      " If we are in another window (e.g. editor), jump into the terminal
+      execute l:term_win . 'wincmd w'
+      startinsert
+    endif
+  else
+    " Terminal is hidden or doesn't exist yet
+    if l:term_buf != -1
+      " Re-open existing terminal at bottom
+      execute 'botright sbuffer ' . l:term_buf
+    else
+      " Create a new terminal buffer at bottom
+      botright terminal
+    endif
+    " Resize terminal height to ~1/3 of the total screen
+    execute 'resize ' . (&lines / 3)
+  endif
+endfunction
+
+" Map Ctrl + ` in Normal, Insert, and Terminal mode
+nnoremap <silent> <C-`> :call ToggleTerminal()<CR>
+inoremap <silent> <C-`> <Esc>:call ToggleTerminal()<CR>
+tnoremap <silent> <C-`> <C-\><C-n>:call ToggleTerminal()<CR>
+
+
+" --- Toggle Zoom (Fullscreen Code Area) ---
+function! ToggleZoom() abort
+  if tabpagenr('$') > 1
+    " If more than one tab is open, close the zoomed tab and return to multi-pane layout
+    tabclose
+  else
+    " Open current file buffer in a new tab (hides NERDTree & Terminal splits)
+    tabnew %
+  endif
+endfunction
+
+" map F11 mapping
+nnoremap <silent> <F11> :call ToggleZoom()<CR>
+
+
+" --- Markdown Preview Configuration ---
+" Map <Leader>p to toggle the browser preview on/off
+nnoremap <silent> <Leader>p :MarkdownPreviewToggle<CR>
+
+" Optional Settings:
+" Automatically close the browser preview when you close the Markdown buffer
+let g:mkdp_auto_close = 1
+
+" Set browser preview to auto-refresh on save/change
+let g:mkdp_refresh_slow = 0

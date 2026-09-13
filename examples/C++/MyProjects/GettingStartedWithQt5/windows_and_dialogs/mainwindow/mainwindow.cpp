@@ -51,7 +51,7 @@ void MainWindow::createActions()
   m_fileMenu->addAction(m_quitAction);
   // help menu
   m_aboutAction = new QAction("About...", this);
-  m_aboutAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_H)); // Ctrl+H
+  m_aboutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_H)); // Ctrl+H
   m_helpMenu = menuBar()->addMenu("&Help");
   m_helpMenu->addAction(m_aboutAction);
 

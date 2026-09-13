@@ -28,6 +28,8 @@ BraceWrapping:
   SplitEmptyRecord: true
   SplitEmptyNamespace: true
 BreakBeforeBraces: Custom
+BreakConstructorInitializers: BeforeColon
+PackConstructorInitializers: Never
 ColumnLimit: 80
 EmptyLineBeforeAccessModifier: Never
 IncludeCategories: 

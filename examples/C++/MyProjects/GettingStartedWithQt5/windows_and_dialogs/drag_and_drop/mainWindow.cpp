@@ -1,0 +1,31 @@
+#include <QMainWindow>
+#include <QLabel>
+#include <QMoveEvent>
+#include <QMouseEvent>
+#include <QVBoxLayout>
+#include <QDebug>
+#include <QDateTime>
+#include <qfuture_impl.h>
+#include <QMainWindow>
+#include <QStatusBar>
+
+#include "dragTextEdit.h"
+#include "mainWindow.h"
+
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
+{
+  QWidget* mainWidget = new QWidget;
+  QVBoxLayout* layout = new QVBoxLayout;
+  slateDragTextEdit   = new DragTextEdit();
+  layout->addWidget(slateDragTextEdit);
+  mainWidget->setLayout(layout);
+  setCentralWidget(mainWidget);
+  statusBar()->showMessage(QString::number(0));
+  QtFuture::connect(slateDragTextEdit, SIGNAL(textChanged()), this, SLOT(updateStatusBar()));
+}
+
+void MainWindow::updateStatusBar()
+{
+  int charCount = slateDragTextEdit->toPlainText().count();
+  statusBar()->showMessage(QString::number(charCount));
+}
