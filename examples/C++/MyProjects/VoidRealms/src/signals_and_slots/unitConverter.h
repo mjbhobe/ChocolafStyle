@@ -8,6 +8,7 @@ class UnitConverter : public QObject {
   public:
     explicit UnitConverter(QObject *parent = nullptr);
 
+    // setters, will raise respective signals below
     void setCelsius(double celsius);
     void setMeters(double meters);
     void setGrams(double grams);

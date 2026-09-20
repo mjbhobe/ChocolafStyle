@@ -1,4 +1,4 @@
-# ========================================================================================
+#========================================================================================
 # CMakeLists.txt - multi-target CMake file
 #
 # To build targets run the following commands in sequence
@@ -16,7 +16,7 @@
 # Author: Manish Bhobe
 # My experiments with C/C++, STL and Qt Framework
 # Code shared for learning purposes only! Use at your own risk.
-# ========================================================================================
+#========================================================================================
 
 cmake_minimum_required(VERSION 3.21)
 

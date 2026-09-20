@@ -25,14 +25,48 @@ project(GettingStartedWithQt5 LANGUAGES CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # pull in all common compiler/linker flags + libs
+include("$ENV{CHOCOLAF_COMMONFILES_HOME}/common_console.cmake")
 include("$ENV{CHOCOLAF_COMMONFILES_HOME}/common.cmake")
 
 # ----------------------------------------------------------------------------------
-# Basic Hello World - Qt Way
+# Basic Hello World console app - Qt Way
+# ----------------------------------------------------------------------------------
+
+add_executable(hello_qt_world_console
+    ./src/hello_qt_world_console/main.cpp
+)
+
+target_include_directories(hello_qt_world_console PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(hello_qt_world_console PRIVATE chocolaf_console_settings)
+
+# ----------------------------------------------------------------------------------
+# factorial - calculating arbit factorials using GMP library
+# ----------------------------------------------------------------------------------
+
+add_executable(factorial
+    ./src/factorial/main.cpp
+)
+
+target_include_directories(factorial PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(factorial PRIVATE chocolaf_console_settings)
+
+# ----------------------------------------------------------------------------------
+# ioexample - reading & writing data
+# ----------------------------------------------------------------------------------
+
+add_executable(ioexample
+    ./src/ioexample/main.cpp
+)
+
+target_include_directories(ioexample PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(ioexample PRIVATE chocolaf_console_settings)
+
+# ----------------------------------------------------------------------------------
+# Basic Hello World GUI app - Qt Way
 # ----------------------------------------------------------------------------------
 
 add_executable(hello_qt_world
-    ./hello_qt_world/main.cpp
+    ./src/hello_qt_world/main.cpp
 )
 
 target_include_directories(hello_qt_world PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -43,7 +77,7 @@ target_link_libraries(hello_qt_world PRIVATE chocolaf_settings)
 # ----------------------------------------------------------------------------------
 
 add_executable(widgets_buttons
-    ./widgets/buttons/main.cpp
+    ./src/widgets/buttons/main.cpp
 )
 
 target_include_directories(widgets_buttons PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -54,7 +88,7 @@ target_link_libraries(widgets_buttons PRIVATE chocolaf_settings)
 # ----------------------------------------------------------------------------------
 
 add_executable(widgets_labels
-    ./widgets/labels/main.cpp
+    ./src/widgets/labels/main.cpp
 )
 
 target_include_directories(widgets_labels PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -65,7 +99,7 @@ target_link_libraries(widgets_labels PRIVATE chocolaf_settings)
 # ----------------------------------------------------------------------------------
 
 add_executable(layouts_gridlayout
-    ./layouts/gridlayout/main.cpp
+    ./src/layouts/gridlayout/main.cpp
 )
 
 target_include_directories(layouts_gridlayout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -76,7 +110,7 @@ target_link_libraries(layouts_gridlayout PRIVATE chocolaf_settings)
 # ----------------------------------------------------------------------------------
 
 add_executable(layouts_formlayout
-    ./layouts/formlayout/main.cpp
+    ./src/layouts/formlayout/main.cpp
 )
 
 target_include_directories(layouts_formlayout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -87,7 +121,7 @@ target_link_libraries(layouts_formlayout PRIVATE chocolaf_settings)
 # ----------------------------------------------------------------------------------
 
 add_executable(layouts_vboxlayout
-    ./layouts/vboxlayout/main.cpp
+    ./src/layouts/vboxlayout/main.cpp
 )
 
 target_include_directories(layouts_vboxlayout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -98,7 +132,7 @@ target_link_libraries(layouts_vboxlayout PRIVATE chocolaf_settings)
 # ----------------------------------------------------------------------------------
 
 add_executable(layouts_hboxlayout
-    ./layouts/hboxlayout/main.cpp
+    ./src/layouts/hboxlayout/main.cpp
 )
 
 target_include_directories(layouts_hboxlayout PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -109,9 +143,9 @@ target_link_libraries(layouts_hboxlayout PRIVATE chocolaf_settings)
 # ----------------------------------------------------------------------------------
 
 add_executable(windows_and_dialogs_mainwin
-    ./windows_and_dialogs/mainwindow/main.cpp
-    ./windows_and_dialogs/mainwindow/mainwindow.h
-    ./windows_and_dialogs/mainwindow/mainwindow.cpp
+    ./src/windows_and_dialogs/mainwindow/main.cpp
+    ./src/windows_and_dialogs/mainwindow/mainwindow.h
+    ./src/windows_and_dialogs/mainwindow/mainwindow.cpp
 )
 
 target_compile_definitions(windows_and_dialogs_mainwin PRIVATE
@@ -127,14 +161,14 @@ target_link_libraries(windows_and_dialogs_mainwin PRIVATE chocolaf_settings)
 # ----------------------------------------------------------------------------------
 
 add_executable(windows_and_dialogs_mainwin_form
-    ./windows_and_dialogs/mainwindow_form/main.cpp
-    ./windows_and_dialogs/mainwindow_form/mainwindow.h
-    ./windows_and_dialogs/mainwindow_form/mainwindow.cpp
+    ./src/windows_and_dialogs/mainwindow_form/main.cpp
+    ./src/windows_and_dialogs/mainwindow_form/mainwindow.h
+    ./src/windows_and_dialogs/mainwindow_form/mainwindow.cpp
 )
 
 target_compile_definitions(windows_and_dialogs_mainwin_form PRIVATE
     # IMAGES_PATH="${IMAGES_PATH}"
-    IMAGES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/windows_and_dialogs/mainwindow_form"
+    IMAGES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/src/windows_and_dialogs/mainwindow_form"
 )
 
 target_include_directories(windows_and_dialogs_mainwin_form PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -145,17 +179,17 @@ target_link_libraries(windows_and_dialogs_mainwin_form PRIVATE chocolaf_settings
 # ----------------------------------------------------------------------------------
 
 add_executable(windows_and_dialogs_drag_and_drop
-    ./windows_and_dialogs/drag_and_drop/main.cpp
-    ./windows_and_dialogs/drag_and_drop/dragTextEdit.h
-    ./windows_and_dialogs/drag_and_drop/dragTextEdit.cpp
-    ./windows_and_dialogs/drag_and_drop/mainWindow.h
-    ./windows_and_dialogs/drag_and_drop/mainWindow.cpp
+    ./src/windows_and_dialogs/drag_and_drop/main.cpp
+    ./src/windows_and_dialogs/drag_and_drop/dragTextEdit.h
+    ./src/windows_and_dialogs/drag_and_drop/dragTextEdit.cpp
+    ./src/windows_and_dialogs/drag_and_drop/mainWindow.h
+    ./src/windows_and_dialogs/drag_and_drop/mainWindow.cpp
 
 )
 
 target_compile_definitions(windows_and_dialogs_mainwin_form PRIVATE
     # IMAGES_PATH="${IMAGES_PATH}"
-    IMAGES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/windows_and_dialogs/mainwindow_form"
+    IMAGES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/src/windows_and_dialogs/mainwindow_form"
 )
 
 target_include_directories(windows_and_dialogs_drag_and_drop PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
