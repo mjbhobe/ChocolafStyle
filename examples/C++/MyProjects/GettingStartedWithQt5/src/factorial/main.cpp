@@ -25,9 +25,15 @@
 #include "common_funcs.h"
 
 // DO NOT include <iostream>
+#ifdef USING_QT6
+static QTextStream cout(stdout, QIODeviceBase::WriteOnly);
+static QTextStream cerr(stderr, QIODeviceBase::WriteOnly);
+static QTextStream cin(stdin, QIODeviceBase::ReadOnly);
+#else
 static QTextStream cout(stdout, QIODevice::WriteOnly);
 static QTextStream cerr(stderr, QIODevice::WriteOnly);
 static QTextStream cin(stdin, QIODevice::ReadOnly);
+#endif
 
 int main(int argc, char** argv)
 {

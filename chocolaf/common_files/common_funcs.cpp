@@ -37,14 +37,12 @@ bool getline(QTextStream &in, std::string &ret, const QString &prompt /*=""*/)
   QTextStream out(stdout, QIODevice::WriteOnly);
 #endif
 
-  if (prompt != "") {
+  if (!prompt.isEmpty()) {
     out << prompt << Qt::flush;
   }
   QString str = in.readLine();
-  if (in.atEnd())
-    return false;
   ret = str.toStdString();
-  return true;
+  return !str.isNull();
 }
 
 bool getline(QTextStream &in, QString &ret, const QString &prompt /*=""*/)
@@ -55,14 +53,11 @@ bool getline(QTextStream &in, QString &ret, const QString &prompt /*=""*/)
   QTextStream out(stdout, QIODevice::WriteOnly);
 #endif
 
-  if (prompt != "") {
+  if (!prompt.isEmpty()) {
     out << prompt << Qt::flush;
   }
-  QString str = in.readLine();
-  if (in.atEnd())
-    return false;
-  ret = str;
-  return true;
+  ret = in.readLine();
+  return !ret.isNull();
 }
 
 bool readString(QTextStream &in, QString &ret, const QString &prompt /*= ""*/)
@@ -70,39 +65,41 @@ bool readString(QTextStream &in, QString &ret, const QString &prompt /*= ""*/)
   return getline(in, ret, prompt);
 }
 
-bool readInt(QTextStream &in, int &ret, const QString &prompt /*= ""*/)
-{
-#ifdef USING_QT6
-  QTextStream out(stdout, QIODeviceBase::WriteOnly);
-#else
-  QTextStream out(stdout, QIODevice::WriteOnly);
-#endif
-  bool ok = false;
+// bool readInt(QTextStream &in, int &ret, const QString &prompt /*= ""*/)
+// {
+// #ifdef USING_QT6
+//   QTextStream out(stdout, QIODeviceBase::WriteOnly);
+// #else
+//   QTextStream out(stdout, QIODevice::WriteOnly);
+// #endif
+//   bool ok = false;
+//
+//   if (prompt != "") {
+//     out << prompt << Qt::flush;
+//   }
+//   QString line = in.readLine();
+//   ret = line.toInt(&ok);
+//   return ok;
+// }
+// replaced by the readInteger<T> template in common_funcs.h
 
-  if (prompt != "") {
-    out << prompt << Qt::flush;
-  }
-  QString line = in.readLine();
-  ret = line.toInt(&ok);
-  return ok;
-}
-
-bool readDouble(QTextStream &in, double &ret, const QString &prompt /*= ""*/)
-{
-#ifdef USING_QT6
-  QTextStream out(stdout, QIODeviceBase::WriteOnly);
-#else
-  QTextStream out(stdout, QIODevice::WriteOnly);
-#endif
-  bool ok = false;
-
-  if (prompt != "") {
-    out << prompt << Qt::flush;
-  }
-  QString line = in.readLine();
-  ret = line.toDouble(&ok);
-  return ok;
-}
+// bool readDouble(QTextStream &in, double &ret, const QString &prompt /*= ""*/)
+// {
+// #ifdef USING_QT6
+//   QTextStream out(stdout, QIODeviceBase::WriteOnly);
+// #else
+//   QTextStream out(stdout, QIODevice::WriteOnly);
+// #endif
+//   bool ok = false;
+//
+//   if (prompt != "") {
+//     out << prompt << Qt::flush;
+//   }
+//   QString line = in.readLine();
+//   ret = line.toDouble(&ok);
+//   return ok;
+// }
+// replaced by the readFloatingPoint<T> template in common_funcs.h
 
 bool fileExists(const QString &filepath)
 {

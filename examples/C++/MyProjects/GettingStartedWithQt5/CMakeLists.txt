@@ -62,6 +62,42 @@ target_include_directories(ioexample PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(ioexample PRIVATE chocolaf_console_settings)
 
 # ----------------------------------------------------------------------------------
+# readint - thorough test of readIntegerType()/parseIntegerType() across all
+# IntegerType types and locales (default/C, India, Germany)
+# ----------------------------------------------------------------------------------
+
+add_executable(readint
+    ./src/readint/main.cpp
+)
+
+target_include_directories(readint PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(readint PRIVATE chocolaf_console_settings)
+
+# ----------------------------------------------------------------------------------
+# readfloat - thorough test of readFloatType()/parseFloatType() across both
+# FloatType types (float, double) and locales (default/C, India, Germany)
+# ----------------------------------------------------------------------------------
+
+add_executable(readfloat
+    ./src/readfloat/main.cpp
+)
+
+target_include_directories(readfloat PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(readfloat PRIVATE chocolaf_console_settings)
+
+# ----------------------------------------------------------------------------------
+# readdatetime - thorough test of readDateTimeType()/parseDateTimeType() across
+# QDate/QTime/QDateTime/std::tm and locales (default/C, India, Germany)
+# ----------------------------------------------------------------------------------
+
+add_executable(readdatetime
+    ./src/readdatetime/main.cpp
+)
+
+target_include_directories(readdatetime PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(readdatetime PRIVATE chocolaf_console_settings)
+
+# ----------------------------------------------------------------------------------
 # Basic Hello World GUI app - Qt Way
 # ----------------------------------------------------------------------------------
 
@@ -178,20 +214,20 @@ target_link_libraries(windows_and_dialogs_mainwin_form PRIVATE chocolaf_settings
 # Drag & Drop Text editor
 # ----------------------------------------------------------------------------------
 
-add_executable(windows_and_dialogs_drag_and_drop
-    ./src/windows_and_dialogs/drag_and_drop/main.cpp
-    ./src/windows_and_dialogs/drag_and_drop/dragTextEdit.h
-    ./src/windows_and_dialogs/drag_and_drop/dragTextEdit.cpp
-    ./src/windows_and_dialogs/drag_and_drop/mainWindow.h
-    ./src/windows_and_dialogs/drag_and_drop/mainWindow.cpp
-
-)
-
-target_compile_definitions(windows_and_dialogs_mainwin_form PRIVATE
-    # IMAGES_PATH="${IMAGES_PATH}"
-    IMAGES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/src/windows_and_dialogs/mainwindow_form"
-)
-
-target_include_directories(windows_and_dialogs_drag_and_drop PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(windows_and_dialogs_drag_and_drop PRIVATE chocolaf_settings)
+#add_executable(windows_and_dialogs_drag_and_drop
+#    ./src/windows_and_dialogs/drag_and_drop/main.cpp
+#    ./src/windows_and_dialogs/drag_and_drop/dragTextEdit.h
+#    ./src/windows_and_dialogs/drag_and_drop/dragTextEdit.cpp
+#    ./src/windows_and_dialogs/drag_and_drop/mainWindow.h
+#    ./src/windows_and_dialogs/drag_and_drop/mainWindow.cpp
+#
+#)
+#
+#target_compile_definitions(windows_and_dialogs_mainwin_form PRIVATE
+#    # IMAGES_PATH="${IMAGES_PATH}"
+#    IMAGES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/src/windows_and_dialogs/mainwindow_form"
+#)
+#
+#target_include_directories(windows_and_dialogs_drag_and_drop PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+#target_link_libraries(windows_and_dialogs_drag_and_drop PRIVATE chocolaf_settings)
 
