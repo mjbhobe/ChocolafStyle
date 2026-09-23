@@ -43,6 +43,7 @@
 #include <QTextStream>
 #include <QTime>
 
+#include <chrono>
 #include <ctime>
 #include <utility>
 
@@ -95,6 +96,17 @@ static std::tm makeTm(
   t.tm_sec = sec;
   return t;
 }
+
+#if CHOCOLAF_HAVE_CHRONO_PARSE
+// only referenced from the year_month_day test section below, which is
+// itself gated behind CHOCOLAF_HAVE_CHRONO_PARSE - guard the helper too so
+// it doesn't sit as dead/unused code in a C++20-only build
+static std::chrono::year_month_day makeYmd(int year, unsigned mon /*1-12*/, unsigned day)
+{
+  return std::chrono::year_month_day{std::chrono::year{year}, std::chrono::month{mon},
+                                      std::chrono::day{day}};
+}
+#endif
 
 template <DateTimeType T>
 static bool valuesEqual(const T& a, const T& b)
@@ -446,6 +458,85 @@ int main(int argc, char** argv)
     "std::tm", "India (en_IN)", inLocale, "15-Mai-2026", "%d-%b-%Y",
     "Germany's \"Mai\" rejected under India locale"
   );
+
+  // =========================================================================
+  // std::chrono::year_month_day (C++23 compilers only - see
+  // CHOCOLAF_HAVE_CHRONO_PARSE in common_funcs.h)
+  // =========================================================================
+#if CHOCOLAF_HAVE_CHRONO_PARSE
+  qcout << Qt::endl << "===== std::chrono::year_month_day (C++23) =====" << Qt::endl;
+
+  qcout << Qt::endl << "--- numeric format, works identically under every bridged "
+    "std::locale ---" << Qt::endl;
+  for (const auto& [localeName, locale] : allLocales) {
+    testRead<std::chrono::year_month_day>(
+      "year_month_day", localeName, locale, "23-09-2026", "%d-%m-%Y", makeYmd(2026, 9, 23)
+    );
+    testParse<std::chrono::year_month_day>(
+      "year_month_day", localeName, locale, "23-09-2026", "%d-%m-%Y", makeYmd(2026, 9, 23)
+    );
+  }
+
+  qcout << Qt::endl << "--- \"%b\" month-name format: same glibc leniency verified for "
+    "std::tm above - \"Sep\" accepted under every bridged locale here ---" << Qt::endl;
+  for (const auto& [localeName, locale] : allLocales) {
+    testRead<std::chrono::year_month_day>(
+      "year_month_day", localeName, locale, "23-Sep-2026", "%d-%b-%Y", makeYmd(2026, 9, 23)
+    );
+    testParse<std::chrono::year_month_day>(
+      "year_month_day", localeName, locale, "23-Sep-2026", "%d-%b-%Y", makeYmd(2026, 9, 23)
+    );
+  }
+
+  qcout << Qt::endl << "--- Germany's own \"Mai\" text, via the QLocale -> std::locale "
+    "bridge (toStdLocale()) ---" << Qt::endl;
+  testRead<std::chrono::year_month_day>(
+    "year_month_day", "Germany (de_DE)", deLocale, "15-Mai-2026", "%d-%b-%Y",
+    makeYmd(2026, 5, 15)
+  );
+  testParse<std::chrono::year_month_day>(
+    "year_month_day", "Germany (de_DE)", deLocale, "15-Mai-2026", "%d-%b-%Y",
+    makeYmd(2026, 5, 15)
+  );
+
+  qcout << Qt::endl << "--- generic invalid input, fails under every bridged locale ---" <<
+    Qt::endl;
+  for (const auto& [localeName, locale] : allLocales) {
+    testFailBoth<std::chrono::year_month_day>(
+      "year_month_day", localeName, locale, "garbage", "%d-%m-%Y", "garbage input"
+    );
+    testFailBoth<std::chrono::year_month_day>(
+      "year_month_day", localeName, locale, "", "%d-%m-%Y", "empty input"
+    );
+    testFailBoth<std::chrono::year_month_day>(
+      "year_month_day", localeName, locale, "32-13-2026", "%d-%m-%Y",
+      "day/month out of range"
+    );
+  }
+
+  qcout << Qt::endl << "--- cross-locale/format failures (verified against glibc) ---" <<
+    Qt::endl;
+  // same glibc data as std::tm - no 4-letter "Sept" form exists under any
+  // of these three locales, contrasting with QLocale's en_IN-only "Sept"
+  for (const auto& [localeName, locale] : allLocales) {
+    testFailBoth<std::chrono::year_month_day>(
+      "year_month_day", localeName, locale, "23-Sept-2026", "%d-%b-%Y",
+      "glibc has no 4-letter \"Sept\" form under any locale here"
+    );
+  }
+  // Germany's "Mai" is genuinely only recognised once de_DE is imbued
+  testFailBoth<std::chrono::year_month_day>(
+    "year_month_day", "default (C)", cLocale, "15-Mai-2026", "%d-%b-%Y",
+    "Germany's \"Mai\" rejected under classic locale"
+  );
+  testFailBoth<std::chrono::year_month_day>(
+    "year_month_day", "India (en_IN)", inLocale, "15-Mai-2026", "%d-%b-%Y",
+    "Germany's \"Mai\" rejected under India locale"
+  );
+#else
+  qcout << Qt::endl << "===== std::chrono::year_month_day SKIPPED - "
+    "CHOCOLAF_HAVE_CHRONO_PARSE is 0 under this compiler/standard =====" << Qt::endl;
+#endif
 
   qcout << Qt::endl << "===== Summary: " << passedTests << "/" << totalTests << " passed ====="
     << Qt::endl;
