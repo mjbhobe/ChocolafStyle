@@ -1,0 +1,12 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+	<qresource prefix="/icons">
+		<file alias="fileNew.png">../common/icons/128x128/new.png</file>
+		<file alias="fileOpen.png">../common/icons/128x128/open.png</file>
+		<file alias="fileSave.png">../common/icons/128x128/save.png</file>
+		<file alias="fileSaveAs.png">../common/icons/128x128/save_as.png</file>
+		<file alias="penWidth.png">../common/icons/128x128/line-width.png</file>
+        <file alias="penColor.png">../common/icons/128x128/pen-color.png</file>
+		<file alias="appIcon.png">../common/icons/128x128/palette.png</file>
+	</qresource>
+</RCC>

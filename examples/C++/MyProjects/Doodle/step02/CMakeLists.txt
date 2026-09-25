@@ -24,7 +24,7 @@ set(STEP02_HEADERS
 
 set(STEP02_SOURCES
   DrawWindow.cc
-  step02.cc
+    main.cc
 )
 
 # --- Executable

@@ -1,7 +1,7 @@
 // ============================================================================
-// step01.cc: Creating a basic application with Qt/C++
+// main.cc: Creating a basic application with Qt/C++
 //
-// Tutorial - Qt Scribble Application
+// Tutorial - Qt Scribble Application - Step01
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
 //
 // @author Manish Bhobé for Nämostuté Ltd.
@@ -14,13 +14,13 @@
 
 #include "chocolaf.h"
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   QApplication app(argc, argv);
 
   // create the GUI
   QMainWindow mainWindow;
-  QString title = QString("Qt %1 Doodle with Chocolaf - Step01: Basic Window").arg(QT_VERSION_STR);
+  QString title = QString("Qt %1 Scribble - Step01: Basic Window").arg(QT_VERSION_STR);
   mainWindow.setWindowTitle(title);
   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
   mainWindow.show();

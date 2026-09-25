@@ -31,7 +31,7 @@
         "-DQT_NETWORK_LIB",
         "-DQT_CORE_LIB",
         "-I",
-        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04",
+        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03",
         "-I",
         "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files",
         "-I",
@@ -76,7 +76,7 @@
         "-Wno-documentation-unknown-command",
         "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files/common_funcs.cpp"
     ],
-    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/.qtc_clangd",
+    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/.qtc_clangd",
     "file": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files/common_funcs.cpp"
 },
 {
@@ -111,7 +111,7 @@
         "-DQT_NETWORK_LIB",
         "-DQT_CORE_LIB",
         "-I",
-        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04",
+        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03",
         "-I",
         "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files",
         "-I",
@@ -156,7 +156,7 @@
         "-Wno-documentation-unknown-command",
         "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files/chocolaf.cpp"
     ],
-    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/.qtc_clangd",
+    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/.qtc_clangd",
     "file": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files/chocolaf.cpp"
 },
 {
@@ -191,7 +191,7 @@
         "-DQT_NETWORK_LIB",
         "-DQT_CORE_LIB",
         "-I",
-        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04",
+        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03",
         "-I",
         "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files",
         "-I",
@@ -234,10 +234,10 @@
         "-Wno-unknown-pragmas",
         "-Wno-unknown-warning-option",
         "-Wno-documentation-unknown-command",
-        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/DrawWindow.cc"
+        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/DrawWindow.cc"
     ],
-    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/.qtc_clangd",
-    "file": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/DrawWindow.cc"
+    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/.qtc_clangd",
+    "file": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/DrawWindow.cc"
 },
 {
     "arguments": [
@@ -271,7 +271,7 @@
         "-DQT_NETWORK_LIB",
         "-DQT_CORE_LIB",
         "-I",
-        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04",
+        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03",
         "-I",
         "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files",
         "-I",
@@ -314,10 +314,10 @@
         "-Wno-unknown-pragmas",
         "-Wno-unknown-warning-option",
         "-Wno-documentation-unknown-command",
-        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/step04.cc"
+        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/step03.cc"
     ],
-    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/.qtc_clangd",
-    "file": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/step04.cc"
+    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/.qtc_clangd",
+    "file": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/step03.cc"
 },
 {
     "arguments": [
@@ -351,7 +351,7 @@
         "-DQT_NETWORK_LIB",
         "-DQT_CORE_LIB",
         "-I",
-        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04",
+        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03",
         "-I",
         "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files",
         "-I",
@@ -396,7 +396,7 @@
         "-Wno-documentation-unknown-command",
         "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files/common_funcs.h"
     ],
-    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/.qtc_clangd",
+    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/.qtc_clangd",
     "file": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files/common_funcs.h"
 },
 {
@@ -431,7 +431,7 @@
         "-DQT_NETWORK_LIB",
         "-DQT_CORE_LIB",
         "-I",
-        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04",
+        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03",
         "-I",
         "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files",
         "-I",
@@ -476,7 +476,7 @@
         "-Wno-documentation-unknown-command",
         "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files/chocolaf.h"
     ],
-    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/.qtc_clangd",
+    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/.qtc_clangd",
     "file": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files/chocolaf.h"
 },
 {
@@ -511,7 +511,7 @@
         "-DQT_NETWORK_LIB",
         "-DQT_CORE_LIB",
         "-I",
-        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04",
+        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03",
         "-I",
         "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/chocolaf/common_files",
         "-I",
@@ -554,9 +554,9 @@
         "-Wno-unknown-pragmas",
         "-Wno-unknown-warning-option",
         "-Wno-documentation-unknown-command",
-        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/DrawWindow.h"
+        "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/DrawWindow.h"
     ],
-    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/.qtc_clangd",
-    "file": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step04/DrawWindow.h"
+    "directory": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/.qtc_clangd",
+    "file": "/home/mjbhobe/code/git-projects/learning_Qt/bogo2bogo/ChocolafStyle/examples/C++/MyProjects/Doodle/step03/DrawWindow.h"
 }
 ]

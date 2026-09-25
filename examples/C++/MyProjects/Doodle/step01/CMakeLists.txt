@@ -23,7 +23,7 @@ set(STEP01_HEADERS
 )
 
 set(STEP01_SOURCES
-  step01.cc
+    main.cc
 )
 
 # --- Executable

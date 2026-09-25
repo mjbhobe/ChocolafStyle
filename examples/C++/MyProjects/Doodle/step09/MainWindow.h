@@ -6,45 +6,41 @@
 
 class QAction;
 class QMenu;
+class QTimerEvent;
 class DrawWindow;
 
 class MainWindow : public QMainWindow
 {
-  Q_OBJECT
+   Q_OBJECT
 public:
-  MainWindow();
+   MainWindow();
 
 public slots:
-  void exitApp();
-  void about();
-  void doodleModified(bool);
+   void exitApp();
+   void about();
 
 private:
-  void createActions();
-  void createMenus();
-  void createToolBar();
-  void createStatusBar();
+   void createActions();
+   void createMenus();
+   void createToolbar();
 
-  // central widget
-  DrawWindow *_drawWindow;
+   // central widget
+   DrawWindow* _drawWindow;
 
-  // actions
-  QAction *fileNewAction;
-  QAction *fileOpenAction;
-  QAction *fileSaveAction;
-  QAction *fileSaveAsAction;
-  QAction *exitAction;
-  QAction *penWidthAction;
-  QAction *penColorAction;
-  QAction *aboutQtAction;
-  QAction *aboutAction;
-  // menus
-  QMenu *fileMenu;
-  QMenu *optionsMenu;
-  QMenu *helpMenu;
+   // actions
+   QAction* fileNewAction;
+   QAction* fileOpenAction;
+   QAction* fileSaveAction;
+   QAction* fileSaveAsAction;
+   QAction* exitAction;
+   QAction* penWidthAction;
+   QAction* penColorAction;
+   QAction* aboutQtAction;
+   QAction* aboutAction;
+   // menus
+   QMenu* fileMenu;
+   QMenu* optionsMenu;
+   QMenu* helpMenu;
 };
-
-// implemented in step09.cc
-MainWindow *getMainWindow();
 
 #endif // __MainWindow_h__

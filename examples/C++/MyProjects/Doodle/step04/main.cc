@@ -1,8 +1,8 @@
 // ============================================================================
-// step03.cc: Drawing in the main window - the point where the left mouse
+// main.cc: Drawing in the main window - the point where the left mouse
 //   is clicked is shown in the window
 //
-// Tutorial - Qt Scribble Application
+// Tutorial - Qt Scribble Application - Step04
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
 //
 // @author Manish Bhobé for Nämostuté Ltd.
@@ -18,18 +18,18 @@
 #include "chocolaf.h"
 
 const QString AppTitle("Qt Scribble");
-const QString WinTitle = QString("Qt %1 Doodle - Step03: Handling mouse clicks")
-                             .arg(QT_VERSION_STR);
+const QString WinTitle = QString("Qt %1 Scribble - Step04: Handling mouse clicks").arg(
+  QT_VERSION_STR
+);
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   QApplication app(argc, argv);
-  //Chocolaf::setChocolafStyle(app, "WindowsDark");
 
   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
   // create the GUI
-  DrawWindow *drawWidget = new DrawWindow;
+  DrawWidget* drawWidget = new DrawWidget;
   DrawMainWindow mainWindow(drawWidget);
   mainWindow.setWindowTitle(WinTitle);
   mainWindow.setCentralWidget(drawWidget);

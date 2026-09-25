@@ -11,7 +11,7 @@ class Doodle : public QObject
 {
   Q_OBJECT
 public:
-  Doodle(int penWidth = 2, const QColor &penColor = qRgb(0, 0, 255));
+  Doodle(int penWidth = 2, const QColor &penColor = QColor("#ff557f"));
   ~Doodle();
 
   Line *newLine();
@@ -24,14 +24,12 @@ public:
   bool modified() const { return _isModified; }
   void setModified(bool modified = true);
   void clear();
-  bool isNew() const { return _isNew; }
 
 private:
   QList<Line *> *_lines;
-  int _penWidth, _defPenWidth;
-  QColor _penColor, _defPenColor;
+  int _penWidth;
+  QColor _penColor;
   bool _isModified;
-  bool _isNew;
 };
 
 #endif // __Doodle_h__

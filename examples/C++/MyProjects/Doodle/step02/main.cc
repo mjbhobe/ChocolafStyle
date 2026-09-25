@@ -1,7 +1,7 @@
 // ============================================================================
-// step02.cc: Using a custom main window class
+// main.cc: Using a custom main window class
 //
-// Tutorial - Qt Scribble Application
+// Tutorial - Qt Scribble Application  - Step02
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
 //
 // @author Manish Bhobé for Nämostuté Ltd.
@@ -17,19 +17,17 @@
 
 QTextStream cout(stdout, QIODeviceBase::WriteOnly);
 
+const QString title = QString("Qt %1 Scribble - Step02: Use a Custom Main Window")
+                        .arg(QT_VERSION_STR);
+
 int main(int argc, char **argv) {
   QApplication app(argc, argv);
-  //Chocolaf::setChocolafStyle(app, "WindowsDark");
-
-  QStringList args = QCoreApplication::arguments();
-  foreach(auto arg, args)
-    cout << arg << " ";
-  cout << Qt::endl;
 
   app.setApplicationName(app.translate("main", "Qt Scribble"));
 
   // create the GUI
-  DrawWindow mainWindow;
+  DrawWidget mainWindow;
+  mainWindow.setWindowTitle(title);
   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
   mainWindow.show();
 

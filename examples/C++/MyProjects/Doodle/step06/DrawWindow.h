@@ -4,14 +4,11 @@
 
 #include <QMainWindow>
 
-// pre-declarations
 class QImage;
 class QColor;
 class Line;
-class Doodle;
 
-class DrawWindow : public QMainWindow
-{
+class DrawWindow : public QMainWindow {
   Q_OBJECT
 public:
   DrawWindow();
@@ -31,15 +28,15 @@ private:
   void drawLineTo(const QPoint &pt);
   void clearImage();
   void resizeImage(const QSize &size);
-  void changePenWidth();
-  void changePenColor();
 
   QImage _image;
+  bool _modified;
 
   QPoint _lastPt;
   bool _dragging;
-  Doodle *_doodle;
-  Line *_currLine;
+  int _penWidth;
+  QColor _penColor;
+  Line *_line;
 };
 
 #endif // __DrawWindow_h__

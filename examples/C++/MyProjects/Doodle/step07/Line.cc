@@ -6,11 +6,8 @@
 Line::Line(int penWidth /*= 2*/, const QColor &penColor /*= qRgb(0,0,255)*/)
 {
   _penWidth = penWidth;
-  if (_penWidth <= 0) {
+  if (_penWidth <= 0)
     _penWidth = 2;
-    qDebug() << "WARNING: negative value specified for penWidth. "
-             << "Reset to default value(=2)";
-  }
   _penColor = penColor;
   _points = new QList<QPoint>();
 }

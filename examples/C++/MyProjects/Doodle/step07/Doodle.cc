@@ -1,4 +1,8 @@
+// ================================================================
 // Doodle.cc: implements the Doodle class
+//   doodle manages a collection of Line objects, each with it's
+//   own thickness & color
+// ================================================================
 #include "Doodle.h"
 #include "Line.h"
 #include <QList>
@@ -7,13 +11,8 @@
 Doodle::Doodle(int penWidth, const QColor &penColor)
 {
   _lines = new QList<Line *>();
-  // fix width between 1 & 12
-  penWidth = qMax(1, penWidth);
-  penWidth = qMin(12, penWidth);
-  _penWidth = penWidth;
-  _defPenWidth = _penWidth;
+  _penWidth = (penWidth <= 0) ? 2 : penWidth;
   _penColor = penColor;
-  _defPenColor = _penColor;
   _isModified = false;
 }
 
@@ -38,13 +37,14 @@ int Doodle::numLines() const
   return (_lines ? _lines->count() : 0);
 }
 
-void Doodle::setPenWidth(int newPenWidth)
+void Doodle::setPenWidth(int newWidth)
 {
-  if (_penWidth == newPenWidth)
+  if (_penWidth == newWidth)
     return;
-  newPenWidth = qMax(1, newPenWidth);
-  newPenWidth = qMin(12, newPenWidth);
-  _penWidth = newPenWidth;
+
+  newWidth = qMax(2, newWidth);
+  newWidth = qMin(newWidth, 12);
+  _penWidth = newWidth;
 }
 
 void Doodle::setPenColor(const QColor &color)
@@ -76,8 +76,5 @@ void Doodle::clear()
   }
   delete _lines;
   _lines = new QList<Line *>();
-  _penWidth = _defPenWidth;
-  _penColor = _defPenColor;
-  _isNew = true;
   _isModified = false;
 }

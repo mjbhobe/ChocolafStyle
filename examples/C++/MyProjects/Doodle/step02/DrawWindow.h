@@ -4,17 +4,15 @@
 
 #include <QMainWindow>
 
-class DrawWindow : public QMainWindow
+class DrawWidget : public QMainWindow
 {
   Q_OBJECT
 public:
-  DrawWindow();
+  DrawWidget(QWidget *parent = nullptr);
 
 protected:
   // operating system events
-  void closeEvent(QCloseEvent *event);
-  void paintEvent(QPaintEvent *event);
-  void mousePressEvent(QMouseEvent *event);
+  void paintEvent(QPaintEvent* event) override;
 };
 
 #endif // __DrawWindow_hxx__

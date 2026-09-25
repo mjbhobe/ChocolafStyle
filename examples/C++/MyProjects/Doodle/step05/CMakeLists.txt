@@ -9,7 +9,7 @@ cmake_minimum_required(VERSION 3.21)
 #    set(CMAKE_CXX_COMPILER "C:/Dev/llvm-mingw-20250925-ucrt-x86_64/bin/g++.exe")
 #endif ()
 
-project(step05 LANGUAGES CXX)
+project(step04 LANGUAGES CXX)
 
 # --- Include the global settings module (converted from common.pro)
 #     This defines the INTERFACE target: chocolaf_settings
@@ -18,30 +18,28 @@ project(step05 LANGUAGES CXX)
 include ("$ENV{CHOCOLAF_COMMONFILES_HOME}/common.cmake")
 
 # --- Sources (from .pro)
-set(STEP05_HEADERS
+set(STEP04_HEADERS
   DrawWindow.h
-  Line.h
 )
 
-set(STEP05_SOURCES
+set(STEP04_SOURCES
   DrawWindow.cc
-  Line.cc
-  step05.cc
+  step04.cc
 )
 
 # --- Executable
-add_executable(step05
-  ${STEP05_SOURCES}
-  ${STEP05_HEADERS}         # headers listed for IDE visibility
+add_executable(step04
+  ${STEP04_SOURCES}
+  ${STEP04_HEADERS}         # headers listed for IDE visibility
   ${CHOCOLAF_QT_RESOURCES}  # ensure .qrc gets compiled (AUTORCC is ON in the module)
 )
 
 # qmake: INCLUDEPATH += .
 # Keep the current dir in include paths for this target.
-target_include_directories(step05 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(step04 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link against the global interface so we inherit Qt, flags, include dirs and libs.
-target_link_libraries(step05 PRIVATE chocolaf_settings)
+target_link_libraries(step04 PRIVATE chocolaf_settings)
 
 # If you’d rather add the “common” Chocolaf sources explicitly to this target
 # (they are already attached as INTERFACE sources on chocolaf_settings, but this

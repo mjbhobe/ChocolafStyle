@@ -5,11 +5,10 @@
 #include <QList>
 #include <QtGui>
 
-class Line : public QObject
-{
+class Line : public QObject {
   Q_OBJECT
 public:
-  Line(int penWidth = 2, const QColor &penColor = QColor("#ff557f"));
+  Line(int penWidth = 2, const QColor &penColor = qRgb(0, 0, 255));
   ~Line();
 
   int penWidth() const { return _penWidth; }
