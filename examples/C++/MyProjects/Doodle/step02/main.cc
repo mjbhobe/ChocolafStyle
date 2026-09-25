@@ -1,5 +1,5 @@
 // ============================================================================
-// step01.cc: Creating a basic application with Qt/C++
+// step02.cc: Using a custom main window class
 //
 // Tutorial - Qt Scribble Application
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
@@ -8,21 +8,28 @@
 // My experiments with C++,Qt, Python & PyQt.
 // Code is provided for illustration purposes only! Use at your own risk.
 // =============================================================================
+
+#include "DrawWindow.h"
+#include "chocolaf.h"
 #include <QApplication>
-#include <QMainWindow>
+#include <QTextStream>
 #include <QtGui>
 
-#include "chocolaf.h"
+QTextStream cout(stdout, QIODeviceBase::WriteOnly);
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   QApplication app(argc, argv);
-  //Chocolaf::setChocolafStyle(app, "Chocolaf");
+  //Chocolaf::setChocolafStyle(app, "WindowsDark");
+
+  QStringList args = QCoreApplication::arguments();
+  foreach(auto arg, args)
+    cout << arg << " ";
+  cout << Qt::endl;
+
+  app.setApplicationName(app.translate("main", "Qt Scribble"));
 
   // create the GUI
-  QMainWindow mainWindow;
-  QString title = QString("Qt %1 Doodle with Chocolaf - Step01: Basic Window").arg(QT_VERSION_STR);
-  mainWindow.setWindowTitle(title);
+  DrawWindow mainWindow;
   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
   mainWindow.show();
 
