@@ -2,7 +2,7 @@
 #ifndef __DrawWindow_h__
 #define __DrawWindow_h__
 
-#include <QMainWindow>
+#include <QWidget>
 
 // pre-declarations
 class QImage;
@@ -12,46 +12,47 @@ class QMenu;
 class Line;
 class Doodle;
 
-extern const QString AppTitle;
-extern const QString WindowTitle;
 
-class DrawWindow : public QMainWindow
-{
+class DrawWindow : public QWidget {
+   //@formatter:off
    Q_OBJECT
-public:
-   DrawWindow();
-   ~DrawWindow();
-   void resizeImage(const QSize& size, bool force = false);
+    //@formatter:on
+  public:
+    explicit DrawWindow(QWidget *parent=nullptr);
+    ~DrawWindow();
 
-protected:
-   // operating system events
-   void closeEvent(QCloseEvent* event);
-   void paintEvent(QPaintEvent* event);
-   void resizeEvent(QResizeEvent* event);
+    void resizeImage(const QSize& size, bool force = false);
 
-   void mousePressEvent(QMouseEvent* event);
-   void mouseMoveEvent(QMouseEvent* event);
-   void mouseReleaseEvent(QMouseEvent* event);
-private slots:
-   // action response slots
-   void fileNew();
-   void fileOpen();
-   void fileSave();
-   void fileSaveAs();
-   void changePenWidth();
-   void changePenColor();
+  protected:
+    // operating system events
+    void closeEvent(QCloseEvent* event) override;
+    void paintEvent(QPaintEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
 
-private:
-   void drawLineTo(const QPoint& pt);
-   void clearImage();
-   bool canClose();
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
 
-   // members
-   QImage _image;
-   QPoint _lastPt;
-   bool _dragging;
-   Doodle* _doodle;
-   Line* _currLine;
+  private slots:
+    // action response slots
+    void fileNew();
+    void fileOpen();
+    void fileSave();
+    void fileSaveAs();
+    void changePenWidth();
+    void changePenColor();
+
+  private:
+    void drawLineTo(const QPoint& pt);
+    void clearImage();
+    bool canClose();
+
+    // members
+    QImage _image;
+    QPoint _lastPt;
+    bool _dragging{false};
+    Doodle* _doodle{nullptr};
+    Line* _currLine{nullptr};
 };
 
 #endif // __DrawWindow_h__

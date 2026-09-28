@@ -6,7 +6,7 @@
 
 inline const QString AppTitle("Qt Scribble");
 inline const QString WindowTitle = QString(
-  "Qt %1 Doodle - Step06: Changing Doodle attributes (pen color and thickness)"
+  "Qt %1 Doodle - Step07: Drawing multiple doodles"
 ).arg(QT_VERSION_STR);
 
 #endif // __constants_h__

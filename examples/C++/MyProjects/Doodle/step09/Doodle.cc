@@ -122,14 +122,19 @@ bool Doodle::load(const QString &path)
    // TODO: exception enable this function
    if (QFile::exists(path)) {
       QFile file(path);
-      file.open(QIODevice::ReadOnly);
-      QDataStream ds(&file);
-      loadFromStream(ds);
-      _filePath = path;
-      setNew(false);
-      setModified(false);
-      qDebug() << "Doodle loaded successfully!";
-      return true;
+      if (file.open(QIODeviceBase::ReadOnly)) {
+         QDataStream ds(&file);
+         loadFromStream(ds);
+         _filePath = path;
+         setNew(false);
+         setModified(false);
+         qDebug() << "Doodle loaded successfully!";
+         return true;
+      }
+      else {
+         qFatal() << "FATAL ERROR: could not open file " << path;
+         return false;
+      }
    }
    else {
       QString str;
@@ -144,13 +149,18 @@ bool Doodle::save(const QString &path)
 {
    // TODO: exception enable this function
    QFile file(path);
-   file.open(QIODevice::WriteOnly);
-   QDataStream ds(&file);
-   saveToStream(ds);
-   setNew(false);
-   _filePath = path;
-   setModified(false);
-   return true;
+   if (file.open(QIODeviceBase::WriteOnly)) {
+      QDataStream ds(&file);
+      saveToStream(ds);
+      setNew(false);
+      _filePath = path;
+      setModified(false);
+      return true;
+   }
+   else {
+      qFatal() << "FATAL ERROR: could not open file " << path;
+      return false;
+   }
 }
 
 // -----------------------------------------------------

@@ -1,8 +1,8 @@
 // ============================================================================
-// step01.cc: draw a single squiggle in the main window
+// main.cc: draw a single squiggle in the main window
 //   click the left mouse & drag around the window to draw squiggle/doodle.
 //
-// Tutorial - Qt Scribble Application
+// Tutorial - Qt Scribble Application - Step05
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
 //
 // @author Manish Bhobé for Nämostuté Ltd.
@@ -10,25 +10,27 @@
 // Code is provided for illustration purposes only! Use at your own risk.
 // =============================================================================
 
-#include "DrawWindow.h"
-#include "chocolaf.h"
 #include <QApplication>
 #include <QtGui>
+#include "DrawWindow.h"
+#include "chocolaf.h"
+#include "constants.h"
 
-const QString AppTitle("Qt Scribble");
 
 int main(int argc, char **argv)
 {
-  Chocolaf::ChocolafApp::setupForHighDpiScreens();
+  // Chocolaf::ChocolafApp::setupForHighDpiScreens();
   // Chocolaf::ChocolafApp app(argc, argv);
   QApplication app(argc, argv);
-  app.setStyle("Fusion");
+  // app.setStyle("Fusion");
   app.setApplicationName(app.translate("main", AppTitle.toStdString().c_str()));
 
   // create the GUI
   DrawWindow mainWindow;
   Chocolaf::centerOnScreenWithSize(mainWindow, 0.75, 0.75);
-  // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+  // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 /
+  // 5);
+  mainWindow.setWindowTitle(WindowTitle);
   mainWindow.show();
 
   return app.exec();

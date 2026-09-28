@@ -1,9 +1,4 @@
 // DrawWindow.cc: implements DrawWindow class
-#include "DrawWindow.h"
-#include "Doodle.h"
-#include "Line.h"
-#include "QtAwesome.h"
-#include "chocolaf.h"
 #include <QAction>
 #include <QApplication>
 #include <QColorDialog>
@@ -18,12 +13,16 @@
 #include <QToolBar>
 #include <QtGui>
 
-const QString AppTitle("Qt Scribble");
-const QString WindowTitle
-    = QString("Qt %1 Doodle - Step07: Adding Actions + Menus + handlers")
-          .arg(QT_VERSION_STR);
+#include "DrawWindow.h"
+#include "Doodle.h"
+#include "Line.h"
+#include "QtAwesome.h"
+#include "chocolaf.h"
+#include "constants.h"
+#include "IconFont.h"
 
-DrawWindow::DrawWindow()
+DrawWindow::DrawWindow(QWidget *parent/*=nullptr*/)
+  : QMainWindow(parent)
 {
   setAttribute(Qt::WA_StaticContents);
   setWindowTitle(WindowTitle);
@@ -33,9 +32,10 @@ DrawWindow::DrawWindow()
   createMenus();
   createToolbar();
   statusBar()->showMessage(
-      QString("%1 - Doodling Application by %2. Created by Manish Bhobé")
-          .arg(QApplication::instance()->applicationName())
-          .arg(QApplication::instance()->organizationName()));
+    QString("%1 - Doodling Application by %2. Created by Manish Bhobé").arg(
+      QApplication::instance()->applicationName()
+    ).arg(QApplication::instance()->organizationName())
+  );
 
   _dragging = false;
   _doodle = new Doodle();
@@ -49,31 +49,41 @@ DrawWindow::~DrawWindow()
 
 void DrawWindow::createActions()
 {
-  fa::QtAwesome *awesome = new fa::QtAwesome(this);
+  /* moving from QtAwesome to using Materaial Icon fonts
+  fa::QtAwesome* awesome = new fa::QtAwesome(this);
   awesome->initFontAwesome();
+
 
   QVariantMap options{};
   //    options.insert("color", QColor(qRgb(255, 255, 255)));
   //    options.insert("color-off", QColor(qRgb(200, 200, 200)));
   QColor color_active = this->palette().color(QPalette::Highlight);
   options.insert("color-active", color_active);
+  */
 
-  auto file_new_icon = awesome->icon(fa::fa_regular, fa::fa_file, options);
-  fileNewAction = new QAction(file_new_icon, tr("&New"), this);
-  // fileNewAction = new QAction(QIcon::fromTheme("document-new"), tr("&New"),
-  // this);
+  // get recommended icon dimension for screen DPI
+  int iconDim = IconFont::getRecommendedToolbarIconSize(this).width();
+
+  //auto file_new_icon = awesome->icon(fa::fa_regular, fa::fa_file, options);
+  //fileNewAction = new QAction(file_new_icon, tr("&New"), this);
+  fileNewAction = new QAction(tr("&New"), this);
+  fileNewAction->setIcon(IconFont::getIcon(IconFont::Icons::FileNew, iconDim));
   fileNewAction->setShortcut(tr("Ctrl+N"));
   fileNewAction->setStatusTip(tr("Create a new scribble document."));
   QObject::connect(fileNewAction, SIGNAL(triggered()), this, SLOT(fileNew()));
 
-  auto file_open_icon = awesome->icon(fa::fa_regular, fa::fa_folder_open, options);
-  fileOpenAction = new QAction(file_open_icon, tr("&Open..."), this);
+  //auto file_open_icon = awesome->icon(fa::fa_regular, fa::fa_folder_open, options);
+  //fileOpenAction = new QAction(file_open_icon, tr("&Open..."), this);
+  fileOpenAction = new QAction(tr("&Open..."), this);
+  fileOpenAction->setIcon(IconFont::getIcon(IconFont::Icons::FileOpen, iconDim));
   fileOpenAction->setShortcut(tr("Ctrl+O"));
   fileOpenAction->setStatusTip(tr("Open scribble document from disk file."));
   QObject::connect(fileOpenAction, SIGNAL(triggered()), this, SLOT(fileOpen()));
 
-  auto file_save_icon = awesome->icon(fa::fa_regular, fa::fa_save, options);
-  fileSaveAction = new QAction(file_save_icon, tr("&Save"), this);
+  //auto file_save_icon = awesome->icon(fa::fa_regular, fa::fa_save, options);
+  //fileSaveAction = new QAction(file_save_icon, tr("&Save"), this);
+  fileSaveAction = new QAction(tr("&Save"), this);
+  fileSaveAction->setIcon(IconFont::getIcon(IconFont::Icons::FileSave, iconDim));
   fileSaveAction->setShortcut(tr("Ctrl+S"));
   fileSaveAction->setStatusTip(tr("Save scribble document to disk file."));
   QObject::connect(fileSaveAction, SIGNAL(triggered()), this, SLOT(fileSave()));
@@ -82,9 +92,10 @@ void DrawWindow::createActions()
   //fileSaveAction = new QAction(file_saveas_icon, tr("&Save"), this);
   // auto file_saveas_icon = awesome->icon(fa::fa_regular,
   // fa::floppy_disk_pen, options);
-  fileSaveAsAction = new QAction(QIcon(":/icons/fileSaveAs.png"), tr("Save &as..."), this);
-  fileSaveAsAction->setStatusTip(
-      tr("Save scribble document to disk with different name."));
+  //fileSaveAsAction = new QAction(QIcon(":/icons/fileSaveAs.png"), tr("Save &as..."), this);
+  fileSaveAsAction = new QAction(tr("Save &as..."), this);
+  fileSaveAsAction->setIcon(IconFont::getIcon(IconFont::Icons::FileSaveAs, iconDim));
+  fileSaveAsAction->setStatusTip(tr("Save scribble document to disk with different name."));
   QObject::connect(fileSaveAsAction, SIGNAL(triggered()), this, SLOT(fileSaveAs()));
 
   exitAction = new QAction(tr("E&xit"), this);
@@ -93,15 +104,19 @@ void DrawWindow::createActions()
 
   // auto pen_icon = awesome->icon(fa::fa_regular, fa::fa_pen, options);
   // penWidthAction = new QAction(pen_icon, tr("Change pen &width..."), this);
-  penWidthAction = new QAction(QIcon(":/icons/penWidth.png"),
-                               tr("Change pen &width..."),
-                               this);
+  //penWidthAction = new QAction(
+  //  QIcon(":/icons/penWidth.png"), tr("Change pen &width..."), this
+  //);
+  penWidthAction = new QAction(tr("Change pen &width..."), this);
+  penWidthAction->setIcon(IconFont::getIcon(IconFont::Icons::LineWeight, iconDim));
   penWidthAction->setStatusTip(tr("Change the width of default pen."));
   QObject::connect(penWidthAction, SIGNAL(triggered()), this, SLOT(changePenWidth()));
 
-  penColorAction = new QAction(QIcon(":/icons/penColor.png"),
-                               tr("Change pen &color..."),
-                               this);
+  //penColorAction = new QAction(
+  //  QIcon(":/icons/penColor.png"), tr("Change pen &color..."), this
+  //);
+  penColorAction = new QAction(tr("Change pen &color..."), this);
+  penColorAction->setIcon(IconFont::getIcon(IconFont::Icons::ColorLens, iconDim));
   penColorAction->setStatusTip(tr("Change the color of default pen."));
   QObject::connect(penColorAction, SIGNAL(triggered()), this, SLOT(changePenColor()));
 
@@ -129,8 +144,8 @@ void DrawWindow::createMenus()
   optionsMenu->addAction(penColorAction);
 
   helpMenu = new QMenu(tr("&Help"), this);
-  helpMenu->addAction(aboutQtAction);
   helpMenu->addAction(aboutAction);
+  helpMenu->addAction(aboutQtAction);
 
   menuBar()->addMenu(fileMenu);
   menuBar()->addMenu(optionsMenu);
@@ -140,6 +155,10 @@ void DrawWindow::createMenus()
 void DrawWindow::createToolbar()
 {
   this->toolbar = new QToolBar();
+
+  // Set the toolbar to display larger icons matching high-DPI scaling
+  this->toolbar->setIconSize(IconFont::getRecommendedToolbarIconSize(this));
+
   this->toolbar->addAction(fileNewAction);
   this->toolbar->addAction(fileOpenAction);
   this->toolbar->addAction(fileSaveAction);
@@ -154,11 +173,10 @@ bool DrawWindow::canClose()
 {
   if (_doodle->modified()) {
     switch (QMessageBox::question(
-        this,
-        tr("Qt Scribble Tutorial"),
-        tr("The doodle has changed. Save changes to doodle now?"),
-        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
-        QMessageBox::No)) {
+      this, tr("Qt Scribble Tutorial"),
+      tr("The doodle has changed. Save changes to doodle now?"),
+      QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::No
+    )) {
       case QMessageBox::Yes:
         // save doodle & quit
         fileSave();
@@ -174,7 +192,33 @@ bool DrawWindow::canClose()
   return true; // doodle not modified. Ok to quit!
 }
 
-void DrawWindow::closeEvent(QCloseEvent *event)
+void DrawWindow::updateActionIcons()
+{
+  int iconDim = IconFont::getRecommendedToolbarIconSize(this).width();
+
+  if (fileNewAction)
+    fileNewAction->setIcon(IconFont::getIcon(IconFont::Icons::FileNew, iconDim));
+  if (fileOpenAction)
+    fileOpenAction->setIcon(IconFont::getIcon(IconFont::Icons::FileOpen, iconDim));
+  if (fileSaveAction)
+    fileSaveAction->setIcon(IconFont::getIcon(IconFont::Icons::FileSave, iconDim));
+  if (fileSaveAsAction)
+    fileSaveAsAction->setIcon(IconFont::getIcon(IconFont::Icons::FileSaveAs, iconDim));
+  if (penColorAction)
+    penColorAction->setIcon(IconFont::getIcon(IconFont::Icons::ColorLens, iconDim));
+  if (penWidthAction)
+    penWidthAction->setIcon(IconFont::getIcon(IconFont::Icons::LineWeight, iconDim));
+}
+
+void DrawWindow::changeEvent(QEvent *event) {
+  if (event->type() == QEvent::PaletteChange) {
+    // Automatically redraw icons in new color when user toggles dark/light theme
+    updateActionIcons();
+  }
+  QMainWindow::changeEvent(event);
+}
+
+void DrawWindow::closeEvent(QCloseEvent* event)
 {
   if (canClose())
     event->accept();
@@ -182,7 +226,7 @@ void DrawWindow::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
-void DrawWindow::drawLineTo(const QPoint &pt)
+void DrawWindow::drawLineTo(const QPoint& pt)
 {
   Q_ASSERT(_currLine != nullptr);
   // draw line from _lastPt to pt
@@ -205,7 +249,7 @@ void DrawWindow::clearImage()
   update();
 }
 
-void DrawWindow::mousePressEvent(QMouseEvent *event)
+void DrawWindow::mousePressEvent(QMouseEvent* event)
 {
   Q_ASSERT(_doodle != nullptr);
 
@@ -213,8 +257,8 @@ void DrawWindow::mousePressEvent(QMouseEvent *event)
   Qt::KeyboardModifiers modifiers = QApplication::queryKeyboardModifiers();
   bool ctrlKeyIsDown = modifiers.testFlag(Qt::ControlModifier);
 
-  qDebug() << "mousePressEvent() - CTRL key "
-           << (ctrlKeyIsDown ? "IS" : "IS **NOT**") << " held down!";
+  qDebug() << "mousePressEvent() - CTRL key " << (ctrlKeyIsDown ? "IS" : "IS **NOT**") <<
+    " held down!";
 
   if (event->button() == Qt::LeftButton) {
     // left mouse button pressed
@@ -227,7 +271,8 @@ void DrawWindow::mousePressEvent(QMouseEvent *event)
       _dragging = true;
       _doodle->setModified(true);
     }
-  } else if (event->button() == Qt::RightButton) {
+  }
+  else if (event->button() == Qt::RightButton) {
     if (ctrlKeyIsDown)
       changePenColor();
     else {
@@ -237,7 +282,7 @@ void DrawWindow::mousePressEvent(QMouseEvent *event)
   }
 }
 
-void DrawWindow::mouseMoveEvent(QMouseEvent *event)
+void DrawWindow::mouseMoveEvent(QMouseEvent* event)
 {
   if ((event->buttons() == Qt::LeftButton) && _dragging) {
     drawLineTo(event->pos());
@@ -245,7 +290,7 @@ void DrawWindow::mouseMoveEvent(QMouseEvent *event)
   }
 }
 
-void DrawWindow::mouseReleaseEvent(QMouseEvent *event)
+void DrawWindow::mouseReleaseEvent(QMouseEvent* event)
 {
   if ((event->button() == Qt::LeftButton) && _dragging) {
     drawLineTo(event->pos());
@@ -259,14 +304,9 @@ void DrawWindow::changePenWidth()
   Q_ASSERT(_doodle != nullptr);
   // display message box & get width of pen
   bool ok;
-  int newPenWidth = QInputDialog::getInt(this,
-                                         AppTitle,
-                                         QString("Enter new pen width:"),
-                                         _doodle->penWidth(),
-                                         2,
-                                         12,
-                                         1,
-                                         &ok);
+  int newPenWidth = QInputDialog::getInt(
+    this, AppTitle, QString("Enter new pen width:"), _doodle->penWidth(), 2, 12, 1, &ok
+  );
   if (ok) {
     qDebug() << "New pen width selected: " << newPenWidth;
     _doodle->setPenWidth(newPenWidth);
@@ -282,7 +322,7 @@ void DrawWindow::changePenColor()
     _doodle->setPenColor(color);
 }
 
-void DrawWindow::resizeEvent(QResizeEvent *event)
+void DrawWindow::resizeEvent(QResizeEvent* event)
 {
   if (width() > _image.width() || height() > _image.height()) {
     int newWidth = qMax(width(), _image.width());
@@ -293,7 +333,7 @@ void DrawWindow::resizeEvent(QResizeEvent *event)
   QWidget::resizeEvent(event);
 }
 
-void DrawWindow::paintEvent(QPaintEvent *event)
+void DrawWindow::paintEvent(QPaintEvent* event)
 {
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing);
@@ -302,7 +342,7 @@ void DrawWindow::paintEvent(QPaintEvent *event)
   painter.drawImage(dirtyRect, _image, dirtyRect);
 }
 
-void DrawWindow::resizeImage(const QSize &newSize)
+void DrawWindow::resizeImage(const QSize& newSize)
 {
   if (_image.size() == newSize)
     return;
@@ -373,19 +413,13 @@ void DrawWindow::about()
  that "
       << "may result from the use of this program.</small></html>"; */
 
-  QString str
-      = QString("<html><b>Qt Scribble</b> - Doodling application<p/>Developed "
-                "with the Qt "
-                "%1 C++ framework.<p/><p/>Written by - %2.<p/>"
-                "Copyright(C) %3<p/>"
-                "<small>Program developed for illustration purposes only! Use at "
-                "your own  "
-                "risk! Author is not responsible for any damages (direct or "
-                "indirect) that "
-                "may result from the use of this program.</small></html>")
-            .arg(QT_VERSION_STR)
-            .arg(Chocolaf::__author__)
-            .arg(Chocolaf::__organization__);
+  QString str = QString(
+    "<html><b>Qt Scribble</b> - Doodling application<p/>Developed " "with the Qt "
+    "%1 C++ framework.<p/><p/>Written by - %2.<p/>" "Copyright(C) %3<p/>"
+    "<small>Program developed for illustration purposes only! Use at " "your own  "
+    "risk! Author is not responsible for any damages (direct or " "indirect) that "
+    "may result from the use of this program.</small></html>"
+  ).arg(QT_VERSION_STR).arg(Chocolaf::__author__).arg(Chocolaf::__organization__);
 
   QMessageBox::about(this, AppTitle, str);
 }

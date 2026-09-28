@@ -1,13 +1,10 @@
 // DrawWindow.cc: implements DrawWindow class
 
 #include "DrawWindow.h"
-#include "chocolaf.h"
 #include <QMessageBox>
 #include <QtGui>
-
-static const QString AppTitle = {"Qt Scribble"};
-static const QString WindowTitle = QString("Qti %1 Scribble - Step04: Drawing Lines")
-                                       .arg(QT_VERSION_STR);
+#include "chocolaf.h"
+#include "constants.h"
 
 DrawWindow::DrawWindow()
 {
@@ -24,12 +21,9 @@ void DrawWindow::closeEvent(QCloseEvent *event)
   // window is about to close. Prompt the user and ask them
   // what they would like to do.
   if (_modified) {
-    switch (QMessageBox::question(
-        this,
-        tr("Qt Scribble Tutorial"),
+    switch (QMessageBox::question(this, tr("Qt Scribble Tutorial"),
         tr("This will close the application.\nOk to quit now?"),
-        QMessageBox::Yes | QMessageBox::No,
-        QMessageBox::No)) {
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::No)) {
       case QMessageBox::Yes:
         // ok to quit
         event->accept();
@@ -68,7 +62,8 @@ void DrawWindow::mousePressEvent(QMouseEvent *event)
     _lastPt = event->pos();
     _dragging = true;
     _modified = true;
-  } else if (event->button() == Qt::RightButton) {
+  }
+  else if (event->button() == Qt::RightButton) {
     clearImage();
     _modified = false;
   }

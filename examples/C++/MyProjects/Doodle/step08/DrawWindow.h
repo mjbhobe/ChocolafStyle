@@ -13,64 +13,68 @@ class Line;
 class Doodle;
 class QToolBar;
 
-class DrawWindow : public QMainWindow
-{
+class DrawWindow : public QMainWindow {
+  //@formatter:off
   Q_OBJECT
+  //@formatter:on
 public:
-  DrawWindow();
-  ~DrawWindow();
+    explicit DrawWindow(QWidget *parent=nullptr);
+    ~DrawWindow();
 
-protected:
-  // operating system events
-  void closeEvent(QCloseEvent *event);
-  void paintEvent(QPaintEvent *event);
-  void resizeEvent(QResizeEvent *event);
+  protected:
+    // operating system events
+    void closeEvent(QCloseEvent* event) override;
+    void paintEvent(QPaintEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
+    void changeEvent(QEvent *event) override;
 
-  void mousePressEvent(QMouseEvent *event);
-  void mouseMoveEvent(QMouseEvent *event);
-  void mouseReleaseEvent(QMouseEvent *event);
-private slots:
-  // action response slots
-  void fileNew();
-  void fileOpen();
-  void fileSave();
-  void fileSaveAs();
-  void exitApp();
-  void changePenWidth();
-  void changePenColor();
-  void about();
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
 
-private:
-  void drawLineTo(const QPoint &pt);
-  void clearImage();
-  void resizeImage(const QSize &size);
-  void createActions();
-  void createMenus();
-  void createToolbar();
-  bool canClose();
+  private slots:
+    // action response slots
+    void fileNew();
+    void fileOpen();
+    void fileSave();
+    void fileSaveAs();
+    void exitApp();
+    void changePenWidth();
+    void changePenColor();
+    void about();
 
-  // members
-  QImage _image;
-  QPoint _lastPt;
-  bool _dragging;
-  Doodle *_doodle;
-  Line *_currLine;
+  private:
+    void drawLineTo(const QPoint& pt);
+    void clearImage();
+    void resizeImage(const QSize& size);
+    void createActions();
+    void createMenus();
+    void createToolbar();
+    bool canClose();
+    void updateActionIcons();
 
-  // actions
-  QAction *fileNewAction;
-  QAction *fileOpenAction;
-  QAction *fileSaveAction;
-  QAction *fileSaveAsAction;
-  QAction *exitAction;
-  QAction *penWidthAction;
-  QAction *penColorAction;
-  QAction *aboutQtAction;
-  QAction *aboutAction;
-  // menus
-  QMenu *fileMenu;
-  QMenu *optionsMenu;
-  QMenu *helpMenu;
-  QToolBar *toolbar;
+    // members
+    QImage _image;
+    QPoint _lastPt;
+    bool _dragging{false};
+    Doodle* _doodle{nullptr};
+    Line* _currLine{nullptr};
+
+    // actions
+    QAction* fileNewAction{nullptr};
+    QAction* fileOpenAction{nullptr};
+    QAction* fileSaveAction{nullptr};
+    QAction* fileSaveAsAction{nullptr};
+    QAction* exitAction{nullptr};
+    QAction* penWidthAction{nullptr};
+    QAction* penColorAction{nullptr};
+    QAction* aboutQtAction{nullptr};
+    QAction* aboutAction{nullptr};
+    // menus
+    QMenu* fileMenu{nullptr};
+    QMenu* optionsMenu{nullptr};
+    QMenu* helpMenu{nullptr};
+    QToolBar* toolbar{nullptr};
 };
 
 #endif // __DrawWindow_h__

@@ -5,7 +5,8 @@
 #include <QString>
 
 inline const QString AppTitle("Qt Scribble");
-inline const QString WindowTitle =
-    QString("Qt %1 Scribble - Step05: Drawing a Line").arg(QT_VERSION_STR);
+inline const QString WindowTitle = QString(
+  "Qt %1 Doodle - Step06: Changing Doodle attributes (pen color and thickness)"
+).arg(QT_VERSION_STR);
 
 #endif // __constants_h__

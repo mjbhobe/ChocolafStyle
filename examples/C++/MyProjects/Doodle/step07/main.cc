@@ -1,7 +1,7 @@
 // ============================================================================
-// step06.cc: Adding collection of lines to doodle + loading & saving lines
+// main.cc: Adding collection of lines to doodle + loading & saving lines
 //
-// Tutorial - Qt Scribble Application
+// Tutorial - Qt Scribble Application - Step07
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
 // Created by Manish Bhobé.
 // ===========================================================================
@@ -10,10 +10,10 @@
 #include "chocolaf.h"
 #include <QApplication>
 #include <QtGui>
+#include "constants.h"
 
-const QString AppTitle("Qt Scribble");
-
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
   Chocolaf::ChocolafApp::setupForHighDpiScreens();
   //Chocolaf::ChocolafApp app(argc, argv);
   QApplication app(argc, argv);
@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
   // create the GUI
   DrawWindow mainWindow;
   Chocolaf::centerOnScreenWithSize(mainWindow, 1.75, 0.65);
-  // mainWindow.resize(QGuiApplication::primaryScreen()->availableSize() * 4 / 5);
+  mainWindow.setWindowTitle(WindowTitle);
   mainWindow.show();
 
   return app.exec();

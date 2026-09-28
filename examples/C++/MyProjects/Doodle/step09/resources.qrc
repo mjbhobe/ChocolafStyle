@@ -9,5 +9,7 @@
       <file alias="penColor.png">../common/icons/pen-color.png</file>
       <file alias="appIcon.png">../common/icons/painting.png</file>
    </qresource>
+   <qresource prefix="/fonts">
+      <file alias="material_icons.ttf">../common/fonts/MaterialIcons-Regular.ttf</file>
+   </qresource>
 </RCC>
-

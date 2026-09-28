@@ -1,15 +1,17 @@
 // Line.cc: implements custom line class
-#include "Line.h"
 #include <QList>
 #include <QtGui>
 
-Line::Line(int penWidth /*= 2*/, const QColor &penColor /*= qRgb(0,0,255)*/)
+#include "Line.h"
+#include "constants.h"
+
+Line::Line(int penWidth /*= 2*/, const QColor& penColor /*= qRgb(0,0,255)*/)
 {
   _penWidth = penWidth;
   if (_penWidth <= 0) {
     _penWidth = 2;
-    qDebug() << "WARNING: negative value specified for penWidth. "
-             << "Reset to default value(=2)";
+    qDebug() << "WARNING: negative value specified for penWidth. " <<
+      "Reset to default value(=2)";
   }
   _penColor = penColor;
   _points = new QList<QPoint>();
@@ -29,7 +31,7 @@ void Line::setPenWidth(int newWidth)
   emit penWidthChanged(_penWidth);
 }
 
-void Line::setPenColor(const QColor &newColor)
+void Line::setPenColor(const QColor& newColor)
 {
   if (_penColor == newColor)
     return;
@@ -39,17 +41,17 @@ void Line::setPenColor(const QColor &newColor)
 
 int Line::numPoints() const
 {
-  return (_points == 0) ? 0 : _points->count();
+  return (_points == nullptr) ? 0 : _points->count();
 }
 
-void Line::addPoint(const QPoint &pt)
+void Line::addPoint(const QPoint& pt)
 {
-  if (_points == 0)
+  if (_points == nullptr)
     _points = new QList<QPoint>();
   _points->append(pt);
 }
 
-void Line::draw(QPainter &painter)
+void Line::draw(QPainter& painter)
 {
   qDebug() << "In Line::draw()...";
 
@@ -60,7 +62,7 @@ void Line::draw(QPainter &painter)
     bool first = true;
     QPoint lastPt;
 
-    foreach (QPoint pt, *_points) {
+    foreach(QPoint pt, *_points) {
       if (!first)
         painter.drawLine(lastPt, pt);
       else

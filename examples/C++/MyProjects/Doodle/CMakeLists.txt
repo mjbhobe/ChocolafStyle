@@ -77,3 +77,93 @@ add_executable(step04
 
 target_include_directories(step04 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(step04 PRIVATE chocolaf_settings)
+
+# ----------------------------------------------------------------------------------
+# Step 05 - drawing a single doodle
+# ----------------------------------------------------------------------------------
+
+add_executable(step05
+    ./step05/main.cc
+    ./step05/constants.h
+    ./step05/DrawWindow.h
+    ./step05/DrawWindow.cc
+)
+
+target_include_directories(step05 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(step05 PRIVATE chocolaf_settings)
+
+# ----------------------------------------------------------------------------------
+# Step 06 - change attributes of a doodle line
+# ----------------------------------------------------------------------------------
+
+add_executable(step06
+    ./step06/main.cc
+    ./step06/constants.h
+    ./step06/DrawWindow.h
+    ./step06/DrawWindow.cc
+    ./step06/Line.h
+    ./step06/Line.cc
+)
+
+target_include_directories(step06 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(step06 PRIVATE chocolaf_settings)
+
+# ----------------------------------------------------------------------------------
+# Step 07 - draw multiple scribbles/doodles
+# ----------------------------------------------------------------------------------
+
+add_executable(step07
+    ./step07/main.cc
+    ./step07/constants.h
+    ./step07/DrawWindow.h
+    ./step07/DrawWindow.cc
+    ./step07/Doodle.h
+    ./step07/Doodle.cc
+    ./step07/Line.h
+    ./step07/Line.cc
+)
+
+target_include_directories(step07 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(step07 PRIVATE chocolaf_settings)
+
+# ----------------------------------------------------------------------------------
+# Step 08 - draw multiple scribbles/doodles
+# ----------------------------------------------------------------------------------
+
+add_executable(step08
+    ./step08/main.cc
+    ./step08/constants.h
+    ./step08/DrawWindow.h
+    ./step08/DrawWindow.cc
+    ./step08/Doodle.h
+    ./step08/Doodle.cc
+    ./step08/Line.h
+    ./step08/Line.cc
+    ./step08/resources.qrc
+    ./step08/IconFont.h
+)
+
+target_include_directories(step08 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(step08 PRIVATE chocolaf_settings)
+
+# ----------------------------------------------------------------------------------
+# Step 09 - draw multiple scribbles/doodles
+# ----------------------------------------------------------------------------------
+
+add_executable(step09
+    ./step09/main.cc
+    ./step09/constants.h
+    ./step09/MainWindow.h
+    ./step09/MainWindow.cc
+    ./step09/DrawWindow.h
+    ./step09/DrawWindow.cc
+    ./step09/Doodle.h
+    ./step09/Doodle.cc
+    ./step09/Line.h
+    ./step09/Line.cc
+    ./step09/resources.qrc
+    ./step09/IconFont.h
+)
+
+target_include_directories(step09 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(step09 PRIVATE chocolaf_settings)

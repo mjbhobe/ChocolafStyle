@@ -16,15 +16,17 @@ public:
 
 protected:
   // operating system events
-  void closeEvent(QCloseEvent *event);
-  void paintEvent(QPaintEvent *event);
-  void resizeEvent(QResizeEvent *event);
+  void closeEvent(QCloseEvent* event) override;
+  void paintEvent(QPaintEvent* event) override;
+  void resizeEvent(QResizeEvent* event) override;
 
-  void mousePressEvent(QMouseEvent *event);
-  void mouseMoveEvent(QMouseEvent *event);
-  void mouseReleaseEvent(QMouseEvent *event);
+  // event handlers
+  void mousePressEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
+    // helper functions
   void drawLineTo(const QPoint &pt);
   void clearImage();
   void resizeImage(const QSize &size);

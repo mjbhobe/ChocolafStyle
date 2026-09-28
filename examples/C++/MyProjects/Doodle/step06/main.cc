@@ -1,12 +1,12 @@
 // ============================================================================
-// step05.cc: ability to set the squiggle's thickness & color
+// main.cc: ability to set the squiggle's thickness & color
 //  - Ctrl+left mouse click - set squiggle's thickness
 //  - Ctrl+right mouse click - set squiggle's color
 //  (NOTE: this is an absolutely ridiculous GUI design!! Purpose of this code
 //   is not to present a good GUI design yet! This flaw will be corrected in
 //   further step(s) when menus & toolbars will be introduced)
 //
-// Tutorial - Qt Scribble Application
+// Tutorial - Qt Scribble Application - Step06
 // Based on a similar tutorial for Borland ObjectWindows Library (OWL)
 //
 // @author Manish Bhobé for Nämostuté Ltd.
@@ -18,8 +18,8 @@
 #include "chocolaf.h"
 #include <QApplication>
 #include <QtGui>
+#include "constants.h"
 
-const QString AppTitle("Qt Scribble");
 
 int main(int argc, char **argv) {
   Chocolaf::ChocolafApp::setupForHighDpiScreens();
