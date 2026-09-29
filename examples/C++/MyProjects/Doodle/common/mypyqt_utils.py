@@ -1,12 +1,11 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# cv2_utils.py - utility functions
+# my_pyqt_utils.py - utility functions for PyQt applications
 
 import platform
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5 import uic
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
+from qtpy import uic
 # using qdarkstyle (@see: https://github.com/ColinDuquesnoy/QDarkStyleSheet)
 import qdarkstyle
 # to detect dark themes (@see: https://pypi.org/project/darkdetect/)
