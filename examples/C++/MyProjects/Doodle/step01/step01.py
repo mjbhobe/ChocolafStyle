@@ -22,12 +22,12 @@ def main():
   menuFont : QFont = QApplication.font("QMenu")
   menuFont.setPointSize(14)
   mainWindow.setFont(menuFont)
-  # label = QLabel(f"{curr} in indian notation is {en_in.toCurrencyString(curr)}")
+
   label = QLabel(label_str)
   label.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-  # label.setAlignment(Qt.Alignment.Center)
   mainWindow.setCentralWidget(label)
   mainWindow.show()
+
   return app.exec_()
 
 if __name__ == "__main__":
